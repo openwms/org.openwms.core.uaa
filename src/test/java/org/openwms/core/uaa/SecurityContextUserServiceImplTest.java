@@ -20,16 +20,6 @@
  */
 package org.openwms.core.uaa;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.Optional;
-
 import net.sf.ehcache.Ehcache;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -41,6 +31,16 @@ import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Optional;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * A SecurityContextUserServiceImplTest.
@@ -144,7 +144,7 @@ public class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
     @Test
     public final void testLoadUserByUsernameNotFound() {
         when(userCache.getUserFromCache("UNKNOWN_USER")).thenReturn(null);
-        when(userService.findByUsername("UNKNOWN_USER")).thenReturn(null);
+        when(userService.findByUsername("UNKNOWN_USER")).thenReturn(Optional.empty());
 
         UserDetails cachedUser = null;
         try {

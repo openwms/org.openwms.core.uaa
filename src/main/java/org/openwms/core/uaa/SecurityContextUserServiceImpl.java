@@ -43,8 +43,8 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author <a href="mailto:russelltina@users.sourceforge.net">Tina Russell</a>
  * @version 0.1
- * @since 0.1
  * @see org.springframework.security.core.userdetails.UserDetailsService
+ * @since 0.1
  */
 @TxService
 class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationListener<UserChangedEvent> {
@@ -75,12 +75,10 @@ class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationL
 
     /**
      * {@inheritDoc}
-     * 
-     * @param username
-     *            User's username to search for
+     *
+     * @param username User's username to search for
      * @return A wrapper object
-     * @throws UsernameNotFoundException
-     *             in case the User was not found or the password was not valid
+     * @throws UsernameNotFoundException in case the User was not found or the password was not valid
      */
     @Transactional(readOnly = true)
     @Override
@@ -92,12 +90,8 @@ class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationL
                 ud = new SystemUserWrapper(user);
                 ((SystemUserWrapper) ud).setPassword(enc.encode(user.getPassword()));
             } else {
-                try {
-                    ud = new UserWrapper(userService.findByUsername(username).get());
-                } catch(Exception ex) {
-                    LOGGER.error(ex.getMessage(), ex);
-                    throw new UsernameNotFoundException(String.format("User with username %s not found", username));
-                }
+                User user = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User with username %s not found", username)));
+                ud = new UserWrapper(user);
             }
             userCache.putUserInCache(ud);
         }
