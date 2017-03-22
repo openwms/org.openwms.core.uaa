@@ -9,7 +9,7 @@ node {
    stage('\u27A1 Build') {
       configFileProvider(
           [configFile(fileId: 'maven-local-settings', variable: 'MAVEN_SETTINGS')]) {
-            sh "'${mvnHome}/bin/mvn' -s $MAVEN_SETTINGS clean deploy -Ddocumentation.dir=${WORKSPACE} -Psordocs,sonatype -U"
+            sh "'${mvnHome}/bin/mvn' -s $MAVEN_SETTINGS clean install -Ddocumentation.dir=${WORKSPACE} -Dverbose=false -Psordocs -U"
       }
    }
    stage('\u27A1 Results') {
@@ -23,6 +23,12 @@ node {
           git remote add heroku https://:${DGMXCH_HEROKU_API_KEY}@git.heroku.com/openwms-core-uaa.git
           git push heroku master -f
       '''
+   }
+   stage('\u27A1 Deploy') {
+      configFileProvider(
+          [configFile(fileId: 'maven-local-settings', variable: 'MAVEN_SETTINGS')]) {
+            sh "'${mvnHome}/bin/mvn' -s $MAVEN_SETTINGS deploy -Ddocumentation.dir=${WORKSPACE} -Psonatype -U"
+      }
    }
    stage('\u27A1 Sonar') {
       sh "'${mvnHome}/bin/mvn' clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Djacoco.propertyName=jacocoArgLine -Dbuild.number=${BUILD_NUMBER} -Dbuild.date=${BUILD_ID} -Ddocumentation.dir=${WORKSPACE} -Pjenkins"
