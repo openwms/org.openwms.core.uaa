@@ -22,7 +22,7 @@ node {
               if git remote | grep heroku > /dev/null; then
                  git remote remove heroku
               fi
-              git remote add heroku https://:${HEROKU_API_KEY}@git.heroku.com/openwms-common-services.git
+              git remote add heroku https://:${HEROKU_API_KEY}@git.heroku.com/openwms-core-uaa.git
               git push heroku master -f
           '''
        }
