@@ -27,7 +27,7 @@ node {
    stage('\u27A1 Deploy') {
       configFileProvider(
           [configFile(fileId: 'maven-local-settings', variable: 'MAVEN_SETTINGS')]) {
-            sh "'${mvnHome}/bin/mvn' -s $MAVEN_SETTINGS deploy -Ddocumentation.dir=${WORKSPACE} -Psonatype -U"
+            sh "'${mvnHome}/bin/mvn' -s $MAVEN_SETTINGS deploy -DskipTests=true -Ddocumentation.dir=${WORKSPACE} -Psonatype -U"
       }
    }
    stage('\u27A1 Sonar') {
