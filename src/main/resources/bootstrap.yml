@@ -1,8 +1,52 @@
 spring:
+  application:
+    name: openwms-uaa
+  main:
+      banner-mode: OFF
   config:
     name: globals
-  main:
-      banner-mode: "off"
   cloud:
     config:
-      uri: file://data/projects/github/org.openwms/org.openwms.core/org.openwms.core.uaa/src/main/resources/config
+      label: ${owms.tenant:master}
+      fail-fast: true
+      discovery:
+        enabled: true
+        service-id: openwms-config
+
+owms:
+  eureka:
+    # Override this in cloud environment!
+    url: http://user:sa@localhost:8761
+
+server:
+  port: ${PORT:8085}
+
+security:
+  user:
+    # Override this in cloud environment!
+    password: sa
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${owms.eureka.url}/eureka
+  instance:
+    metadata-map:
+      username: user
+      password: ${security.user.password}
+      protocol: http
+
+---
+spring:
+  profiles: CLOUD
+
+eureka:
+  instance:
+    hostname: openwms-core-uaa.herokuapp.com
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+    statusPageUrl: https://${eureka.instance.hostName}/info
+    healthCheckUrl: https://${eureka.instance.hostName}/health
+    homePageUrl: https://${eureka.instance.hostName}/
+    metadata-map:
+      protocol: https
