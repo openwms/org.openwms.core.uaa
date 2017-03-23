@@ -29,7 +29,7 @@ package org.openwms.core.uaa.impl;
  * @version 0.2
  * @since 0.1
  */
-public interface UserHolder {
+interface UserHolder {
 
     /**
      * Return the wrapped {@link User} instance.

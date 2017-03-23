@@ -43,7 +43,7 @@ import java.util.List;
  * @since 0.1
  */
 @TxService
-public class SecurityServiceImpl implements SecurityService {
+class SecurityServiceImpl implements SecurityService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityServiceImpl.class);
     @Autowired
