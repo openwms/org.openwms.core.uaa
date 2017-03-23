@@ -31,7 +31,15 @@ try {
        }
     }
 } finally {
-    junit 'target/surefire-reports/*.xml'
+    step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml', healthScaleFactor: 1.0])
+                publishHTML (target: [
+                        allowMissing: false,
+                        alwaysLinkToLastBuild: false,
+                        keepAll: true,
+                        reportDir: 'coverage',
+                        reportFiles: 'index.html',
+                        reportName: "Junit Report"
+                ])
     if (err) {
        throw err
     }
