@@ -7,8 +7,8 @@ import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import java.net.URL
 
-try {
-    node {
+node {
+    try {
        def mvnHome
        stage('\u27A1 Preparation') {
           git 'git@github.com:openwms/org.openwms.core.uaa.git'
@@ -37,10 +37,10 @@ try {
           sh "'${mvnHome}/bin/mvn' clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Djacoco.propertyName=jacocoArgLine -Dbuild.number=${BUILD_NUMBER} -Dbuild.date=${BUILD_ID} -Ddocumentation.dir=${WORKSPACE} -Pjenkins"
           sh "'${mvnHome}/bin/mvn' sonar:sonar -Pjenkins"
        }
-    }
-} finally {
-    junit '**/target/surefire-reports/TEST-*.xml'
-    if (err) {
-       throw err
+    } finally {
+        junit '**/target/surefire-reports/TEST-*.xml'
+        if (err) {
+           throw err
+        }
     }
 }
