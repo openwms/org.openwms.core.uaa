@@ -1,6 +1,6 @@
 spring:
   application:
-    name: openwms-uaa
+    name: core-uaa
   main:
       banner-mode: OFF
   config:
