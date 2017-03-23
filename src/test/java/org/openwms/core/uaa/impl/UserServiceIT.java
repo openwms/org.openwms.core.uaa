@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.core.uaa;
+package org.openwms.core.uaa.impl;
 
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ServiceLayerException;
@@ -32,10 +32,7 @@ import org.junit.runner.RunWith;
 import org.openwms.core.configuration.UserPreference;
 import org.openwms.core.exception.ExceptionCodes;
 import org.openwms.core.test.IntegrationTest;
-import org.openwms.core.uaa.impl.SystemUser;
-import org.openwms.core.uaa.impl.User;
-import org.openwms.core.uaa.impl.UserPassword;
-import org.openwms.core.uaa.impl.UserServiceImpl;
+import org.openwms.core.uaa.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

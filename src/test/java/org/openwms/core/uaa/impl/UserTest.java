@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.core.uaa;
+package org.openwms.core.uaa.impl;
 
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -27,8 +27,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.openwms.core.exception.InvalidPasswordException;
-import org.openwms.core.uaa.impl.User;
-import org.openwms.core.uaa.impl.UserPassword;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

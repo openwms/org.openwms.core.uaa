@@ -18,7 +18,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.core.uaa;
+package org.openwms.core.uaa.impl;
 
 import net.sf.ehcache.Ehcache;
 import org.junit.Test;
@@ -26,6 +26,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.openwms.core.event.UserChangedEvent;
 import org.openwms.core.test.AbstractMockitoTests;
+import org.openwms.core.uaa.UserService;
 import org.openwms.core.uaa.impl.SecurityContextUserServiceImpl;
 import org.openwms.core.uaa.impl.SystemUser;
 import org.openwms.core.uaa.impl.SystemUserWrapper;
