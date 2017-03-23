@@ -17,12 +17,12 @@ try {
        stage('\u27A1 Build & Deploy') {
           configFileProvider(
               [configFile(fileId: 'maven-local-settings', variable: 'MAVEN_SETTINGS')]) {
-                sh "'${mvnHome}/bin/mvn' -s $MAVEN_SETTINGS clean install -Ddocumentation.dir=${WORKSPACE} -Dverbose=false -Psordocs,sonatype -U"
+                sh "'${mvnHome}/bin/mvn' -s $MAVEN_SETTINGS clean deploy -Ddocumentation.dir=${WORKSPACE} -Dverbose=false -Psordocs,sonatype -U"
           }
        }
        stage('\u27A1 Results') {
           archive '**/target/*.jar'
-          nexusArtifactUploader credentialsId: 'sonatype-nexus-snapshots', groupId: 'org.openwms.core', nexusUrl: 'oss.sonatype.org/content/repositories/snapshots', nexusVersion: 'nexus3', protocol: 'https', repository: 'sonatype-nexus-staging', version: '1.1.0-SNAPSHOT'
+          //nexusArtifactUploader credentialsId: 'sonatype-nexus-snapshots', groupId: 'org.openwms.core', nexusUrl: 'oss.sonatype.org/content/repositories/snapshots', nexusVersion: 'nexus3', protocol: 'https', repository: 'sonatype-nexus-staging', version: '1.1.0-SNAPSHOT'
        }
        stage('\u27A1 Heroku Staging') {
           sh '''
