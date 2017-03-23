@@ -37,6 +37,8 @@
 
     <properties>
         <core.version>${project.version}</core.version>
+        <spring-boot.version>1.5.2.RELEASE</spring-boot.version> <!-- Keep in sync with platform -->
+        <spring-cloud-dependencies.version>Camden.SR6</spring-cloud-dependencies.version>
         <start-class>org.openwms.core.UAAStarter</start-class>
         <kotlin.version>1.1.1</kotlin.version>
     </properties>
