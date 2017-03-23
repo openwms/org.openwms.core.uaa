@@ -1,5 +1,12 @@
 #!/usr/bin/env groovy
 
+import hudson.model.*
+import hudson.EnvVars
+import groovy.json.JsonSlurperClassic
+import groovy.json.JsonBuilder
+import groovy.json.JsonOutput
+import java.net.URL
+
 try {
     node {
        def mvnHome
@@ -31,15 +38,7 @@ try {
        }
     }
 } finally {
-    step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml', healthScaleFactor: 1.0])
-                publishHTML (target: [
-                        allowMissing: false,
-                        alwaysLinkToLastBuild: false,
-                        keepAll: true,
-                        reportDir: 'coverage',
-                        reportFiles: 'index.html',
-                        reportName: "Junit Report"
-                ])
+    junit '**/target/surefire-reports/TEST-*.xml'
     if (err) {
        throw err
     }
