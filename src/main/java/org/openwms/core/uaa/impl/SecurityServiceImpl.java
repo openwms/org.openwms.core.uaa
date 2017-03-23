@@ -19,20 +19,21 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.core.uaa;
-
-import java.util.ArrayList;
-import java.util.List;
+package org.openwms.core.uaa.impl;
 
 import org.ameba.annotation.TxService;
 import org.ameba.i18n.Translator;
 import org.openwms.core.annotation.FireAfterTransaction;
 import org.openwms.core.event.UserChangedEvent;
 import org.openwms.core.exception.ExceptionCodes;
+import org.openwms.core.uaa.SecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A SecurityServiceImpl is a transactional Spring Service implementation.

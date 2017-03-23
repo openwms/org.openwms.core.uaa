@@ -19,7 +19,14 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.core.uaa;
+package org.openwms.core.uaa.impl;
+
+import org.ameba.integration.jpa.ApplicationEntity;
+import org.openwms.core.exception.InvalidPasswordException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.Assert;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -45,13 +52,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.ameba.integration.jpa.ApplicationEntity;
-import org.openwms.core.exception.InvalidPasswordException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.Assert;
-
 /**
  * An User represents a human user of the system. Typically an User is assigned to one or more {@code Roles} to define security constraints.
  * Users can have their own configuration settings in form of {@code UserPreferences} and certain user details, encapsulated in an {@code
@@ -62,7 +62,7 @@ import org.springframework.util.Assert;
  * @GlossaryTerm
  * @see UserDetails
  * @see UserPassword
- * @see org.openwms.core.uaa.Role
+ * @see Role
  * @since 0.1
  */
 @Entity

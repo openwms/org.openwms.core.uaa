@@ -19,7 +19,9 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.core.uaa;
+package org.openwms.core.uaa.impl;
+
+import org.springframework.util.Assert;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -33,8 +35,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.springframework.util.Assert;
 
 /**
  * A Role is a group of {@link User}s. Basically more than one {@code User} belong to a Role. Security access policies are assigned to Roles

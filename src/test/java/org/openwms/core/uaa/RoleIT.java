@@ -21,10 +21,6 @@
  */
 package org.openwms.core.uaa;
 
-import javax.persistence.PersistenceException;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -32,11 +28,17 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.openwms.core.test.IntegrationTest;
+import org.openwms.core.uaa.impl.Role;
+import org.openwms.core.uaa.impl.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import javax.persistence.PersistenceException;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A RoleTest.

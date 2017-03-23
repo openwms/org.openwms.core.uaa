@@ -19,12 +19,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.core.uaa;
-
-import java.util.List;
+package org.openwms.core.uaa.impl;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 /**
  * A SecurityObjectRepository is used to find, modify and delete {@link SecurityObject}s.

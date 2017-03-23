@@ -21,17 +21,6 @@
  */
 package org.openwms.core.uaa;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import javax.persistence.NoResultException;
-import javax.validation.ConstraintViolationException;
-import java.util.Collection;
-
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ServiceLayerException;
 import org.junit.Before;
@@ -43,6 +32,10 @@ import org.junit.runner.RunWith;
 import org.openwms.core.configuration.UserPreference;
 import org.openwms.core.exception.ExceptionCodes;
 import org.openwms.core.test.IntegrationTest;
+import org.openwms.core.uaa.impl.SystemUser;
+import org.openwms.core.uaa.impl.User;
+import org.openwms.core.uaa.impl.UserPassword;
+import org.openwms.core.uaa.impl.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +43,17 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.MessageSource;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import javax.persistence.NoResultException;
+import javax.validation.ConstraintViolationException;
+import java.util.Collection;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * A UserServiceIT.

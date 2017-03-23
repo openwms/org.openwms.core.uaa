@@ -21,9 +21,9 @@
  */
 package org.openwms.core.search;
 
-import java.util.Collection;
+import org.openwms.core.uaa.impl.User;
 
-import org.openwms.core.uaa.User;
+import java.util.Collection;
 
 /**
  * An ActionService is used to query Actions of a particular User or the whole application.

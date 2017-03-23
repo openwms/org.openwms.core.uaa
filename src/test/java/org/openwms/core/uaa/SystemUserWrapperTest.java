@@ -21,13 +21,16 @@
  */
 package org.openwms.core.uaa;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.openwms.core.uaa.impl.SystemUser;
+import org.openwms.core.uaa.impl.SystemUserWrapper;
+import org.openwms.core.uaa.impl.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A SystemUserWrapperTest.
@@ -141,7 +144,7 @@ public class SystemUserWrapperTest {
 
     /**
      * Test method for
-     * {@link SystemUserWrapper#SystemUserWrapper(org.openwms.core.uaa.User)}
+     * {@link SystemUserWrapper#SystemUserWrapper(User)}
      * .
      */
     @Test(expected = IllegalArgumentException.class)

@@ -21,15 +21,19 @@
  */
 package org.openwms.core.uaa;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.openwms.core.uaa.impl.Grant;
+import org.openwms.core.uaa.impl.Role;
+import org.openwms.core.uaa.impl.User;
+import org.openwms.core.uaa.impl.UserWrapper;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A UserWrapperTest.

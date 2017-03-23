@@ -19,23 +19,23 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.core.uaa;
-
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.stream.Collectors;
+package org.openwms.core.uaa.impl;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 
 /**
  * An UserWrapper is used as an adapter between {@link Role}s, {@link SecurityObject}s and Spring's {@link GrantedAuthority} objects.
  *
  * @author <a href="mailto:russelltina@users.sourceforge.net">Tina Russell</a>
  * @version 0.2
- * @see org.openwms.core.uaa.SecurityObject
- * @see org.openwms.core.uaa.Role
+ * @see SecurityObject
+ * @see Role
  * @see org.springframework.security.core.GrantedAuthority
  * @see org.springframework.security.core.userdetails.UserDetails
  * @since 0.1

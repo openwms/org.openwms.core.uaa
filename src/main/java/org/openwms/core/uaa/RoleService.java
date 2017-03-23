@@ -21,6 +21,8 @@
  */
 package org.openwms.core.uaa;
 
+import org.openwms.core.uaa.impl.Role;
+
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
@@ -30,7 +32,7 @@ import java.util.Collection;
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version 0.2
- * @see org.openwms.core.uaa.Role
+ * @see Role
  * @since 0.1
  */
 public interface RoleService {

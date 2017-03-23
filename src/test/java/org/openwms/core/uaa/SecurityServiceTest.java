@@ -21,20 +21,6 @@
  */
 package org.openwms.core.uaa;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-
 import org.ameba.i18n.Translator;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -44,7 +30,26 @@ import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.openwms.core.test.AbstractMockitoTests;
+import org.openwms.core.uaa.impl.Grant;
+import org.openwms.core.uaa.impl.RoleRepository;
+import org.openwms.core.uaa.impl.SecurityObject;
+import org.openwms.core.uaa.impl.SecurityObjectRepository;
+import org.openwms.core.uaa.impl.SecurityServiceImpl;
 import org.springframework.context.MessageSource;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * A SecurityServiceTest.
@@ -87,7 +92,7 @@ public class SecurityServiceTest extends AbstractMockitoTests {
     }
 
     /**
-     * Test method for {@link org.openwms.core.uaa.SecurityServiceImpl#mergeGrants(java.lang.String, java.util.List)} .
+     * Test method for {@link SecurityServiceImpl#mergeGrants(java.lang.String, java.util.List)} .
      * <p>
      * Add a new Grant.
      */
@@ -119,7 +124,7 @@ public class SecurityServiceTest extends AbstractMockitoTests {
     }
 
     /**
-     * Test method for {@link org.openwms.core.uaa.SecurityServiceImpl#mergeGrants(java.lang.String, java.util.List)} .
+     * Test method for {@link SecurityServiceImpl#mergeGrants(java.lang.String, java.util.List)} .
      * <p>
      * Merge existing Grants.
      */

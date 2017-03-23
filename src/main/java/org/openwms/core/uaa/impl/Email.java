@@ -19,7 +19,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.core.uaa;
+package org.openwms.core.uaa.impl;
+
+import org.ameba.integration.jpa.BaseEntity;
+import org.springframework.util.Assert;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,9 +30,6 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 import java.util.Objects;
-
-import org.ameba.integration.jpa.BaseEntity;
-import org.springframework.util.Assert;
 
 /**
  * An Email represents the email address of an {@code User}.

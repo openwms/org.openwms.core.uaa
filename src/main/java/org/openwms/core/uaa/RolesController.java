@@ -19,14 +19,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.core.uaa.api;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
+package org.openwms.core.uaa;
 
 import org.ameba.Messages;
 import org.ameba.http.Response;
@@ -34,9 +27,7 @@ import org.ameba.mapping.BeanMapper;
 import org.openwms.core.exception.ExceptionCodes;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.HttpBusinessException;
-import org.openwms.core.uaa.Role;
-import org.openwms.core.uaa.RoleService;
-import org.openwms.core.uaa.UAAConstants;
+import org.openwms.core.uaa.impl.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -51,6 +42,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A RolesController.

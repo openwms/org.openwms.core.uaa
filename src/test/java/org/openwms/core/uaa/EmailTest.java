@@ -21,14 +21,15 @@
  */
 package org.openwms.core.uaa;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.openwms.core.uaa.impl.Email;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * An EmailTest.

@@ -21,13 +21,6 @@
  */
 package org.openwms.core.uaa;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-
-import javax.validation.ConstraintViolationException;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -35,11 +28,19 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.openwms.core.test.IntegrationTest;
+import org.openwms.core.uaa.impl.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import javax.validation.ConstraintViolationException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 /**
  * A RoleServiceIT.

@@ -21,11 +21,6 @@
  */
 package org.openwms.core.search;
 
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -34,8 +29,13 @@ import org.mockito.Mock;
 import org.openwms.core.configuration.ConfigurationService;
 import org.openwms.core.configuration.UserPreference;
 import org.openwms.core.test.AbstractMockitoTests;
-import org.openwms.core.uaa.SystemUser;
-import org.openwms.core.uaa.User;
+import org.openwms.core.uaa.impl.SystemUser;
+import org.openwms.core.uaa.impl.User;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+import static org.mockito.Mockito.when;
 
 /**
  * A ActionServiceTest.

@@ -21,19 +21,22 @@
  */
 package org.openwms.core.uaa;
 
-import javax.validation.constraints.NotNull;
-import java.util.Optional;
-
 import org.ameba.integration.FindOperations;
 import org.ameba.integration.SaveOperations;
 import org.openwms.core.configuration.UserPreference;
+import org.openwms.core.uaa.impl.SystemUser;
+import org.openwms.core.uaa.impl.User;
+import org.openwms.core.uaa.impl.UserPassword;
+
+import javax.validation.constraints.NotNull;
+import java.util.Optional;
 
 /**
  * An UserService offers functionality according to the handling with {@link User}s.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version 0.2
- * @see org.openwms.core.uaa.User
+ * @see User
  * @since 0.1
  */
 public interface UserService extends FindOperations<User, Long>, SaveOperations<User, Long> {

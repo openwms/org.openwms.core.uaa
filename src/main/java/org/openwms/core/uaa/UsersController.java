@@ -19,24 +19,14 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.core.uaa.api;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+package org.openwms.core.uaa;
 
 import org.ameba.Messages;
 import org.ameba.http.Response;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.core.http.AbstractWebController;
-import org.openwms.core.uaa.UAAConstants;
-import org.openwms.core.uaa.User;
-import org.openwms.core.uaa.UserPassword;
-import org.openwms.core.uaa.UserService;
+import org.openwms.core.uaa.impl.User;
+import org.openwms.core.uaa.impl.UserPassword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -50,6 +40,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * An UsersController represents a RESTful access to <tt>User</tt>s. It is transactional by the means it is the outer application service

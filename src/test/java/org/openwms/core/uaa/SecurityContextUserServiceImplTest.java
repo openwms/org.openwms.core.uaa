@@ -26,6 +26,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.openwms.core.event.UserChangedEvent;
 import org.openwms.core.test.AbstractMockitoTests;
+import org.openwms.core.uaa.impl.SecurityContextUserServiceImpl;
+import org.openwms.core.uaa.impl.SystemUser;
+import org.openwms.core.uaa.impl.SystemUserWrapper;
+import org.openwms.core.uaa.impl.User;
+import org.openwms.core.uaa.impl.UserWrapper;
 import org.springframework.security.authentication.dao.SaltSource;
 import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -66,7 +71,7 @@ public class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
     private SecurityContextUserServiceImpl srv;
 
     /**
-     * Test method for {@link org.openwms.core.uaa.SecurityContextUserServiceImpl#onApplicationEvent(org.openwms.core.event.UserChangedEvent)}
+     * Test method for {@link SecurityContextUserServiceImpl#onApplicationEvent(org.openwms.core.event.UserChangedEvent)}
      * .
      */
     @Test
@@ -76,7 +81,7 @@ public class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
     }
 
     /**
-     * Test method for {@link org.openwms.core.uaa.SecurityContextUserServiceImpl#loadUserByUsername(java.lang.String)} .
+     * Test method for {@link SecurityContextUserServiceImpl#loadUserByUsername(java.lang.String)} .
      * <p>
      * Test that the cache works and no service nor dao is called.
      */
@@ -92,7 +97,7 @@ public class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
     }
 
     /**
-     * Test method for {@link org.openwms.core.uaa.SecurityContextUserServiceImpl#loadUserByUsername(java.lang.String)} .
+     * Test method for {@link SecurityContextUserServiceImpl#loadUserByUsername(java.lang.String)} .
      * <p>
      * Test for the SystemUser credentials, that user can be cached but not fetched from the dao. In this test the cache is not tested. We
      * expect that the cache is empty.
@@ -116,7 +121,7 @@ public class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
     }
 
     /**
-     * Test method for {@link org.openwms.core.uaa.SecurityContextUserServiceImpl#loadUserByUsername(java.lang.String)} .
+     * Test method for {@link SecurityContextUserServiceImpl#loadUserByUsername(java.lang.String)} .
      * <p>
      * Test for a usual User not a SystemUser, that User is can be resolved from the dao and is put in cache afterwards.
      */
@@ -137,7 +142,7 @@ public class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
     }
 
     /**
-     * Test method for {@link org.openwms.core.uaa.SecurityContextUserServiceImpl#loadUserByUsername(java.lang.String)} .
+     * Test method for {@link SecurityContextUserServiceImpl#loadUserByUsername(java.lang.String)} .
      * <p>
      * Test that calling the service to load an unknown User fails with an exception and nothing is put into cache.
      */

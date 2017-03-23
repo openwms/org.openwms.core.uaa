@@ -19,12 +19,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.core.uaa;
+package org.openwms.core.uaa.impl;
+
+import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
 import java.util.Collection;
-
-import org.springframework.security.core.GrantedAuthority;
 
 /**
  * A SystemUserWrapper.
@@ -68,7 +68,7 @@ public class SystemUserWrapper extends UserWrapper implements Serializable {
     /**
      * {@inheritDoc}
      * <p>
-     * For the SystemUser account always add the {@link org.openwms.core.uaa.SystemUser#SYSTEM_ROLE_NAME} to the
+     * For the SystemUser account always add the {@link SystemUser#SYSTEM_ROLE_NAME} to the
      * collection of authorities.
      */
     @Override

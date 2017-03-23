@@ -19,16 +19,17 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.core.uaa;
+package org.openwms.core.uaa.impl;
+
+import org.ameba.annotation.TxService;
+import org.openwms.core.uaa.RoleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
-import org.ameba.annotation.TxService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 /**
  * A RoleServiceImpl is a Spring supported transactional implementation of a general {@link RoleService}. Using Spring 2 annotation support

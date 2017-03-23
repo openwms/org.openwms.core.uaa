@@ -21,11 +21,12 @@
  */
 package org.openwms.core.uaa;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.junit.Assert;
 import org.junit.Test;
+import org.openwms.core.uaa.impl.Grant;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A GrantTest.

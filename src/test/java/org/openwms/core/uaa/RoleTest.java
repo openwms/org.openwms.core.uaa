@@ -21,15 +21,19 @@
  */
 package org.openwms.core.uaa;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Collections;
-import java.util.HashSet;
-
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.openwms.core.uaa.impl.Grant;
+import org.openwms.core.uaa.impl.Role;
+import org.openwms.core.uaa.impl.SecurityObject;
+import org.openwms.core.uaa.impl.User;
+
+import java.util.Collections;
+import java.util.HashSet;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * A RoleTest.

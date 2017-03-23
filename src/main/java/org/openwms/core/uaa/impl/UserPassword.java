@@ -19,7 +19,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.core.uaa;
+package org.openwms.core.uaa.impl;
+
+import org.ameba.integration.jpa.BaseEntity;
+import org.openwms.core.AbstractEntity;
+import org.springframework.util.Assert;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,10 +33,6 @@ import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.ameba.integration.jpa.BaseEntity;
-import org.openwms.core.AbstractEntity;
-import org.springframework.util.Assert;
-
 /**
  * Is a representation of an {@link User} together with her password. <p> When an {@link User} changes her password, the current password is
  * added to a history list of passwords. This is necessary to omit {@link User}s from setting formerly used passwords. </p>
@@ -40,7 +40,7 @@ import org.springframework.util.Assert;
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version 0.2
  * @GlossaryTerm
- * @see org.openwms.core.uaa.User
+ * @see User
  * @since 0.1
  */
 @Entity

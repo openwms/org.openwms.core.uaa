@@ -21,13 +21,13 @@
  */
 package org.openwms.core.search;
 
-import java.util.Collection;
-import java.util.HashSet;
-
 import org.ameba.annotation.TxService;
 import org.openwms.core.configuration.ConfigurationService;
-import org.openwms.core.uaa.User;
+import org.openwms.core.uaa.impl.User;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Collection;
+import java.util.HashSet;
 
 /**
  * An ActionServiceImpl is used by the GUI to find all defined search actions.

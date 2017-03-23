@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.core.uaa.api;
-
-import java.io.Serializable;
+package org.openwms.core.uaa;
 
 import org.springframework.hateoas.ResourceSupport;
+
+import java.io.Serializable;
 
 /**
  * A UserResource.

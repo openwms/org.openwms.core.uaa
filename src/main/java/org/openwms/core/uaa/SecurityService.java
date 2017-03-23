@@ -21,6 +21,8 @@
  */
 package org.openwms.core.uaa;
 
+import org.openwms.core.uaa.impl.Grant;
+
 import javax.validation.constraints.NotNull;
 import java.util.List;
 

@@ -19,15 +19,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.core.uaa;
-
-import javax.persistence.EntityNotFoundException;
-import javax.validation.constraints.NotNull;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+package org.openwms.core.uaa.impl;
 
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
@@ -39,6 +31,7 @@ import org.openwms.core.configuration.UserPreference;
 import org.openwms.core.event.UserChangedEvent;
 import org.openwms.core.exception.ExceptionCodes;
 import org.openwms.core.exception.InvalidPasswordException;
+import org.openwms.core.uaa.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +42,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.EntityNotFoundException;
+import javax.validation.constraints.NotNull;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * An UserServiceImpl is a Spring supported transactional implementation of a general {@link UserService}. Using Spring 2 annotation support

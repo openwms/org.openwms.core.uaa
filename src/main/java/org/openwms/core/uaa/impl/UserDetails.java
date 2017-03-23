@@ -19,7 +19,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.core.uaa;
+package org.openwms.core.uaa.impl;
+
+import org.openwms.core.values.CoreTypeDefinitions;
+import org.openwms.core.values.ImageProvider;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -31,15 +34,12 @@ import javax.persistence.Lob;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import org.openwms.core.values.CoreTypeDefinitions;
-import org.openwms.core.values.ImageProvider;
-
 /**
  * Detailed information about an {@link User}.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version 0.2
- * @see org.openwms.core.uaa.User
+ * @see User
  * @since 0.1
  */
 @Embeddable
@@ -94,7 +94,7 @@ public class UserDetails implements ImageProvider, Serializable {
      *
      * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
      * @version 0.2
-     * @see org.openwms.core.uaa.User
+     * @see User
      * @since 0.1
      */
     public static enum SEX {

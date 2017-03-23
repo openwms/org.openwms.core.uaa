@@ -5,7 +5,7 @@
  * This file is part of openwms.org.
  *
  * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as 
+ * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -19,19 +19,15 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.core.uaa.api;
-
-import java.io.Serializable;
-
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
+package org.openwms.core.uaa;
 
 /**
- * A UserPreferenceDTO.
+ * A CrudOperations.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @version $Revision: $
+ * @version 1.0
+ * @since 1.0
  */
-@JsonAutoDetect
-public class UserPreferenceVO implements Serializable {
+interface CrudOperations {
 
 }

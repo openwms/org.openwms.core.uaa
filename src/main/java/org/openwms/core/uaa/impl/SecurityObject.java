@@ -19,7 +19,11 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.core.uaa;
+package org.openwms.core.uaa.impl;
+
+import org.ameba.integration.jpa.BaseEntity;
+import org.openwms.core.values.CoreTypeDefinitions;
+import org.springframework.util.Assert;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -30,18 +34,14 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import java.io.Serializable;
 
-import org.ameba.integration.jpa.BaseEntity;
-import org.openwms.core.values.CoreTypeDefinitions;
-import org.springframework.util.Assert;
-
 /**
  * A SecurityObject is the generalization of {@code Role}s and {@code Grant}s and combines common used properties of both.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @version 0.2
  * @GlossaryTerm
- * @see org.openwms.core.uaa.Role
- * @see org.openwms.core.uaa.Grant
+ * @see Role
+ * @see Grant
  * @since 0.1
  */
 @Entity
