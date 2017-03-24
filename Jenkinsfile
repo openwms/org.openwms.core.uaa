@@ -38,6 +38,6 @@ node {
           sh "'${mvnHome}/bin/mvn' sonar:sonar -Pjenkins"
        }
     } finally {
-        junit '**/target/surefire-reports/TEST-*.xml'
+        junit allowEmptyResults: true, testResults: '**/target/surefire-reports/TEST-*.xml'
     }
 }
