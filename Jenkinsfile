@@ -39,8 +39,5 @@ node {
        }
     } finally {
         junit '**/target/surefire-reports/TEST-*.xml'
-        if (err) {
-           throw err
-        }
     }
 }
