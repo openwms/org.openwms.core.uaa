@@ -2,7 +2,7 @@ spring:
   application:
     name: core-uaa
   main:
-      banner-mode: OFF
+      banner-mode: "OFF"
   config:
     name: globals
   cloud:
