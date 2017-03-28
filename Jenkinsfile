@@ -22,7 +22,6 @@ node {
        }
        stage('\u27A1 Results') {
           archive '**/target/*.jar'
-          //nexusArtifactUploader credentialsId: 'sonatype-nexus-snapshots', groupId: 'org.openwms.core', nexusUrl: 'oss.sonatype.org/content/repositories/snapshots', nexusVersion: 'nexus3', protocol: 'https', repository: 'sonatype-nexus-staging', version: '1.1.0-SNAPSHOT'
        }
        stage('\u27A1 Heroku Staging') {
           sh '''
