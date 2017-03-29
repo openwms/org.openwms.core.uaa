@@ -17,7 +17,7 @@ node {
        stage('\u27A1 Build & Deploy') {
           configFileProvider(
               [configFile(fileId: 'maven-local-settings', variable: 'MAVEN_SETTINGS')]) {
-                sh "'${mvnHome}/bin/mvn' -s $MAVEN_SETTINGS clean deploy -Ddocumentation.dir=${WORKSPACE} -Dverbose=false -Psordocs,sonatype -U"
+                sh "'${mvnHome}/bin/mvn' -s $MAVEN_SETTINGS clean deploy -Ddocumentation.dir=${WORKSPACE}/target -Psordocs,sonatype -U"
           }
        }
        stage('\u27A1 Results') {
@@ -33,7 +33,7 @@ node {
           '''
        }
        stage('\u27A1 Sonar') {
-          sh "'${mvnHome}/bin/mvn' clean org.jacoco:jacoco-maven-plugin:prepare-agent verify -Dbuild.number=${BUILD_NUMBER} -Dbuild.date=${BUILD_ID} -Ddocumentation.dir=${WORKSPACE} -Pjenkins"
+          sh "'${mvnHome}/bin/mvn' clean org.jacoco:jacoco-maven-plugin:prepare-agent verify -Dbuild.number=${BUILD_NUMBER} -Ddocumentation.dir=${WORKSPACE}/target -Pjenkins"
           sh "'${mvnHome}/bin/mvn' sonar:sonar -Pjenkins"
        }
     } finally {
