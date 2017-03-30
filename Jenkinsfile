@@ -17,7 +17,7 @@ node {
        stage('\u27A1 Build & Deploy') {
           configFileProvider(
               [configFile(fileId: 'maven-local-settings', variable: 'MAVEN_SETTINGS')]) {
-                sh "'${mvnHome}/bin/mvn' -s $MAVEN_SETTINGS clean deploy -Ddocumentation.dir=${WORKSPACE}/target -Psordocs,sonatype -U"
+                sh "'${mvnHome}/bin/mvn' -s $MAVEN_SETTINGS clean install -Ddocumentation.dir=${WORKSPACE}/target -Psordocs,sonatype -U"
           }
        }
        stage('\u27A1 Results') {
