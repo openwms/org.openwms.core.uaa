@@ -33,7 +33,8 @@
     </parent>
     <artifactId>org.openwms.core.uaa</artifactId>
     <name>OpenWMS.org CORE: UAA</name>
-    <description>OpenWMS.org :: CORE :: User Authentication and Administration</description>
+    <description>OpenWMS.org CORE: User Authentication and Administration</description>
+    <url>https://www.interface21.io/docs/tms/transportation/index.html</url>
 
     <properties>
         <core.version>${project.version}</core.version>
@@ -45,8 +46,67 @@
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
-        <sonar.language>java</sonar.language>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>OpenWMS.org Release Repository</name>
+            <url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+        <snapshotRepository>
+            <id>sonatype-nexus-staging</id>
+            <name>OpenWMS.org Snapshot Repository</name>
+            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <site>
+            <id>ftp-io</id>
+            <name>OpenWMS.org WebSite</name>
+            <url>ftps://ftp.interface21.io/core/base</url>
+        </site>
+    </distributionManagement>
+
+    <developers>
+        <developer>
+            <id>scherrer</id>
+            <name>Heiko Scherrer</name>
+            <email>scherrer@openwms.org</email>
+            <url>https://openwms.github.io/</url>
+            <organization>Interface21.io</organization>
+            <organizationUrl>https://www.interface21.io</organizationUrl>
+            <timezone>+2</timezone>
+            <roles>
+                <role>Project Lead</role>
+                <role>Architect</role>
+                <role>Developer</role>
+                <role>Deployer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/openwms/org.openwms.core.uaa</url>
+        <connection>scm:git:git://github.com/openwms/org.openwms.core.uaa.git</connection>
+        <developerConnection>scm:git:git@github.com:openwms/org.openwms.core.uaa.git</developerConnection>
+    </scm>
+
+    <ciManagement>
+        <system>Jenkins</system>
+        <url>https://openwms.mooo.com/jenkins/job/org.openwms.core.uaa</url>
+        <notifiers>
+            <notifier>
+                <type>mail</type>
+                <configuration>
+                    <address>product@openwms.org</address>
+                </configuration>
+            </notifier>
+        </notifiers>
+    </ciManagement>
+
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/openwms/org.openwms.core.uaa/issues</url>
+    </issueManagement>
 
     <profiles>
         <profile>
@@ -111,7 +171,6 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -177,6 +236,26 @@
             </plugin>
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>index</report>
+                            <report>summary</report>
+                            <report>project-team</report>
+                            <report>issue-tracking</report>
+                            <report>cim</report>
+                            <report>scm</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
 
     <dependencyManagement>
         <dependencies>
@@ -299,7 +378,7 @@
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test</artifactId>
+            <artifactId>kotlin-test-junit</artifactId>
             <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
