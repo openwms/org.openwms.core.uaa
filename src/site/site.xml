@@ -11,7 +11,7 @@
     <body>
 
         <menu name="Docs">
-±            <item name="RESTful API" href="rest/api.html" />
+            <item name="RESTful API" href="rest/api.html" />
             <item name="Javadoc" href="apidocs/index.html" />
         </menu>
 
