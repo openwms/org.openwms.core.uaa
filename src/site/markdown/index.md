@@ -18,5 +18,5 @@ in different locations, on different cloud platforms with different ISP.
 
 | endpoints | billed | SLA |
 | --------- | ------ | --- |
-| https://openwms-core-uaa.herokuapp.com<br/>https://openwms.org/uaa| no | Heroku SLA for Europe region<br />depends on AWS Europe region |
+| https://openwms-core-uaa.herokuapp.com<br/>https://openwms.org/uaa | no | Heroku SLA for Europe region<br />depends on AWS Europe region |
 
