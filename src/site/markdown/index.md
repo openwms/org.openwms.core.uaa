@@ -13,7 +13,7 @@ roles and permission especially for the usage in an administration UI.
 ## Deployment
 
 The UAA is an essential component for all kind of applications and requires the highest
-degree of availablity level (Highest). Therefore it is deployed in an redundant setup
+degree of availability level (Highest). Therefore it is deployed in an redundant setup
 in different locations, on different cloud platforms with different ISP.
 
 | endpoints | billed | SLA |
