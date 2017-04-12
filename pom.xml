@@ -33,7 +33,7 @@
     </parent>
     <artifactId>org.openwms.core.uaa</artifactId>
     <name>OpenWMS.org CORE: UAA</name>
-    <description>OpenWMS.org CORE: User Authentication and Administration</description>
+    <description>UAA (User Authentication and Administration)</description>
     <url>https://www.interface21.io/docs/tms/transportation/index.html</url>
 
     <properties>
