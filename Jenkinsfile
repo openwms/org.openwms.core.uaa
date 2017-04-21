@@ -26,7 +26,7 @@ node {
        stage('\u27A1 Heroku Staging') {
           sh '''
             if git remote | grep heroku > /dev/null; then
-               git remote remove heroku
+               git remote rm heroku
             fi
             git remote add heroku https://:${DGMXCH_HEROKU_API_KEY}@git.heroku.com/openwms-core-uaa.git
             git push heroku master -f
