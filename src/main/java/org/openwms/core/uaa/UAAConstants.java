@@ -26,12 +26,10 @@ package org.openwms.core.uaa;
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
-public class UAAConstants {
+class UAAConstants {
 
-    /** API version. */
-    public static final String API_VERSION = "v1";
     /** API root to hit Roles (plural). */
-    public static final String API_ROLES = "/" + API_VERSION + "/roles";
+    public static final String API_ROLES = "/roles";
     /** API root to hit Users (plural). */
-    public static final String API_USERS = "/" + API_VERSION + "/users";
+    public static final String API_USERS = "/users";
 }

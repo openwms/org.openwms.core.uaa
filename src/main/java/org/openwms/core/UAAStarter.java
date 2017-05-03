@@ -15,9 +15,7 @@
  */
 package org.openwms.core;
 
-import org.ameba.annotation.EnableAspects;
 import org.ameba.app.SolutionApp;
-import org.ameba.http.EnableMultiTenancy;
 import org.ameba.i18n.AbstractTranslator;
 import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
@@ -27,11 +25,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.aspectj.EnableSpringConfigured;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
@@ -42,12 +40,10 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  */
 @SpringBootApplication(scanBasePackageClasses = {UAAStarter.class, SolutionApp.class})
-@EnableAspects(propagateRootCause = true)
-@EnableSpringConfigured
 @EnableJpaAuditing
-@EnableMultiTenancy
 @EnableTransactionManagement
 @EnableDiscoveryClient
+@EnableAuthorizationServer
 public class UAAStarter {
 
     public
@@ -78,7 +74,7 @@ public class UAAStarter {
     public
     @Bean
     BeanMapper beanMapper() {
-        return new DozerMapperImpl("META-INF/dozer/catalog-bean-mappings.xml");
+        return new DozerMapperImpl("META-INF/dozer/bean-mappings.xml");
     }
 
     public

@@ -21,15 +21,11 @@
  */
 package org.openwms.core.uaa;
 
-import org.ameba.Messages;
 import org.ameba.http.Response;
 import org.ameba.mapping.BeanMapper;
-import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.uaa.impl.User;
 import org.openwms.core.uaa.impl.UserPassword;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,8 +34,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -54,15 +50,17 @@ import java.util.List;
  * facade that returns validated and completed <tt>User</tt> objects to its clients.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @since 1.0
  */
-@RestController(UAAConstants.API_USERS)
-public class UsersController extends AbstractWebController {
+@RestController
+public class UsersController {
 
-    @Autowired
-    private UserService service;
-    @Autowired
-    private BeanMapper m;
+    private final UserService service;
+    private final BeanMapper m;
+
+    public UsersController(UserService service, BeanMapper m) {
+        this.service = service;
+        this.m = m;
+    }
 
     /**
      * This method returns all existing <tt>User</tt>s. <p> <p> <table> <tr> <td>URI</td> <td>/users</td> </tr> <tr> <td>Verb</td>
@@ -71,11 +69,10 @@ public class UsersController extends AbstractWebController {
      *
      * @return JSON response
      */
-    @GetMapping
-    @ResponseBody
-    public ResponseEntity<Response<UserVO>> findAllUsers() {
+    @GetMapping(UAAConstants.API_USERS)
+    public List<UserVO> findAllUsers() {
         List<UserVO> users = m.map(new ArrayList<>(service.findAll()), UserVO.class);
-        return buildOKResponse(users.toArray(new UserVO[users.size()]));
+        return users;
     }
 
     /**
@@ -103,12 +100,17 @@ public class UsersController extends AbstractWebController {
      * @param user The user to create
      * @return a responseVO
      */
-    @PostMapping
-    @ResponseBody
-    public ResponseEntity<Response<UserVO>> create(@RequestBody @Valid @NotNull UserVO user, HttpServletRequest req, HttpServletResponse resp) {
+    @PostMapping(UAAConstants.API_USERS)
+    public UserVO create(@RequestBody @Valid @NotNull UserVO user, HttpServletRequest req, HttpServletResponse resp) {
         User createdUser = service.create(m.map(user, User.class));
         resp.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req, createdUser.getPk().toString()));
-        return buildResponse(HttpStatus.CREATED, translate(Messages.CREATED), Messages.CREATED);
+        return m.map(createdUser, UserVO.class);
+    }
+
+    private String getLocationForCreatedResource(HttpServletRequest req, String objId) {
+        StringBuffer url = req.getRequestURL();
+        UriTemplate template = new UriTemplate(url.append("/{objId}/").toString());
+        return template.expand(objId).toASCIIString();
     }
 
     /**
@@ -117,17 +119,11 @@ public class UsersController extends AbstractWebController {
      * @param user
      * @return a responseVO
      */
-    @PutMapping
-    @ResponseBody
-    public ResponseEntity<Response<UserVO>> save(@RequestBody @Valid UserVO user) {
+    @PutMapping(UAAConstants.API_USERS)
+    public UserVO save(@RequestBody @Valid UserVO user) {
         User eo = m.map(user, User.class);
         UserVO saved = m.map(service.save(eo), UserVO.class);
-
-        if (user.getId() == null) {
-            return buildResponse(HttpStatus.CREATED, translate(Messages.CREATED), Messages.CREATED, saved);
-        } else {
-            return buildResponse(HttpStatus.OK, translate(Messages.SERVER_OK), Messages.SERVER_OK, saved);
-        }
+        return saved;
     }
 
     /**
@@ -135,13 +131,10 @@ public class UsersController extends AbstractWebController {
      *
      * @param image The image to save
      * @param id The users persisted id
-     * @return An responseVO
      */
-    @PatchMapping(value = "/{id}")
-    @ResponseBody
-    public ResponseEntity<Response<UserVO>> saveImage(@RequestBody @NotNull byte[] image, @PathVariable("id") @NotNull Long id) {
+    @PatchMapping(UAAConstants.API_USERS + "/{id}")
+    public void saveImage(@RequestBody @NotNull byte[] image, @PathVariable("id") @NotNull Long id) {
         service.uploadImageFile(id, image);
-        return buildResponse(HttpStatus.OK, translate(Messages.SERVER_OK), Messages.SERVER_OK);
     }
 
     /**
@@ -151,7 +144,7 @@ public class UsersController extends AbstractWebController {
      * @return a responseVO
      * @throws Exception
      */
-    @DeleteMapping(value = "/{name}")
+    @DeleteMapping(UAAConstants.API_USERS + "/{name}")
     public ResponseEntity<Response> remove(@PathVariable("name") @NotNull String... names) {
         /*
         Response result = new Response();

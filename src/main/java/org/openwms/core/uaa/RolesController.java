@@ -21,14 +21,10 @@
  */
 package org.openwms.core.uaa;
 
-import org.ameba.Messages;
 import org.ameba.http.Response;
 import org.ameba.mapping.BeanMapper;
-import org.openwms.core.exception.ExceptionCodes;
-import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.HttpBusinessException;
 import org.openwms.core.uaa.impl.Role;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,10 +34,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -54,17 +49,17 @@ import java.util.List;
  * A RolesController.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @version $Revision: $
- * @since 0.1
  */
 @RestController
-@RequestMapping(UAAConstants.API_ROLES)
-public class RolesController extends AbstractWebController {
+public class RolesController {
 
-    @Autowired
-    private RoleService service;
-    @Autowired
-    private BeanMapper m;
+    private final RoleService service;
+    private final BeanMapper m;
+
+    public RolesController(RoleService service, BeanMapper m) {
+        this.service = service;
+        this.m = m;
+    }
 
     /**
      * Documented here: https://openwms.atlassian.net/wiki/x/EYAWAQ
@@ -72,11 +67,10 @@ public class RolesController extends AbstractWebController {
      * @return JSON response
      * @status Reviewed [scherrer]
      */
-    @GetMapping
-    @ResponseBody
-    public ResponseEntity<Response<RoleVO>> findAllRoles() {
+    @GetMapping(UAAConstants.API_ROLES)
+    public List<RoleVO> findAllRoles() {
         List<RoleVO> roles = m.map(new ArrayList<>(service.findAll()), RoleVO.class);
-        return buildResponse(HttpStatus.OK, translate(Messages.SERVER_OK), Messages.SERVER_OK, roles.toArray(new RoleVO[roles.size()]));
+        return roles;
     }
 
     /**
@@ -86,12 +80,17 @@ public class RolesController extends AbstractWebController {
      * @return An {@link Response} object to encapsulate the result of the creation operation
      * @status Reviewed [scherrer]
      */
-    @PostMapping
-    @ResponseBody
-    public ResponseEntity<Response<RoleVO>> create(@RequestBody @Valid @NotNull RoleVO role, HttpServletRequest req, HttpServletResponse resp) {
+    @PostMapping(UAAConstants.API_ROLES)
+    public RoleVO create(@RequestBody @Valid @NotNull RoleVO role, HttpServletRequest req, HttpServletResponse resp) {
         RoleVO createdRole = m.map(service.save(m.map(role, Role.class)), RoleVO.class);
         resp.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req, createdRole.getId().toString()));
-        return buildResponse(HttpStatus.CREATED, translate(Messages.CREATED), Messages.CREATED);
+        return createdRole;
+    }
+
+    private String getLocationForCreatedResource(HttpServletRequest req, String objId) {
+        StringBuffer url = req.getRequestURL();
+        UriTemplate template = new UriTemplate(url.append("/{objId}/").toString());
+        return template.expand(objId).toASCIIString();
     }
 
     /**
@@ -101,7 +100,7 @@ public class RolesController extends AbstractWebController {
      * @return An {@link Response} object to encapsulate all single removal operations
      * @status Reviewed [scherrer]
      */
-    @DeleteMapping(value = "/{name}")
+    @DeleteMapping(UAAConstants.API_ROLES + "/{name}")
     public ResponseEntity<Response> remove(@PathVariable("name") @NotNull String... rolenames) {
         /*
         Response result = new Response();
@@ -134,13 +133,11 @@ public class RolesController extends AbstractWebController {
      * @param role
      * @return
      */
-    @PutMapping
-    @ResponseBody
+    @PutMapping(UAAConstants.API_ROLES)
     @ResponseStatus(HttpStatus.OK)
     public RoleVO save(@RequestBody @Valid RoleVO role) {
         if (role.getId() == null) {
-            String msg = translate(ExceptionCodes.ROLE_IS_TRANSIENT, role.getName());
-            throw new HttpBusinessException(msg, HttpStatus.NOT_ACCEPTABLE);
+            throw new HttpBusinessException("Role to save is a transient one", HttpStatus.NOT_ACCEPTABLE);
         }
         Role toSave = m.map(role, Role.class);
         return m.map(service.save(toSave), RoleVO.class);
