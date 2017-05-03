@@ -36,7 +36,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -51,9 +50,11 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * An UserServiceImpl is a Spring supported transactional implementation of a general {@link UserService}. Using Spring 2 annotation support
- * autowires collaborators, therefore XML configuration becomes obsolete. This class is marked with Springs {@link Service} annotation to
+ * An UserServiceImpl is a Spring managed transactional implementation of the {@link UserService}. Using Spring 2 annotation support
+ * autowires collaborators, therefore XML configuration becomes obsolete. This class is marked with Amebas {@link TxService} annotation to
  * benefit from Springs exception translation interceptor. Traditional CRUD operations are delegated to an {@link UserRepository}.
+ *
+ * This implementation exists since Spring 2.0, be careful to use with the latest Spring versions
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
  * @since 0.1
@@ -100,9 +101,9 @@ class UserServiceImpl implements UserService {
     /**
      * {@inheritDoc}
      * <p>
-     * Triggers <tt>UserChangedEvent</tt> after completion.
+     * Triggers {@code UserChangedEvent} after completion.
      *
-     * @throws ServiceLayerException if the <tt>entity</tt> argument is <code>null</code>
+     * @throws ServiceLayerException if the {@code entity} argument is {@literal null}
      */
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
@@ -114,7 +115,7 @@ class UserServiceImpl implements UserService {
     /**
      * {@inheritDoc}
      * <p>
-     * Marked as <code>readOnly</code> transactional method.
+     * Marked as read-only transactional method.
      */
     @Override
     @Transactional(readOnly = true)
@@ -125,7 +126,7 @@ class UserServiceImpl implements UserService {
     /**
      * {@inheritDoc}
      * <p>
-     * Marked as <code>readOnly</code> transactional method.
+     * Marked as read-only transactional method.
      */
     @Override
     @Transactional(readOnly = true)
@@ -138,6 +139,9 @@ class UserServiceImpl implements UserService {
         return sys;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public User create(User user) {
         // TODO [openwms]: 03/05/17 to be implemented
@@ -145,8 +149,7 @@ class UserServiceImpl implements UserService {
     }
 
     /**
-     * @param username
-     * @return
+     * {@inheritDoc}
      */
     @Override
     public Optional<User> findByUsername(String username) {
@@ -154,6 +157,9 @@ class UserServiceImpl implements UserService {
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void remove(String username) {
         repository.delete(repository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, username))));
