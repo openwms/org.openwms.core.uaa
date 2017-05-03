@@ -39,8 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * A SecurityContextUserServiceImpl extends Spring {@link UserDetailsService} to
- * read <code>User</code>s and <code>Role</code>s from the persistent storage
- * and wraps them into security objects.
+ * read {@code User}s and {@code Role}s from the persistent storage and wraps them into security objects.
  *
  * @author <a href="mailto:russelltina@users.sourceforge.net">Tina Russell</a>
  */
@@ -51,14 +50,25 @@ class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationL
 
     @Value("${system.user}")
     private String systemUsername = SystemUser.SYSTEM_USERNAME;
-    @Autowired
-    private UserService userService;
-    @Autowired(required = false)
+    private final UserService userService;
     private UserCache userCache;
-    @Autowired(required = false)
     private Ehcache cache;
-    @Autowired
-    private PasswordEncoder enc;
+    private final PasswordEncoder enc;
+
+    public SecurityContextUserServiceImpl(UserService userService, PasswordEncoder enc) {
+        this.userService = userService;
+        this.enc = enc;
+    }
+
+    @Autowired(required = false)
+    void setUserCache(UserCache userCache) {
+        this.userCache = userCache;
+    }
+
+    @Autowired(required = false)
+    void setCache(Ehcache cache) {
+        this.cache = cache;
+    }
 
     /**
      * {@inheritDoc}
@@ -66,7 +76,6 @@ class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationL
     @Override
     public void onApplicationEvent(UserChangedEvent event) {
         if (cache != null) {
-            LOGGER.debug("UserChangedEvent -> clear cache");
             cache.removeAll();
         }
     }
@@ -74,13 +83,11 @@ class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationL
     /**
      * {@inheritDoc}
      *
-     * @param username User's username to search for
-     * @return A wrapper object
-     * @throws UsernameNotFoundException in case the User was not found or the password was not valid
-     */
+     * Implemented as read-only transactional
+     **/
     @Transactional(readOnly = true)
     @Override
-    public UserDetails loadUserByUsername(String username) {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDetails ud = userCache == null ? null : userCache.getUserFromCache(username);
         if (null == ud) {
             if (systemUsername.equals(username)) {
@@ -88,8 +95,9 @@ class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationL
                 ud = new SystemUserWrapper(user);
                 ((SystemUserWrapper) ud).setPassword(enc.encode(user.getPassword()));
             } else {
-                User user = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User with username %s not found", username)));
-                ud = new UserWrapper(user);
+                ud = new UserWrapper(
+                        userService.findByUsername(username)
+                                .orElseThrow(() -> new UsernameNotFoundException(String.format("User with username [%s] not found", username))));
             }
             if (userCache != null) {
                 userCache.putUserInCache(ud);
