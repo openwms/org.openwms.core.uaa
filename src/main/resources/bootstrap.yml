@@ -24,7 +24,8 @@ server:
 security:
   user:
     # Override this in cloud environment!
-    password: sa
+    password: openwms
+    name: openwms
   oauth2:
     client:
       scope:

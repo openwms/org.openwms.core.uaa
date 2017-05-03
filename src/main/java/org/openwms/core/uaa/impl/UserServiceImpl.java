@@ -34,7 +34,6 @@ import org.openwms.core.exception.InvalidPasswordException;
 import org.openwms.core.uaa.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -57,8 +56,6 @@ import java.util.Optional;
  * benefit from Springs exception translation interceptor. Traditional CRUD operations are delegated to an {@link UserRepository}.
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @version 0.2
- * @see UserRepository
  * @since 0.1
  */
 @Validated
@@ -66,20 +63,23 @@ import java.util.Optional;
 class UserServiceImpl implements UserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
-    @Autowired
-    private UserRepository repository;
-    @Autowired
-    private SecurityObjectRepository securityObjectDao;
-    @Autowired
-    private ConfigurationService confSrv;
-    @Autowired
-    private PasswordEncoder enc;
-    @Autowired
-    private Translator translator;
+    private final UserRepository repository;
+    private final SecurityObjectRepository securityObjectDao;
+    private final ConfigurationService confSrv;
+    private final PasswordEncoder enc;
+    private final Translator translator;
     @Value("${system.user}")
     private String systemUsername;
     @Value("${system.password}")
     private String systemPassword;
+
+    UserServiceImpl(UserRepository repository, SecurityObjectRepository securityObjectDao, ConfigurationService confSrv, PasswordEncoder enc, Translator translator) {
+        this.repository = repository;
+        this.securityObjectDao = securityObjectDao;
+        this.confSrv = confSrv;
+        this.enc = enc;
+        this.translator = translator;
+    }
 
     /**
      * {@inheritDoc}
@@ -140,6 +140,7 @@ class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user) {
+        // TODO [openwms]: 03/05/17 to be implemented
         return null;
     }
 
@@ -149,6 +150,7 @@ class UserServiceImpl implements UserService {
      */
     @Override
     public Optional<User> findByUsername(String username) {
+        // TODO [openwms]: 03/05/17 to be implemented
         return null;
     }
 

@@ -43,9 +43,6 @@ import org.springframework.transaction.annotation.Transactional;
  * and wraps them into security objects.
  *
  * @author <a href="mailto:russelltina@users.sourceforge.net">Tina Russell</a>
- * @version 0.1
- * @see org.springframework.security.core.userdetails.UserDetailsService
- * @since 0.1
  */
 @TxService
 class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationListener<UserChangedEvent> {
@@ -84,7 +81,7 @@ class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationL
     @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) {
-        UserDetails ud = userCache.getUserFromCache(username);
+        UserDetails ud = userCache == null ? null : userCache.getUserFromCache(username);
         if (null == ud) {
             if (systemUsername.equals(username)) {
                 User user = userService.createSystemUser();
@@ -94,7 +91,9 @@ class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationL
                 User user = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User with username %s not found", username)));
                 ud = new UserWrapper(user);
             }
-            userCache.putUserInCache(ud);
+            if (userCache != null) {
+                userCache.putUserInCache(ud);
+            }
         }
         return ud;
     }
