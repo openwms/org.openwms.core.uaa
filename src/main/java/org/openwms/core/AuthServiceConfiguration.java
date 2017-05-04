@@ -52,7 +52,7 @@ class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory().withClient("html5").secret("password").authorizedGrantTypes("password").scopes("openid");
+        clients.inMemory().withClient("html5").secret("password").authorizedGrantTypes( "password").scopes("openid");
     }
 
     @Override
