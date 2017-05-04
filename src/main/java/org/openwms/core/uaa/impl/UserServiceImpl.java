@@ -38,11 +38,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -53,7 +54,7 @@ import java.util.Optional;
  * An UserServiceImpl is a Spring managed transactional implementation of the {@link UserService}. Using Spring 2 annotation support
  * autowires collaborators, therefore XML configuration becomes obsolete. This class is marked with Amebas {@link TxService} annotation to
  * benefit from Springs exception translation interceptor. Traditional CRUD operations are delegated to an {@link UserRepository}.
- *
+ * <p>
  * This implementation exists since Spring 2.0, be careful to use with the latest Spring versions
  *
  * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
@@ -169,13 +170,12 @@ class UserServiceImpl implements UserService {
      * {@inheritDoc}
      *
      * @throws ServiceLayerException if <ul> <li><code>userPassword</code> is <code>null</code></li> <li>the new password is invalid and
-     * does not match the password rules</li> </ul>
-     * @throws EntityNotFoundException if {@link User} not found
+     *                               does not match the password rules</li> </ul>
+     * @throws NotFoundException     if no {@link User} exists
      */
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
     public void changeUserPassword(@NotNull UserPassword userPassword) {
-
         User entity = repository.findByUsername(userPassword.getUser().getUsername()).orElseThrow(() -> new NotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, userPassword.getUser()
                 .getUsername()), ExceptionCodes.USER_NOT_EXIST));
         try {
@@ -190,29 +190,18 @@ class UserServiceImpl implements UserService {
 
     /**
      * {@inheritDoc}
-     *
-     * @throws ServiceLayerException if <ul> <li><code>user</code> is <code>null</code></li> <li>the new password is invalid and does not
-     * match the password rules</li> </ul>
      */
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
-    public User saveUserProfile(User user, UserPassword userPassword, UserPreference... prefs) {
-        if (null == user) {
-            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PROFILE_SAVE_NOT_BE_NULL), ExceptionCodes.USER_PROFILE_SAVE_NOT_BE_NULL);
+    public User saveUserProfile(@NotNull User user, @NotNull @Size(min = 1) UserPassword userPassword, UserPreference... prefs) {
+        try {
+            user.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);
+        } catch (InvalidPasswordException ipe) {
+            LOGGER.error(ipe.getMessage());
+            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PASSWORD_INVALID,
+                    userPassword.getPassword()), ExceptionCodes.USER_PASSWORD_INVALID);
         }
-
-        if (userPassword != null && StringUtils.hasText(userPassword.getPassword())) {
-            try {
-                user.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);
-            } catch (InvalidPasswordException ipe) {
-                LOGGER.error(ipe.getMessage());
-                throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PASSWORD_INVALID,
-                        userPassword.getPassword()), ExceptionCodes.USER_PASSWORD_INVALID);
-            }
-        }
-        for (UserPreference preference : prefs) {
-            confSrv.save(preference);
-        }
+        Arrays.stream(prefs).forEach(confSrv::save);
         return save(user);
     }
 
