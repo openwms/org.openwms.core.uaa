@@ -24,7 +24,6 @@ package org.openwms.core.uaa.impl;
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ServiceLayerException;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -179,10 +178,8 @@ public class UserServiceIT {
      * <p>
      * Test to call with null.
      */
-    @Ignore
-    @Test
+    @Test(expected = ConstraintViolationException.class)
     public final void testChangePasswordWithNull() {
-        thrown.expect(ConstraintViolationException.class);
         srv.changeUserPassword(null);
     }
 
@@ -289,27 +286,17 @@ public class UserServiceIT {
     /**
      *
      */
-    @Test
+    @Test(expected = ConstraintViolationException.class)
     public final void testSaveUserProfileUserNull() {
-        try {
             srv.saveUserProfile(null, new UserPassword(new User(TEST_USER), TEST_USER));
-            fail("Must throw an exception when invoking with null argument");
-        } catch (ServiceLayerException sre) {
-            if (sre.getMessage().equals(
-                    messageSource.getMessage(ExceptionCodes.USER_PROFILE_SAVE_NOT_BE_NULL, new String[0], null))) {
-            } else {
-                fail("Expected to wrap an IllegalArgumentException when the user argument is null");
-            }
-        }
     }
 
     /**
      *
      */
-    @Test
+    @Test(expected = ConstraintViolationException.class)
     public final void testSaveUserProfileUserPreferencePasswordNull() {
-        User user = srv.saveUserProfile(new User(TEST_USER), null);
-        assertEquals("Must return the saved user", user, new User(TEST_USER));
+        srv.saveUserProfile(new User(TEST_USER), null);
     }
 
     /**

@@ -29,7 +29,6 @@ import org.openwms.core.uaa.impl.User;
 import org.openwms.core.uaa.impl.UserPassword;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Optional;
 
 /**
@@ -73,7 +72,7 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
      * @param prefs An array of {@link UserPreference} objects
      * @return The saved {@link User} instance
      */
-    User saveUserProfile(@NotNull User user, @NotNull @Size(min = 1) UserPassword userPassword, UserPreference... prefs);
+    User saveUserProfile(@NotNull User user, @NotNull UserPassword userPassword, UserPreference... prefs);
 
     /**
      * Create and return the {@link SystemUser} without persisting this user.

@@ -42,7 +42,6 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -193,7 +192,7 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
-    public User saveUserProfile(@NotNull User user, @NotNull @Size(min = 1) UserPassword userPassword, UserPreference... prefs) {
+    public User saveUserProfile(@NotNull User user, @NotNull UserPassword userPassword, UserPreference... prefs) {
         try {
             user.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);
         } catch (InvalidPasswordException ipe) {
