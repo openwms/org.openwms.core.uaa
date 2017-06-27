@@ -1,4 +1,4 @@
-## Purpose
+# Purpose
 This service is built to fulfill two different requirements regarding to user handling.
 At first the service is capable to work as [OpenID Connect](http://openid.net/connect) authentication endpoint and can
 authenticate user credentials against data stored in a persistent storage.
@@ -8,7 +8,7 @@ assigned to users explicitly, but to roles. Users are assigned to roles and appl
 permissions are granted for particular roles. Administration of roles and permissions
 is especially required from an UI point of view.
 
-## Deployment
+# Deployment
 
 The UAA is an essential component for all kind of applications and requires the highest
 degree of availability level (Highest). Therefore it is deployed in an redundant setup
