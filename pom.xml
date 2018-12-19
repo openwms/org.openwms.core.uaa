@@ -1,69 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-/*
- * openwms.org, the Open Warehouse Management System.
- * Copyright (C) 2014 Heiko Scherrer
- *
- * This file is part of openwms.org.
- *
- * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as 
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * openwms.org is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this software. If not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- */
--->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.openwms</groupId>
-        <artifactId>org.openwms</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
+        <artifactId>org.openwms.parent</artifactId>
+        <version>5</version>
         <relativePath/>
     </parent>
     <artifactId>org.openwms.core.uaa</artifactId>
     <name>OpenWMS.org CORE: UAA</name>
     <description>UAA (User Authentication and Administration)</description>
-    <url>https://www.interface21.io/docs/tms/transportation/index.html</url>
+    <url>https://www.interface21.io/docs/core/uaa/index.html</url>
 
     <properties>
-        <core.version>${project.version}</core.version>
-        <spring-boot.version>1.5.2.RELEASE</spring-boot.version> <!-- Keep in sync with platform -->
-        <spring-cloud-dependencies.version>Camden.SR6</spring-cloud-dependencies.version>
-        <start-class>org.openwms.core.UAAStarter</start-class>
-        <sonar.projectKey>OpenWMS.org_CORE:UAA</sonar.projectKey>
-        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+        <core.version>1.3.0-SNAPSHOT</core.version>
+        <distribution.serverUrl.sourcePath>ftp.interface21.io/docs/core/uaa</distribution.serverUrl.sourcePath>
     </properties>
 
-    <distributionManagement>
-        <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>OpenWMS.org Release Repository</name>
-            <url>http://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-        </repository>
-        <snapshotRepository>
-            <id>sonatype-nexus-staging</id>
-            <name>OpenWMS.org Snapshot Repository</name>
-            <url>http://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <site>
-            <id>ftp-io</id>
-            <name>OpenWMS.org WebSite</name>
-            <url>ftp://ftp.interface21.io/docs/core/uaa</url>
-        </site>
-    </distributionManagement>
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/openwms/org.openwms.core.uaa/issues</url>
+    </issueManagement>
+
+    <scm>
+        <url>https://github.com/openwms/org.openwms.core.uaa</url>
+        <connection>scm:git:git://github.com/openwms/org.openwms.core.uaa.git</connection>
+        <developerConnection>scm:git:git@github.com:openwms/org.openwms.core.uaa.git</developerConnection>
+    </scm>
 
     <developers>
         <developer>
@@ -83,15 +47,9 @@
         </developer>
     </developers>
 
-    <scm>
-        <url>https://github.com/openwms/org.openwms.core.uaa</url>
-        <connection>scm:git:git://github.com/openwms/org.openwms.core.uaa.git</connection>
-        <developerConnection>scm:git:git@github.com:openwms/org.openwms.core.uaa.git</developerConnection>
-    </scm>
-
     <ciManagement>
-        <system>Jenkins</system>
-        <url>https://openwms.mooo.com/jenkins/job/org.openwms.core.uaa</url>
+        <system>travis</system>
+        <url>https://travis-ci.org/openwms/org.openwms.core.uaa</url>
         <notifiers>
             <notifier>
                 <type>mail</type>
@@ -101,11 +59,6 @@
             </notifier>
         </notifiers>
     </ciManagement>
-
-    <issueManagement>
-        <system>Github</system>
-        <url>https://github.com/openwms/org.openwms.core.uaa/issues</url>
-    </issueManagement>
 
     <profiles>
         <profile>
