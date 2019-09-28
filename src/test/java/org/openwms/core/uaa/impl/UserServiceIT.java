@@ -23,20 +23,23 @@ package org.openwms.core.uaa.impl;
 
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ServiceLayerException;
+import org.ameba.test.categories.IntegrationTests;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.openwms.core.configuration.UserPreference;
 import org.openwms.core.exception.ExceptionCodes;
-import org.openwms.core.test.IntegrationTest;
 import org.openwms.core.uaa.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.MessageSource;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -57,9 +60,15 @@ import static org.junit.Assert.fail;
  * @author Heiko Scherrer
  */
 @RunWith(SpringRunner.class)
-@IntegrationTest
+@Category(IntegrationTests.class)
+@SpringBootTest
 @Rollback
 public class UserServiceIT {
+
+    @TestConfiguration
+    @ComponentScan(basePackages = "org.openwms.core.uaa")
+    public static class Config {
+    }
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceIT.class);
     private static final String TEST_USER = "TEST";
@@ -67,8 +76,6 @@ public class UserServiceIT {
     private static final String KNOWN_USER = "KNOWN";
     @Autowired
     private UserService srv;
-    @Autowired
-    private MessageSource messageSource;
     @Autowired
     private TestEntityManager entityManager;
 
@@ -222,7 +229,7 @@ public class UserServiceIT {
             srv.changeUserPassword(new UserPassword(new User(KNOWN_USER), "password"));
             fail("Should throw an exception when calling with an invalid password");
         } catch (ServiceLayerException sre) {
-            if (!(sre.getMessageKey().equals(ExceptionCodes.USER_PASSWORD_INVALID))) {
+            if (!(sre.getMessageKey().equals(ExceptionCodes.USER_PW_INVALID))) {
                 fail("Should throw a nested InvalidPasswordException when calling with an invalid password");
             }
             LOGGER.debug("OK: InvalidPasswordException:" + sre.getMessage());
@@ -319,7 +326,7 @@ public class UserServiceIT {
             u = srv.saveUserProfile(u, new UserPassword(user, "password"));
             fail("Expected to catch an ServiceLayerException when the password is invalid");
         } catch (ServiceLayerException sre) {
-            if (!(sre.getMessageKey().equals(ExceptionCodes.USER_PASSWORD_INVALID))) {
+            if (!(sre.getMessageKey().equals(ExceptionCodes.USER_PW_INVALID))) {
                 fail("Expected to catch an InvalidPasswordException when the password is invalid");
             }
         }

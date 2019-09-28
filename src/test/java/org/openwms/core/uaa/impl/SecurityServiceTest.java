@@ -29,12 +29,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.openwms.core.test.AbstractMockitoTests;
-import org.openwms.core.uaa.impl.Grant;
-import org.openwms.core.uaa.impl.RoleRepository;
-import org.openwms.core.uaa.impl.SecurityObject;
-import org.openwms.core.uaa.impl.SecurityObjectRepository;
-import org.openwms.core.uaa.impl.SecurityServiceImpl;
+import org.openwms.core.AbstractMockitoTests;
 import org.springframework.context.MessageSource;
 
 import java.util.ArrayList;
@@ -113,10 +108,10 @@ public class SecurityServiceTest extends AbstractMockitoTests {
         // New Grant should be added...
 //        verify(dao).merge(testGrant);
         // verify the the new Grant is not in the list of removed Grants...
-        verify(dao, never()).delete(Collections.singletonList(testGrant));
+        verify(dao, never()).deleteAll(Collections.singletonList(testGrant));
         // But the existing Grant has been removed, because it is not in the
         // list of Grants to merge...
-        verify(dao).delete(Collections.singletonList(new Grant("TMS_KEY1")));
+        verify(dao).deleteAll(Collections.singletonList(new Grant("TMS_KEY1")));
 
         // check the results
         assertEquals(1, result.size());
@@ -145,7 +140,7 @@ public class SecurityServiceTest extends AbstractMockitoTests {
         // new Grant should be added...
         //    verify(dao, never()).merge(testGrant);
         // verify the new Grant is not in the list of removed Grants...
-        verify(dao, never()).delete(Collections.singletonList(testGrant));
+        verify(dao, never()).deleteAll(Collections.singletonList(testGrant));
 
         // check the results
         assertEquals(1, result.size());

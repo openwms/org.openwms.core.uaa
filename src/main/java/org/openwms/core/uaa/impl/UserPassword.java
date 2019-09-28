@@ -22,7 +22,6 @@
 package org.openwms.core.uaa.impl;
 
 import org.ameba.integration.jpa.BaseEntity;
-import org.openwms.core.AbstractEntity;
 import org.springframework.util.Assert;
 
 import javax.persistence.Column;
@@ -134,8 +133,7 @@ public class UserPassword extends BaseEntity implements Serializable {
     /**
      * {@inheritDoc}
      * <p>
-     * Comparison is done with the business-key (user and password). {@link AbstractEntity#equals(Object)} is not called to avoid comparison
-     * with the UUID.
+     * Comparison is done with the business-key (user and password).
      */
     @Override
     public boolean equals(Object obj) {

@@ -7,6 +7,11 @@ spring:
       discovery:
         enabled: false
         service-id:
+  security:
+    user:
+      # Override this in cloud environment!
+      password: sa
+
 
 owms:
   eureka:
@@ -19,11 +24,6 @@ system:
 
 server:
   port: ${PORT:8085}
-
-security:
-  user:
-    # Override this in cloud environment!
-    password: sa
 
 eureka:
   client:

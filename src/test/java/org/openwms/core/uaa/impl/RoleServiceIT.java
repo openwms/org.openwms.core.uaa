@@ -21,16 +21,15 @@
  */
 package org.openwms.core.uaa.impl;
 
+import org.ameba.test.categories.IntegrationTests;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.openwms.core.test.IntegrationTest;
 import org.openwms.core.uaa.RoleService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -50,10 +49,9 @@ import static org.junit.Assert.fail;
  * @since 0.1
  */
 @RunWith(SpringRunner.class)
-@IntegrationTest
+@Category(IntegrationTests.class)
 public class RoleServiceIT {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RoleServiceIT.class);
     @Autowired
     private RoleService srv;
     @Autowired

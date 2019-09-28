@@ -49,8 +49,6 @@ class SecurityServiceImpl implements SecurityService {
     @Autowired
     private SecurityObjectRepository securityObjectRepository;
     @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
     private Translator translator;
 
     /**
@@ -73,7 +71,7 @@ class SecurityServiceImpl implements SecurityService {
         });
         result.removeAll(persisted);
         if (!persisted.isEmpty()) {
-            securityObjectRepository.delete(persisted);
+            securityObjectRepository.deleteAll(persisted);
         }
         return result;
     }

@@ -26,9 +26,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.openwms.core.AbstractMockitoTests;
 import org.openwms.core.configuration.ConfigurationService;
 import org.openwms.core.configuration.UserPreference;
-import org.openwms.core.test.AbstractMockitoTests;
 import org.openwms.core.uaa.impl.SystemUser;
 import org.openwms.core.uaa.impl.User;
 
@@ -49,32 +49,17 @@ public class ActionServiceTest extends AbstractMockitoTests {
     @InjectMocks
     private ActionServiceImpl srv = new ActionServiceImpl();
 
-    /**
-     * Test method for
-     * {@link org.openwms.core.service.spring.search.ActionServiceImpl#ActionServiceImpl()}
-     * .
-     */
     @Test
     public final void testActionServiceImpl() {
         new ActionServiceImpl();
     }
 
-    /**
-     * Test method for
-     * {@link org.openwms.core.service.spring.search.ActionServiceImpl#findAllActions()}
-     * .
-     */
     @Test
     public final void testFindAllActions() {
         Collection<Action> result = srv.findAllActions();
         Assert.assertNotNull(result);
     }
 
-    /**
-     * Test method for
-     * {@link org.openwms.core.service.spring.search.ActionServiceImpl#findAllActions(org.openwms.core.system.usermanagement.User)}
-     * .
-     */
     @Test
     public final void testFindAllActionsUser() {
         Collection<Action> result = srv.findAllActions(new SystemUser(SystemUser.SYSTEM_USERNAME,
@@ -82,11 +67,6 @@ public class ActionServiceTest extends AbstractMockitoTests {
         Assert.assertNotNull(result);
     }
 
-    /**
-     * Test method for
-     * {@link org.openwms.core.service.spring.search.ActionServiceImpl#findAllTags(org.openwms.core.system.usermanagement.User)}
-     * .
-     */
     @Test
     public final void testFindAllTags() {
         Collection<Tag> result = srv
@@ -94,11 +74,6 @@ public class ActionServiceTest extends AbstractMockitoTests {
         Assert.assertNotNull(result);
     }
 
-    /**
-     * Test method for
-     * {@link org.openwms.core.service.spring.search.ActionServiceImpl#save(org.openwms.core.system.usermanagement.User, java.util.Collection)}
-     * .
-     */
     @Ignore
     @Test
     public final void testSave() {

@@ -90,10 +90,7 @@ class UserServiceImpl implements UserService {
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
     public void uploadImageFile(Long id, byte[] image) {
-        User user = repository.findOne(id);
-        if (user == null) {
-            throw new NotFoundException(translator.translate(ExceptionCodes.ENTITY_NOT_EXIST, id), ExceptionCodes.ENTITY_NOT_EXIST);
-        }
+        User user = repository.findById(id).orElseThrow(()->new NotFoundException(translator.translate(ExceptionCodes.ENTITY_NOT_EXIST, id), ExceptionCodes.ENTITY_NOT_EXIST));
         user.getUserDetails().setImage(image);
         repository.save(user);
     }
@@ -182,8 +179,8 @@ class UserServiceImpl implements UserService {
             repository.save(entity);
         } catch (InvalidPasswordException ipe) {
             LOGGER.error(ipe.getMessage());
-            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PASSWORD_INVALID, userPassword.getUser()
-                    .getUsername()), ExceptionCodes.USER_PASSWORD_INVALID);
+            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PW_INVALID, userPassword.getUser()
+                    .getUsername()), ExceptionCodes.USER_PW_INVALID);
         }
     }
 
@@ -197,8 +194,8 @@ class UserServiceImpl implements UserService {
             user.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);
         } catch (InvalidPasswordException ipe) {
             LOGGER.error(ipe.getMessage());
-            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PASSWORD_INVALID,
-                    userPassword.getPassword()), ExceptionCodes.USER_PASSWORD_INVALID);
+            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PW_INVALID,
+                    userPassword.getPassword()), ExceptionCodes.USER_PW_INVALID);
         }
         Arrays.stream(prefs).forEach(confSrv::save);
         return save(user);
@@ -224,10 +221,7 @@ class UserServiceImpl implements UserService {
      */
     @Override
     public User findById(Long pk) {
-        User user = repository.findOne(pk);
-        if (null == user) {
-            throw new NotFoundException(String.format("No User with pk %s found", pk));
-        }
+        User user = repository.findById(pk).orElseThrow(()->new NotFoundException(String.format("No User with pk %s found", pk)));
         return user;
     }
 }

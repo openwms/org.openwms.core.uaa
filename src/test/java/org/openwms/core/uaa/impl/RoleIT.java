@@ -21,13 +21,14 @@
  */
 package org.openwms.core.uaa.impl;
 
+import org.ameba.test.categories.IntegrationTests;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.openwms.core.test.IntegrationTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,7 @@ import java.util.Set;
  * @since 0.1
  */
 @RunWith(SpringRunner.class)
-@IntegrationTest
+@Category(IntegrationTests.class)
 public class RoleIT {
 
     @Rule
