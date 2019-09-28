@@ -32,7 +32,7 @@ import java.util.HashSet;
 /**
  * An ActionServiceImpl is used by the GUI to find all defined search actions.
  * 
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @since 0.2
  */

@@ -26,7 +26,7 @@ import java.io.Serializable;
 /**
  * A VerbalTag represents a verb.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @GlossaryTerm
  * @since 0.2
@@ -56,7 +56,7 @@ public class VerbTag extends Tag implements Serializable {
     /**
      * A Builder class for {@code VerbTag}s.
      *
-     * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+     * @author Heiko Scherrer
      * @version $Revision$
      * @since 0.2
      */

@@ -30,7 +30,7 @@ import java.util.Set;
 /**
  * A RoleVO.
  * 
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @since 0.1
  */

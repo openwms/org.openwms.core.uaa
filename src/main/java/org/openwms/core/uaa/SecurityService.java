@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * A SecurityService defines functionality to handle {@code SecurityObject}s, especially {@code Grant}s.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @since 0.1
  */

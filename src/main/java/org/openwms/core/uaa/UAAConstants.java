@@ -24,7 +24,7 @@ package org.openwms.core.uaa;
 /**
  * A UAAConstants.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 class UAAConstants {
 

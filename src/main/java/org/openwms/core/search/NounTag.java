@@ -26,7 +26,7 @@ import java.io.Serializable;
 /**
  * A NounTag represents a noun.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @GlossaryTerm
  * @since 0.2

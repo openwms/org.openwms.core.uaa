@@ -45,7 +45,7 @@ import static org.junit.Assert.fail;
 /**
  * A RoleServiceIT.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.1
  * @since 0.1
  */

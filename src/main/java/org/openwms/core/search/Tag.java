@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * A Tag represents a search keyword in the OpenWMS.org ActionSearch concept. Each {@link Action} consists of multiple Tags.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @GlossaryTerm
  * @since 0.2

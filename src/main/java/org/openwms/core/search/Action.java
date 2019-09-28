@@ -40,7 +40,7 @@ import java.util.List;
  * An Action represents a possible UI action an User can take. Each Action has a resulting URL to a webpage and a descriptive text that is
  * displayed in the UI. Additionally a field {@code weight} is used to count how many times the User has chosen this Action.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @GlossaryTerm
  * @since 0.2
@@ -249,7 +249,7 @@ public class Action implements Serializable {
     /**
      * A Builder class for <code>Action</code>s.
      *
-     * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+     * @author Heiko Scherrer
      * @version $Revision$
      * @since 0.2
      */

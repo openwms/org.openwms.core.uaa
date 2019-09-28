@@ -38,7 +38,7 @@ import java.util.Set;
 /**
  * A UserWrapperTest.
  * 
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version $Revision: $
  * @since 0.2
  */

@@ -37,7 +37,7 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 /**
  * An UAAStarter.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @SpringBootApplication(scanBasePackageClasses = {UAAStarter.class, SolutionApp.class})
 @EnableJpaAuditing

@@ -49,7 +49,7 @@ import java.util.List;
  * An UsersController represents a RESTful access to <tt>User</tt>s. It is transactional by the means it is the outer application service
  * facade that returns validated and completed <tt>User</tt> objects to its clients.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @RestController
 public class UsersController {

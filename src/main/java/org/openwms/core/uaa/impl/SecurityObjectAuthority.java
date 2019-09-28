@@ -28,7 +28,7 @@ import java.io.Serializable;
 /**
  * A SecurityObjectAuthority.
  * 
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @since 0.2
  * @see org.springframework.security.core.GrantedAuthority

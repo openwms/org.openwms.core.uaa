@@ -34,7 +34,7 @@ import java.util.Objects;
 /**
  * An Email represents the email address of an {@code User}.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @GlossaryTerm
  * @see User

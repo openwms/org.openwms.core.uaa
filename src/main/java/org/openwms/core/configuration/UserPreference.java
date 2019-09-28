@@ -26,7 +26,7 @@ import java.io.Serializable;
 /**
  * A UserPreference encapsulates all preferences dedicated to an {@code User}.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 1.0
  * @since 1.0
  */

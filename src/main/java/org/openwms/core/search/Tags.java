@@ -32,7 +32,7 @@ import java.util.List;
  * Encapsulates a collection of {@link Tag}s and is mapped to the XML type "tags" in the ui-actions-schema.xsd. <p> <a
  * href="http://www.openwms.org/schema/ui-actions-schema.xsd">http://www. openwms.org/schema/ui-actions-schema.xsd</a> </p>
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version $Revision$
  * @since 0.2
  */

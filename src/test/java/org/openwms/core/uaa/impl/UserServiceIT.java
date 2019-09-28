@@ -54,9 +54,7 @@ import static org.junit.Assert.fail;
 /**
  * A UserServiceIT.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
- * @version $Revision$
- * @since 0.1
+ * @author Heiko Scherrer
  */
 @RunWith(SpringRunner.class)
 @IntegrationTest

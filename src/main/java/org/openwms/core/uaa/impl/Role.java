@@ -40,7 +40,7 @@ import java.util.Set;
  * A Role is a group of {@link User}s. Basically more than one {@code User} belong to a Role. Security access policies are assigned to Roles
  * instead of {@link User}s.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @GlossaryTerm
  * @see SecurityObject
@@ -80,7 +80,7 @@ public class Role extends SecurityObject implements Serializable {
     /**
      * A builder class to construct Role instances.
      *
-     * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+     * @author Heiko Scherrer
      * @version $Revision$
      * @since 0.1
      */

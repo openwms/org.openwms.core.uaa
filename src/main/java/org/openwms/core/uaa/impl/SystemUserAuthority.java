@@ -26,7 +26,7 @@ import org.springframework.security.core.GrantedAuthority;
 /**
  * A SystemUserAuthority.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @since 0.2
  */

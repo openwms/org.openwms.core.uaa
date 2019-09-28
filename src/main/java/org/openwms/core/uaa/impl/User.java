@@ -57,7 +57,7 @@ import java.util.Set;
  * Users can have their own configuration settings in form of {@code UserPreferences} and certain user details, encapsulated in an {@code
  * UserDetails} object that tend to be extended by projects.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @GlossaryTerm
  * @see UserDetails
@@ -506,7 +506,7 @@ public class User extends ApplicationEntity implements Serializable {
     /**
      * A PasswordComparator sorts UserPassword by date ascending.
      *
-     * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+     * @author Heiko Scherrer
      * @version $Revision$
      * @since 0.2
      */

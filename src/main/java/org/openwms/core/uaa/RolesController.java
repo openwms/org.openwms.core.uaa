@@ -48,7 +48,7 @@ import java.util.List;
 /**
  * A RolesController.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 @RestController
 public class RolesController {

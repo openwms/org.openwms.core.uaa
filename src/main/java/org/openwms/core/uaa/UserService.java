@@ -34,7 +34,7 @@ import java.util.Optional;
 /**
  * An UserService offers functionality according to the handling with {@link User}s.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @see User
  * @since 0.1

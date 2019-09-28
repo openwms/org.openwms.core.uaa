@@ -28,7 +28,7 @@ import java.util.Optional;
 /**
  * An UserRepository offers functionality regarding {@link User} entity classes.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @see User
  * @since 0.1

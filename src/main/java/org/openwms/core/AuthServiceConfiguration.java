@@ -33,7 +33,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 /**
  * A AuthServiceConfiguration.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  */
 
 @EnableAuthorizationServer

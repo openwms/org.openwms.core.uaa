@@ -35,7 +35,7 @@ import java.io.Serializable;
  * </p>
  * 
  * @GlossaryTerm
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @since 0.1
  * @see User

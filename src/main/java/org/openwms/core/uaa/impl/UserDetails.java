@@ -37,7 +37,7 @@ import java.util.Arrays;
 /**
  * Detailed information about an {@link User}.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @see User
  * @since 0.1
@@ -92,7 +92,7 @@ public class UserDetails implements ImageProvider, Serializable {
     /**
      * The {@link User}s sex.
      *
-     * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+     * @author Heiko Scherrer
      * @version 0.2
      * @see User
      * @since 0.1

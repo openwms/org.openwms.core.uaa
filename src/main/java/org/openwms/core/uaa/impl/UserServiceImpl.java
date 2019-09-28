@@ -56,7 +56,7 @@ import java.util.Optional;
  * <p>
  * This implementation exists since Spring 2.0, be careful to use with the latest Spring versions
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @since 0.1
  */
 @Validated

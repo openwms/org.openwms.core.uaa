@@ -37,7 +37,7 @@ import java.util.Date;
  * Is a representation of an {@link User} together with her password. <p> When an {@link User} changes her password, the current password is
  * added to a history list of passwords. This is necessary to omit {@link User}s from setting formerly used passwords. </p>
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @GlossaryTerm
  * @see User

@@ -28,7 +28,7 @@ import java.io.Serializable;
 /**
  * A UserPasswordDTO.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version $Revision: $
  */
 @JsonAutoDetect

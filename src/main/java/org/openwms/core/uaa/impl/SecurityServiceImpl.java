@@ -38,7 +38,7 @@ import java.util.List;
 /**
  * A SecurityServiceImpl is a transactional Spring Service implementation.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @since 0.1
  */

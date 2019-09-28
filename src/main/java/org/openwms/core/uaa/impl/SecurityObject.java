@@ -37,7 +37,7 @@ import java.io.Serializable;
 /**
  * A SecurityObject is the generalization of {@code Role}s and {@code Grant}s and combines common used properties of both.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @GlossaryTerm
  * @see Role

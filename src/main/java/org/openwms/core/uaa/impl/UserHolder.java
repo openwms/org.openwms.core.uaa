@@ -25,7 +25,7 @@ package org.openwms.core.uaa.impl;
  * An UserHolder exposes an {@link User} instance to it's clients. The main purpose of this interface is the strict disjunction between the
  * API and the implementation class, that is kept separately in the <i>implementation</i> bundle.
  * 
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @since 0.1
  */

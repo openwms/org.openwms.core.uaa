@@ -28,7 +28,7 @@ import java.util.Collection;
 /**
  * An ActionService is used to query Actions of a particular User or the whole application.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @see Action
  * @since 0.1.1

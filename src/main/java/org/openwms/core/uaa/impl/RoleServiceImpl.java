@@ -36,7 +36,7 @@ import java.util.List;
  * autowires collaborators, therefore XML configuration becomes obsolete. This class is marked with Springs {@link Service} annotation to
  * benefit from Springs exception translation intercepter. Traditional CRUD operations are delegated to a {@link RoleRepository} instance.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @see RoleRepository
  * @since 0.1

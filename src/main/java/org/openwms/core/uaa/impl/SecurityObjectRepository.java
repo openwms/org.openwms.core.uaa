@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * A SecurityObjectRepository is used to find, modify and delete {@link SecurityObject}s.
  *
- * @author <a href="mailto:scherrer@openwms.org">Heiko Scherrer</a>
+ * @author Heiko Scherrer
  * @version 0.2
  * @since 0.1
  */
