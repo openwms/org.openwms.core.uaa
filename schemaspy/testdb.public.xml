@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<database name="testdb" schema="public" type="PostgreSQL - 9.6.15">
+   <tables>
+      <table name="com_location" numRows="32" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8">
+            <child column="c_location_id" foreignKey="fkcy1pukrprpi3lh48xhf44lk2a" implied="false" onDeleteCascade="false" table="com_location_message"/>
+            <child column="c_actual_location" foreignKey="fkdl2ge07mt6bp7ijaot1omtqrs" implied="false" onDeleteCascade="false" table="com_transport_unit"/>
+            <child column="c_target_location" foreignKey="fkqjpw6i7sq7aq2yrkkcybab8jy" implied="false" onDeleteCascade="false" table="com_transport_unit"/>
+         </column>
+         <column autoUpdated="false" digits="6" id="1" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="6" id="2" name="c_updated" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="3" name="c_ol" nullable="true" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="0" id="4" name="c_pid" nullable="false" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="5" name="c_check_state" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="6" name="c_considered_in_allocation" nullable="true" remarks="" size="1" type="bool"/>
+         <column autoUpdated="false" digits="0" id="7" name="c_counting_active" nullable="true" remarks="" size="1" type="bool"/>
+         <column autoUpdated="false" digits="0" id="8" name="c_description" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="9" name="c_erp_code" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="10" name="c_incoming_active" nullable="true" remarks="" size="1" type="bool"/>
+         <column autoUpdated="false" digits="6" id="11" name="c_last_movement" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="12" name="c_lg_counting_active" nullable="true" remarks="" size="1" type="bool"/>
+         <column autoUpdated="false" digits="0" id="13" name="c_aisle" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="14" name="c_area" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="15" name="c_x" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="16" name="c_y" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="17" name="c_z" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="2" id="18" name="c_maximum_weight" nullable="true" remarks="" size="19" type="numeric"/>
+         <column autoUpdated="false" digits="0" id="19" name="c_no_max_transport_units" nullable="true" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" digits="0" id="20" name="c_outgoing_active" nullable="true" remarks="" size="1" type="bool"/>
+         <column autoUpdated="false" digits="0" id="21" name="c_plc_code" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="22" name="c_plc_state" nullable="true" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" digits="0" id="23" name="c_location_group" nullable="true" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fkq3hta0bed38aexpv3ar3opanf" implied="false" onDeleteCascade="false" table="com_location_group"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="24" name="c_location_type" nullable="true" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fkm96ln87qaagwc4wuuwhojv371" implied="false" onDeleteCascade="false" table="com_location_type"/>
+         </column>
+         <primaryKey column="c_pk" sequenceNumberInPK="1"/>
+         <index name="com_location_pkey" unique="true">
+            <column ascending="true" name="c_pk"/>
+         </index>
+         <index name="uk_6j2cwfpxn549vlfupsaxh95i4" unique="true">
+            <column ascending="true" name="c_plc_code"/>
+         </index>
+         <index name="uk_84fpvvehdtcv8g56lhd5lng38" unique="true">
+            <column ascending="true" name="c_erp_code"/>
+         </index>
+         <index name="ukthrccs4g58e81s441gqwdcljt" unique="true">
+            <column ascending="true" name="c_area"/>
+            <column ascending="true" name="c_aisle"/>
+            <column ascending="true" name="c_x"/>
+            <column ascending="true" name="c_y"/>
+            <column ascending="true" name="c_z"/>
+         </index>
+      </table>
+      <table name="com_location_group" numRows="42" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8">
+            <child column="c_location_group" foreignKey="fkq3hta0bed38aexpv3ar3opanf" implied="false" onDeleteCascade="false" table="com_location"/>
+            <child column="c_in_locker" foreignKey="fkr8d6ics7fgw7wdmuqsf6lbvmo" implied="false" onDeleteCascade="false" table="com_location_group"/>
+            <child column="c_out_locker" foreignKey="fksi531aiyj2s8r3eu3d5e88jtv" implied="false" onDeleteCascade="false" table="com_location_group"/>
+            <child column="c_parent" foreignKey="fkalpik4lhj0ril9gd629e6nwgm" implied="false" onDeleteCascade="false" table="com_location_group"/>
+         </column>
+         <column autoUpdated="false" digits="6" id="1" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="6" id="2" name="c_updated" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="3" name="c_ol" nullable="true" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="0" id="4" name="c_pid" nullable="false" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="5" name="c_description" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="6" name="c_group_state_in" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="7" name="c_group_state_out" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="8" name="c_group_type" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="9" name="c_group_counting_active" nullable="true" remarks="" size="1" type="bool"/>
+         <column autoUpdated="false" digits="8" id="10" name="c_max_fill_level" nullable="true" remarks="" size="8" type="float4"/>
+         <column autoUpdated="false" digits="0" id="11" name="c_name" nullable="false" remarks="" size="20" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="12" name="c_op_mode" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="13" name="c_system_code" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="14" name="c_system_name" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="15" name="c_parent" nullable="true" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fkalpik4lhj0ril9gd629e6nwgm" implied="false" onDeleteCascade="false" table="com_location_group"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="16" name="c_in_locker" nullable="true" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fkr8d6ics7fgw7wdmuqsf6lbvmo" implied="false" onDeleteCascade="false" table="com_location_group"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="17" name="c_out_locker" nullable="true" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fksi531aiyj2s8r3eu3d5e88jtv" implied="false" onDeleteCascade="false" table="com_location_group"/>
+         </column>
+         <primaryKey column="c_pk" sequenceNumberInPK="1"/>
+         <index name="com_location_group_pkey" unique="true">
+            <column ascending="true" name="c_pk"/>
+         </index>
+         <index name="uk_1qq4taa8n4nidelembye5u4in" unique="true">
+            <column ascending="true" name="c_name"/>
+         </index>
+      </table>
+      <table name="com_location_message" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="c_location_id" nullable="false" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fkcy1pukrprpi3lh48xhf44lk2a" implied="false" onDeleteCascade="false" table="com_location"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="c_message_id" nullable="false" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fkpa9ruvoy3id2cjat3hjkt6i7d" implied="false" onDeleteCascade="false" table="cor_message"/>
+         </column>
+         <primaryKey column="c_location_id" sequenceNumberInPK="1"/>
+         <primaryKey column="c_message_id" sequenceNumberInPK="2"/>
+         <index name="com_location_message_pkey" unique="true">
+            <column ascending="true" name="c_location_id"/>
+            <column ascending="true" name="c_message_id"/>
+         </index>
+         <index name="uk_4k2m61gpiqdjsiped3m8mb3ao" unique="true">
+            <column ascending="true" name="c_message_id"/>
+         </index>
+      </table>
+      <table name="com_location_type" numRows="2" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8">
+            <child column="c_location_type" foreignKey="fkm96ln87qaagwc4wuuwhojv371" implied="false" onDeleteCascade="false" table="com_location"/>
+            <child column="c_allowed_location_type" foreignKey="fkb1he5781gaupx0napfkoy09iy" implied="false" onDeleteCascade="false" table="com_type_placing_rule"/>
+         </column>
+         <column autoUpdated="false" digits="6" id="1" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="6" id="2" name="c_updated" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="3" name="c_ol" nullable="true" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="0" id="4" name="c_pid" nullable="false" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="5" name="c_description" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="6" name="c_height" nullable="true" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" digits="0" id="7" name="c_length" nullable="true" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" digits="0" id="8" name="c_type" nullable="false" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="9" name="c_width" nullable="true" remarks="" size="10" type="int4"/>
+         <primaryKey column="c_pk" sequenceNumberInPK="1"/>
+         <index name="com_location_type_pkey" unique="true">
+            <column ascending="true" name="c_pk"/>
+         </index>
+         <index name="uk_h6r9kr990ufge67kp6g1p8kcw" unique="true">
+            <column ascending="true" name="c_type"/>
+         </index>
+      </table>
+      <table name="com_srv_revision" numRows="2" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8">
+            <child column="c_rev" foreignKey="fk7hgjsbhte1esjljdnkmxpkk78" implied="false" onDeleteCascade="false" table="com_transport_unit_log"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="1" name="c_timestamp" nullable="true" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="0" id="2" name="c_user" nullable="true" remarks="" size="255" type="varchar"/>
+         <primaryKey column="c_pk" sequenceNumberInPK="1"/>
+         <index name="com_srv_revision_pkey" unique="true">
+            <column ascending="true" name="c_pk"/>
+         </index>
+      </table>
+      <table name="com_transport_unit" numRows="2" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8">
+            <child column="c_parent" foreignKey="fkqbl1ehxt7xqdil5ueu158dbt6" implied="false" onDeleteCascade="false" table="com_transport_unit"/>
+            <child column="c_tu_id" foreignKey="fk_tu_pk" implied="false" onDeleteCascade="false" table="com_unit_error"/>
+         </column>
+         <column autoUpdated="false" digits="6" id="1" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="6" id="2" name="c_updated" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="3" name="c_ol" nullable="true" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="0" id="4" name="c_pid" nullable="false" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="6" id="5" name="c_actual_location_date" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="6" name="c_barcode" nullable="false" remarks="" size="20" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="7" name="c_empty" nullable="true" remarks="" size="1" type="bool"/>
+         <column autoUpdated="false" digits="6" id="8" name="c_inventory_date" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="9" name="c_inventory_user" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="10" name="c_state" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="2" id="11" name="c_weight" nullable="true" remarks="" size="19" type="numeric"/>
+         <column autoUpdated="false" digits="0" id="12" name="c_weight_uom" nullable="true" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" digits="0" id="13" name="c_actual_location" nullable="false" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fkdl2ge07mt6bp7ijaot1omtqrs" implied="false" onDeleteCascade="false" table="com_location"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="14" name="c_parent" nullable="true" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fkqbl1ehxt7xqdil5ueu158dbt6" implied="false" onDeleteCascade="false" table="com_transport_unit"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="15" name="c_target_location" nullable="true" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fkqjpw6i7sq7aq2yrkkcybab8jy" implied="false" onDeleteCascade="false" table="com_location"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="16" name="c_transport_unit_type" nullable="false" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fkt63fgfc9ycwpboaqn076xclb1" implied="false" onDeleteCascade="false" table="com_transport_unit_type"/>
+         </column>
+         <primaryKey column="c_pk" sequenceNumberInPK="1"/>
+         <index name="com_transport_unit_pkey" unique="true">
+            <column ascending="true" name="c_pk"/>
+         </index>
+         <index name="ukkhy15ek03pwg663i3k834hej2" unique="true">
+            <column ascending="true" name="c_barcode"/>
+         </index>
+      </table>
+      <table name="com_transport_unit_log" numRows="2" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="0" id="1" name="c_rev" nullable="false" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fk7hgjsbhte1esjljdnkmxpkk78" implied="false" onDeleteCascade="false" table="com_srv_revision"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="2" name="c_rev_type" nullable="true" remarks="" size="5" type="int2"/>
+         <column autoUpdated="false" digits="0" id="3" name="c_pid" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="6" id="4" name="c_actual_location_date" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="5" name="c_barcode" nullable="true" remarks="" size="20" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="6" name="c_empty" nullable="true" remarks="" size="1" type="bool"/>
+         <column autoUpdated="false" digits="6" id="7" name="c_inventory_date" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="8" name="c_inventory_user" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="9" name="c_state" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="2" id="10" name="c_weight" nullable="true" remarks="" size="19" type="numeric"/>
+         <column autoUpdated="false" digits="0" id="11" name="c_weight_uom" nullable="true" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" digits="0" id="12" name="c_actual_location" nullable="true" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="0" id="13" name="c_parent" nullable="true" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="0" id="14" name="c_target_location" nullable="true" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="0" id="15" name="c_transport_unit_type" nullable="true" remarks="" size="19" type="int8"/>
+         <primaryKey column="c_pk" sequenceNumberInPK="1"/>
+         <primaryKey column="c_rev" sequenceNumberInPK="2"/>
+         <index name="com_transport_unit_log_pkey" unique="true">
+            <column ascending="true" name="c_pk"/>
+            <column ascending="true" name="c_rev"/>
+         </index>
+      </table>
+      <table name="com_transport_unit_type" numRows="1" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8">
+            <child column="c_transport_unit_type" foreignKey="fkt63fgfc9ycwpboaqn076xclb1" implied="false" onDeleteCascade="false" table="com_transport_unit"/>
+            <child column="c_tut_id" foreignKey="fkexme0g9srxcxt8m3jv2101k1d" implied="false" onDeleteCascade="false" table="com_type_placing_rule"/>
+            <child column="c_allowed_transport_unit_type" foreignKey="fk9wojgpvaignw39k200ha80eug" implied="false" onDeleteCascade="false" table="com_type_stacking_rule"/>
+            <child column="c_transport_unit_type" foreignKey="fk6pn2579hr73ige890tnrtlids" implied="false" onDeleteCascade="false" table="com_type_stacking_rule"/>
+         </column>
+         <column autoUpdated="false" digits="6" id="1" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="6" id="2" name="c_updated" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="3" name="c_ol" nullable="true" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="0" id="4" name="c_compatibility" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="5" name="c_description" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="6" name="c_height" nullable="true" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" digits="0" id="7" name="c_length" nullable="true" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" digits="2" id="8" name="c_payload" nullable="true" remarks="" size="19" type="numeric"/>
+         <column autoUpdated="false" digits="0" id="9" name="c_type" nullable="false" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="2" id="10" name="c_weight_max" nullable="true" remarks="" size="19" type="numeric"/>
+         <column autoUpdated="false" digits="2" id="11" name="c_weight_tare" nullable="true" remarks="" size="19" type="numeric"/>
+         <column autoUpdated="false" digits="0" id="12" name="c_width" nullable="true" remarks="" size="10" type="int4"/>
+         <primaryKey column="c_pk" sequenceNumberInPK="1"/>
+         <index name="com_transport_unit_type_pkey" unique="true">
+            <column ascending="true" name="c_pk"/>
+         </index>
+         <index name="uk_le7ijtchbrtoiji6tjgl0oujk" unique="true">
+            <column ascending="true" name="c_type"/>
+         </index>
+      </table>
+      <table name="com_type_placing_rule" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="6" id="1" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="6" id="2" name="c_updated" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="3" name="c_ol" nullable="true" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="0" id="4" name="c_privilege_level" nullable="false" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" digits="0" id="5" name="c_allowed_location_type" nullable="false" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fkb1he5781gaupx0napfkoy09iy" implied="false" onDeleteCascade="false" table="com_location_type"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="6" name="c_tut_id" nullable="false" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fkexme0g9srxcxt8m3jv2101k1d" implied="false" onDeleteCascade="false" table="com_transport_unit_type"/>
+         </column>
+         <primaryKey column="c_pk" sequenceNumberInPK="1"/>
+         <index name="com_type_placing_rule_pkey" unique="true">
+            <column ascending="true" name="c_pk"/>
+         </index>
+         <index name="uk356v9mmollkl6m8ht47fb9lmw" unique="true">
+            <column ascending="true" name="c_tut_id"/>
+            <column ascending="true" name="c_privilege_level"/>
+            <column ascending="true" name="c_allowed_location_type"/>
+         </index>
+      </table>
+      <table name="com_type_stacking_rule" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="6" id="1" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="6" id="2" name="c_updated" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="3" name="c_ol" nullable="true" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="0" id="4" name="c_no_transport_units" nullable="false" remarks="" size="5" type="int2"/>
+         <column autoUpdated="false" digits="0" id="5" name="c_allowed_transport_unit_type" nullable="false" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fk9wojgpvaignw39k200ha80eug" implied="false" onDeleteCascade="false" table="com_transport_unit_type"/>
+         </column>
+         <column autoUpdated="false" digits="0" id="6" name="c_transport_unit_type" nullable="true" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fk6pn2579hr73ige890tnrtlids" implied="false" onDeleteCascade="false" table="com_transport_unit_type"/>
+         </column>
+         <primaryKey column="c_pk" sequenceNumberInPK="1"/>
+         <index name="com_type_stacking_rule_pkey" unique="true">
+            <column ascending="true" name="c_pk"/>
+         </index>
+         <index name="uk2chb3j2y6bn68n3rfnp0gpvcm" unique="true">
+            <column ascending="true" name="c_transport_unit_type"/>
+            <column ascending="true" name="c_no_transport_units"/>
+            <column ascending="true" name="c_allowed_transport_unit_type"/>
+         </index>
+      </table>
+      <table name="com_unit_error" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="6" id="1" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="6" id="2" name="c_updated" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="3" name="c_ol" nullable="true" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="0" id="4" name="c_pid" nullable="false" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="5" name="c_error_no" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="6" name="c_error_text" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="7" name="c_tu_id" nullable="false" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fk_tu_pk" implied="false" onDeleteCascade="false" table="com_transport_unit"/>
+         </column>
+         <primaryKey column="c_pk" sequenceNumberInPK="1"/>
+         <index name="com_unit_error_pkey" unique="true">
+            <column ascending="true" name="c_pk"/>
+         </index>
+      </table>
+      <table name="cor_message" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8">
+            <child column="c_message_id" foreignKey="fkpa9ruvoy3id2cjat3hjkt6i7d" implied="false" onDeleteCascade="false" table="com_location_message"/>
+         </column>
+         <column autoUpdated="false" digits="6" id="1" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="6" id="2" name="c_updated" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="3" name="c_ol" nullable="true" remarks="" size="19" type="int8"/>
+         <column autoUpdated="false" digits="0" id="4" name="c_message_no" nullable="true" remarks="" size="10" type="int4"/>
+         <column autoUpdated="false" digits="0" id="5" name="c_message_text" nullable="true" remarks="" size="255" type="varchar"/>
+         <primaryKey column="c_pk" sequenceNumberInPK="1"/>
+         <index name="cor_message_pkey" unique="true">
+            <column ascending="true" name="c_pk"/>
+         </index>
+      </table>
+   </tables>
+</database>

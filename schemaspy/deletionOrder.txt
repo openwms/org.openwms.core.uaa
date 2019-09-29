@@ -1,0 +1,12 @@
+com_type_stacking_rule
+com_type_placing_rule
+com_location_message
+com_unit_error
+com_transport_unit_log
+com_transport_unit
+com_location
+com_location_group
+cor_message
+com_srv_revision
+com_location_type
+com_transport_unit_type
