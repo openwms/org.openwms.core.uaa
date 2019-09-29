@@ -28,8 +28,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * A RoleServiceImpl is a Spring supported transactional implementation of a general {@link RoleService}. Using Spring 2 annotation support
@@ -59,8 +57,7 @@ class RoleServiceImpl implements RoleService {
      */
     @Override
     public Collection<Role> findAll() {
-        List<Role> roles = repository.findAll();
-        return roles == null ? Collections.emptyList() : roles;
+        return repository.findAll();
     }
 
     /**

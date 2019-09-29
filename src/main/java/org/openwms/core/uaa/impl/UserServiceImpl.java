@@ -44,9 +44,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -208,8 +206,7 @@ class UserServiceImpl implements UserService {
      */
     @Override
     public Collection<User> findAll() {
-        List<User> users = repository.findAll();
-        return users == null ? Collections.emptyList() : users;
+        return repository.findAll();
     }
 
     /**
@@ -221,7 +218,6 @@ class UserServiceImpl implements UserService {
      */
     @Override
     public User findById(Long pk) {
-        User user = repository.findById(pk).orElseThrow(()->new NotFoundException(String.format("No User with pk %s found", pk)));
-        return user;
+        return repository.findById(pk).orElseThrow(()->new NotFoundException(String.format("No User with pk %s found", pk)));
     }
 }
