@@ -1,21 +1,39 @@
 spring:
   application:
     name: core-uaa
-  main:
-      banner-mode: "OFF"
   config:
     name: globals
   cloud:
     config:
-      label: ${owms.tenant:master}
-      fail-fast: true
       discovery:
-        enabled: true
+        enabled: false
         service-id: openwms-config
+      enabled: false
+      fail-fast: false # true means retry
+      retry:
+        max-attempts: 120
+    discovery:
+      enabled: false
+  security:
+    user:
+      password: sa
+      name: user
+
+feign:
+  httpclient:
+    connection-timeout: 30000
+    connection-timer-repeat: 30000
+ribbon:
+  connectTimeout: 30000
+  ReadTimeout: 30000
+
 owms:
   eureka:
-    # Override this in cloud environment!
     url: http://user:sa@localhost:8761
+    zone: ${owms.eureka.url}/eureka/
+  srv:
+    protocol: http
+    hostname: localhost
 
 server:
   port: ${PORT:8110}
@@ -33,30 +51,72 @@ security:
 
 eureka:
   client:
-    serviceUrl:
-      defaultZone: ${owms.eureka.url}/eureka
-    healthcheck:
-      enabled: true
+    instance-info-replication-interval-seconds: 10 # default is 30
+    service-url:
+      defaultZone: ${owms.eureka.zone}  # Must be camelCase
   instance:
+    hostname: ${owms.srv.hostname}
+    secure-port-enabled: false
+    non-secure-port-enabled: true
     metadata-map:
-      username: user
-      password: ${security.user.password}
-      protocol: http
+      username: ${spring.security.user.name}
+      password: ${spring.security.user.password}
+      protocol: ${owms.srv.protocol}
+      zone: ${owms.eureka.zone}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    rabbit:
+      enabled: false
+
+logging:
+  file: "/tmp/owms/BOOT-CORE-uaa.log"
 
 ---
 spring:
   profiles: HEROKU
+  main:
+    banner-mode: "OFF"
+  cloud:
+    config:
+      discovery:
+        enabled: true
+      enabled: true
+
+owms:
+  srv:
+    protocol: https
+    hostname: openwms-core-uaa.herokuapp.com
 
 eureka:
   instance:
-    hostname: openwms-core-uaa.herokuapp.com
     secure-port-enabled: true
     non-secure-port-enabled: false
-    statusPageUrl: https://${eureka.instance.hostName}/info
-    healthCheckUrl: https://${eureka.instance.hostName}/health
-    homePageUrl: https://${eureka.instance.hostName}/
-    metadata-map:
-      protocol: https
+    statusPageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/info
+    healthCheckUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/health
+    homePageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/
+
+---
+spring:
+  profiles: ASYNCHRONOUS
+  cloud:
+    config:
+      discovery:
+        enabled: true
+      enabled: true
+      fail-fast: true # true means retry
+    discovery:
+      enabled: true
+
+management:
+  health:
+    rabbit:
+      enabled: true
+
 ---
 spring:
   profiles: TEST
