@@ -27,12 +27,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 /**
  * An UAAStarter.
@@ -43,14 +38,7 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 @EnableJpaAuditing
 @EnableTransactionManagement
 @EnableDiscoveryClient
-@EnableAuthorizationServer
 public class UAAStarter {
-
-    public
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(15);
-    }
 
     public
     @Bean
@@ -75,14 +63,6 @@ public class UAAStarter {
     @Bean
     BeanMapper beanMapper() {
         return new DozerMapperImpl("META-INF/dozer/bean-mappings.xml");
-    }
-
-    public
-    @Bean
-    MethodValidationPostProcessor methodValidationPostProcessor(LocalValidatorFactoryBean validatorFactoryBean) {
-        MethodValidationPostProcessor mvpp = new MethodValidationPostProcessor();
-        mvpp.setValidator(validatorFactoryBean);
-        return mvpp;
     }
 
     /**

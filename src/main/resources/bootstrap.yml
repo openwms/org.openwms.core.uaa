@@ -45,7 +45,7 @@ eureka:
 
 ---
 spring:
-  profiles: CLOUD
+  profiles: HEROKU
 
 eureka:
   instance:
@@ -57,3 +57,32 @@ eureka:
     homePageUrl: https://${eureka.instance.hostName}/
     metadata-map:
       protocol: https
+---
+spring:
+  profiles: TEST
+  cloud:
+    config:
+      discovery:
+        enabled: false
+      enabled: false
+      fail-fast: false
+    discovery:
+      enabled: false
+  main:
+    banner-mode: "off"
+
+---
+spring:
+  profiles: TESTPG
+  jpa:
+    database: postgresql
+    generate-ddl: true
+    properties:
+      hibernate.dialect: org.hibernate.dialect.PostgreSQL9Dialect
+      hibernate.temp.use_jdbc_metadata_defaults: false
+      hibernate.default_schema: public
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql:testdb
+    username: karl
+    password: karl

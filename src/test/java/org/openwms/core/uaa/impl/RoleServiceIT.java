@@ -21,17 +21,20 @@
  */
 package org.openwms.core.uaa.impl;
 
-import org.ameba.test.categories.IntegrationTests;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.openwms.core.TestBase;
 import org.openwms.core.uaa.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.validation.ConstraintViolationException;
@@ -45,12 +48,14 @@ import static org.junit.Assert.fail;
  * A RoleServiceIT.
  *
  * @author Heiko Scherrer
- * @version 0.1
- * @since 0.1
  */
 @RunWith(SpringRunner.class)
-@Category(IntegrationTests.class)
-public class RoleServiceIT {
+@DataJpaTest(
+        showSql = false,
+        includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = RoleService.class)
+)
+@ActiveProfiles("TEST")
+public class RoleServiceIT extends TestBase {
 
     @Autowired
     private RoleService srv;

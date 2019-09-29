@@ -19,9 +19,10 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.openwms.core;
+package org.openwms.core.app;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -35,10 +36,10 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
  *
  * @author Heiko Scherrer
  */
-
-@EnableAuthorizationServer
-@EnableResourceServer()
+@Profile("!TEST")
 @Configuration
+@EnableAuthorizationServer
+@EnableResourceServer
 class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {
     private final AuthenticationManager authenticationManager;
 

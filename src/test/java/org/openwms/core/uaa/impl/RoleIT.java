@@ -21,18 +21,19 @@
  */
 package org.openwms.core.uaa.impl;
 
-import org.ameba.test.categories.IntegrationTests;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.openwms.core.TestBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.PersistenceException;
@@ -43,12 +44,11 @@ import java.util.Set;
  * A RoleTest.
  *
  * @author Heiko Scherrer
- * @version 0.1
- * @since 0.1
  */
 @RunWith(SpringRunner.class)
-@Category(IntegrationTests.class)
-public class RoleIT {
+@DataJpaTest(showSql = false)
+@ActiveProfiles("TEST")
+public class RoleIT extends TestBase {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
