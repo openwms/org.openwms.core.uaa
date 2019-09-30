@@ -1,5 +1,6 @@
 # Purpose
-This service is built to fulfill two different requirements regarding the handling of Users of the system.
+This service is built to fulfill two different requirements regarding the handling of Users of the system. UAA means User Authentication
+and Administration.
 
 First the service is capable to
 work as [OpenID Connect](http://openid.net/connect) authentication endpoint and can authenticate user credentials against a persistent
