@@ -1,22 +1,105 @@
-= RESTful API
+= OpenWMS.org CORE: RESTful API (UAA Service)
 ({bversion}-{bnumber})
 Heiko Scherrer;
 :doctype: book
+:icons: font
 :toc:
 :sectanchors:
 :sectlinks:
-:toclevels: 2
+:toclevels: 4
 :source-highlighter: highlightjs
+:operation-curl-request-title: Example request
+:operation-http-response-title: Example response
+
+Copyright © 2005-2019
+
+Copies of this document may be made for your own use and for distribution to others, provided that you do not charge any fee for such copies
+and further provided that each copy contains this Copyright Notice, whether distributed in print or electronically.
 
 [[overview]]
 = Overview
+This guide describes the RESTful API of the OpenWMS.org CORE UAA Service and its usage. Some general terms and definitions are explained and
+declared in the first part of the document whereas in the second part the usage of the API is shown in a more use-case-driven approach.
 
-This guide describes the RESTful API of the OpenWMS.org CORE UAA module and its usage. Some general terms and definitions
-are explained and declared in the first part of the document whereas in the second part the usage of the API is shown in
-a more use-case-driven approach.
+= Representation Formats
+Basically JSON is used as representation format by default if not otherwise requested or mentioned below. XML format is supported for the
+index pages as well, but must be requested. Furthermore a vendor specific JSON format is used to represent resource representations.
+Therefore it is absolutely required that the `Accept` header denotes the demanded type. Find the type in the examples below.
+
+== Dates in JSON
+Date or datetime fields are not treated specially in JSON. Within the scope of this API a date or datetime field is always expected and
+rendered as JSON String in ISO8601 format with timezone information (GMT) and milliseconds: `yyyy-MM-dd'T'HH:mm:ss.SSSZ`.
+
+== Embedded Entities
+For the sake of convenience some response entities may included embedded entities or even parts of it. A reference to the actual entity is
+provided as HAL link as well.
+
+== Error Responses
+Beside the actual representation of resources, the server may result an error response in JSON format that contains basic information about
+the error occurred. This information is additional to the standard HTTP status code and may help clients to identify the error cause in
+order to re-phrase and send the request again.
+
+Currently there are two types of errors with their own response formats.
+
+=== Server Declined Errors
+This kind of errors are sent by the server runtime environment even before the request had a chance to be processed.
+
+An example response looks like this:
+
+```
+{
+    "timestamp": 1512400854941,
+    "status": 500,
+    "error": "Internal Server Error",
+    "exception": "org.ameba.oauth2.InvalidTokenException",
+    "message": "JWT expired at 2017-12-04T15:04:43Z. Current time: 2017-12-04T15:20:54Z, ...",
+    "path": "/v1/transport-units?bk=00000000000000004711"
+}
+```
+
+The JSON structure contains the following fields.
+
+|===
+| Property Name | Description
+
+| timestamp     | When the error occurred on server side
+| status        | The http status of the error
+| error         | A short error text
+| exception     | Internal class name of the Java exception type
+| message       | A more descriptive error text describing the error in detail
+| path          | The part of the URI for the REST resource that was queried
+|===
+
+=== API Declined Errors
+Those errors are thrown within the REST API validation and processing logic. For example, if a client request does not match the expected
+format or has produced an error on server side, the API will decline the request and return a response with status client-side error (4xx).
+
+The structure of the response is aligned to the RFC7808. An example response looks like this:
+
+```
+{
+    "message": "LocationGroup with name [NOT_EXISTS] not found",
+    "messageKey": "COMMON.LOCATION_GROUP_NOT_FOUND",
+    "obj" : [ "NOT_EXISTS" ],
+    "httpStatus" : "404",
+    "class" : "String"
+}
+```
+
+The JSON structure contains the following fields.
+
+|===
+| Property Name | Description
+
+| message       | A short error text
+| messageKey    | An unique identifier across the API that can be used to identify and translate the error message on the client side
+| obj           | An array of possible passed arguments to the message
+| httpStatus    | The http status of the error
+| class         | The arguments type
+|===
 
 [[resources-prg]]
-== User
+= User
 
-API to deal with `Users`.
+An API to deal with `Users`.
 

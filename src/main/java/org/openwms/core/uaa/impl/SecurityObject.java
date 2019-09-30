@@ -51,7 +51,7 @@ import java.io.Serializable;
 public class SecurityObject extends BaseEntity implements Serializable {
 
     /** Unique name of the {@code SecurityObject}. */
-    @Column(name = "C_NAME", unique = true)
+    @Column(name = "C_NAME", unique = true, nullable = false)
     @OrderBy
     private String name;
 
