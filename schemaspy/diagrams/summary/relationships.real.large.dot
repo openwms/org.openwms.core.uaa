@@ -1,4 +1,4 @@
-// dot 2.40.1 on Mac OS X 10.14.6
+// dot 2.36.0 on Linux 4.4.0-101-generic
 // SchemaSpy rev Unknown
 digraph "largeRelationshipsDiagram" {
   graph [
@@ -19,261 +19,126 @@ digraph "largeRelationshipsDiagram" {
   edge [
     arrowsize="0.8"
   ];
-  "com_location" [
+  "cor_email" [
     label=<
     <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">com_location</TD></TR>
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">cor_email</TD></TR>
       <TR><TD PORT="c_pk" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD></TR>
       <TR><TD PORT="c_created" COLSPAN="3" ALIGN="LEFT">c_created</TD></TR>
       <TR><TD PORT="c_updated" COLSPAN="3" ALIGN="LEFT">c_updated</TD></TR>
       <TR><TD PORT="c_ol" COLSPAN="3" ALIGN="LEFT">c_ol</TD></TR>
-      <TR><TD PORT="c_pid" COLSPAN="3" ALIGN="LEFT">c_pid</TD></TR>
-      <TR><TD PORT="c_check_state" COLSPAN="3" ALIGN="LEFT">c_check_state</TD></TR>
-      <TR><TD PORT="c_considered_in_allocation" COLSPAN="3" ALIGN="LEFT">c_considered_in_allocation</TD></TR>
-      <TR><TD PORT="c_counting_active" COLSPAN="3" ALIGN="LEFT">c_counting_active</TD></TR>
-      <TR><TD PORT="c_description" COLSPAN="3" ALIGN="LEFT">c_description</TD></TR>
-      <TR><TD PORT="c_erp_code" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_erp_code</TD></TR>
-      <TR><TD PORT="c_incoming_active" COLSPAN="3" ALIGN="LEFT">c_incoming_active</TD></TR>
-      <TR><TD PORT="c_last_movement" COLSPAN="3" ALIGN="LEFT">c_last_movement</TD></TR>
-      <TR><TD PORT="c_lg_counting_active" COLSPAN="3" ALIGN="LEFT">c_lg_counting_active</TD></TR>
-      <TR><TD PORT="c_aisle" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_aisle</TD></TR>
-      <TR><TD PORT="c_area" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_area</TD></TR>
-      <TR><TD PORT="c_x" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_x</TD></TR>
-      <TR><TD PORT="c_y" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_y</TD></TR>
-      <TR><TD PORT="c_z" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_z</TD></TR>
-      <TR><TD PORT="c_maximum_weight" COLSPAN="3" ALIGN="LEFT">c_maximum_weight</TD></TR>
-      <TR><TD PORT="c_no_max_transport_units" COLSPAN="3" ALIGN="LEFT">c_no_max_transport_units</TD></TR>
-      <TR><TD PORT="c_outgoing_active" COLSPAN="3" ALIGN="LEFT">c_outgoing_active</TD></TR>
-      <TR><TD PORT="c_plc_code" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_plc_code</TD></TR>
-      <TR><TD PORT="c_plc_state" COLSPAN="3" ALIGN="LEFT">c_plc_state</TD></TR>
-      <TR><TD PORT="c_location_group" COLSPAN="3" ALIGN="LEFT">c_location_group</TD></TR>
-      <TR><TD PORT="c_location_type" COLSPAN="3" ALIGN="LEFT">c_location_type</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">32 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">3 &gt;</TD></TR>
-    </TABLE>>
-    URL="tables/com_location.html"
-    tooltip="com_location"
-  ];
-  "com_location_group" [
-    label=<
-    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">com_location_group</TD></TR>
-      <TR><TD PORT="c_pk" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD></TR>
-      <TR><TD PORT="c_created" COLSPAN="3" ALIGN="LEFT">c_created</TD></TR>
-      <TR><TD PORT="c_updated" COLSPAN="3" ALIGN="LEFT">c_updated</TD></TR>
-      <TR><TD PORT="c_ol" COLSPAN="3" ALIGN="LEFT">c_ol</TD></TR>
-      <TR><TD PORT="c_pid" COLSPAN="3" ALIGN="LEFT">c_pid</TD></TR>
-      <TR><TD PORT="c_description" COLSPAN="3" ALIGN="LEFT">c_description</TD></TR>
-      <TR><TD PORT="c_group_state_in" COLSPAN="3" ALIGN="LEFT">c_group_state_in</TD></TR>
-      <TR><TD PORT="c_group_state_out" COLSPAN="3" ALIGN="LEFT">c_group_state_out</TD></TR>
-      <TR><TD PORT="c_group_type" COLSPAN="3" ALIGN="LEFT">c_group_type</TD></TR>
-      <TR><TD PORT="c_group_counting_active" COLSPAN="3" ALIGN="LEFT">c_group_counting_active</TD></TR>
-      <TR><TD PORT="c_max_fill_level" COLSPAN="3" ALIGN="LEFT">c_max_fill_level</TD></TR>
-      <TR><TD PORT="c_name" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_name</TD></TR>
-      <TR><TD PORT="c_op_mode" COLSPAN="3" ALIGN="LEFT">c_op_mode</TD></TR>
-      <TR><TD PORT="c_system_code" COLSPAN="3" ALIGN="LEFT">c_system_code</TD></TR>
-      <TR><TD PORT="c_system_name" COLSPAN="3" ALIGN="LEFT">c_system_name</TD></TR>
-      <TR><TD PORT="c_parent" COLSPAN="3" ALIGN="LEFT">c_parent</TD></TR>
-      <TR><TD PORT="c_in_locker" COLSPAN="3" ALIGN="LEFT">c_in_locker</TD></TR>
-      <TR><TD PORT="c_out_locker" COLSPAN="3" ALIGN="LEFT">c_out_locker</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 3</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">42 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">4 &gt;</TD></TR>
-    </TABLE>>
-    URL="tables/com_location_group.html"
-    tooltip="com_location_group"
-  ];
-  "com_location_message" [
-    label=<
-    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">com_location_message</TD></TR>
-      <TR><TD PORT="c_location_id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_location_id</TD></TR>
-      <TR><TD PORT="c_message_id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_message_id</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
-    </TABLE>>
-    URL="tables/com_location_message.html"
-    tooltip="com_location_message"
-  ];
-  "com_location_type" [
-    label=<
-    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">com_location_type</TD></TR>
-      <TR><TD PORT="c_pk" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD></TR>
-      <TR><TD PORT="c_created" COLSPAN="3" ALIGN="LEFT">c_created</TD></TR>
-      <TR><TD PORT="c_updated" COLSPAN="3" ALIGN="LEFT">c_updated</TD></TR>
-      <TR><TD PORT="c_ol" COLSPAN="3" ALIGN="LEFT">c_ol</TD></TR>
-      <TR><TD PORT="c_pid" COLSPAN="3" ALIGN="LEFT">c_pid</TD></TR>
-      <TR><TD PORT="c_description" COLSPAN="3" ALIGN="LEFT">c_description</TD></TR>
-      <TR><TD PORT="c_height" COLSPAN="3" ALIGN="LEFT">c_height</TD></TR>
-      <TR><TD PORT="c_length" COLSPAN="3" ALIGN="LEFT">c_length</TD></TR>
-      <TR><TD PORT="c_type" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_type</TD></TR>
-      <TR><TD PORT="c_width" COLSPAN="3" ALIGN="LEFT">c_width</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 &gt;</TD></TR>
-    </TABLE>>
-    URL="tables/com_location_type.html"
-    tooltip="com_location_type"
-  ];
-  "com_srv_revision" [
-    label=<
-    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">com_srv_revision</TD></TR>
-      <TR><TD PORT="c_pk" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD></TR>
-      <TR><TD PORT="c_timestamp" COLSPAN="3" ALIGN="LEFT">c_timestamp</TD></TR>
-      <TR><TD PORT="c_user" COLSPAN="3" ALIGN="LEFT">c_user</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
-    </TABLE>>
-    URL="tables/com_srv_revision.html"
-    tooltip="com_srv_revision"
-  ];
-  "com_transport_unit" [
-    label=<
-    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">com_transport_unit</TD></TR>
-      <TR><TD PORT="c_pk" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD></TR>
-      <TR><TD PORT="c_created" COLSPAN="3" ALIGN="LEFT">c_created</TD></TR>
-      <TR><TD PORT="c_updated" COLSPAN="3" ALIGN="LEFT">c_updated</TD></TR>
-      <TR><TD PORT="c_ol" COLSPAN="3" ALIGN="LEFT">c_ol</TD></TR>
-      <TR><TD PORT="c_pid" COLSPAN="3" ALIGN="LEFT">c_pid</TD></TR>
-      <TR><TD PORT="c_actual_location_date" COLSPAN="3" ALIGN="LEFT">c_actual_location_date</TD></TR>
-      <TR><TD PORT="c_barcode" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_barcode</TD></TR>
-      <TR><TD PORT="c_empty" COLSPAN="3" ALIGN="LEFT">c_empty</TD></TR>
-      <TR><TD PORT="c_inventory_date" COLSPAN="3" ALIGN="LEFT">c_inventory_date</TD></TR>
-      <TR><TD PORT="c_inventory_user" COLSPAN="3" ALIGN="LEFT">c_inventory_user</TD></TR>
-      <TR><TD PORT="c_state" COLSPAN="3" ALIGN="LEFT">c_state</TD></TR>
-      <TR><TD PORT="c_weight" COLSPAN="3" ALIGN="LEFT">c_weight</TD></TR>
-      <TR><TD PORT="c_weight_uom" COLSPAN="3" ALIGN="LEFT">c_weight_uom</TD></TR>
-      <TR><TD PORT="c_actual_location" COLSPAN="3" ALIGN="LEFT">c_actual_location</TD></TR>
-      <TR><TD PORT="c_parent" COLSPAN="3" ALIGN="LEFT">c_parent</TD></TR>
-      <TR><TD PORT="c_target_location" COLSPAN="3" ALIGN="LEFT">c_target_location</TD></TR>
-      <TR><TD PORT="c_transport_unit_type" COLSPAN="3" ALIGN="LEFT">c_transport_unit_type</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 4</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 &gt;</TD></TR>
-    </TABLE>>
-    URL="tables/com_transport_unit.html"
-    tooltip="com_transport_unit"
-  ];
-  "com_transport_unit_log" [
-    label=<
-    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">com_transport_unit_log</TD></TR>
-      <TR><TD PORT="c_pk" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD></TR>
-      <TR><TD PORT="c_rev" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_rev</TD></TR>
-      <TR><TD PORT="c_rev_type" COLSPAN="3" ALIGN="LEFT">c_rev_type</TD></TR>
-      <TR><TD PORT="c_pid" COLSPAN="3" ALIGN="LEFT">c_pid</TD></TR>
-      <TR><TD PORT="c_actual_location_date" COLSPAN="3" ALIGN="LEFT">c_actual_location_date</TD></TR>
-      <TR><TD PORT="c_barcode" COLSPAN="3" ALIGN="LEFT">c_barcode</TD></TR>
-      <TR><TD PORT="c_empty" COLSPAN="3" ALIGN="LEFT">c_empty</TD></TR>
-      <TR><TD PORT="c_inventory_date" COLSPAN="3" ALIGN="LEFT">c_inventory_date</TD></TR>
-      <TR><TD PORT="c_inventory_user" COLSPAN="3" ALIGN="LEFT">c_inventory_user</TD></TR>
-      <TR><TD PORT="c_state" COLSPAN="3" ALIGN="LEFT">c_state</TD></TR>
-      <TR><TD PORT="c_weight" COLSPAN="3" ALIGN="LEFT">c_weight</TD></TR>
-      <TR><TD PORT="c_weight_uom" COLSPAN="3" ALIGN="LEFT">c_weight_uom</TD></TR>
-      <TR><TD PORT="c_actual_location" COLSPAN="3" ALIGN="LEFT">c_actual_location</TD></TR>
-      <TR><TD PORT="c_parent" COLSPAN="3" ALIGN="LEFT">c_parent</TD></TR>
-      <TR><TD PORT="c_target_location" COLSPAN="3" ALIGN="LEFT">c_target_location</TD></TR>
-      <TR><TD PORT="c_transport_unit_type" COLSPAN="3" ALIGN="LEFT">c_transport_unit_type</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">2 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
-    </TABLE>>
-    URL="tables/com_transport_unit_log.html"
-    tooltip="com_transport_unit_log"
-  ];
-  "com_transport_unit_type" [
-    label=<
-    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">com_transport_unit_type</TD></TR>
-      <TR><TD PORT="c_pk" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD></TR>
-      <TR><TD PORT="c_created" COLSPAN="3" ALIGN="LEFT">c_created</TD></TR>
-      <TR><TD PORT="c_updated" COLSPAN="3" ALIGN="LEFT">c_updated</TD></TR>
-      <TR><TD PORT="c_ol" COLSPAN="3" ALIGN="LEFT">c_ol</TD></TR>
-      <TR><TD PORT="c_compatibility" COLSPAN="3" ALIGN="LEFT">c_compatibility</TD></TR>
-      <TR><TD PORT="c_description" COLSPAN="3" ALIGN="LEFT">c_description</TD></TR>
-      <TR><TD PORT="c_height" COLSPAN="3" ALIGN="LEFT">c_height</TD></TR>
-      <TR><TD PORT="c_length" COLSPAN="3" ALIGN="LEFT">c_length</TD></TR>
-      <TR><TD PORT="c_payload" COLSPAN="3" ALIGN="LEFT">c_payload</TD></TR>
-      <TR><TD PORT="c_type" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_type</TD></TR>
-      <TR><TD PORT="c_weight_max" COLSPAN="3" ALIGN="LEFT">c_weight_max</TD></TR>
-      <TR><TD PORT="c_weight_tare" COLSPAN="3" ALIGN="LEFT">c_weight_tare</TD></TR>
-      <TR><TD PORT="c_width" COLSPAN="3" ALIGN="LEFT">c_width</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 row</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">4 &gt;</TD></TR>
-    </TABLE>>
-    URL="tables/com_transport_unit_type.html"
-    tooltip="com_transport_unit_type"
-  ];
-  "com_type_placing_rule" [
-    label=<
-    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">com_type_placing_rule</TD></TR>
-      <TR><TD PORT="c_pk" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD></TR>
-      <TR><TD PORT="c_created" COLSPAN="3" ALIGN="LEFT">c_created</TD></TR>
-      <TR><TD PORT="c_updated" COLSPAN="3" ALIGN="LEFT">c_updated</TD></TR>
-      <TR><TD PORT="c_ol" COLSPAN="3" ALIGN="LEFT">c_ol</TD></TR>
-      <TR><TD PORT="c_privilege_level" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_privilege_level</TD></TR>
-      <TR><TD PORT="c_allowed_location_type" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_allowed_location_type</TD></TR>
-      <TR><TD PORT="c_tut_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_tut_id</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
-    </TABLE>>
-    URL="tables/com_type_placing_rule.html"
-    tooltip="com_type_placing_rule"
-  ];
-  "com_type_stacking_rule" [
-    label=<
-    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">com_type_stacking_rule</TD></TR>
-      <TR><TD PORT="c_pk" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD></TR>
-      <TR><TD PORT="c_created" COLSPAN="3" ALIGN="LEFT">c_created</TD></TR>
-      <TR><TD PORT="c_updated" COLSPAN="3" ALIGN="LEFT">c_updated</TD></TR>
-      <TR><TD PORT="c_ol" COLSPAN="3" ALIGN="LEFT">c_ol</TD></TR>
-      <TR><TD PORT="c_no_transport_units" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_no_transport_units</TD></TR>
-      <TR><TD PORT="c_allowed_transport_unit_type" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_allowed_transport_unit_type</TD></TR>
-      <TR><TD PORT="c_transport_unit_type" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_transport_unit_type</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
-    </TABLE>>
-    URL="tables/com_type_stacking_rule.html"
-    tooltip="com_type_stacking_rule"
-  ];
-  "com_unit_error" [
-    label=<
-    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">com_unit_error</TD></TR>
-      <TR><TD PORT="c_pk" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD></TR>
-      <TR><TD PORT="c_created" COLSPAN="3" ALIGN="LEFT">c_created</TD></TR>
-      <TR><TD PORT="c_updated" COLSPAN="3" ALIGN="LEFT">c_updated</TD></TR>
-      <TR><TD PORT="c_ol" COLSPAN="3" ALIGN="LEFT">c_ol</TD></TR>
-      <TR><TD PORT="c_pid" COLSPAN="3" ALIGN="LEFT">c_pid</TD></TR>
-      <TR><TD PORT="c_error_no" COLSPAN="3" ALIGN="LEFT">c_error_no</TD></TR>
-      <TR><TD PORT="c_error_text" COLSPAN="3" ALIGN="LEFT">c_error_text</TD></TR>
-      <TR><TD PORT="c_tu_id" COLSPAN="3" ALIGN="LEFT">c_tu_id</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
-    </TABLE>>
-    URL="tables/com_unit_error.html"
-    tooltip="com_unit_error"
-  ];
-  "cor_message" [
-    label=<
-    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
-      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">cor_message</TD></TR>
-      <TR><TD PORT="c_pk" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD></TR>
-      <TR><TD PORT="c_created" COLSPAN="3" ALIGN="LEFT">c_created</TD></TR>
-      <TR><TD PORT="c_updated" COLSPAN="3" ALIGN="LEFT">c_updated</TD></TR>
-      <TR><TD PORT="c_ol" COLSPAN="3" ALIGN="LEFT">c_ol</TD></TR>
-      <TR><TD PORT="c_message_no" COLSPAN="3" ALIGN="LEFT">c_message_no</TD></TR>
-      <TR><TD PORT="c_message_text" COLSPAN="3" ALIGN="LEFT">c_message_text</TD></TR>
+      <TR><TD PORT="c_address" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_address</TD></TR>
+      <TR><TD PORT="c_full_name" COLSPAN="3" ALIGN="LEFT">c_full_name</TD></TR>
+      <TR><TD PORT="c_username" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_username</TD></TR>
       <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
     </TABLE>>
-    URL="tables/cor_message.html"
-    tooltip="cor_message"
+    URL="tables/cor_email.html"
+    tooltip="cor_email"
   ];
-  "com_location":"c_location_group":w -> "com_location_group":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
-  "com_location":"c_location_type":w -> "com_location_type":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
-  "com_location_group":"c_in_locker":w -> "com_location_group":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
-  "com_location_group":"c_out_locker":w -> "com_location_group":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
-  "com_location_group":"c_parent":w -> "com_location_group":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
-  "com_location_message":"c_location_id":w -> "com_location":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
-  "com_location_message":"c_message_id":w -> "cor_message":"c_pk":e [arrowhead=none dir=back arrowtail=teeodot];
-  "com_transport_unit":"c_actual_location":w -> "com_location":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
-  "com_transport_unit":"c_parent":w -> "com_transport_unit":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
-  "com_transport_unit":"c_target_location":w -> "com_location":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
-  "com_transport_unit":"c_transport_unit_type":w -> "com_transport_unit_type":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
-  "com_transport_unit_log":"c_rev":w -> "com_srv_revision":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
-  "com_type_placing_rule":"c_allowed_location_type":w -> "com_location_type":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
-  "com_type_placing_rule":"c_tut_id":w -> "com_transport_unit_type":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
-  "com_type_stacking_rule":"c_allowed_transport_unit_type":w -> "com_transport_unit_type":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
-  "com_type_stacking_rule":"c_transport_unit_type":w -> "com_transport_unit_type":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
-  "com_unit_error":"c_tu_id":w -> "com_transport_unit":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
+  "cor_role" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">cor_role</TD></TR>
+      <TR><TD PORT="type" COLSPAN="3" ALIGN="LEFT">type</TD></TR>
+      <TR><TD PORT="c_pk" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD></TR>
+      <TR><TD PORT="c_created" COLSPAN="3" ALIGN="LEFT">c_created</TD></TR>
+      <TR><TD PORT="c_updated" COLSPAN="3" ALIGN="LEFT">c_updated</TD></TR>
+      <TR><TD PORT="c_ol" COLSPAN="3" ALIGN="LEFT">c_ol</TD></TR>
+      <TR><TD PORT="c_description" COLSPAN="3" ALIGN="LEFT">c_description</TD></TR>
+      <TR><TD PORT="c_name" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_name</TD></TR>
+      <TR><TD PORT="c_immutable" COLSPAN="3" ALIGN="LEFT">c_immutable</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">3 &gt;</TD></TR>
+    </TABLE>>
+    URL="tables/cor_role.html"
+    tooltip="cor_role"
+  ];
+  "cor_role_role_join" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">cor_role_role_join</TD></TR>
+      <TR><TD PORT="role_id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">role_id</TD></TR>
+      <TR><TD PORT="grant_id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">grant_id</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+    </TABLE>>
+    URL="tables/cor_role_role_join.html"
+    tooltip="cor_role_role_join"
+  ];
+  "cor_role_user_join" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">cor_role_user_join</TD></TR>
+      <TR><TD PORT="role_id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">role_id</TD></TR>
+      <TR><TD PORT="user_id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">user_id</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+    </TABLE>>
+    URL="tables/cor_role_user_join.html"
+    tooltip="cor_role_user_join"
+  ];
+  "cor_user" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">cor_user</TD></TR>
+      <TR><TD PORT="dtype" COLSPAN="3" ALIGN="LEFT">dtype</TD></TR>
+      <TR><TD PORT="c_pk" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD></TR>
+      <TR><TD PORT="c_created" COLSPAN="3" ALIGN="LEFT">c_created</TD></TR>
+      <TR><TD PORT="c_updated" COLSPAN="3" ALIGN="LEFT">c_updated</TD></TR>
+      <TR><TD PORT="c_ol" COLSPAN="3" ALIGN="LEFT">c_ol</TD></TR>
+      <TR><TD PORT="c_pid" COLSPAN="3" ALIGN="LEFT">c_pid</TD></TR>
+      <TR><TD PORT="c_enabled" COLSPAN="3" ALIGN="LEFT">c_enabled</TD></TR>
+      <TR><TD PORT="c_expiration_date" COLSPAN="3" ALIGN="LEFT">c_expiration_date</TD></TR>
+      <TR><TD PORT="c_extern" COLSPAN="3" ALIGN="LEFT">c_extern</TD></TR>
+      <TR><TD PORT="c_fullname" COLSPAN="3" ALIGN="LEFT">c_fullname</TD></TR>
+      <TR><TD PORT="c_last_password_change" COLSPAN="3" ALIGN="LEFT">c_last_password_change</TD></TR>
+      <TR><TD PORT="c_locked" COLSPAN="3" ALIGN="LEFT">c_locked</TD></TR>
+      <TR><TD PORT="c_password" COLSPAN="3" ALIGN="LEFT">c_password</TD></TR>
+      <TR><TD PORT="c_comment" COLSPAN="3" ALIGN="LEFT">c_comment</TD></TR>
+      <TR><TD PORT="c_department" COLSPAN="3" ALIGN="LEFT">c_department</TD></TR>
+      <TR><TD PORT="c_description" COLSPAN="3" ALIGN="LEFT">c_description</TD></TR>
+      <TR><TD PORT="c_image" COLSPAN="3" ALIGN="LEFT">c_image</TD></TR>
+      <TR><TD PORT="c_office" COLSPAN="3" ALIGN="LEFT">c_office</TD></TR>
+      <TR><TD PORT="c_phone_no" COLSPAN="3" ALIGN="LEFT">c_phone_no</TD></TR>
+      <TR><TD PORT="c_sex" COLSPAN="3" ALIGN="LEFT">c_sex</TD></TR>
+      <TR><TD PORT="c_im" COLSPAN="3" ALIGN="LEFT">c_im</TD></TR>
+      <TR><TD PORT="c_username" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_username</TD></TR>
+      <TR><TD PORT="primary_email_address_c_pk" COLSPAN="3" ALIGN="LEFT">primary_email_address_c_pk</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">3 &gt;</TD></TR>
+    </TABLE>>
+    URL="tables/cor_user.html"
+    tooltip="cor_user"
+  ];
+  "cor_user_password" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">cor_user_password</TD></TR>
+      <TR><TD PORT="c_pk" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD></TR>
+      <TR><TD PORT="c_created" COLSPAN="3" ALIGN="LEFT">c_created</TD></TR>
+      <TR><TD PORT="c_updated" COLSPAN="3" ALIGN="LEFT">c_updated</TD></TR>
+      <TR><TD PORT="c_ol" COLSPAN="3" ALIGN="LEFT">c_ol</TD></TR>
+      <TR><TD PORT="c_password" COLSPAN="3" ALIGN="LEFT">c_password</TD></TR>
+      <TR><TD PORT="c_password_changed" COLSPAN="3" ALIGN="LEFT">c_password_changed</TD></TR>
+      <TR><TD PORT="user_c_pk" COLSPAN="3" ALIGN="LEFT">user_c_pk</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 1</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 &gt;</TD></TR>
+    </TABLE>>
+    URL="tables/cor_user_password.html"
+    tooltip="cor_user_password"
+  ];
+  "cor_user_password_join" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">cor_user_password_join</TD></TR>
+      <TR><TD PORT="user_id" COLSPAN="3" ALIGN="LEFT">user_id</TD></TR>
+      <TR><TD PORT="password_id" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">password_id</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">&lt; 2</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+    </TABLE>>
+    URL="tables/cor_user_password_join.html"
+    tooltip="cor_user_password_join"
+  ];
+  "cor_role_role_join":"grant_id":w -> "cor_role":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
+  "cor_role_role_join":"role_id":w -> "cor_role":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
+  "cor_role_user_join":"role_id":w -> "cor_role":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
+  "cor_role_user_join":"user_id":w -> "cor_user":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
+  "cor_user":"primary_email_address_c_pk":w -> "cor_email":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
+  "cor_user_password":"user_c_pk":w -> "cor_user":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
+  "cor_user_password_join":"password_id":w -> "cor_user_password":"c_pk":e [arrowhead=none dir=back arrowtail=teeodot];
+  "cor_user_password_join":"user_id":w -> "cor_user":"c_pk":e [arrowhead=none dir=back arrowtail=crowodot];
 }

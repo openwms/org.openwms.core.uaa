@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Email.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.uaa.impl</a> &gt; <span class="el_source">Email.java</span></div><h1>Email.java</h1><pre class="source lang-java linenums">/*
+ * openwms.org, the Open Warehouse Management System.
+ * Copyright (C) 2014 Heiko Scherrer
+ *
+ * This file is part of openwms.org.
+ *
+ * openwms.org is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * openwms.org is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this software. If not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+package org.openwms.core.uaa.impl;
+
+import org.ameba.integration.jpa.BaseEntity;
+import org.springframework.util.Assert;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import java.io.Serializable;
+import java.util.Objects;
+
+/**
+ * An Email represents the email address of an {@code User}.
+ *
+ * @author Heiko Scherrer
+ * @version 0.2
+ * @GlossaryTerm
+ * @see User
+ * @since 0.1
+ */
+@Entity
+@Table(name = &quot;COR_EMAIL&quot;, uniqueConstraints = @UniqueConstraint(columnNames = {&quot;C_USERNAME&quot;, &quot;C_ADDRESS&quot;}))
+public class Email extends BaseEntity implements Serializable {
+
+    /** Unique identifier of the {@code Email} (not nullable). */
+    @Column(name = &quot;C_USERNAME&quot;, nullable = false)
+    private String username;
+    /** The email address as String (not nullable). */
+    @Column(name = &quot;C_ADDRESS&quot;, nullable = false)
+    private String emailAddress;
+    /** The fullname of the {@code User}. */
+    @Column(name = &quot;C_FULL_NAME&quot;)
+    private String fullname;
+
+    /* ----------------------------- methods ------------------- */
+
+    /**
+     * Dear JPA...
+     */
+<span class="fc" id="L62">    protected Email() {</span>
+<span class="fc" id="L63">    }</span>
+
+    /**
+     * Create a new {@code Email} with an {@code username} and an {@code emailAddress}.
+     *
+     * @param username The name of the User
+     * @param emailAddress The email address of the User
+     * @throws IllegalArgumentException when userName or emailAddress is {@literal null} or empty
+     */
+<span class="fc" id="L72">    public Email(String username, String emailAddress) {</span>
+<span class="fc" id="L73">        Assert.hasText(username, &quot;Username must not be null or empty&quot;);</span>
+<span class="fc" id="L74">        Assert.hasText(emailAddress, &quot;EmailAddress must not be null or empty&quot;);</span>
+<span class="fc" id="L75">        this.username = username;</span>
+<span class="fc" id="L76">        this.emailAddress = emailAddress;</span>
+<span class="fc" id="L77">    }</span>
+
+    /**
+     * Returns the name of the {@code User} who owns this {@code Email}.
+     *
+     * @return The username as String
+     */
+    public String getUsername() {
+<span class="nc" id="L85">        return username;</span>
+    }
+
+    /**
+     * Assign the {@code Email} to an {@code User}.
+     *
+     * @param userName Name of the {@code User}.
+     */
+    public void setUsername(String userName) {
+<span class="nc" id="L94">        this.username = userName;</span>
+<span class="nc" id="L95">    }</span>
+
+    /**
+     * Return the emailAddress.
+     *
+     * @return The emailAddress.
+     */
+    public String getEmailAddress() {
+<span class="nc" id="L103">        return emailAddress;</span>
+    }
+
+    /**
+     * Set the emailAddress.
+     *
+     * @param emailAddress The emailAddress to set.
+     */
+    public void setEmailAddress(String emailAddress) {
+<span class="nc" id="L112">        this.emailAddress = emailAddress;</span>
+<span class="nc" id="L113">    }</span>
+
+    /**
+     * Return the fullname.
+     *
+     * @return The fullname.
+     */
+    public String getFullname() {
+<span class="nc" id="L121">        return fullname;</span>
+    }
+
+    /**
+     * Set the fullname.
+     *
+     * @param fullname The fullname to set.
+     */
+    public void setFullname(String fullname) {
+<span class="fc" id="L130">        this.fullname = fullname;</span>
+<span class="fc" id="L131">    }</span>
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L141" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="fc" id="L142">        Email email = (Email) o;</span>
+<span class="fc bfc" id="L143" title="All 2 branches covered.">        return Objects.equals(username, email.username) &amp;&amp;</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">                Objects.equals(emailAddress, email.emailAddress) &amp;&amp;</span>
+<span class="pc bpc" id="L145" title="1 of 2 branches missed.">                Objects.equals(fullname, email.fullname);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public int hashCode() {
+<span class="fc" id="L155">        return Objects.hash(username, emailAddress, fullname);</span>
+    }
+
+    /**
+     * Return the emailAddress as String.
+     *
+     * @return the emailAddress
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L166">        return emailAddress;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

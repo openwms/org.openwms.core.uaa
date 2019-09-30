@@ -30,7 +30,7 @@
 <div class='indent'>
 <table width='100%'>
 <tr><td class='container' valign='bottom'><b>
-17 Foreign Key Constraints:</b>
+8 Foreign Key Constraints:</b>
 </td><td class='container' align='right'>
 <table>
 <tr><td class='container'>
@@ -52,121 +52,58 @@
 </thead>
 <tbody>
   <tr class='even'>
-  <td class='detail'>fk6pn2579hr73ige890tnrtlids</td>
-  <td class='detail'><a href='tables/com_type_stacking_rule.html'>com_type_stacking_rule</a>.c_transport_unit_type</td>
-  <td class='detail'><a href='tables/com_transport_unit_type.html'>com_transport_unit_type</a>.c_pk</td>
+  <td class='detail'>fk26yr8pmm77rnqdswu83cyq86q</td>
+  <td class='detail'><a href='tables/cor_role_user_join.html'>cor_role_user_join</a>.role_id</td>
+  <td class='detail'><a href='tables/cor_role.html'>cor_role</a>.c_pk</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='odd'>
-  <td class='detail'>fk7hgjsbhte1esjljdnkmxpkk78</td>
-  <td class='detail'><a href='tables/com_transport_unit_log.html'>com_transport_unit_log</a>.c_rev</td>
-  <td class='detail'><a href='tables/com_srv_revision.html'>com_srv_revision</a>.c_pk</td>
+  <td class='detail'>fkavp89pmgj3a93mdiruita6ue8</td>
+  <td class='detail'><a href='tables/cor_user_password_join.html'>cor_user_password_join</a>.user_id</td>
+  <td class='detail'><a href='tables/cor_user.html'>cor_user</a>.c_pk</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='even'>
-  <td class='detail'>fk9wojgpvaignw39k200ha80eug</td>
-  <td class='detail'><a href='tables/com_type_stacking_rule.html'>com_type_stacking_rule</a>.c_allowed_transport_unit_type</td>
-  <td class='detail'><a href='tables/com_transport_unit_type.html'>com_transport_unit_type</a>.c_pk</td>
+  <td class='detail'>fkbk67qegv1o07b3wtwvfpweb92</td>
+  <td class='detail'><a href='tables/cor_user.html'>cor_user</a>.primary_email_address_c_pk</td>
+  <td class='detail'><a href='tables/cor_email.html'>cor_email</a>.c_pk</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='odd'>
-  <td class='detail'>fk_tu_pk</td>
-  <td class='detail'><a href='tables/com_unit_error.html'>com_unit_error</a>.c_tu_id</td>
-  <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_pk</td>
+  <td class='detail'>fkckdphof988ejuadvrgxbfcgfg</td>
+  <td class='detail'><a href='tables/cor_user_password.html'>cor_user_password</a>.user_c_pk</td>
+  <td class='detail'><a href='tables/cor_user.html'>cor_user</a>.c_pk</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='even'>
-  <td class='detail'>fkalpik4lhj0ril9gd629e6nwgm</td>
-  <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_parent</td>
-  <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_pk</td>
+  <td class='detail'>fke85ne4vji6gfdf8qq89qc9gps</td>
+  <td class='detail'><a href='tables/cor_role_user_join.html'>cor_role_user_join</a>.user_id</td>
+  <td class='detail'><a href='tables/cor_user.html'>cor_user</a>.c_pk</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='odd'>
-  <td class='detail'>fkb1he5781gaupx0napfkoy09iy</td>
-  <td class='detail'><a href='tables/com_type_placing_rule.html'>com_type_placing_rule</a>.c_allowed_location_type</td>
-  <td class='detail'><a href='tables/com_location_type.html'>com_location_type</a>.c_pk</td>
+  <td class='detail'>fkfnobcyet6rbxxow7bf4ne4pi2</td>
+  <td class='detail'><a href='tables/cor_role_role_join.html'>cor_role_role_join</a>.grant_id</td>
+  <td class='detail'><a href='tables/cor_role.html'>cor_role</a>.c_pk</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='even'>
-  <td class='detail'>fkcy1pukrprpi3lh48xhf44lk2a</td>
-  <td class='detail'><a href='tables/com_location_message.html'>com_location_message</a>.c_location_id</td>
-  <td class='detail'><a href='tables/com_location.html'>com_location</a>.c_pk</td>
+  <td class='detail'>fkoih3v56t9x7ki2wxdsn9xahf</td>
+  <td class='detail'><a href='tables/cor_user_password_join.html'>cor_user_password_join</a>.password_id</td>
+  <td class='detail'><a href='tables/cor_user_password.html'>cor_user_password</a>.c_pk</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='odd'>
-  <td class='detail'>fkdl2ge07mt6bp7ijaot1omtqrs</td>
-  <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_actual_location</td>
-  <td class='detail'><a href='tables/com_location.html'>com_location</a>.c_pk</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='even'>
-  <td class='detail'>fkexme0g9srxcxt8m3jv2101k1d</td>
-  <td class='detail'><a href='tables/com_type_placing_rule.html'>com_type_placing_rule</a>.c_tut_id</td>
-  <td class='detail'><a href='tables/com_transport_unit_type.html'>com_transport_unit_type</a>.c_pk</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='odd'>
-  <td class='detail'>fkm96ln87qaagwc4wuuwhojv371</td>
-  <td class='detail'><a href='tables/com_location.html'>com_location</a>.c_location_type</td>
-  <td class='detail'><a href='tables/com_location_type.html'>com_location_type</a>.c_pk</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='even'>
-  <td class='detail'>fkpa9ruvoy3id2cjat3hjkt6i7d</td>
-  <td class='detail'><a href='tables/com_location_message.html'>com_location_message</a>.c_message_id</td>
-  <td class='detail'><a href='tables/cor_message.html'>cor_message</a>.c_pk</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='odd'>
-  <td class='detail'>fkq3hta0bed38aexpv3ar3opanf</td>
-  <td class='detail'><a href='tables/com_location.html'>com_location</a>.c_location_group</td>
-  <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_pk</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='even'>
-  <td class='detail'>fkqbl1ehxt7xqdil5ueu158dbt6</td>
-  <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_parent</td>
-  <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_pk</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='odd'>
-  <td class='detail'>fkqjpw6i7sq7aq2yrkkcybab8jy</td>
-  <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_target_location</td>
-  <td class='detail'><a href='tables/com_location.html'>com_location</a>.c_pk</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='even'>
-  <td class='detail'>fkr8d6ics7fgw7wdmuqsf6lbvmo</td>
-  <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_in_locker</td>
-  <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_pk</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='odd'>
-  <td class='detail'>fksi531aiyj2s8r3eu3d5e88jtv</td>
-  <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_out_locker</td>
-  <td class='detail'><a href='tables/com_location_group.html'>com_location_group</a>.c_pk</td>
-  <td class='detail'><span title='Restrict delete:
- Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
- </tr>
-  <tr class='even'>
-  <td class='detail'>fkt63fgfc9ycwpboaqn076xclb1</td>
-  <td class='detail'><a href='tables/com_transport_unit.html'>com_transport_unit</a>.c_transport_unit_type</td>
-  <td class='detail'><a href='tables/com_transport_unit_type.html'>com_transport_unit_type</a>.c_pk</td>
+  <td class='detail'>fkrfeb3rjw2jqkjwupp515k90xs</td>
+  <td class='detail'><a href='tables/cor_role_role_join.html'>cor_role_role_join</a>.role_id</td>
+  <td class='detail'><a href='tables/cor_role.html'>cor_role</a>.c_pk</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
