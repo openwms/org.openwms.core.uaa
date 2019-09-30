@@ -132,6 +132,8 @@ spring:
       hibernate.dialect: org.hibernate.dialect.PostgreSQL9Dialect
       hibernate.temp.use_jdbc_metadata_defaults: false
       hibernate.default_schema: public
+    hibernate:
+      ddl-auto: update
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql:testdb
