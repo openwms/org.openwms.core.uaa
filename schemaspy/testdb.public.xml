@@ -31,7 +31,7 @@
          <column autoUpdated="false" digits="6" id="3" name="c_updated" nullable="true" remarks="" size="29" type="timestamp"/>
          <column autoUpdated="false" digits="0" id="4" name="c_ol" nullable="true" remarks="" size="19" type="int8"/>
          <column autoUpdated="false" digits="0" id="5" name="c_description" nullable="true" remarks="" size="1024" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="6" name="c_name" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="6" name="c_name" nullable="false" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="7" name="c_immutable" nullable="true" remarks="" size="1" type="bool"/>
          <primaryKey column="c_pk" sequenceNumberInPK="1"/>
          <index name="cor_role_pkey" unique="true">
