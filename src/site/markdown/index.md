@@ -1,12 +1,19 @@
 # Purpose
-This service is built to fulfill two different requirements regarding to user handling.
-At first the service is capable to work as [OpenID Connect](http://openid.net/connect) authentication endpoint and can
-authenticate user credentials against data stored in a persistent storage.
-The second part deals with user administration like creating new users, updating properties 
-of existing ones or deleting them at all. Most application permissions are not directly 
-assigned to users explicitly, but to roles. Users are assigned to roles and application
-permissions are granted for particular roles. Administration of roles and permissions
-is especially required from an UI point of view.
+This service is built to fulfill two different requirements regarding the handling of Users of the system.
+
+First the service is capable to
+work as [OpenID Connect](http://openid.net/connect) authentication endpoint and can authenticate user credentials against a persistent
+storage.
+
+The second part deals with administration of Users like creating new Users, updating properties of existing ones or deleting them. Most
+application permissions are not directly assigned to Users explicitly, but to Roles. Users are assigned to Roles and application permissions
+are granted to particular Roles. Administration of Roles and permissions is especially required for an UI application.
+
+![classes][1]
+
+An User has embedded UserDetails, and Emails assigned. Furthermore the password history of the User is managed and compared against new
+passwords. An User can be assigned to multiple Roles and a Role can consist of several Users. A Role is a SecurityObject in general and has
+multiple Grants assigned. A Grant is a permission that can be referenced from a client application.
 
 # Resources
 
@@ -81,3 +88,5 @@ $ mvn deploy -Prelease,gpg
 $ mvn package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -Psonar
 $ mvn site scm-publish:publish-scm
 ```
+
+[1]: images/ClassDiagram.svg

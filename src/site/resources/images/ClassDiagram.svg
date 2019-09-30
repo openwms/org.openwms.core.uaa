@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg height="431" version="1.1" width="628" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ffffff" height="72" stroke="#ffffff" stroke-width="1" width="88" x="382" y="182"/>
+<rect fill="none" height="72" stroke="#000000" stroke-width="1" width="88" x="382" y="182"/>
+<text font-family="Lucida Grande" font-size="13" font-weight="bold" x="404" y="196">
++ Role</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="88" x="382" y="206"/>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="88" x="382" y="229"/>
+<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="66" x="198" y="190"/>
+<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="66" x="198" y="190"/>
+<text font-family="Lucida Grande" font-size="13" font-weight="bold" x="208" y="204">
++ User</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="198" y="214"/>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="198" y="235"/>
+<rect fill="#ffffff" height="72" stroke="#ffffff" stroke-width="1" width="88" x="526" y="182"/>
+<rect fill="none" height="72" stroke="#000000" stroke-width="1" width="88" x="526" y="182"/>
+<text font-family="Lucida Grande" font-size="13" font-weight="bold" x="544" y="196">
++ Grant</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="88" x="526" y="206"/>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="88" x="526" y="229"/>
+<rect fill="#ffffff" height="88" stroke="#ffffff" stroke-width="1" width="144" x="430" y="14"/>
+<rect fill="none" height="88" stroke="#000000" stroke-width="1" width="144" x="430" y="14"/>
+<text font-family="Lucida Grande" font-size="13" font-weight="bold" x="446" y="28">
++ SecurityObject</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="144" x="430" y="38"/>
+<text font-family="Lucida Grande" font-size="13" x="434" y="53">
+-name : String</text>
+<text font-family="Lucida Grande" font-size="13" x="434" y="70">
+-description : String</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="144" x="430" y="80"/>
+<polyline fill="none" points="458,182 458,101" stroke="#333399" stroke-width="1"/>
+<polygon fill="#ffffff" points="458,101 465,113 451,113" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="458,101 465,113 451,113" stroke="#333399" stroke-width="1"/>
+<polyline fill="none" points="551,182 551,101" stroke="#333399" stroke-width="1"/>
+<polygon fill="#ffffff" points="551,101 558,113 544,113" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="551,101 558,113 544,113" stroke="#333399" stroke-width="1"/>
+<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="102" x="14" y="190"/>
+<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="102" x="14" y="190"/>
+<text font-family="Lucida Grande" font-size="13" font-weight="bold" x="19" y="204">
++ UserDetails</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="102" x="14" y="214"/>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="102" x="14" y="235"/>
+<rect fill="#ffffff" height="67" stroke="#ffffff" stroke-width="1" width="66" x="198" y="350"/>
+<rect fill="none" height="67" stroke="#000000" stroke-width="1" width="66" x="198" y="350"/>
+<text font-family="Lucida Grande" font-size="13" font-weight="bold" x="205" y="364">
++ Email</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="198" y="374"/>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="198" y="395"/>
+<polyline fill="none" points="263,218 382,218" stroke="#333399" stroke-width="1"/>
+<text font-family="Lucida Grande" font-size="13" x="291" y="198">
+ </text>
+<text font-family="Lucida Grande" font-size="13" x="267" y="213">
+0..*</text>
+<text font-family="Lucida Grande" font-size="13" x="267" y="233">
+-roles</text>
+<text font-family="Lucida Grande" font-size="13" x="359" y="212">
+0..*</text>
+<text font-family="Lucida Grande" font-size="13" x="337" y="233">
+-users</text>
+<polyline fill="none" points="406,182 406,38 430,38" stroke="#333399" stroke-width="1"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="418" x2="430" y1="45" y2="38"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="418" x2="430" y1="31" y2="38"/>
+<text font-family="Lucida Grande" font-size="13" x="328" y="103">
+ </text>
+<text font-family="Lucida Grande" font-size="13" x="385" y="165">
+1</text>
+<text font-family="Lucida Grande" font-size="13" x="408" y="164">
+-grants</text>
+<text font-family="Lucida Grande" font-size="13" x="403" y="33">
+0..*</text>
+<polyline fill="none" points="115,224 198,224" stroke="#333399" stroke-width="1"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="127" x2="115" y1="217" y2="224"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="127" x2="115" y1="231" y2="224"/>
+<text font-family="Lucida Grande" font-size="13" x="125" y="204">
+ </text>
+<text font-family="Lucida Grande" font-size="13" x="144" y="240">
+-details</text>
+<rect fill="#ffffff" height="67" stroke="#ffffff" stroke-width="1" width="119" x="166" y="14"/>
+<rect fill="none" height="67" stroke="#000000" stroke-width="1" width="119" x="166" y="14"/>
+<text font-family="Lucida Grande" font-size="13" font-weight="bold" x="171" y="28">
++ UserPassword</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="119" x="166" y="38"/>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="119" x="166" y="59"/>
+<polyline fill="none" points="230,190 230,80" stroke="#333399" stroke-width="1"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="237" x2="230" y1="92" y2="80"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="223" x2="230" y1="92" y2="80"/>
+<text font-family="Lucida Grande" font-size="13" x="234" y="140">
+ has</text>
+<text font-family="Lucida Grande" font-size="13" x="209" y="173">
+1</text>
+<text font-family="Lucida Grande" font-size="13" x="233" y="171">
+-password</text>
+<text font-family="Lucida Grande" font-size="13" x="202" y="109">
+0..*</text>
+<polyline fill="none" points="214,257 214,350" stroke="#333399" stroke-width="1"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="207" x2="214" y1="338" y2="350"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="221" x2="214" y1="338" y2="350"/>
+<text font-family="Lucida Grande" font-size="13" x="219" y="316">
+ has</text>
+<text font-family="Lucida Grande" font-size="13" x="192" y="277">
+1</text>
+<text font-family="Lucida Grande" font-size="13" x="122" y="296">
+-primaryEmail</text>
+<text font-family="Lucida Grande" font-size="13" x="227" y="333">
+1</text>
+<polyline fill="none" points="263,257 263,350" stroke="#333399" stroke-width="1"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="256" x2="263" y1="338" y2="350"/>
+<line fill="#333399" stroke="#333399" stroke-width="1" x1="270" x2="263" y1="338" y2="350"/>
+<text font-family="Lucida Grande" font-size="13" x="279" y="308">
+ </text>
+<text font-family="Lucida Grande" font-size="13" x="276" y="284">
+1</text>
+<text font-family="Lucida Grande" font-size="13" x="268" y="306">
+-emailAddresses</text>
+<text font-family="Lucida Grande" font-size="13" x="269" y="333">
+0..*</text>
+</svg>
