@@ -16,8 +16,8 @@ spring:
       enabled: false
   security:
     user:
-      password: sa
-      name: user
+      password: openwms
+      name: openwms
 
 feign:
   httpclient:
@@ -37,17 +37,8 @@ owms:
 
 server:
   port: ${PORT:8110}
-  context-path: /uaa
-
-security:
-  user:
-    # Override this in cloud environment!
-    password: openwms
-    name: openwms
-  oauth2:
-    client:
-      scope:
-  sessions: if_required #from example
+  servlet:
+    context-path: /uaa
 
 eureka:
   client:
