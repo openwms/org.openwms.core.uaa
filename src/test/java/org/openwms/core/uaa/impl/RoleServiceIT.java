@@ -30,6 +30,7 @@ import org.junit.runner.RunWith;
 import org.openwms.core.TestBase;
 import org.openwms.core.uaa.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.ComponentScan;
@@ -53,6 +54,7 @@ import static org.junit.Assert.fail;
         showSql = false,
         includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = RoleService.class)
 )
+@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 public class RoleServiceIT extends TestBase {
 
     @Autowired

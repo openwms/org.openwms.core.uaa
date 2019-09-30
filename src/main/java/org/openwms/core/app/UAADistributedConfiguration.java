@@ -13,27 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.core;
+package org.openwms.core.app;
 
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.Profile;
 
 /**
- * A TestBase.
+ * A UAADistributedConfiguration.
  *
  * @author Heiko Scherrer
  */
-public class TestBase {
-
-    @TestConfiguration
-    @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
-    static class TestConfig {
-
-        @Bean
-        LocalValidatorFactoryBean validatorFactoryBean() {
-            return new LocalValidatorFactoryBean();
-        }
-    }
+@Profile("!TEST")
+@EnableDiscoveryClient
+class UAADistributedConfiguration {
 }
