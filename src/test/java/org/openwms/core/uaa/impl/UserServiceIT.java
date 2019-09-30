@@ -45,7 +45,6 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
@@ -73,7 +72,6 @@ import static org.junit.Assert.fail;
                 @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = ConfigurationService.class)
         }
 )
-@ActiveProfiles("TEST")
 @Rollback
 public class UserServiceIT {
 

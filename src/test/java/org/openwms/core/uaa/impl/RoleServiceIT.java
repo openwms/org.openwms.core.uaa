@@ -34,7 +34,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.validation.ConstraintViolationException;
@@ -54,7 +53,6 @@ import static org.junit.Assert.fail;
         showSql = false,
         includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = RoleService.class)
 )
-@ActiveProfiles("TEST")
 public class RoleServiceIT extends TestBase {
 
     @Autowired
