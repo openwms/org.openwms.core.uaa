@@ -249,11 +249,6 @@
         </dependency>
 
         <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-core</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>io.interface21</groupId>
             <artifactId>ameba-lib</artifactId>
         </dependency>
