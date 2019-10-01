@@ -18,13 +18,10 @@ package org.openwms.core.app;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 /**
  * A UAASecurityConfiguration.
@@ -33,23 +30,17 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
  */
 @Profile(&quot;!TEST&quot;)
 @Configuration
-<span class="nc" id="L36">class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {</span>
+<span class="nc" id="L33">class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {</span>
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-<span class="nc" id="L40">        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);</span>
-<span class="nc" id="L41">    }</span>
+<span class="nc" id="L37">        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);</span>
+<span class="nc" id="L38">    }</span>
 
     @Bean
-    PasswordEncoder passwordEncoder() {
-<span class="nc" id="L45">        return new BCryptPasswordEncoder(15);</span>
-    }
-
-    @Bean
-    MethodValidationPostProcessor methodValidationPostProcessor(LocalValidatorFactoryBean validatorFactoryBean) {
-<span class="nc" id="L50">        MethodValidationPostProcessor mvpp = new MethodValidationPostProcessor();</span>
-<span class="nc" id="L51">        mvpp.setValidator(validatorFactoryBean);</span>
-<span class="nc" id="L52">        return mvpp;</span>
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+<span class="nc" id="L43">        return super.authenticationManagerBean();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>

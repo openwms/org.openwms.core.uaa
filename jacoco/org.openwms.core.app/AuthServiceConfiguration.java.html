@@ -21,15 +21,16 @@
  */
 package org.openwms.core.app;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 
 /**
  * A AuthServiceConfiguration.
@@ -40,25 +41,26 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 @Configuration
 @EnableAuthorizationServer
 @EnableResourceServer
-class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {
-    private final AuthenticationManager authenticationManager;
+<span class="nc" id="L44">class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {</span>
 
-<span class="nc" id="L46">    AuthServiceConfiguration(AuthenticationManager authenticationManager) {</span>
-<span class="nc" id="L47">        this.authenticationManager = authenticationManager;</span>
-<span class="nc" id="L48">    }</span>
-
-    @Override
-    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-<span class="nc" id="L52">    }</span>
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-<span class="nc" id="L56">        clients.inMemory().withClient(&quot;html5&quot;).secret(&quot;password&quot;).authorizedGrantTypes( &quot;password&quot;).scopes(&quot;openid&quot;);</span>
-<span class="nc" id="L57">    }</span>
+<span class="nc" id="L51">        clients.inMemory().withClient(&quot;html5&quot;).secret(encoder.encode(&quot;password&quot;)).authorizedGrantTypes(&quot;password&quot;).scopes(&quot;openid&quot;);</span>
+<span class="nc" id="L52">    }</span>
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-<span class="nc" id="L61">        endpoints.authenticationManager(this.authenticationManager);</span>
-<span class="nc" id="L62">    }</span>
+<span class="nc" id="L56">        endpoints</span>
+<span class="nc" id="L57">                .authenticationManager(authenticationManagerBean);</span>
+<span class="nc" id="L58">    }</span>
+
+    private AuthenticationManager authenticationManagerBean;
+    @Autowired
+    public void setAuthenticationManagerBean(AuthenticationManager authenticationManagerBean) {
+<span class="nc" id="L63">        this.authenticationManagerBean = authenticationManagerBean;</span>
+<span class="nc" id="L64">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
