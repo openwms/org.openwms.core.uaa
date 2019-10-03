@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="false" scan="false">
-
-  <conversionRule conversionWord="tid" converterClass="org.ameba.logging.ThreadIdProvider" />
-
-  <variable scope="context" name="mdcPattern" value="%replace(;%X{MSGKEY};%X{MSGDATA}){';+( |$)', ''}" />
+<configuration debug="false" scan="false" scanPeriod="30 seconds">
 
   <property name="LOG_TEMP" value="/tmp/owms" />
-  <property name="MODULE_NAME" value="OpenWMS" />
-  <property name="SERVICE_NAME" value="UAA" />
+  <property name="MODULE_NAME" value="UAA-Service" />
+
+  <include resource="logback-appenders.xml" />
+  <include resource="logback-loggers.xml" />
+
+  <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
 
   <appender name="SYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">
     <syslogHost>openwms.mooo.com</syslogHost>
@@ -16,19 +16,18 @@
     <suffixPattern>${SERVICE_NAME} ${Tenant} ${MODULE_NAME} %d{YYYY-MM-dd HH:mm:ss.SSS} %X{X-RequestID} %-5level [${PID:- }/%tid] - [%-40.40logger{39}]${mdcPattern} : %msg%n</suffixPattern>
   </appender>
 
-  <include resource="logback-appenders.xml" />
-  <include resource="logback-loggers.xml" />
-
+  <logger name="com.netflix.discovery" level="OFF"/>
   <logger name="org.dozer" level="ERROR"/>
   <logger name="org.hibernate.SQL" level="OFF"/>
   <logger name="org.hibernate.type" level="OFF"/>
-
-  <logger name="org.stamplets" level="DEBUG"/>
+  <logger name="org.springframework" level="WARN"/>
+  <logger name="org.openwms" level="WARN"/>
   <logger name="org.springframework.security.oauth2" level="DEBUG"/>
   <logger name="org.ameba" level="DEBUG"/>
 
-  <root level="WARN">
+  <root level="INFO">
     <appender-ref ref="STDOUT"/>
+    <appender-ref ref="LOGFILE"/>
   </root>
 
 </configuration>
