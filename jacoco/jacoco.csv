@@ -13,6 +13,7 @@ OpenWMS.org CORE: UAA,org.openwms.core.app,UAAModuleConfiguration,17,0,0,0,5,0,3
 OpenWMS.org CORE: UAA,org.openwms.core.app,UAASecurityConfiguration,12,0,0,0,4,0,3,0,3,0
 OpenWMS.org CORE: UAA,org.openwms.core.app,AuthServiceConfiguration,38,0,0,0,8,0,4,0,4,0
 OpenWMS.org CORE: UAA,org.openwms.core.app,UAADistributedConfiguration,3,0,0,0,1,0,1,0,1,0
+OpenWMS.org CORE: UAA,org.openwms.core.app,ResourceServerConfiguration,12,0,0,0,3,0,2,0,2,0
 OpenWMS.org CORE: UAA,org.openwms.core,ServiceLayerExceptionTranslator,22,0,4,0,6,0,4,0,2,0
 OpenWMS.org CORE: UAA,org.openwms.core,UAAStarter.new AbstractTranslator() {...},0,10,0,0,0,2,0,2,0,2
 OpenWMS.org CORE: UAA,org.openwms.core,UAAStarter,5,24,0,0,2,6,1,4,1,4
