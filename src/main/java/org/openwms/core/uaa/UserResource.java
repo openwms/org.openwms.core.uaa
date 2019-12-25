@@ -15,7 +15,7 @@
  */
 package org.openwms.core.uaa;
 
-import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.io.Serializable;
 
@@ -26,6 +26,6 @@ import java.io.Serializable;
  * @version 1.0
  * @since 1.0
  */
-class UserResource extends ResourceSupport implements Serializable {
+class UserResource extends RepresentationModel implements Serializable {
 
 }

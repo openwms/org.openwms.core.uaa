@@ -83,7 +83,8 @@ public class RolesController {
     @PostMapping(UAAConstants.API_ROLES)
     public RoleVO create(@RequestBody @Valid @NotNull RoleVO role, HttpServletRequest req, HttpServletResponse resp) {
         RoleVO createdRole = m.map(service.save(m.map(role, Role.class)), RoleVO.class);
-        resp.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req, createdRole.getId().toString()));
+        // FIXME [openwms]: 02.12.19
+        resp.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req,""));
         return createdRole;
     }
 
@@ -136,7 +137,8 @@ public class RolesController {
     @PutMapping(UAAConstants.API_ROLES)
     @ResponseStatus(HttpStatus.OK)
     public RoleVO save(@RequestBody @Valid RoleVO role) {
-        if (role.getId() == null) {
+        // FIXME [openwms]: 02.12.19 check if this is really the name
+        if (role.getName() == null) {
             throw new HttpBusinessException("Role to save is a transient one", HttpStatus.NOT_ACCEPTABLE);
         }
         Role toSave = m.map(role, Role.class);
