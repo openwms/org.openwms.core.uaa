@@ -1,7 +1,7 @@
 language: java
 
 jdk:
-  - openjdk8
+  - openjdk11
 
 env:
   - MAVEN_OPTS=-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
@@ -23,7 +23,7 @@ install: true
 
 before_script:
   - psql -c "CREATE DATABASE testdb;" -U postgres
-  - psql -c "CREATE USER karl WITH PASSWORD 'karl';" -U postgres
+  - psql -c "CREATE USER \"KARL\" WITH PASSWORD 'KARL';" -U postgres
 
 addons:
   sonarcloud:

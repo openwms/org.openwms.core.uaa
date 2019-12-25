@@ -137,5 +137,5 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql:testdb
-    username: karl
-    password: karl
+    username: KARL
+    password: KARL
