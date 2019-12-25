@@ -25,8 +25,6 @@ import net.sf.ehcache.Ehcache;
 import org.ameba.annotation.TxService;
 import org.openwms.core.event.UserChangedEvent;
 import org.openwms.core.uaa.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
@@ -46,28 +44,24 @@ import org.springframework.transaction.annotation.Transactional;
 @TxService
 class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationListener<UserChangedEvent> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityContextUserServiceImpl.class);
-
-    @Value("${system.user}")
-    private String systemUsername = SystemUser.SYSTEM_USERNAME;
+    private final String systemUsername;
     private final UserService userService;
-    private UserCache userCache;
-    private Ehcache cache;
+    private final UserCache userCache;
+    private final Ehcache cache;
     private final PasswordEncoder enc;
 
-    public SecurityContextUserServiceImpl(UserService userService, PasswordEncoder enc) {
+    public SecurityContextUserServiceImpl(
+            @Value("${system.user:}") String systemUsername,
+            UserService userService,
+            @Autowired(required = false) UserCache userCache,
+            @Autowired(required = false) Ehcache cache,
+            PasswordEncoder enc
+    ) {
+        this.systemUsername = systemUsername == null ? SystemUser.SYSTEM_USERNAME : systemUsername;
         this.userService = userService;
-        this.enc = enc;
-    }
-
-    @Autowired(required = false)
-    void setUserCache(UserCache userCache) {
         this.userCache = userCache;
-    }
-
-    @Autowired(required = false)
-    void setCache(Ehcache cache) {
         this.cache = cache;
+        this.enc = enc;
     }
 
     /**
