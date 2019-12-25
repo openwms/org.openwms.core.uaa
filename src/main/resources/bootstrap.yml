@@ -37,8 +37,6 @@ owms:
 
 server:
   port: ${PORT:8110}
-  servlet:
-    context-path: /uaa
 
 eureka:
   client:
