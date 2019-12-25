@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UsersController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.uaa</a> &gt; <span class="el_source">UsersController.java</span></div><h1>UsersController.java</h1><pre class="source lang-java linenums">/*
+ * openwms.org, the Open Warehouse Management System.
+ * Copyright (C) 2014 Heiko Scherrer
+ *
+ * This file is part of openwms.org.
+ *
+ * openwms.org is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * openwms.org is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this software. If not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+package org.openwms.core.uaa;
+
+import org.ameba.http.Response;
+import org.ameba.mapping.BeanMapper;
+import org.openwms.core.uaa.impl.User;
+import org.openwms.core.uaa.impl.UserPassword;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriTemplate;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+/**
+ * An UsersController represents a RESTful access to &lt;tt&gt;User&lt;/tt&gt;s. It is transactional by the means it is the outer application service
+ * facade that returns validated and completed &lt;tt&gt;User&lt;/tt&gt; objects to its clients.
+ *
+ * @author Heiko Scherrer
+ */
+@RestController
+public class UsersController {
+
+    private final UserService service;
+    private final BeanMapper m;
+
+<span class="fc" id="L60">    public UsersController(UserService service, BeanMapper m) {</span>
+<span class="fc" id="L61">        this.service = service;</span>
+<span class="fc" id="L62">        this.m = m;</span>
+<span class="fc" id="L63">    }</span>
+
+    /**
+     * This method returns all existing &lt;tt&gt;User&lt;/tt&gt;s. &lt;p&gt; &lt;p&gt; &lt;table&gt; &lt;tr&gt; &lt;td&gt;URI&lt;/td&gt; &lt;td&gt;/users&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;Verb&lt;/td&gt;
+     * &lt;td&gt;GET&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;Auth&lt;/td&gt; &lt;td&gt;YES&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;Header&lt;/td&gt; &lt;td&gt;&lt;/td&gt; &lt;/tr&gt; &lt;/table&gt; &lt;/p&gt; &lt;p&gt; The response stores
+     * &lt;tt&gt;User&lt;/tt&gt; instances JSON encoded. It contains a collection of &lt;tt&gt;User&lt;/tt&gt; objects. &lt;/p&gt;
+     *
+     * @return JSON response
+     */
+    @GetMapping(UAAConstants.API_USERS)
+    public List&lt;UserVO&gt; findAllUsers() {
+<span class="nc" id="L74">        List&lt;UserVO&gt; users = m.map(new ArrayList&lt;&gt;(service.findAll()), UserVO.class);</span>
+<span class="nc" id="L75">        return users;</span>
+    }
+
+    /**
+     * Takes a newly created &lt;tt&gt;User&lt;/tt&gt; instance and persists it. &lt;p&gt; &lt;p&gt; &lt;table&gt; &lt;tr&gt; &lt;td&gt;URI&lt;/td&gt; &lt;td&gt;/users&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt;
+     * &lt;td&gt;Verb&lt;/td&gt; &lt;td&gt;POST&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;Auth&lt;/td&gt; &lt;td&gt;YES&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td&gt;Header&lt;/td&gt; &lt;td&gt;&lt;/td&gt; &lt;/tr&gt; &lt;/table&gt; &lt;/p&gt; &lt;p&gt;
+     * Request Body &lt;p&gt;
+     * &lt;pre&gt;
+     *   {
+     *     &quot;username&quot; : &quot;testuser&quot;
+     *   }
+     * &lt;/pre&gt;
+     * &lt;p&gt; Parameters: &lt;ul&gt; &lt;li&gt;username (String):&lt;/li&gt; The unique username. &lt;/ul&gt; &lt;/p&gt; &lt;p&gt; Response Body &lt;p&gt;
+     * &lt;pre&gt;
+     *   {
+     *     &quot;id&quot; : 4711,
+     *     &quot;username&quot; : &quot;testuser&quot;,
+     *     &quot;token&quot; : &quot;876sjh36ejwhd&quot;,
+     *     &quot;version&quot; : 1
+     *   }
+     * &lt;/pre&gt;
+     * &lt;p&gt; &lt;ul&gt; &lt;li&gt;id (Integer (32bit)):&lt;/li&gt; The internal unique technical key for the stored instance. &lt;li&gt;username (String):&lt;/li&gt; The
+     * unique username. &lt;li&gt;token (String):&lt;/li&gt; A generated token that is used to authenticate each request. &lt;li&gt;version (Integer
+     * (32bit)):&lt;/li&gt; A version number used internally for optimistic locking. &lt;/ul&gt; &lt;/p&gt;
+     *
+     * @param user The user to create
+     * @return a responseVO
+     */
+    @PostMapping(UAAConstants.API_USERS)
+    public UserVO create(@RequestBody @Valid @NotNull UserVO user, HttpServletRequest req, HttpServletResponse resp) {
+<span class="nc" id="L105">        User createdUser = service.create(m.map(user, User.class));</span>
+<span class="nc" id="L106">        resp.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req, createdUser.getPk().toString()));</span>
+<span class="nc" id="L107">        return m.map(createdUser, UserVO.class);</span>
+    }
+
+    private String getLocationForCreatedResource(HttpServletRequest req, String objId) {
+<span class="nc" id="L111">        StringBuffer url = req.getRequestURL();</span>
+<span class="nc" id="L112">        UriTemplate template = new UriTemplate(url.append(&quot;/{objId}/&quot;).toString());</span>
+<span class="nc" id="L113">        return template.expand(objId).toASCIIString();</span>
+    }
+
+    /**
+     * FIXME [scherrer] Comment this
+     *
+     * @param user
+     * @return a responseVO
+     */
+    @PutMapping(UAAConstants.API_USERS)
+    public UserVO save(@RequestBody @Valid UserVO user) {
+<span class="nc" id="L124">        User eo = m.map(user, User.class);</span>
+<span class="nc" id="L125">        UserVO saved = m.map(service.save(eo), UserVO.class);</span>
+<span class="nc" id="L126">        return saved;</span>
+    }
+
+    /**
+     * FIXME [scherrer] Comment this
+     *
+     * @param image The image to save
+     * @param id The users persisted id
+     */
+    @PatchMapping(UAAConstants.API_USERS + &quot;/{id}&quot;)
+    public void saveImage(@RequestBody @NotNull byte[] image, @PathVariable(&quot;id&quot;) @NotNull Long id) {
+<span class="nc" id="L137">        service.uploadImageFile(id, image);</span>
+<span class="nc" id="L138">    }</span>
+
+    /**
+     * FIXME [scherrer] Comment this
+     *
+     * @param names
+     * @return a responseVO
+     * @throws Exception
+     */
+    @DeleteMapping(UAAConstants.API_USERS + &quot;/{name}&quot;)
+    public ResponseEntity&lt;Response&gt; remove(@PathVariable(&quot;name&quot;) @NotNull String... names) {
+        /*
+        Response result = new Response();
+        HttpStatus resultStatus = HttpStatus.OK;
+        for (String name : names) {
+            if (name == null || name.isEmpty()) {
+                continue;
+            }
+            try {
+                service.remove(name);
+                result.add(new Response.ItemBuilder().wStatus(HttpStatus.OK).wParams(name).build());
+            } catch (Exception sre) {
+                resultStatus = HttpStatus.NOT_FOUND;
+                Response.ResponseItem item = new Response.ItemBuilder().wMessage(sre.getMessage())
+                        .wStatus(HttpStatus.INTERNAL_SERVER_ERROR).wParams(name).build();
+                if (NotFoundException.class.equals(sre.getClass())) {
+                    item.httpStatus = HttpStatus.NOT_FOUND;
+                }
+                result.add(item);
+            }
+        }
+        return new ResponseEntity&lt;Response&gt;(result, resultStatus);
+        */
+<span class="nc" id="L171">        return null;</span>
+    }
+
+    private User findByUsername(String pUsername) {
+<span class="nc" id="L175">        Collection&lt;User&gt; users = service.findAll();</span>
+<span class="nc bnc" id="L176" title="All 2 branches missed.">        for (User user : users) {</span>
+<span class="nc bnc" id="L177" title="All 2 branches missed.">            if (user.getUsername().equals(pUsername)) {</span>
+<span class="nc" id="L178">                return user;</span>
+            }
+<span class="nc" id="L180">        }</span>
+<span class="nc" id="L181">        return null;</span>
+    }
+
+    // @RequestMapping(method = RequestMethod.PUT, produces =
+    // MediaType.APPLICATION_JSON_VALUE, consumes =
+    // MediaType.APPLICATION_JSON_VALUE, headers =
+    // &quot;Content-Type=application/json&quot;)
+    // @ResponseBody
+    public void changeUserPassword(@RequestBody UserPassword userPassword) {
+<span class="nc" id="L190">        service.changeUserPassword(userPassword);</span>
+<span class="nc" id="L191">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
