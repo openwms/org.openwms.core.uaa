@@ -64,7 +64,7 @@
     </ciManagement>
 
     <properties>
-        <core.version>1.6.0-SNAPSHOT</core.version>
+        <core.version>1.6.0</core.version>
         <spring-cloud-dependencies.version>Hoxton.RELEASE</spring-cloud-dependencies.version>
     </properties>
 
@@ -219,6 +219,13 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <exclusions>
+                <exclusion>
+                    <!-- Newer version pulled by actuator -->
+                    <groupId>org.hdrhistogram</groupId>
+                    <artifactId>HdrHistogram</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -323,6 +330,7 @@
             <id>schemagen</id>
             <properties>
                 <surefireArgs>-Dspring.profiles.active=ASYNCHRONOUS,TEST,TESTPG</surefireArgs>
+                <schemagen.outputDirectory>${project.build.directory}/site/${project.version}</schemagen.outputDirectory>
             </properties>
         </profile>
     </profiles>
@@ -338,14 +346,6 @@
             <releases>
                 <enabled>false</enabled>
             </releases>
-        </repository>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/libs-milestone-local</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
         </repository>
     </repositories>
 </project>
