@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<database name="testdb" schema="public" type="PostgreSQL - 9.6.16">
+<database name="testdb" schema="public" type="PostgreSQL - 9.6.6">
    <tables>
       <table name="cor_email" numRows="0" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8">
