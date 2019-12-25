@@ -1,5 +1,7 @@
 language: java
 
+dist: trusty
+
 jdk:
   - openjdk11
 
@@ -32,12 +34,12 @@ addons:
 
 script:
   - if [[ ( "$TRAVIS_BRANCH" != "master" ) ]]; then mvn package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -U -B $MAVEN_OPTS; fi
-  - if [[ ( "$TRAVIS_BRANCH" == "master" ) ]]; then mvn clean package sonar:sonar -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -Dmaven.test.error.ignore=true -Dmaven.test.failure.ignore=true -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Psonar -B $MAVEN_OPTS; fi
+  - if [[ ( "$TRAVIS_BRANCH" == "master" ) ]]; then mvn clean package sonar:sonar -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -Dmaven.test.error.ignore=true -Dmaven.test.failure.ignore=true -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Psonar -U -B $MAVEN_OPTS; fi
   - if [[ ( "$TRAVIS_BRANCH" == "master" ) ]]; then mvn site scm-publish:publish-scm -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST,TESTPG -Denforcer.skip=true -Dscmpublish.pubScmUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.core.uaa.git -DdeveloperConnectionUrl=scm:git:https://${PUSHKEY}@github.com/openwms/org.openwms.core.uaa.git -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Pschemagen -B $MAVEN_OPTS; fi
   - if [[ ( "$TRAVIS_BRANCH" == "master" ) ]]; then mvn clean package -Denforcer.skip=true -DskipTests=true -Dci.buildNumber=$TRAVIS_BUILD_NUMBER -Prelease,gpg -B $MAVEN_OPTS; fi
 
 after_success:
-  - docker build -t openwms/org.openwms.core.uaa:latest .
+  - docker build -t openwms/org.openwms.core.uaa:1.0.0 .
 
 deploy:
   provider: script
