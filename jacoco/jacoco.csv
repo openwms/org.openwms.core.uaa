@@ -46,6 +46,6 @@ OpenWMS.org CORE: UAA,org.openwms.core.uaa.impl,User,127,294,17,23,34,70,26,29,1
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.impl,User.PasswordComparator,9,0,0,0,2,0,2,0,2,0
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.impl,UserDetails.SEX,0,24,0,0,0,3,0,1,0,1
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.impl,UserDetails,55,22,2,2,22,6,16,3,14,3
-OpenWMS.org CORE: UAA,org.openwms.core.uaa.impl,SecurityContextUserServiceImpl,19,81,4,6,6,20,6,6,2,5
+OpenWMS.org CORE: UAA,org.openwms.core.uaa.impl,SecurityContextUserServiceImpl,2,96,3,9,0,23,3,7,0,4
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.impl,UserWrapper,25,135,10,16,6,36,9,17,1,12
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.impl,SystemUser,3,11,0,0,1,5,1,2,1,2
