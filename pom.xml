@@ -9,7 +9,7 @@
         <relativePath/>
     </parent>
     <artifactId>org.openwms.core.uaa</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0-SNAPSHOT</version>
     <name>OpenWMS.org CORE: UAA</name>
     <description>UAA (User Authentication and Administration)</description>
     <url>https://openwms.github.io/${project.artifactId}/index.html</url>
@@ -64,7 +64,7 @@
     </ciManagement>
 
     <properties>
-        <core.version>1.6.0</core.version>
+        <core.version>1.7.0-SNAPSHOT</core.version>
         <spring-cloud-dependencies.version>Hoxton.RELEASE</spring-cloud-dependencies.version>
     </properties>
 
