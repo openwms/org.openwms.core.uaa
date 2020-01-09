@@ -149,7 +149,7 @@ class UserServiceImpl implements UserService {
     @Override
     public Optional<User> findByUsername(String username) {
         // TODO [openwms]: 03/05/17 to be implemented
-        return null;
+        return Optional.empty();
     }
 
     /**
