@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserVO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.uaa.api</a> &gt; <span class="el_source">UserVO.java</span></div><h1>UserVO.java</h1><pre class="source lang-java linenums">/*
+ * openwms.org, the Open Warehouse Management System.
+ * Copyright (C) 2014 Heiko Scherrer
+ *
+ * This file is part of openwms.org.
+ *
+ * openwms.org is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * openwms.org is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this software. If not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+package org.openwms.core.uaa.api;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.ameba.http.AbstractBase;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.Objects;
+
+
+/**
+ * A UserVO.
+ *
+ * @author Heiko Scherrer
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class UserVO extends AbstractBase implements Serializable {
+
+    @JsonProperty(&quot;pKey&quot;)
+    private String pKey;
+    @JsonProperty(&quot;username&quot;)
+    @NotEmpty(groups = ValidationGroups.Create.class)
+    private String username;
+    @JsonProperty(&quot;externalUser&quot;)
+    private Boolean extern;
+    @JsonProperty(&quot;lastPasswordChange&quot;)
+    private Date lastPasswordChange;
+    @JsonProperty(&quot;locked&quot;)
+    private Boolean locked;
+    @JsonProperty(&quot;enabled&quot;)
+    private Boolean enabled;
+    @JsonProperty(&quot;expirationDate&quot;)
+    private Date expirationDate;
+    @JsonProperty(&quot;fullname&quot;)
+    private String fullname;
+    @JsonProperty(&quot;details&quot;)
+    @Valid
+    private UserDetailsVO userDetails;
+    @JsonProperty(&quot;email&quot;)
+    @NotEmpty(groups = ValidationGroups.Create.class)
+    private String email;
+
+    @JsonCreator
+<span class="fc" id="L71">    public UserVO() {</span>
+<span class="fc" id="L72">    }</span>
+
+<span class="fc" id="L74">    private UserVO(Builder builder) {</span>
+<span class="fc" id="L75">        pKey = builder.pKey;</span>
+<span class="fc" id="L76">        username = builder.username;</span>
+<span class="fc" id="L77">        extern = builder.extern;</span>
+<span class="fc" id="L78">        lastPasswordChange = builder.lastPasswordChange;</span>
+<span class="fc" id="L79">        locked = builder.locked;</span>
+<span class="fc" id="L80">        enabled = builder.enabled;</span>
+<span class="fc" id="L81">        expirationDate = builder.expirationDate;</span>
+<span class="fc" id="L82">        fullname = builder.fullname;</span>
+<span class="fc" id="L83">        userDetails = builder.userDetails;</span>
+<span class="fc" id="L84">        email = builder.email;</span>
+<span class="fc" id="L85">    }</span>
+
+    public static Builder newBuilder() {
+<span class="fc" id="L88">        return new Builder();</span>
+    }
+
+    public String getpKey() {
+<span class="fc" id="L92">        return pKey;</span>
+    }
+
+    public Boolean getExtern() {
+<span class="fc" id="L96">        return extern;</span>
+    }
+
+    public String getUsername() {
+<span class="fc" id="L100">        return username;</span>
+    }
+
+    public Date getLastPasswordChange() {
+<span class="fc" id="L104">        return lastPasswordChange;</span>
+    }
+
+    public Boolean getLocked() {
+<span class="fc" id="L108">        return locked;</span>
+    }
+
+    public Boolean getEnabled() {
+<span class="fc" id="L112">        return enabled;</span>
+    }
+
+    public Date getExpirationDate() {
+<span class="fc" id="L116">        return expirationDate;</span>
+    }
+
+    public String getFullname() {
+<span class="fc" id="L120">        return fullname;</span>
+    }
+
+    public UserDetailsVO getUserDetails() {
+<span class="fc" id="L124">        return userDetails;</span>
+    }
+
+    public String getEmail() {
+<span class="fc" id="L128">        return email;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L139" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
+<span class="nc" id="L141">        UserVO userVO = (UserVO) o;</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        return Objects.equals(pKey, userVO.pKey) &amp;&amp;</span>
+<span class="nc bnc" id="L143" title="All 2 branches missed.">                Objects.equals(username, userVO.username) &amp;&amp;</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">                Objects.equals(extern, userVO.extern) &amp;&amp;</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">                Objects.equals(lastPasswordChange, userVO.lastPasswordChange) &amp;&amp;</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">                Objects.equals(locked, userVO.locked) &amp;&amp;</span>
+<span class="nc bnc" id="L147" title="All 2 branches missed.">                Objects.equals(enabled, userVO.enabled) &amp;&amp;</span>
+<span class="nc bnc" id="L148" title="All 2 branches missed.">                Objects.equals(expirationDate, userVO.expirationDate) &amp;&amp;</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">                Objects.equals(fullname, userVO.fullname) &amp;&amp;</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">                Objects.equals(userDetails, userVO.userDetails) &amp;&amp;</span>
+<span class="nc bnc" id="L151" title="All 2 branches missed.">                Objects.equals(email, userVO.email);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public int hashCode() {
+<span class="nc" id="L161">        return Objects.hash(super.hashCode(), pKey, username, extern, lastPasswordChange, locked, enabled, expirationDate, fullname, userDetails, email);</span>
+    }
+
+    public static final class Builder {
+        private String pKey;
+        private @NotEmpty(groups = ValidationGroups.Create.class) String username;
+        private Boolean extern;
+        private Date lastPasswordChange;
+        private Boolean locked;
+        private Boolean enabled;
+        private Date expirationDate;
+        private String fullname;
+        private @Valid UserDetailsVO userDetails;
+        private @NotEmpty(groups = ValidationGroups.Create.class) String email;
+
+        private Builder() {
+        }
+
+        public Builder pKey(String val) {
+<span class="nc" id="L180">            pKey = val;</span>
+<span class="nc" id="L181">            return this;</span>
+        }
+
+        public Builder username(@NotEmpty(groups = ValidationGroups.Create.class) String val) {
+<span class="fc" id="L185">            username = val;</span>
+<span class="fc" id="L186">            return this;</span>
+        }
+
+        public Builder extern(Boolean val) {
+<span class="nc" id="L190">            extern = val;</span>
+<span class="nc" id="L191">            return this;</span>
+        }
+
+        public Builder lastPasswordChange(Date val) {
+<span class="nc" id="L195">            lastPasswordChange = val;</span>
+<span class="nc" id="L196">            return this;</span>
+        }
+
+        public Builder locked(Boolean val) {
+<span class="nc" id="L200">            locked = val;</span>
+<span class="nc" id="L201">            return this;</span>
+        }
+
+        public Builder enabled(Boolean val) {
+<span class="nc" id="L205">            enabled = val;</span>
+<span class="nc" id="L206">            return this;</span>
+        }
+
+        public Builder expirationDate(Date val) {
+<span class="nc" id="L210">            expirationDate = val;</span>
+<span class="nc" id="L211">            return this;</span>
+        }
+
+        public Builder fullname(String val) {
+<span class="nc" id="L215">            fullname = val;</span>
+<span class="nc" id="L216">            return this;</span>
+        }
+
+        public Builder userDetails(@Valid UserDetailsVO val) {
+<span class="nc" id="L220">            userDetails = val;</span>
+<span class="nc" id="L221">            return this;</span>
+        }
+
+        public Builder email(@NotEmpty(groups = ValidationGroups.Create.class) String val) {
+<span class="fc" id="L225">            email = val;</span>
+<span class="fc" id="L226">            return this;</span>
+        }
+
+        public UserVO build() {
+<span class="fc" id="L230">            return new UserVO(this);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
