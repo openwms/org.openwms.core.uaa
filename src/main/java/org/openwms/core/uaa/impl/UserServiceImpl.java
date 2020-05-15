@@ -44,6 +44,7 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.Collection;
@@ -162,6 +163,15 @@ class UserServiceImpl implements UserService {
     @Measured
     public Optional<User> findByUsername(String username) {
         return repository.findByUsername(username);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public @NotNull User findByPKey(@NotEmpty String pKey) {
+        return repository.findBypKey(pKey).orElseThrow(() -> new EntityNotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, pKey)));
     }
 
     /**

@@ -21,198 +21,185 @@
  */
 package org.openwms.core.uaa.api;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 
 /**
  * A UserDetailsVO.
  *
  * @author Heiko Scherrer
- * @version $Revision: $
- * @since 0.1
  */
-// @JsonAutoDetect
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDetailsVO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    /** An base64 encoded image file. */
+    @JsonProperty("image")
+    private String image;
+    /** Some descriptive text about the User. */
+    @JsonProperty("description")
+    private String description;
+    /** Any comment text added to the User. */
+    @JsonProperty("comment")
+    private String comment;
+    /** The User's phone number. */
+    @JsonProperty("phoneNo")
+    private String phoneNo;
+    /** The User's messenger name. */
+    @JsonProperty("im")
+    private String im;
+    /** The User's office. */
+    @JsonProperty("office")
+    private String office;
+    /** The User's department. */
+    @JsonProperty("department")
+    private String department;
+    /** The User's gender. */
+    @JsonProperty("gender")
+    private String gender;
 
-    private byte[] image = new byte[0];
-    private String description = "";
-    private String comment = "";
-    private String phoneNo = "";
-    private String skypeName = "";
-    private String office = "";
-    private String department = "";
-    private String sex;
-
-    /**
-     * Create a new UserDetailsVO.
-     */
+    @JsonCreator
     public UserDetailsVO() {
     }
 
-    /**
-     * Get the image.
-     *
-     * @return the image.
-     *
-     *         public byte[] getImage() { return image; }
-     */
-    /**
-     * Set the image.
-     *
-     * @param image
-     *            The image to set.
-     *
-     *            public void setImage(byte[] image) { this.image = image; }
-     */
-    /**
-     * Get the description.
-     *
-     * @return the description.
-     */
+    private UserDetailsVO(Builder builder) {
+        image = builder.image;
+        description = builder.description;
+        comment = builder.comment;
+        phoneNo = builder.phoneNo;
+        im = builder.im;
+        office = builder.office;
+        department = builder.department;
+        gender = builder.gender;
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
+    public String getImage() {
+        return image;
+    }
+
     public String getDescription() {
         return description;
     }
 
-    /**
-     * Set the description.
-     *
-     * @param description The description to set.
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    /**
-     * Get the comment.
-     *
-     * @return the comment.
-     */
     public String getComment() {
         return comment;
     }
 
-    /**
-     * Set the comment.
-     *
-     * @param comment The comment to set.
-     */
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    /**
-     * Get the phoneNo.
-     *
-     * @return the phoneNo.
-     */
     public String getPhoneNo() {
         return phoneNo;
     }
 
-    /**
-     * Set the phoneNo.
-     *
-     * @param phoneNo The phoneNo to set.
-     */
-    public void setPhoneNo(String phoneNo) {
-        this.phoneNo = phoneNo;
+    public String getIm() {
+        return im;
     }
 
-    /**
-     * Get the skypeName.
-     *
-     * @return the skypeName.
-     */
-    public String getSkypeName() {
-        return skypeName;
-    }
-
-    /**
-     * Set the skypeName.
-     *
-     * @param skypeName The skypeName to set.
-     */
-    public void setSkypeName(String skypeName) {
-        this.skypeName = skypeName;
-    }
-
-    /**
-     * Get the office.
-     *
-     * @return the office.
-     */
     public String getOffice() {
         return office;
     }
 
-    /**
-     * Set the office.
-     *
-     * @param office The office to set.
-     */
-    public void setOffice(String office) {
-        this.office = office;
-    }
-
-    /**
-     * Get the department.
-     *
-     * @return the department.
-     */
     public String getDepartment() {
         return department;
     }
 
-    /**
-     * Set the department.
-     *
-     * @param department The department to set.
-     */
-    public void setDepartment(String department) {
-        this.department = department;
+    public String getGender() {
+        return gender;
     }
 
     /**
-     * Get the sex.
+     * {@inheritDoc}
      *
-     * @return the sex.
+     * All fields.
      */
-    public String getSex() {
-        return sex;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserDetailsVO that = (UserDetailsVO) o;
+        return Objects.equals(image, that.image) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(comment, that.comment) &&
+                Objects.equals(phoneNo, that.phoneNo) &&
+                Objects.equals(im, that.im) &&
+                Objects.equals(office, that.office) &&
+                Objects.equals(department, that.department) &&
+                Objects.equals(gender, that.gender);
     }
 
     /**
-     * Set the sex.
+     * {@inheritDoc}
      *
-     * @param sex The sex to set.
+     * All fields.
      */
-    public void setSex(String sex) {
-        this.sex = sex;
+    @Override
+    public int hashCode() {
+        return Objects.hash(image, description, comment, phoneNo, im, office, department, gender);
     }
 
-    /**
-     * Get the image.
-     *
-     * @return the image.
-     */
-    public byte[] getImage() {
-        if (image == null) {
-            return new byte[0];
+    public static final class Builder {
+        private String image;
+        private String description;
+        private String comment;
+        private String phoneNo;
+        private String im;
+        private String office;
+        private String department;
+        private String gender;
+
+        private Builder() {
         }
-        return image;
-    }
 
-    /**
-     * Set the image.
-     *
-     * @param image The image to set.
-     */
-    @JsonIgnore
-    public void setImage(byte[] image) {
-        this.image = image;
+        public Builder image(String val) {
+            image = val;
+            return this;
+        }
+
+        public Builder description(String val) {
+            description = val;
+            return this;
+        }
+
+        public Builder comment(String val) {
+            comment = val;
+            return this;
+        }
+
+        public Builder phoneNo(String val) {
+            phoneNo = val;
+            return this;
+        }
+
+        public Builder im(String val) {
+            im = val;
+            return this;
+        }
+
+        public Builder office(String val) {
+            office = val;
+            return this;
+        }
+
+        public Builder department(String val) {
+            department = val;
+            return this;
+        }
+
+        public Builder gender(String val) {
+            gender = val;
+            return this;
+        }
+
+        public UserDetailsVO build() {
+            return new UserDetailsVO(this);
+        }
     }
 }

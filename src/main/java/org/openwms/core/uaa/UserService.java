@@ -29,6 +29,7 @@ import org.openwms.core.uaa.impl.User;
 import org.openwms.core.uaa.impl.UserPassword;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
@@ -91,11 +92,20 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
     User create(@NotNull @Valid User user);
 
     /**
+     * Find and return an {@code User} instance.
      *
-     * @param username
-     * @return
+     * @param username The unique name of the User to search for
+     * @return The instance
      */
     Optional<User> findByUsername(String username);
+
+    /**
+     * Find and return an {@code User} instance.
+     *
+     * @param pKey The persistent identifier of the User to search for
+     * @return The instance
+     */
+    @NotNull User findByPKey(@NotEmpty String pKey);
 
     void remove(String username);
 }

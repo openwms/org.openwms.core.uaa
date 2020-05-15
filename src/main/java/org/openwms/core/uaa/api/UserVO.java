@@ -59,7 +59,7 @@ public class UserVO extends AbstractBase implements Serializable {
     @JsonProperty("expirationDate")
     private Date expirationDate;
     @JsonProperty("fullname")
-    private String fullname = "";
+    private String fullname;
     @JsonProperty("details")
     @Valid
     private UserDetailsVO userDetails = new UserDetailsVO();

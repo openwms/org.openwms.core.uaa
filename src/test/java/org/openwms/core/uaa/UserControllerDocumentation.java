@@ -25,6 +25,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
@@ -35,6 +36,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.springframework.http.HttpHeaders.LOCATION;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -73,20 +75,26 @@ class UserControllerDocumentation {
                 .username("tester")
                 .email("tester@example.com")
                 .build();
-        mockMvc.perform(
+        MvcResult result = mockMvc.perform(
                 post(UAAConstants.API_USERS)
                         .content(objectMapper.writeValueAsString(vo))
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(document("user-create",
-                    preprocessResponse(prettyPrint()),
-                    requestFields(
-                            fieldWithPath("links[]").optional().description("An array with hypermedia links is sent by the server and offers further actions on an User"),
-                            fieldWithPath("username").description("The unique name of the User in the system"),
-                            fieldWithPath("email").description("The email address used by the User, unique in the system")
-                    )
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("links[]").ignored(),
+                                fieldWithPath("username").description("The unique name of the User in the system"),
+                                fieldWithPath("email").description("The email address used by the User, unique in the system")
+                        )
                 ))
                 .andExpect(status().isCreated())
                 .andExpect(header().string(LOCATION, notNullValue()))
-        ;
+                .andReturn();
+
+        String location = result.getResponse().getHeader(LOCATION);
+        mockMvc.perform(
+                get(location))
+                .andDo(document("user-findByPkey"))
+                .andExpect(status().isOk());
     }
 }

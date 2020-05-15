@@ -61,4 +61,41 @@
         </field>
     </mapping>
 
+    <mapping>
+        <class-a>org.openwms.core.uaa.impl.UserDetails</class-a>
+        <class-b>org.openwms.core.uaa.api.UserDetailsVO</class-b>
+        <field>
+            <a is-accessible="true">description</a>
+            <b is-accessible="true">description</b>
+        </field>
+        <field>
+            <a is-accessible="true">comment</a>
+            <b is-accessible="true">comment</b>
+        </field>
+        <field>
+            <a is-accessible="true">phoneNo</a>
+            <b is-accessible="true">phoneNo</b>
+        </field>
+        <field>
+            <a is-accessible="false">im</a>
+            <b is-accessible="false">im</b>
+        </field>
+        <field>
+            <a is-accessible="true">office</a>
+            <b is-accessible="true">office</b>
+        </field>
+        <field>
+            <a is-accessible="true">department</a>
+            <b is-accessible="true">department</b>
+        </field>
+        <field type="one-way" c>
+            <a>image</a>
+            <b is-accessible="true">image</b>
+        </field>
+        <field>
+            <a is-accessible="true">gender</a>
+            <b is-accessible="true">gender</b>
+        </field>
+    </mapping>
+
 </mappings>

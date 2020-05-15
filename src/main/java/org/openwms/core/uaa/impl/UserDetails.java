@@ -1,23 +1,17 @@
 /*
- * openwms.org, the Open Warehouse Management System.
- * Copyright (C) 2014 Heiko Scherrer
+ * Copyright 2005-2020 the original author or authors.
  *
- * This file is part of openwms.org.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as 
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * openwms.org is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this software. If not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.openwms.core.uaa.impl;
 
@@ -38,83 +32,48 @@ import java.util.Arrays;
  * Detailed information about an {@link User}.
  *
  * @author Heiko Scherrer
- * @version 0.2
- * @see User
- * @since 0.1
  */
 @Embeddable
 public class UserDetails implements ImageProvider, Serializable {
 
-    /**
-     * Some descriptive text of the {@link User}.
-     */
+    /** Some descriptive text of the {@link User}. */
     @Column(name = "C_DESCRIPTION", length = CoreTypeDefinitions.DESCRIPTION_LENGTH)
     private String description;
-    /**
-     * Some comment text of the {@link User}.
-     */
+    /** Some comment text of the {@link User}. */
     @Column(name = "C_COMMENT")
     private String comment;
-    /**
-     * Phone number assigned to the {@link User}.
-     */
+    /** Phone number assigned to the {@link User}. */
     @Column(name = "C_PHONE_NO")
     private String phoneNo;
-    /**
-     * IM account assigned to the {@link User}.
-     */
+    /** IM account assigned to the {@link User}. */
     @Column(name = "C_IM")
-    private String skypeName;
-    /**
-     * Office description assigned to the {@link User}.
-     */
+    private String im;
+    /** Office description assigned to the {@link User}. */
     @Column(name = "C_OFFICE")
     private String office;
-    /**
-     * Department description assigned to the {@link User}.
-     */
+    /** Department description assigned to the {@link User}. */
     @Column(name = "C_DEPARTMENT")
     private String department;
-    /**
-     * An image of the {@link User}. Lazy fetched.
-     */
+    /** An image of the {@link User}. */
     @Lob
     @Basic(fetch = FetchType.EAGER)
     @Column(name = "C_IMAGE")
     private byte[] image;
-    /**
-     * Sex of the {@link User}.
-     */
+    /** Gender of the {@link User}. */
     @Enumerated(EnumType.STRING)
-    @Column(name = "C_SEX")
-    private SEX sex;
+    @Column(name = "C_GENDER")
+    private Gender gender;
 
     /**
-     * The {@link User}s sex.
+     * The {@link User}s gender.
      *
      * @author Heiko Scherrer
-     * @version 0.2
-     * @see User
-     * @since 0.1
      */
-    public static enum SEX {
-        /**
-         * Male.
-         */
+    public static enum Gender {
+        /** Male. */
         MALE,
-        /**
-         * Female.
-         */
+        /** Female. */
         FEMALE
-    }
-
-    /* ----------------------------- methods ------------------- */
-
-    /**
-     * Create a new {@link UserDetails} instance.
-     */
-    public UserDetails() {
-        super();
     }
 
     /**
@@ -194,17 +153,17 @@ public class UserDetails implements ImageProvider, Serializable {
      *
      * @return The current IM account name
      */
-    public String getSkypeName() {
-        return skypeName;
+    public String getIm() {
+        return im;
     }
 
     /**
      * Change the current IM account name of the {@link User}.
      *
-     * @param skypeName The new IM account name
+     * @param im The new IM account name
      */
-    public void setSkypeName(String skypeName) {
-        this.skypeName = skypeName;
+    public void setIm(String im) {
+        this.im = im;
     }
 
     /**
@@ -245,20 +204,20 @@ public class UserDetails implements ImageProvider, Serializable {
     }
 
     /**
-     * Return the {@link User}'s sex.
+     * Return the {@link User}'s gender.
      *
-     * @return The {@link User}'s sex
+     * @return The {@link User}'s gender
      */
-    public SEX getSex() {
-        return sex;
+    public Gender getGender() {
+        return gender;
     }
 
     /**
-     * Change the {@link User}'s sex (only for compliance).
+     * Change the {@link User}'s gender (only for compliance).
      *
-     * @param sex The new sex
+     * @param gender The new gender
      */
-    public void setSex(SEX sex) {
-        this.sex = sex;
+    public void setGender(Gender gender) {
+        this.gender = gender;
     }
 }

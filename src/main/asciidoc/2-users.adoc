@@ -1,9 +1,9 @@
 [[resources-user]]
-==== User
+== User
 A `User` represents a human user of the system, usually in front of an UI who interacts with the system. `User` representations can be
 created, modified and retrieved. An `User` is also allowed to authenticate against an UAA endpoint.
 
-=== Create am User
+=== Create an User
 To create a new `User` instance a `POST` request must be send to the server with the mandatory fields of the `User` in the request body
 
 include::{generated}/user-create/http-request.adoc[]
@@ -13,3 +13,12 @@ If the `User` has been created successfully, the server returns the URI to the c
 
 include::{generated}/user-create/http-response.adoc[]
 
+=== FInd an User by persistent key
+A newly created `User` can be retrieved by following the URI in the `LOCATION` header of the response. This URI points to the created
+resource:
+
+include::{generated}/user-findByPkey/http-request.adoc[]
+
+If the resource exists the server responds with a `200-OK` and the `User` representation in the response body.
+
+include::{generated}/user-findByPkey/http-response.adoc[]
