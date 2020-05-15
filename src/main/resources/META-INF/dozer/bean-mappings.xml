@@ -88,8 +88,8 @@
             <a is-accessible="true">department</a>
             <b is-accessible="true">department</b>
         </field>
-        <field type="one-way" c>
-            <a>image</a>
+        <field type="one-way" custom-converter="org.openwms.core.uaa.impl.Base64Converter">
+            <a is-accessible="true">image</a>
             <b is-accessible="true">image</b>
         </field>
         <field>

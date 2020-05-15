@@ -15,9 +15,8 @@
  */
 package org.openwms.core.uaa.impl;
 
+import org.apache.commons.codec.binary.Base64;
 import org.dozer.DozerConverter;
-
-import java.time.LocalDateTime;
 
 /**
  * A Base64Converter.
@@ -29,7 +28,7 @@ public class Base64Converter extends DozerConverter<byte[], String> {
     /**
      * {@inheritDoc}
      */
-    public LocalDateTimeConverter() {
+    public Base64Converter() {
         super(byte[].class, String.class);
     }
 
@@ -38,7 +37,7 @@ public class Base64Converter extends DozerConverter<byte[], String> {
      */
     @Override
     public String convertTo(byte[] source, String destination) {
-        return source;
+        return Base64.encodeBase64String(source);
     }
 
     /**
@@ -46,6 +45,6 @@ public class Base64Converter extends DozerConverter<byte[], String> {
      */
     @Override
     public byte[] convertFrom(String source, byte[] destination) {
-        return convertTo(source, destination);
+        return Base64.decodeBase64(source);
     }
 }

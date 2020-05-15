@@ -1,0 +1,5 @@
+[[section-building-block-view]]
+
+== Building Block View
+
+=== Whitebox: Common Service

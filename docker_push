@@ -1,3 +1,0 @@
-#!/bin/bash
-echo "$DOCKER_PASSWORD" | docker login -u openwms --password-stdin
-docker push openwms/org.openwms.core.uaa:latest
