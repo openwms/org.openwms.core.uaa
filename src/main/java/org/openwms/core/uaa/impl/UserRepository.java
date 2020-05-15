@@ -35,6 +35,8 @@ import java.util.Optional;
  */
 interface UserRepository extends JpaRepository<User, Long> {
 
+    Optional<User> findBypKey(String pKey);
+
     Optional<User> findByUsername(String username);
 
     /**

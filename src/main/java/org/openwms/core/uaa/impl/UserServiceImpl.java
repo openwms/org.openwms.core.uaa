@@ -5,7 +5,7 @@
  * This file is part of openwms.org.
  *
  * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as 
+ * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -21,8 +21,10 @@
  */
 package org.openwms.core.uaa.impl;
 
+import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
+import org.ameba.exception.ResourceExistsException;
 import org.ameba.exception.ServiceLayerException;
 import org.ameba.i18n.Translator;
 import org.openwms.core.annotation.FireAfterTransaction;
@@ -41,6 +43,7 @@ import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.Collection;
@@ -87,8 +90,13 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
-    public void uploadImageFile(Long id, byte[] image) {
-        User user = repository.findById(id).orElseThrow(()->new NotFoundException(translator.translate(ExceptionCodes.ENTITY_NOT_EXIST, id), ExceptionCodes.ENTITY_NOT_EXIST));
+    public void uploadImageFile(String pKey, byte[] image) {
+        User user = repository
+                .findBypKey(pKey)
+                .orElseThrow(() -> new NotFoundException(
+                        translator.translate(ExceptionCodes.ENTITY_NOT_EXIST, pKey),
+                        ExceptionCodes.ENTITY_NOT_EXIST)
+                );
         user.getUserDetails().setImage(image);
         repository.save(user);
     }
@@ -138,24 +146,29 @@ class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public User create(User user) {
-        // TODO [openwms]: 03/05/17 to be implemented
-        return null;
+    @Measured
+    public User create(@NotNull @Valid User user) {
+        Optional<User> eo = repository.findByUsername(user.getUsername());
+        if (eo.isPresent()) {
+            throw new ResourceExistsException("user with username already exists");
+        }
+        return repository.save(user);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Measured
     public Optional<User> findByUsername(String username) {
-        // TODO [openwms]: 03/05/17 to be implemented
-        return Optional.empty();
+        return repository.findByUsername(username);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Measured
     public void remove(String username) {
         repository.delete(repository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, username))));
     }
@@ -164,8 +177,8 @@ class UserServiceImpl implements UserService {
      * {@inheritDoc}
      *
      * @throws ServiceLayerException if <ul> <li><code>userPassword</code> is <code>null</code></li> <li>the new password is invalid and
-     *                               does not match the password rules</li> </ul>
-     * @throws NotFoundException     if no {@link User} exists
+     * does not match the password rules</li> </ul>
+     * @throws NotFoundException if no {@link User} exists
      */
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
@@ -218,6 +231,6 @@ class UserServiceImpl implements UserService {
      */
     @Override
     public User findById(Long pk) {
-        return repository.findById(pk).orElseThrow(()->new NotFoundException(String.format("No User with pk %s found", pk)));
+        return repository.findById(pk).orElseThrow(() -> new NotFoundException(String.format("No User with pk %s found", pk)));
     }
 }

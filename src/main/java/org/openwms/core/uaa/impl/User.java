@@ -5,7 +5,7 @@
  * This file is part of openwms.org.
  *
  * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as 
+ * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -22,6 +22,7 @@
 package org.openwms.core.uaa.impl;
 
 import org.ameba.integration.jpa.ApplicationEntity;
+import org.openwms.core.app.DefaultTimeProvider;
 import org.openwms.core.exception.InvalidPasswordException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,23 +33,19 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -66,26 +63,21 @@ import java.util.Set;
  * @since 0.1
  */
 @Entity
-@Table(name = "COR_USER")
+@Table(name = "COR_USER", uniqueConstraints = @UniqueConstraint(name = "UC_UAA_USER_NAME", columnNames = {"C_USERNAME"}))
 public class User extends ApplicationEntity implements Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
     /** Unique identifier of this User (not nullable). */
     @Column(name = "C_USERNAME", unique = true, nullable = false)
-    @NotNull
-    @Size(min = 1)
+    @NotEmpty
     private String username;
     /** {@code true} if the User is authenticated by an external system, otherwise {@code false}. */
     @Column(name = "C_EXTERN")
     private boolean extern = false;
     /** Date of the last password change. */
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "C_LAST_PASSWORD_CHANGE")
-    private Date lastPasswordChange;
-    /**
-     * {@code true} if this User is locked and has not the permission to login anymore. This field is set by the backend application, e.g.
-     * when the expirationDate of the account has expired.
-     */
+    private ZonedDateTime lastPasswordChange;
+    /** {@code true} if this User is locked and has not the permission to login. */
     @Column(name = "C_LOCKED")
     private boolean locked = false;
     /** The User's current password (only kept transient). */
@@ -94,50 +86,36 @@ public class User extends ApplicationEntity implements Serializable {
     /** The User's current password. */
     @Column(name = "C_PASSWORD")
     private String persistedPassword;
-    /** {@code true} if the User is enabled. This field can be managed by the UI application to lock an User manually. */
+    /** {@code true} if the User is enabled. This field can be managed by the UI application to lock the User manually. */
     @Column(name = "C_ENABLED")
     private boolean enabled = true;
     /** Date when the account expires. After account expiration, the User cannot login anymore. */
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "C_EXPIRATION_DATE")
-    private Date expirationDate;
-    /** The User's fullname. Doesn't have to be unique. */
+    private ZonedDateTime expirationDate;
+    /** The User's fullname (doesn't have to be unique). */
     @Column(name = "C_FULLNAME")
     private String fullname;
+    /** The primary email address used to contact the User. */
     @ManyToOne
     private Email primaryEmailAddress;
+    /** Secondary email addresses. */
     @OneToMany(mappedBy = "username")
     private Set<Email> emailAddresses;
-
-    /* ------------------- collection mapping ------------------- */
     /** More detail information of the User. */
     @Embedded
     private UserDetails userDetails = new UserDetails();
-
-    /**
-     * List of {@link Role}s assigned to the User. In a JPA context eager loaded.
-     *
-     * @see javax.persistence.FetchType#EAGER
-     */
+    /** List of {@link Role}s assigned to the User. */
     @ManyToMany(mappedBy = "users", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     private List<Role> roles = new ArrayList<>();
-
-    /** Password history of the User. */
-    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})
-    @JoinTable(name = "COR_USER_PASSWORD_JOIN", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "PASSWORD_ID"))
+    /** Last passwords of the User. */
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})
     private List<UserPassword> passwords = new ArrayList<>();
-
-    /**
-     * The number of passwords to be stored in the password history. When an User changes the password, the old password is stored in a
-     * Collection. Default: {@value}.
-     */
+    /** The number of passwords to keep in the password history. Default: {@value}. */
     public static final short NUMBER_STORED_PASSWORDS = 3;
 
     /* ----------------------------- constructors ------------------- */
 
-    /**
-     * Accessed by persistence provider.
-     */
+    /** Dear JPA... */
     protected User() {
         super();
         loadLazy();
@@ -227,8 +205,8 @@ public class User extends ApplicationEntity implements Serializable {
      *
      * @return The date when the password has changed recently
      */
-    public Date getLastPasswordChange() {
-        return lastPasswordChange == null ? null : new Date(lastPasswordChange.getTime());
+    public ZonedDateTime getLastPasswordChange() {
+        return lastPasswordChange;
     }
 
     /**
@@ -265,15 +243,14 @@ public class User extends ApplicationEntity implements Serializable {
      * @throws InvalidPasswordException in case changing the password is not allowed or the new password is not valid
      */
     public void changePassword(String encodedPassword, String rawPassword, PasswordEncoder encoder) throws InvalidPasswordException {
-        if (persistedPassword != null && encoder.matches(rawPassword ,persistedPassword)) {
-            LOGGER.debug("Trying to set the new password equals to the current password");
+        if (persistedPassword != null && encoder.matches(rawPassword, persistedPassword)) {
             return;
         }
         validateAgainstPasswordHistory(rawPassword, encoder);
-        storeOldPassword(this.password);
+        storeOldPassword(password);
         persistedPassword = encodedPassword;
-        this.password = encodedPassword;
-        lastPasswordChange = new Date();
+        password = encodedPassword;
+        lastPasswordChange = new DefaultTimeProvider().nowAsZonedDateTime();
     }
 
     /**
@@ -289,12 +266,11 @@ public class User extends ApplicationEntity implements Serializable {
      * Check whether the new password is in the history of former passwords.
      *
      * @param rawPassword The password to verify
-     * @return {@literal true} if the password is valid, otherwise {@literal false}
      */
     protected void validateAgainstPasswordHistory(String rawPassword, PasswordEncoder encoder) throws InvalidPasswordException {
-        for(UserPassword up : passwords) {
+        for (UserPassword up : passwords) {
             if (encoder.matches(rawPassword, up.getPassword())) {
-                throw new InvalidPasswordException("Password is not confirm with defined rules");
+                throw new InvalidPasswordException("Password does not match the defined rules");
             }
         }
     }
@@ -341,8 +317,8 @@ public class User extends ApplicationEntity implements Serializable {
      *
      * @return The expiration date
      */
-    public Date getExpirationDate() {
-        return expirationDate == null ? null : new Date(expirationDate.getTime());
+    public ZonedDateTime getExpirationDate() {
+        return expirationDate;
     }
 
     /**
@@ -350,7 +326,7 @@ public class User extends ApplicationEntity implements Serializable {
      *
      * @param expDate The new expiration date to set
      */
-    public void setExpirationDate(Date expDate) {
+    public void setExpirationDate(ZonedDateTime expDate) {
         expirationDate = expDate;
     }
 

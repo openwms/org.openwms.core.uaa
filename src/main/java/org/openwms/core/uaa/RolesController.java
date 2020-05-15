@@ -24,6 +24,7 @@ package org.openwms.core.uaa;
 import org.ameba.http.Response;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.core.http.HttpBusinessException;
+import org.openwms.core.uaa.api.RoleVO;
 import org.openwms.core.uaa.impl.Role;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

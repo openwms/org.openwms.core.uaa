@@ -3,3 +3,6 @@ eureka:
     healthcheck:
       enabled: true
 
+system:
+  user: openwms
+  password: openwms

@@ -64,7 +64,8 @@
     </ciManagement>
 
     <properties>
-        <core.version>1.7.0-SNAPSHOT</core.version>
+        <ameba-lib.version>2.4-SNAPSHOT</ameba-lib.version>
+        <core.version>1.8.0-SNAPSHOT</core.version>
         <spring-cloud-dependencies.version>Hoxton.RELEASE</spring-cloud-dependencies.version>
     </properties>
 
@@ -294,6 +295,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -319,8 +321,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.springframework.restdocs</groupId>
+            <artifactId>spring-restdocs-mockmvc</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

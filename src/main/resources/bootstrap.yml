@@ -1,23 +1,28 @@
 spring:
   application:
     name: core-uaa
-  config:
-    name: globals
   cloud:
     config:
       discovery:
         enabled: false
         service-id: openwms-config
       enabled: false
-      fail-fast: false # true means retry
+      fail-fast: true # true means retry
       retry:
         max-attempts: 120
     discovery:
       enabled: false
+  config:
+    location: classpath:application.yml
   security:
     user:
       password: openwms
       name: openwms
+  jackson:
+    date-format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
+  zipkin:
+    sender:
+      type: web
 
 feign:
   httpclient:
@@ -61,9 +66,61 @@ management:
   health:
     rabbit:
       enabled: false
-
+  metrics:
+    web:
+      server:
+        request:
+          autotime:
+            enabled: true
+    export:
+      prometheus:
+        enabled: true
+  info:
+    git:
+      mode: full
 logging:
-  file: "/tmp/owms/BOOT-CORE-uaa.log"
+  file:
+    name: BOOT-CORE-uaa.log
+    path: "/tmp/owms"
+
+---
+spring:
+  profiles: ASYNCHRONOUS
+  cloud:
+    config:
+      discovery:
+        enabled: true
+      enabled: true
+      fail-fast: true # true means retry
+    discovery:
+      enabled: true
+
+management:
+  health:
+    rabbit:
+      enabled: true
+
+---
+spring:
+  profiles: CLOUD
+  cloud:
+    config:
+      discovery:
+        enabled: true
+      enabled: true
+      fail-fast: true # true means retry
+    discovery:
+      enabled: true
+
+---
+spring:
+  profiles: DEV
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: lazy
+  main:
+    lazy-initialization: true
 
 ---
 spring:
@@ -91,20 +148,14 @@ eureka:
 
 ---
 spring:
-  profiles: ASYNCHRONOUS
-  cloud:
-    config:
-      discovery:
-        enabled: true
-      enabled: true
-      fail-fast: true # true means retry
-    discovery:
-      enabled: true
-
-management:
-  health:
-    rabbit:
-      enabled: true
+  profiles: K8S
+  rabbitmq:
+    host: owms-broker
+owms:
+  eureka:
+    url: http://user:sa@owms-services:8761
+  srv:
+    hostname: owms-core-uaa
 
 ---
 spring:

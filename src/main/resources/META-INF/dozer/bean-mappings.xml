@@ -8,6 +8,57 @@
         <stop-on-errors>true</stop-on-errors>
         <date-format>MM/dd/yyyy HH:mm</date-format>
         <wildcard>true</wildcard>
+        <custom-converters>
+            <converter type="org.ameba.mapping.LocalDateTimeConverter">
+                <class-a>java.time.LocalDateTime</class-a>
+                <class-b>java.time.LocalDateTime</class-b>
+            </converter>
+            <converter type="org.ameba.mapping.ZonedDateTimeConverter">
+                <class-a>java.time.ZonedDateTime</class-a>
+                <class-b>java.time.ZonedDateTime</class-b>
+            </converter>
+        </custom-converters>
     </configuration>
+
+    <mapping>
+        <class-a>org.openwms.core.uaa.impl.User</class-a>
+        <class-b>org.openwms.core.uaa.api.UserVO</class-b>
+        <field>
+            <a is-accessible="true">pKey</a>
+            <b is-accessible="true">pKey</b>
+        </field>
+        <field>
+            <a is-accessible="true">username</a>
+            <b is-accessible="true">username</b>
+        </field>
+        <field>
+            <a is-accessible="true">extern</a>
+            <b is-accessible="true">extern</b>
+        </field>
+        <field type="one-way">
+            <a is-accessible="false">lastPasswordChange</a>
+            <b is-accessible="false">lastPasswordChange</b>
+        </field>
+        <field>
+            <a is-accessible="true">locked</a>
+            <b is-accessible="true">locked</b>
+        </field>
+        <field>
+            <a is-accessible="true">enabled</a>
+            <b is-accessible="true">enabled</b>
+        </field>
+        <field>
+            <a is-accessible="true">expirationDate</a>
+            <b is-accessible="true">expirationDate</b>
+        </field>
+        <field>
+            <a is-accessible="true">fullname</a>
+            <b is-accessible="true">fullname</b>
+        </field>
+        <field>
+            <a is-accessible="true">userDetails</a>
+            <b is-accessible="true">userDetails</b>
+        </field>
+    </mapping>
 
 </mappings>

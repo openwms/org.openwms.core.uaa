@@ -28,6 +28,7 @@ import org.openwms.core.uaa.impl.SystemUser;
 import org.openwms.core.uaa.impl.User;
 import org.openwms.core.uaa.impl.UserPassword;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
@@ -51,10 +52,10 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
     /**
      * Attach and save an {@code image} to an {@link User} with {@code id}.
      *
-     * @param id Id of the {@link User}
+     * @param pKey The persistent key of the {@link User}
      * @param image Image to be stored
      */
-    void uploadImageFile(Long id, byte[] image);
+    void uploadImageFile(String pKey, byte[] image);
 
     /**
      * Return a transient {@link User} entity object, serving as a template.
@@ -81,7 +82,13 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
      */
     SystemUser createSystemUser();
 
-    User create(User user);
+    /**
+     * Create a non-existing User.
+     *
+     * @param user The User instance to create
+     * @return The created instance
+     */
+    User create(@NotNull @Valid User user);
 
     /**
      *

@@ -119,7 +119,7 @@ public class UserServiceIT {
     @Test
     final void testUploadImageNotFound() {
         thrown.expect(NotFoundException.class);
-        srv.uploadImageFile(100L, new byte[222]);
+        srv.uploadImageFile("100L", new byte[222]);
     }
 
     /**
@@ -128,7 +128,7 @@ public class UserServiceIT {
     public
     @Test
     final void testUploadImage() {
-        srv.uploadImageFile(findUser(KNOWN_USER).getPk(), new byte[222]);
+        srv.uploadImageFile(findUser(KNOWN_USER).getPersistentKey(), new byte[222]);
         User user = findUser(KNOWN_USER);
         assertThat(user.getUserDetails().getImage()).hasSize(222);
     }

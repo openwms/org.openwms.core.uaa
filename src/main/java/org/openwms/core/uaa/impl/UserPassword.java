@@ -22,6 +22,7 @@
 package org.openwms.core.uaa.impl;
 
 import org.ameba.integration.jpa.BaseEntity;
+import org.openwms.core.app.DefaultTimeProvider;
 import org.springframework.util.Assert;
 
 import javax.persistence.Column;
@@ -30,17 +31,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.ZonedDateTime;
 
 /**
  * Is a representation of an {@link User} together with her password. <p> When an {@link User} changes her password, the current password is
  * added to a history list of passwords. This is necessary to omit {@link User}s from setting formerly used passwords. </p>
  *
  * @author Heiko Scherrer
- * @version 0.2
  * @GlossaryTerm
  * @see User
- * @since 0.1
  */
 @Entity
 @Table(name = "COR_USER_PASSWORD")
@@ -55,7 +54,7 @@ public class UserPassword extends BaseEntity implements Serializable {
     /** Date of the last password change. */
     @Column(name = "C_PASSWORD_CHANGED")
     @OrderBy
-    private Date passwordChanged = new Date();
+    private ZonedDateTime passwordChanged = new DefaultTimeProvider().nowAsZonedDateTime();
 
     /* ----------------------------- methods ------------------- */
 
@@ -112,8 +111,8 @@ public class UserPassword extends BaseEntity implements Serializable {
      *
      * @return The date when the password has changed
      */
-    public Date getPasswordChanged() {
-        return new Date(passwordChanged.getTime());
+    public ZonedDateTime getPasswordChanged() {
+        return passwordChanged;
     }
 
     /**

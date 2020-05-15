@@ -19,8 +19,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+
+import javax.validation.Validator;
 
 /**
  * A UAAModuleConfiguration.
@@ -36,9 +37,9 @@ class UAAModuleConfiguration {
     }
 
     @Bean
-    MethodValidationPostProcessor methodValidationPostProcessor(LocalValidatorFactoryBean validatorFactoryBean) {
+    MethodValidationPostProcessor methodValidationPostProcessor(Validator validator) {
         MethodValidationPostProcessor mvpp = new MethodValidationPostProcessor();
-        mvpp.setValidator(validatorFactoryBean);
+        mvpp.setValidator(validator);
         return mvpp;
     }
 }
