@@ -13,7 +13,6 @@ env:
 
 cache:
   directories:
-    - .autoconf
     - $TRAVIS_HOME/.m2
 
 services:
