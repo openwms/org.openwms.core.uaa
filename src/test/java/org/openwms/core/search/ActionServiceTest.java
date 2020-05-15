@@ -29,8 +29,8 @@ import org.mockito.Mock;
 import org.openwms.core.AbstractMockitoTests;
 import org.openwms.core.configuration.ConfigurationService;
 import org.openwms.core.configuration.UserPreference;
-import org.openwms.core.uaa.impl.SystemUser;
-import org.openwms.core.uaa.impl.User;
+import org.openwms.core.uaa.admin.impl.SystemUser;
+import org.openwms.core.uaa.admin.impl.User;
 
 import java.util.ArrayList;
 import java.util.Collection;

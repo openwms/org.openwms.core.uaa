@@ -21,7 +21,7 @@
  */
 package org.openwms.core.search;
 
-import org.openwms.core.uaa.impl.User;
+import org.openwms.core.uaa.admin.impl.User;
 
 import java.util.Collection;
 

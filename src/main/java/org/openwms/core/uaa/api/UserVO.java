@@ -35,7 +35,7 @@ import java.util.Objects;
 
 
 /**
- * A UserVO.
+ * A UserVO is the representation of a human User with all attributes of interest.
  *
  * @author Heiko Scherrer
  */
@@ -43,26 +43,36 @@ import java.util.Objects;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserVO extends AbstractBase implements Serializable {
 
+    /** The persistent key. */
     @JsonProperty("pKey")
     private String pKey;
+    /** The User's unique name. */
     @JsonProperty("username")
     @NotEmpty(groups = ValidationGroups.Create.class)
     private String username;
+    /** If the User is authenticated against an external system. */
     @JsonProperty("externalUser")
     private Boolean extern;
+    /** When the password has been changed the last time. */
     @JsonProperty("lastPasswordChange")
     private Date lastPasswordChange;
+    /** If the User is locked from login. */
     @JsonProperty("locked")
     private Boolean locked;
+    /** If the User is generally enabled in the system. */
     @JsonProperty("enabled")
     private Boolean enabled;
+    /** When the password expires. */
     @JsonProperty("expirationDate")
     private Date expirationDate;
+    /** The Users full name. */
     @JsonProperty("fullname")
     private String fullname;
+    /** More specific details of the User. */
     @JsonProperty("details")
     @Valid
     private UserDetailsVO userDetails;
+    /** The User's email address. */
     @JsonProperty("email")
     @NotEmpty(groups = ValidationGroups.Create.class)
     private String email;

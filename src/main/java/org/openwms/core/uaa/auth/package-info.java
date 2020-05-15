@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 /**
- * Contains implementation of the Authentication feature.
+ * Contains internal implementation classes of the Authentication feature.
  */
 package org.openwms.core.uaa.auth;

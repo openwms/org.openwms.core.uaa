@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 /**
- * Contains internal but general types used in the whole module.
+ * Contains implementation of the Administration feature.
  */
-package org.openwms.core.uaa.impl;
+package org.openwms.core.uaa.admin;

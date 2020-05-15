@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 /**
- * Service definitions and implementations around User Authentication and Authorization (UAA).
+ * Contains the implementation of the User Authentication and Authorization (UAA).
  */
 package org.openwms.core.uaa;

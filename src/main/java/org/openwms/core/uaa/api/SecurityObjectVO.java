@@ -21,60 +21,79 @@
  */
 package org.openwms.core.uaa.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A SecurityObjectVO.
  *
  * @author Heiko Scherrer
- * @version $Revision: $
- * @since 0.1
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SecurityObjectVO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    @JsonProperty("name")
+    @NotEmpty
     private String name;
+    @JsonProperty("description")
     private String description;
 
-    /**
-     * Create a new SecurityObjectVO.
-     */
     public SecurityObjectVO() {
     }
 
-    /**
-     * Get the name.
-     *
-     * @return the name.
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * Set the name.
-     *
-     * @param name The name to set.
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * Get the description.
-     *
-     * @return the description.
-     */
     public String getDescription() {
         return description;
     }
 
-    /**
-     * Set the description.
-     *
-     * @param description The description to set.
-     */
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SecurityObjectVO that = (SecurityObjectVO) o;
+        return Objects.equals(name, that.name) &&
+                Objects.equals(description, that.description);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Name only.
+     */
+    @Override
+    public String toString() {
+        return name;
     }
 }

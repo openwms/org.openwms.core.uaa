@@ -21,145 +21,159 @@
  */
 package org.openwms.core.uaa.api;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.ameba.http.AbstractBase;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
- * A RoleVO.
+ * A RoleVO is the representation of the role an User is assigned to.
  * 
  * @author Heiko Scherrer
- * @version 0.2
- * @since 0.1
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RoleVO extends AbstractBase implements Serializable {
 
-    /**
-     * Create a new RoleVO.
-     */
-    public RoleVO() {}
+    /** The persistent key. */
+    @JsonProperty("pKey")
+    private String pKey;
+    /** The unique Role name. */
+    @JsonProperty("name")
+    @NotEmpty
+    private String name;
+    /** If the Role can be modified. */
+    @JsonProperty("immutable")
+    private Boolean immutable;
+    /** A descriptive text for the Role. */
+    @JsonProperty("description")
+    private String description;
+    /** A collection of Users that are assigned to the Role. */
+    @JsonProperty("users")
+    private Set<UserVO> users;
+    /** A collection of Grants that are assigned to the Role. */
+    @JsonProperty("grants")
+    private Set<SecurityObjectVO> grants ;
 
-    /**
-     * Get the immutable.
-     * 
-     * @return the immutable.
-     */
-    public Boolean getImmutable() {
-        return immutable;
+    @JsonCreator
+    public RoleVO() {
     }
 
-    /**
-     * Set the immutable.
-     * 
-     * @param immutable
-     *            The immutable to set.
-     */
-    public void setImmutable(Boolean immutable) {
-        this.immutable = immutable;
+    private RoleVO(Builder builder) {
+        pKey = builder.pKey;
+        name = builder.name;
+        immutable = builder.immutable;
+        description = builder.description;
+        users = builder.users;
+        grants = builder.grants;
     }
 
-    /**
-     * Get the name.
-     * 
-     * @return the name.
-     */
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
+    public String getpKey() {
+        return pKey;
+    }
+
     public String getName() {
         return name;
     }
 
-    /**
-     * Set the name.
-     * 
-     * @param name
-     *            The name to set.
-     */
-    public void setName(String name) {
-        this.name = name;
+    public Boolean getImmutable() {
+        return immutable;
     }
 
-    /**
-     * Get the description.
-     * 
-     * @return the description.
-     */
     public String getDescription() {
         return description;
     }
 
-    /**
-     * Set the description.
-     * 
-     * @param description
-     *            The description to set.
-     */
-    public void setDescription(String description) {
-        this.description = description;
+    public Set<UserVO> getUsers() {
+        return users;
     }
 
-    /**
-     * Get the grants.
-     * 
-     * @return the grants.
-     */
     public Set<SecurityObjectVO> getGrants() {
         return grants;
     }
 
     /**
-     * Set the grants.
-     * 
-     * @param grants
-     *            The grants to set.
+     * {@inheritDoc}
+     *
+     * All fields.
      */
-    public void setGrants(Set<SecurityObjectVO> grants) {
-        this.grants = grants;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        RoleVO roleVO = (RoleVO) o;
+        return Objects.equals(pKey, roleVO.pKey) &&
+                Objects.equals(name, roleVO.name) &&
+                Objects.equals(immutable, roleVO.immutable) &&
+                Objects.equals(description, roleVO.description) &&
+                Objects.equals(users, roleVO.users) &&
+                Objects.equals(grants, roleVO.grants);
     }
 
     /**
-     * Set the version.
-     * 
-     * @param version
-     *            The version to set.
+     * {@inheritDoc}
+     *
+     * All fields.
      */
-    public void setVersion(long version) {
-        this.version = version;
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), pKey, name, immutable, description, users, grants);
     }
 
-    /**
-     * Get the version.
-     * 
-     * @return the version.
-     */
-    public long getVersion() {
-        return version;
-    }
+    public static final class Builder {
+        private String pKey;
+        private String name;
+        private Boolean immutable;
+        private String description;
+        private Set<UserVO> users;
+        private Set<SecurityObjectVO> grants;
 
-    /**
-     * Get the users.
-     * 
-     * @return the users.
-     */
-    public Set<RoleUserVO> getUsers() {
-        return users;
-    }
+        private Builder() {
+        }
 
-    /**
-     * Set the users.
-     * 
-     * @param users
-     *            The users to set.
-     */
-    public void setUsers(Set<RoleUserVO> users) {
-        this.users = users;
-    }
+        public Builder pKey(String val) {
+            pKey = val;
+            return this;
+        }
 
-    private Long id;
-    private Boolean immutable;
-    private String name;
-    private String description;
-    private Set<RoleUserVO> users = new HashSet<>();
-    private Set<SecurityObjectVO> grants = new HashSet<>();
-    private long version;
+        public Builder name(String val) {
+            name = val;
+            return this;
+        }
+
+        public Builder immutable(Boolean val) {
+            immutable = val;
+            return this;
+        }
+
+        public Builder description(String val) {
+            description = val;
+            return this;
+        }
+
+        public Builder users(Set<UserVO> val) {
+            users = val;
+            return this;
+        }
+
+        public Builder grants(Set<SecurityObjectVO> val) {
+            grants = val;
+            return this;
+        }
+
+        public RoleVO build() {
+            return new RoleVO(this);
+        }
+    }
 }

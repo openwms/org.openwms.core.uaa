@@ -21,7 +21,7 @@
     </configuration>
 
     <mapping>
-        <class-a>org.openwms.core.uaa.impl.User</class-a>
+        <class-a>org.openwms.core.uaa.admin.impl.User</class-a>
         <class-b>org.openwms.core.uaa.api.UserVO</class-b>
         <field>
             <a is-accessible="true">pKey</a>
@@ -62,7 +62,7 @@
     </mapping>
 
     <mapping>
-        <class-a>org.openwms.core.uaa.impl.UserDetails</class-a>
+        <class-a>org.openwms.core.uaa.admin.impl.UserDetails</class-a>
         <class-b>org.openwms.core.uaa.api.UserDetailsVO</class-b>
         <field>
             <a is-accessible="true">description</a>
