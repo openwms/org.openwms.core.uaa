@@ -36,7 +36,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
  *
  * @author Heiko Scherrer
  */
-@Profile(&quot;!TEST&quot;)
+@Profile(&quot;!TEST &amp;&amp; AUTHSERVER&quot;)
 @Configuration
 @EnableAuthorizationServer
 <span class="nc" id="L42">class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {</span>

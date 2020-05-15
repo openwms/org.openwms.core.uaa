@@ -24,6 +24,7 @@ package org.openwms.core.uaa;
 import org.ameba.http.Response;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.core.http.HttpBusinessException;
+import org.openwms.core.uaa.api.RoleVO;
 import org.openwms.core.uaa.impl.Role;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -56,10 +57,10 @@ public class RolesController {
     private final RoleService service;
     private final BeanMapper m;
 
-<span class="fc" id="L59">    public RolesController(RoleService service, BeanMapper m) {</span>
-<span class="fc" id="L60">        this.service = service;</span>
-<span class="fc" id="L61">        this.m = m;</span>
-<span class="fc" id="L62">    }</span>
+<span class="fc" id="L60">    public RolesController(RoleService service, BeanMapper m) {</span>
+<span class="fc" id="L61">        this.service = service;</span>
+<span class="fc" id="L62">        this.m = m;</span>
+<span class="fc" id="L63">    }</span>
 
     /**
      * Documented here: https://openwms.atlassian.net/wiki/x/EYAWAQ
@@ -69,8 +70,8 @@ public class RolesController {
      */
     @GetMapping(UAAConstants.API_ROLES)
     public List&lt;RoleVO&gt; findAllRoles() {
-<span class="nc" id="L72">        List&lt;RoleVO&gt; roles = m.map(new ArrayList&lt;&gt;(service.findAll()), RoleVO.class);</span>
-<span class="nc" id="L73">        return roles;</span>
+<span class="nc" id="L73">        List&lt;RoleVO&gt; roles = m.map(new ArrayList&lt;&gt;(service.findAll()), RoleVO.class);</span>
+<span class="nc" id="L74">        return roles;</span>
     }
 
     /**
@@ -82,16 +83,16 @@ public class RolesController {
      */
     @PostMapping(UAAConstants.API_ROLES)
     public RoleVO create(@RequestBody @Valid @NotNull RoleVO role, HttpServletRequest req, HttpServletResponse resp) {
-<span class="nc" id="L85">        RoleVO createdRole = m.map(service.save(m.map(role, Role.class)), RoleVO.class);</span>
+<span class="nc" id="L86">        RoleVO createdRole = m.map(service.save(m.map(role, Role.class)), RoleVO.class);</span>
         // FIXME [openwms]: 02.12.19
-<span class="nc" id="L87">        resp.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req,&quot;&quot;));</span>
-<span class="nc" id="L88">        return createdRole;</span>
+<span class="nc" id="L88">        resp.addHeader(HttpHeaders.LOCATION, getLocationForCreatedResource(req,&quot;&quot;));</span>
+<span class="nc" id="L89">        return createdRole;</span>
     }
 
     private String getLocationForCreatedResource(HttpServletRequest req, String objId) {
-<span class="nc" id="L92">        StringBuffer url = req.getRequestURL();</span>
-<span class="nc" id="L93">        UriTemplate template = new UriTemplate(url.append(&quot;/{objId}/&quot;).toString());</span>
-<span class="nc" id="L94">        return template.expand(objId).toASCIIString();</span>
+<span class="nc" id="L93">        StringBuffer url = req.getRequestURL();</span>
+<span class="nc" id="L94">        UriTemplate template = new UriTemplate(url.append(&quot;/{objId}/&quot;).toString());</span>
+<span class="nc" id="L95">        return template.expand(objId).toASCIIString();</span>
     }
 
     /**
@@ -125,7 +126,7 @@ public class RolesController {
         }
         return new ResponseEntity&lt;ResponseVO&gt;(result, resultStatus);
         */
-<span class="nc" id="L128">        return null;</span>
+<span class="nc" id="L129">        return null;</span>
     }
 
     /**
@@ -138,11 +139,11 @@ public class RolesController {
     @ResponseStatus(HttpStatus.OK)
     public RoleVO save(@RequestBody @Valid RoleVO role) {
         // FIXME [openwms]: 02.12.19 check if this is really the name
-<span class="nc bnc" id="L141" title="All 2 branches missed.">        if (role.getName() == null) {</span>
-<span class="nc" id="L142">            throw new HttpBusinessException(&quot;Role to save is a transient one&quot;, HttpStatus.NOT_ACCEPTABLE);</span>
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        if (role.getName() == null) {</span>
+<span class="nc" id="L143">            throw new HttpBusinessException(&quot;Role to save is a transient one&quot;, HttpStatus.NOT_ACCEPTABLE);</span>
         }
-<span class="nc" id="L144">        Role toSave = m.map(role, Role.class);</span>
-<span class="nc" id="L145">        return m.map(service.save(toSave), RoleVO.class);</span>
+<span class="nc" id="L145">        Role toSave = m.map(role, Role.class);</span>
+<span class="nc" id="L146">        return m.map(service.save(toSave), RoleVO.class);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

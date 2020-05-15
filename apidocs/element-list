@@ -3,4 +3,5 @@ org.openwms.core.app
 org.openwms.core.configuration
 org.openwms.core.search
 org.openwms.core.uaa
+org.openwms.core.uaa.api
 org.openwms.core.uaa.impl

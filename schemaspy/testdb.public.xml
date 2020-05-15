@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<database name="testdb" schema="public" type="PostgreSQL - 9.6.6">
+<database name="testdb" schema="public" type="PostgreSQL - 9.6.17">
    <tables>
       <table name="cor_email" numRows="0" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8">
@@ -74,7 +74,6 @@
          <column autoUpdated="false" digits="0" id="1" name="c_pk" nullable="false" remarks="" size="19" type="int8">
             <child column="user_id" foreignKey="fke85ne4vji6gfdf8qq89qc9gps" implied="false" onDeleteCascade="false" table="cor_role_user_join"/>
             <child column="user_c_pk" foreignKey="fkckdphof988ejuadvrgxbfcgfg" implied="false" onDeleteCascade="false" table="cor_user_password"/>
-            <child column="user_id" foreignKey="fkavp89pmgj3a93mdiruita6ue8" implied="false" onDeleteCascade="false" table="cor_user_password_join"/>
          </column>
          <column autoUpdated="false" digits="6" id="2" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
          <column autoUpdated="false" digits="6" id="3" name="c_updated" nullable="true" remarks="" size="29" type="timestamp"/>
@@ -90,11 +89,11 @@
          <column autoUpdated="false" digits="0" id="13" name="c_comment" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="14" name="c_department" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="15" name="c_description" nullable="true" remarks="" size="1024" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="16" name="c_image" nullable="true" remarks="" size="10" type="oid"/>
-         <column autoUpdated="false" digits="0" id="17" name="c_office" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="18" name="c_phone_no" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="19" name="c_sex" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="20" name="c_im" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="16" name="c_gender" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="17" name="c_im" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="18" name="c_image" nullable="true" remarks="" size="10" type="oid"/>
+         <column autoUpdated="false" digits="0" id="19" name="c_office" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="20" name="c_phone_no" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="21" name="c_username" nullable="false" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="22" name="primary_email_address_c_pk" nullable="true" remarks="" size="19" type="int8">
             <parent column="c_pk" foreignKey="fkbk67qegv1o07b3wtwvfpweb92" implied="false" onDeleteCascade="false" table="cor_email"/>
@@ -103,14 +102,15 @@
          <index name="cor_user_pkey" unique="true">
             <column ascending="true" name="c_pk"/>
          </index>
+         <index name="uc_uaa_user_name" unique="true">
+            <column ascending="true" name="c_username"/>
+         </index>
          <index name="uk_89lq18culcijwk2ehr7dasx7q" unique="true">
             <column ascending="true" name="c_username"/>
          </index>
       </table>
       <table name="cor_user_password" numRows="0" remarks="" schema="public" type="TABLE">
-         <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8">
-            <child column="password_id" foreignKey="fkoih3v56t9x7ki2wxdsn9xahf" implied="false" onDeleteCascade="false" table="cor_user_password_join"/>
-         </column>
+         <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8"/>
          <column autoUpdated="false" digits="6" id="1" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
          <column autoUpdated="false" digits="6" id="2" name="c_updated" nullable="true" remarks="" size="29" type="timestamp"/>
          <column autoUpdated="false" digits="0" id="3" name="c_ol" nullable="true" remarks="" size="19" type="int8"/>
@@ -122,17 +122,6 @@
          <primaryKey column="c_pk" sequenceNumberInPK="1"/>
          <index name="cor_user_password_pkey" unique="true">
             <column ascending="true" name="c_pk"/>
-         </index>
-      </table>
-      <table name="cor_user_password_join" numRows="0" remarks="" schema="public" type="TABLE">
-         <column autoUpdated="false" digits="0" id="0" name="user_id" nullable="false" remarks="" size="19" type="int8">
-            <parent column="c_pk" foreignKey="fkavp89pmgj3a93mdiruita6ue8" implied="false" onDeleteCascade="false" table="cor_user"/>
-         </column>
-         <column autoUpdated="false" digits="0" id="1" name="password_id" nullable="false" remarks="" size="19" type="int8">
-            <parent column="c_pk" foreignKey="fkoih3v56t9x7ki2wxdsn9xahf" implied="false" onDeleteCascade="false" table="cor_user_password"/>
-         </column>
-         <index name="uk_tbrligwdbrgoa4nn04bsl3wn9" unique="true">
-            <column ascending="true" name="password_id"/>
          </index>
       </table>
    </tables>

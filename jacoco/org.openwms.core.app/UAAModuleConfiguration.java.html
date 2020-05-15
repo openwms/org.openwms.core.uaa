@@ -19,8 +19,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+
+import javax.validation.Validator;
 
 /**
  * A UAAModuleConfiguration.
@@ -28,18 +29,18 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
  * @author Heiko Scherrer
  */
 @Configuration
-<span class="nc" id="L31">class UAAModuleConfiguration {</span>
+<span class="fc" id="L32">class UAAModuleConfiguration {</span>
 
     @Bean
     PasswordEncoder passwordEncoder() {
-<span class="nc" id="L35">        return new BCryptPasswordEncoder(15);</span>
+<span class="fc" id="L36">        return new BCryptPasswordEncoder(15);</span>
     }
 
     @Bean
-    MethodValidationPostProcessor methodValidationPostProcessor(LocalValidatorFactoryBean validatorFactoryBean) {
-<span class="nc" id="L40">        MethodValidationPostProcessor mvpp = new MethodValidationPostProcessor();</span>
-<span class="nc" id="L41">        mvpp.setValidator(validatorFactoryBean);</span>
-<span class="nc" id="L42">        return mvpp;</span>
+    MethodValidationPostProcessor methodValidationPostProcessor(Validator validator) {
+<span class="fc" id="L41">        MethodValidationPostProcessor mvpp = new MethodValidationPostProcessor();</span>
+<span class="fc" id="L42">        mvpp.setValidator(validator);</span>
+<span class="fc" id="L43">        return mvpp;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

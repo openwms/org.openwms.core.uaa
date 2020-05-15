@@ -1,4 +1,3 @@
-cor_user_password_join
 cor_role_user_join
 cor_role_role_join
 cor_user_password

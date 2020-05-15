@@ -5,7 +5,7 @@
  * This file is part of openwms.org.
  *
  * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as 
+ * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -21,8 +21,10 @@
  */
 package org.openwms.core.uaa.impl;
 
+import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
+import org.ameba.exception.ResourceExistsException;
 import org.ameba.exception.ServiceLayerException;
 import org.ameba.i18n.Translator;
 import org.openwms.core.annotation.FireAfterTransaction;
@@ -41,6 +43,8 @@ import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.Collection;
@@ -61,7 +65,7 @@ import java.util.Optional;
 @TxService
 class UserServiceImpl implements UserService {
 
-<span class="fc" id="L64">    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);</span>
+<span class="fc" id="L68">    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);</span>
     private final UserRepository repository;
     private final SecurityObjectRepository securityObjectDao;
     private final ConfigurationService confSrv;
@@ -72,13 +76,13 @@ class UserServiceImpl implements UserService {
     @Value(&quot;${system.password}&quot;)
     private String systemPassword;
 
-<span class="fc" id="L75">    UserServiceImpl(UserRepository repository, SecurityObjectRepository securityObjectDao, ConfigurationService confSrv, PasswordEncoder enc, Translator translator) {</span>
-<span class="fc" id="L76">        this.repository = repository;</span>
-<span class="fc" id="L77">        this.securityObjectDao = securityObjectDao;</span>
-<span class="fc" id="L78">        this.confSrv = confSrv;</span>
-<span class="fc" id="L79">        this.enc = enc;</span>
-<span class="fc" id="L80">        this.translator = translator;</span>
-<span class="fc" id="L81">    }</span>
+<span class="fc" id="L79">    UserServiceImpl(UserRepository repository, SecurityObjectRepository securityObjectDao, ConfigurationService confSrv, PasswordEncoder enc, Translator translator) {</span>
+<span class="fc" id="L80">        this.repository = repository;</span>
+<span class="fc" id="L81">        this.securityObjectDao = securityObjectDao;</span>
+<span class="fc" id="L82">        this.confSrv = confSrv;</span>
+<span class="fc" id="L83">        this.enc = enc;</span>
+<span class="fc" id="L84">        this.translator = translator;</span>
+<span class="fc" id="L85">    }</span>
 
     /**
      * {@inheritDoc}
@@ -87,11 +91,16 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
-    public void uploadImageFile(Long id, byte[] image) {
-<span class="fc" id="L91">        User user = repository.findById(id).orElseThrow(()-&gt;new NotFoundException(translator.translate(ExceptionCodes.ENTITY_NOT_EXIST, id), ExceptionCodes.ENTITY_NOT_EXIST));</span>
-<span class="fc" id="L92">        user.getUserDetails().setImage(image);</span>
-<span class="fc" id="L93">        repository.save(user);</span>
-<span class="fc" id="L94">    }</span>
+    public void uploadImageFile(String pKey, byte[] image) {
+<span class="fc" id="L95">        User user = repository</span>
+<span class="fc" id="L96">                .findBypKey(pKey)</span>
+<span class="fc" id="L97">                .orElseThrow(() -&gt; new NotFoundException(</span>
+<span class="fc" id="L98">                        translator.translate(ExceptionCodes.ENTITY_NOT_EXIST, pKey),</span>
+                        ExceptionCodes.ENTITY_NOT_EXIST)
+                );
+<span class="fc" id="L101">        user.getUserDetails().setImage(image);</span>
+<span class="fc" id="L102">        repository.save(user);</span>
+<span class="fc" id="L103">    }</span>
 
     /**
      * {@inheritDoc}
@@ -103,8 +112,8 @@ class UserServiceImpl implements UserService {
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
     public User save(User entity) {
-<span class="fc" id="L106">        Assert.notNull(entity, ExceptionCodes.USER_SAVE_NOT_BE_NULL);</span>
-<span class="fc" id="L107">        return repository.save(entity);</span>
+<span class="fc" id="L115">        Assert.notNull(entity, ExceptionCodes.USER_SAVE_NOT_BE_NULL);</span>
+<span class="fc" id="L116">        return repository.save(entity);</span>
     }
 
     /**
@@ -115,7 +124,7 @@ class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public User getTemplate(String username) {
-<span class="fc" id="L118">        return new User(username);</span>
+<span class="fc" id="L127">        return new User(username);</span>
     }
 
     /**
@@ -126,61 +135,75 @@ class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public SystemUser createSystemUser() {
-<span class="fc" id="L129">        SystemUser sys = new SystemUser(systemUsername, systemPassword);</span>
-<span class="fc" id="L130">        Role role = new Role.Builder(SystemUser.SYSTEM_ROLE_NAME).withDescription(&quot;SuperUsers Role&quot;).asImmutable()</span>
-<span class="fc" id="L131">                .build();</span>
-<span class="fc" id="L132">        role.setGrants(new HashSet&lt;&gt;(securityObjectDao.findAll()));</span>
-<span class="fc" id="L133">        sys.addRole(role);</span>
-<span class="fc" id="L134">        return sys;</span>
+<span class="fc" id="L138">        SystemUser sys = new SystemUser(systemUsername, systemPassword);</span>
+<span class="fc" id="L139">        Role role = new Role.Builder(SystemUser.SYSTEM_ROLE_NAME).withDescription(&quot;SuperUsers Role&quot;).asImmutable()</span>
+<span class="fc" id="L140">                .build();</span>
+<span class="fc" id="L141">        role.setGrants(new HashSet&lt;&gt;(securityObjectDao.findAll()));</span>
+<span class="fc" id="L142">        sys.addRole(role);</span>
+<span class="fc" id="L143">        return sys;</span>
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public User create(User user) {
-        // TODO [openwms]: 03/05/17 to be implemented
-<span class="nc" id="L143">        return null;</span>
+    @Measured
+    public User create(@NotNull @Valid User user) {
+<span class="fc" id="L152">        Optional&lt;User&gt; eo = repository.findByUsername(user.getUsername());</span>
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">        if (eo.isPresent()) {</span>
+<span class="nc" id="L154">            throw new ResourceExistsException(&quot;user with username already exists&quot;);</span>
+        }
+<span class="fc" id="L156">        return repository.save(user);</span>
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Measured
     public Optional&lt;User&gt; findByUsername(String username) {
-        // TODO [openwms]: 03/05/17 to be implemented
-<span class="nc" id="L152">        return Optional.empty();</span>
+<span class="nc" id="L165">        return repository.findByUsername(username);</span>
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
+    @Measured
+    public @NotNull User findByPKey(@NotEmpty String pKey) {
+<span class="pc" id="L174">        return repository.findBypKey(pKey).orElseThrow(() -&gt; new EntityNotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, pKey)));</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
     public void remove(String username) {
-<span class="pc" id="L160">        repository.delete(repository.findByUsername(username).orElseThrow(() -&gt; new EntityNotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, username))));</span>
-<span class="fc" id="L161">    }</span>
+<span class="fc" id="L183">        repository.delete(repository.findByUsername(username).orElseThrow(() -&gt; new EntityNotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, username))));</span>
+<span class="fc" id="L184">    }</span>
 
     /**
      * {@inheritDoc}
      *
      * @throws ServiceLayerException if &lt;ul&gt; &lt;li&gt;&lt;code&gt;userPassword&lt;/code&gt; is &lt;code&gt;null&lt;/code&gt;&lt;/li&gt; &lt;li&gt;the new password is invalid and
-     *                               does not match the password rules&lt;/li&gt; &lt;/ul&gt;
-     * @throws NotFoundException     if no {@link User} exists
+     * does not match the password rules&lt;/li&gt; &lt;/ul&gt;
+     * @throws NotFoundException if no {@link User} exists
      */
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
     public void changeUserPassword(@NotNull UserPassword userPassword) {
-<span class="fc" id="L173">        User entity = repository.findByUsername(userPassword.getUser().getUsername()).orElseThrow(() -&gt; new NotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, userPassword.getUser()</span>
-<span class="fc" id="L174">                .getUsername()), ExceptionCodes.USER_NOT_EXIST));</span>
+<span class="fc" id="L196">        User entity = repository.findByUsername(userPassword.getUser().getUsername()).orElseThrow(() -&gt; new NotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, userPassword.getUser()</span>
+<span class="fc" id="L197">                .getUsername()), ExceptionCodes.USER_NOT_EXIST));</span>
         try {
-<span class="fc" id="L176">            entity.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);</span>
-<span class="fc" id="L177">            repository.save(entity);</span>
-<span class="fc" id="L178">        } catch (InvalidPasswordException ipe) {</span>
-<span class="fc" id="L179">            LOGGER.error(ipe.getMessage());</span>
-<span class="fc" id="L180">            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PW_INVALID, userPassword.getUser()</span>
-<span class="fc" id="L181">                    .getUsername()), ExceptionCodes.USER_PW_INVALID);</span>
-<span class="fc" id="L182">        }</span>
-<span class="fc" id="L183">    }</span>
+<span class="fc" id="L199">            entity.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);</span>
+<span class="fc" id="L200">            repository.save(entity);</span>
+<span class="fc" id="L201">        } catch (InvalidPasswordException ipe) {</span>
+<span class="fc" id="L202">            LOGGER.error(ipe.getMessage());</span>
+<span class="fc" id="L203">            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PW_INVALID, userPassword.getUser()</span>
+<span class="fc" id="L204">                    .getUsername()), ExceptionCodes.USER_PW_INVALID);</span>
+<span class="fc" id="L205">        }</span>
+<span class="fc" id="L206">    }</span>
 
     /**
      * {@inheritDoc}
@@ -189,14 +212,14 @@ class UserServiceImpl implements UserService {
     @FireAfterTransaction(events = {UserChangedEvent.class})
     public User saveUserProfile(@NotNull User user, @NotNull UserPassword userPassword, UserPreference... prefs) {
         try {
-<span class="fc" id="L192">            user.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);</span>
-<span class="fc" id="L193">        } catch (InvalidPasswordException ipe) {</span>
-<span class="fc" id="L194">            LOGGER.error(ipe.getMessage());</span>
-<span class="fc" id="L195">            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PW_INVALID,</span>
-<span class="fc" id="L196">                    userPassword.getPassword()), ExceptionCodes.USER_PW_INVALID);</span>
-<span class="fc" id="L197">        }</span>
-<span class="fc" id="L198">        Arrays.stream(prefs).forEach(confSrv::save);</span>
-<span class="fc" id="L199">        return save(user);</span>
+<span class="fc" id="L215">            user.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);</span>
+<span class="fc" id="L216">        } catch (InvalidPasswordException ipe) {</span>
+<span class="fc" id="L217">            LOGGER.error(ipe.getMessage());</span>
+<span class="fc" id="L218">            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PW_INVALID,</span>
+<span class="fc" id="L219">                    userPassword.getPassword()), ExceptionCodes.USER_PW_INVALID);</span>
+<span class="fc" id="L220">        }</span>
+<span class="fc" id="L221">        Arrays.stream(prefs).forEach(confSrv::save);</span>
+<span class="fc" id="L222">        return save(user);</span>
     }
 
     /**
@@ -206,7 +229,7 @@ class UserServiceImpl implements UserService {
      */
     @Override
     public Collection&lt;User&gt; findAll() {
-<span class="fc" id="L209">        return repository.findAll();</span>
+<span class="fc" id="L232">        return repository.findAll();</span>
     }
 
     /**
@@ -218,7 +241,7 @@ class UserServiceImpl implements UserService {
      */
     @Override
     public User findById(Long pk) {
-<span class="fc" id="L221">        return repository.findById(pk).orElseThrow(()-&gt;new NotFoundException(String.format(&quot;No User with pk %s found&quot;, pk)));</span>
+<span class="fc" id="L244">        return repository.findById(pk).orElseThrow(() -&gt; new NotFoundException(String.format(&quot;No User with pk %s found&quot;, pk)));</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
