@@ -62,7 +62,7 @@ public class UserVO extends AbstractBase implements Serializable {
     private String fullname;
     @JsonProperty("details")
     @Valid
-    private UserDetailsVO userDetails = new UserDetailsVO();
+    private UserDetailsVO userDetails;
     @JsonProperty("email")
     @NotEmpty(groups = ValidationGroups.Create.class)
     private String email;

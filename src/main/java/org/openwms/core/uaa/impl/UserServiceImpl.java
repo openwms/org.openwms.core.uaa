@@ -161,7 +161,7 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @Measured
-    public Optional<User> findByUsername(String username) {
+    public Optional<User> findByUsername(@NotEmpty String username) {
         return repository.findByUsername(username);
     }
 

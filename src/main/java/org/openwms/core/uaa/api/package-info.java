@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 /**
- * Service definitions and implementations around User Authentication and Authorization (UAA).
+ * Contains types that belong to the public API.
  */
-package org.openwms.core.uaa;
+package org.openwms.core.uaa.api;
