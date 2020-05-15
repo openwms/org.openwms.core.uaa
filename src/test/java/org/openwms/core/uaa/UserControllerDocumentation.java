@@ -42,6 +42,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -94,7 +95,16 @@ class UserControllerDocumentation {
         String location = result.getResponse().getHeader(LOCATION);
         mockMvc.perform(
                 get(location))
-                .andDo(document("user-findByPkey"))
+                .andDo(document("user-findByPkey",
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("pKey").description("The persistent key"),
+                                fieldWithPath("username").description("The unique name of the User in the system"),
+                                fieldWithPath("externalUser").description("If the User is authenticated by an external system"),
+                                fieldWithPath("locked").description("If the User is locked and has no permission to login"),
+                                fieldWithPath("enabled").description("If the User is enabled in general")
+                        )
+                ))
                 .andExpect(status().isOk());
     }
 }

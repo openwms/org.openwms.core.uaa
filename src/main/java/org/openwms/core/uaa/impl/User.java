@@ -77,7 +77,7 @@ public class User extends ApplicationEntity implements Serializable {
     /** Date of the last password change. */
     @Column(name = "C_LAST_PASSWORD_CHANGE")
     private ZonedDateTime lastPasswordChange;
-    /** {@code true} if this User is locked and has not the permission to login. */
+    /** {@code true} if this User is locked and has no permission to login. */
     @Column(name = "C_LOCKED")
     private boolean locked = false;
     /** The User's current password (only kept transient). */
@@ -103,7 +103,7 @@ public class User extends ApplicationEntity implements Serializable {
     private Set<Email> emailAddresses;
     /** More detail information of the User. */
     @Embedded
-    private UserDetails userDetails = new UserDetails();
+    private UserDetails userDetails;
     /** List of {@link Role}s assigned to the User. */
     @ManyToMany(mappedBy = "users", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     private List<Role> roles = new ArrayList<>();
