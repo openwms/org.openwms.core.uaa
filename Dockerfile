@@ -1,6 +1,4 @@
-FROM azul/zulu-openjdk-alpine:11-jre
-VOLUME library
+FROM adoptopenjdk/openjdk11-openj9:jre-11.0.7_10_openj9-0.20.0-alpine
+ARG JAVA_OPTS="-Xshareclasses -Xquickstart -noverify"
 ADD target/openwms-core-uaa.jar app.jar
-RUN sh -c 'touch /app.jar'
-ENV JAVA_OPTS="-noverify -XX:+UseSerialGC -Xss512k"
-ENTRYPOINT exec java -Djava.security.egd=file:/dev/./urandom $JAVA_OPTS -jar /app.jar
+ENTRYPOINT exec java $JAVA_OPTS -jar /app.jar
