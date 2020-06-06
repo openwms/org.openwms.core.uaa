@@ -44,6 +44,7 @@ digraph "largeRelationshipsDiagram" {
       <TR><TD PORT="c_created" COLSPAN="3" ALIGN="LEFT">c_created</TD></TR>
       <TR><TD PORT="c_updated" COLSPAN="3" ALIGN="LEFT">c_updated</TD></TR>
       <TR><TD PORT="c_ol" COLSPAN="3" ALIGN="LEFT">c_ol</TD></TR>
+      <TR><TD PORT="c_pid" COLSPAN="3" ALIGN="LEFT">c_pid</TD></TR>
       <TR><TD PORT="c_description" COLSPAN="3" ALIGN="LEFT">c_description</TD></TR>
       <TR><TD PORT="c_name" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_name</TD></TR>
       <TR><TD PORT="c_immutable" COLSPAN="3" ALIGN="LEFT">c_immutable</TD></TR>

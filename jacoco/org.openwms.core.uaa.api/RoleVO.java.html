@@ -21,146 +21,160 @@
  */
 package org.openwms.core.uaa.api;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.ameba.http.AbstractBase;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
- * A RoleVO.
+ * A RoleVO is the representation of the role an User is assigned to.
  * 
  * @author Heiko Scherrer
- * @version 0.2
- * @since 0.1
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RoleVO extends AbstractBase implements Serializable {
 
-    /**
-     * Create a new RoleVO.
-     */
-<span class="nc" id="L42">    public RoleVO() {}</span>
-
-    /**
-     * Get the immutable.
-     * 
-     * @return the immutable.
-     */
-    public Boolean getImmutable() {
-<span class="nc" id="L50">        return immutable;</span>
-    }
-
-    /**
-     * Set the immutable.
-     * 
-     * @param immutable
-     *            The immutable to set.
-     */
-    public void setImmutable(Boolean immutable) {
-<span class="nc" id="L60">        this.immutable = immutable;</span>
-<span class="nc" id="L61">    }</span>
-
-    /**
-     * Get the name.
-     * 
-     * @return the name.
-     */
-    public String getName() {
-<span class="nc" id="L69">        return name;</span>
-    }
-
-    /**
-     * Set the name.
-     * 
-     * @param name
-     *            The name to set.
-     */
-    public void setName(String name) {
-<span class="nc" id="L79">        this.name = name;</span>
-<span class="nc" id="L80">    }</span>
-
-    /**
-     * Get the description.
-     * 
-     * @return the description.
-     */
-    public String getDescription() {
-<span class="nc" id="L88">        return description;</span>
-    }
-
-    /**
-     * Set the description.
-     * 
-     * @param description
-     *            The description to set.
-     */
-    public void setDescription(String description) {
-<span class="nc" id="L98">        this.description = description;</span>
-<span class="nc" id="L99">    }</span>
-
-    /**
-     * Get the grants.
-     * 
-     * @return the grants.
-     */
-    public Set&lt;SecurityObjectVO&gt; getGrants() {
-<span class="nc" id="L107">        return grants;</span>
-    }
-
-    /**
-     * Set the grants.
-     * 
-     * @param grants
-     *            The grants to set.
-     */
-    public void setGrants(Set&lt;SecurityObjectVO&gt; grants) {
-<span class="nc" id="L117">        this.grants = grants;</span>
-<span class="nc" id="L118">    }</span>
-
-    /**
-     * Set the version.
-     * 
-     * @param version
-     *            The version to set.
-     */
-    public void setVersion(long version) {
-<span class="nc" id="L127">        this.version = version;</span>
-<span class="nc" id="L128">    }</span>
-
-    /**
-     * Get the version.
-     * 
-     * @return the version.
-     */
-    public long getVersion() {
-<span class="nc" id="L136">        return version;</span>
-    }
-
-    /**
-     * Get the users.
-     * 
-     * @return the users.
-     */
-    public Set&lt;RoleUserVO&gt; getUsers() {
-<span class="nc" id="L145">        return users;</span>
-    }
-
-    /**
-     * Set the users.
-     * 
-     * @param users
-     *            The users to set.
-     */
-    public void setUsers(Set&lt;RoleUserVO&gt; users) {
-<span class="nc" id="L155">        this.users = users;</span>
-<span class="nc" id="L156">    }</span>
-
-    private Long id;
-    private Boolean immutable;
+    /** The persistent key. */
+    @JsonProperty(&quot;pKey&quot;)
+    private String pKey;
+    /** The unique Role name. */
+    @JsonProperty(&quot;name&quot;)
+    @NotEmpty
     private String name;
+    /** If the Role can be modified. */
+    @JsonProperty(&quot;immutable&quot;)
+    private Boolean immutable;
+    /** A descriptive text for the Role. */
+    @JsonProperty(&quot;description&quot;)
     private String description;
-<span class="nc" id="L162">    private Set&lt;RoleUserVO&gt; users = new HashSet&lt;&gt;();</span>
-<span class="nc" id="L163">    private Set&lt;SecurityObjectVO&gt; grants = new HashSet&lt;&gt;();</span>
-    private long version;
+    /** A collection of Users that are assigned to the Role. */
+    @JsonProperty(&quot;users&quot;)
+    private Set&lt;UserVO&gt; users;
+    /** A collection of Grants that are assigned to the Role. */
+    @JsonProperty(&quot;grants&quot;)
+    private Set&lt;SecurityObjectVO&gt; grants ;
+
+    @JsonCreator
+<span class="nc" id="L65">    public RoleVO() {</span>
+<span class="nc" id="L66">    }</span>
+
+<span class="nc" id="L68">    private RoleVO(Builder builder) {</span>
+<span class="nc" id="L69">        pKey = builder.pKey;</span>
+<span class="nc" id="L70">        name = builder.name;</span>
+<span class="nc" id="L71">        immutable = builder.immutable;</span>
+<span class="nc" id="L72">        description = builder.description;</span>
+<span class="nc" id="L73">        users = builder.users;</span>
+<span class="nc" id="L74">        grants = builder.grants;</span>
+<span class="nc" id="L75">    }</span>
+
+    public static Builder newBuilder() {
+<span class="nc" id="L78">        return new Builder();</span>
+    }
+
+    public String getpKey() {
+<span class="nc" id="L82">        return pKey;</span>
+    }
+
+    public String getName() {
+<span class="nc" id="L86">        return name;</span>
+    }
+
+    public Boolean getImmutable() {
+<span class="nc" id="L90">        return immutable;</span>
+    }
+
+    public String getDescription() {
+<span class="nc" id="L94">        return description;</span>
+    }
+
+    public Set&lt;UserVO&gt; getUsers() {
+<span class="nc" id="L98">        return users;</span>
+    }
+
+    public Set&lt;SecurityObjectVO&gt; getGrants() {
+<span class="nc" id="L102">        return grants;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L113" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
+<span class="nc" id="L115">        RoleVO roleVO = (RoleVO) o;</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        return Objects.equals(pKey, roleVO.pKey) &amp;&amp;</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">                Objects.equals(name, roleVO.name) &amp;&amp;</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">                Objects.equals(immutable, roleVO.immutable) &amp;&amp;</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">                Objects.equals(description, roleVO.description) &amp;&amp;</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">                Objects.equals(users, roleVO.users) &amp;&amp;</span>
+<span class="nc bnc" id="L121" title="All 2 branches missed.">                Objects.equals(grants, roleVO.grants);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public int hashCode() {
+<span class="nc" id="L131">        return Objects.hash(super.hashCode(), pKey, name, immutable, description, users, grants);</span>
+    }
+
+    public static final class Builder {
+        private String pKey;
+        private String name;
+        private Boolean immutable;
+        private String description;
+        private Set&lt;UserVO&gt; users;
+        private Set&lt;SecurityObjectVO&gt; grants;
+
+        private Builder() {
+        }
+
+        public Builder pKey(String val) {
+<span class="nc" id="L146">            pKey = val;</span>
+<span class="nc" id="L147">            return this;</span>
+        }
+
+        public Builder name(String val) {
+<span class="nc" id="L151">            name = val;</span>
+<span class="nc" id="L152">            return this;</span>
+        }
+
+        public Builder immutable(Boolean val) {
+<span class="nc" id="L156">            immutable = val;</span>
+<span class="nc" id="L157">            return this;</span>
+        }
+
+        public Builder description(String val) {
+<span class="nc" id="L161">            description = val;</span>
+<span class="nc" id="L162">            return this;</span>
+        }
+
+        public Builder users(Set&lt;UserVO&gt; val) {
+<span class="nc" id="L166">            users = val;</span>
+<span class="nc" id="L167">            return this;</span>
+        }
+
+        public Builder grants(Set&lt;SecurityObjectVO&gt; val) {
+<span class="nc" id="L171">            grants = val;</span>
+<span class="nc" id="L172">            return this;</span>
+        }
+
+        public RoleVO build() {
+<span class="nc" id="L176">            return new RoleVO(this);</span>
+        }
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

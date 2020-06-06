@@ -31,7 +31,7 @@ import java.util.Objects;
 
 
 /**
- * A UserDetailsVO.
+ * A UserDetailsVO encapsulates less relevant details of an User.
  *
  * @author Heiko Scherrer
  */

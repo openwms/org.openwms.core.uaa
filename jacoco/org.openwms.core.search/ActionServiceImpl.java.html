@@ -23,7 +23,7 @@ package org.openwms.core.search;
 
 import org.ameba.annotation.TxService;
 import org.openwms.core.configuration.ConfigurationService;
-import org.openwms.core.uaa.impl.User;
+import org.openwms.core.uaa.admin.impl.User;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;

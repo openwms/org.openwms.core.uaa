@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SecurityContextUserServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.uaa.admin.impl</a> &gt; <span class="el_source">SecurityContextUserServiceImpl.java</span></div><h1>SecurityContextUserServiceImpl.java</h1><pre class="source lang-java linenums">/*
+ * openwms.org, the Open Warehouse Management System.
+ * Copyright (C) 2014 Heiko Scherrer
+ *
+ * This file is part of openwms.org.
+ *
+ * openwms.org is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * openwms.org is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this software. If not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+package org.openwms.core.uaa.admin.impl;
+
+import net.sf.ehcache.Ehcache;
+import org.ameba.annotation.TxService;
+import org.openwms.core.event.UserChangedEvent;
+import org.openwms.core.uaa.admin.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationListener;
+import org.springframework.security.core.userdetails.UserCache;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * A SecurityContextUserServiceImpl extends Spring {@link UserDetailsService} to
+ * read {@code User}s and {@code Role}s from the persistent storage and wraps them into security objects.
+ *
+ * @author &lt;a href=&quot;mailto:russelltina@users.sourceforge.net&quot;&gt;Tina Russell&lt;/a&gt;
+ */
+@TxService
+class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationListener&lt;UserChangedEvent&gt; {
+
+    private final String systemUsername;
+    private final UserService userService;
+    private final UserCache userCache;
+    private final Ehcache cache;
+    private final PasswordEncoder enc;
+
+    public SecurityContextUserServiceImpl(
+            @Value(&quot;${system.user:}&quot;) String systemUsername,
+            UserService userService,
+            @Autowired(required = false) UserCache userCache,
+            @Autowired(required = false) Ehcache cache,
+            PasswordEncoder enc
+<span class="fc" id="L59">    ) {</span>
+<span class="fc bfc" id="L60" title="All 2 branches covered.">        this.systemUsername = systemUsername == null ? SystemUser.SYSTEM_USERNAME : systemUsername;</span>
+<span class="fc" id="L61">        this.userService = userService;</span>
+<span class="fc" id="L62">        this.userCache = userCache;</span>
+<span class="fc" id="L63">        this.cache = cache;</span>
+<span class="fc" id="L64">        this.enc = enc;</span>
+<span class="fc" id="L65">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void onApplicationEvent(UserChangedEvent event) {
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">        if (cache != null) {</span>
+<span class="fc" id="L73">            cache.removeAll();</span>
+        }
+<span class="fc" id="L75">    }</span>
+
+    /**
+     * {@inheritDoc}
+     *
+     * Implemented as read-only transactional
+     **/
+    @Transactional(readOnly = true)
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">        UserDetails ud = userCache == null ? null : userCache.getUserFromCache(username);</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">        if (null == ud) {</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">            if (systemUsername.equals(username)) {</span>
+<span class="fc" id="L88">                User user = userService.createSystemUser();</span>
+<span class="fc" id="L89">                ud = new SystemUserWrapper(user);</span>
+<span class="fc" id="L90">                ((SystemUserWrapper) ud).setPassword(enc.encode(user.getPassword()));</span>
+<span class="fc" id="L91">            } else {</span>
+<span class="fc" id="L92">                ud = new UserWrapper(</span>
+<span class="fc" id="L93">                        userService.findByUsername(username)</span>
+<span class="fc" id="L94">                                .orElseThrow(() -&gt; new UsernameNotFoundException(String.format(&quot;User with username [%s] not found&quot;, username))));</span>
+            }
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">            if (userCache != null) {</span>
+<span class="fc" id="L97">                userCache.putUserInCache(ud);</span>
+            }
+        }
+<span class="fc" id="L100">        return ud;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
