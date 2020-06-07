@@ -21,7 +21,6 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
-import javax.persistence.Entity;
 import java.io.Serializable;
 
 /**
@@ -31,12 +30,9 @@ import java.io.Serializable;
  * configuration when the project is setup.
  *
  * @author <a href="mailto:russelltina@users.sourceforge.net">Tina Russell</a>
- * @version 0.2
  * @GlossaryTerm
  * @see User
- * @since 0.1
  */
-@Entity
 public class SystemUser extends User implements Serializable {
 
     /**

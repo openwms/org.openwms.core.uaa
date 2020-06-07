@@ -15,13 +15,31 @@
  */
 package org.openwms.core.app;
 
+import io.micrometer.core.instrument.MeterRegistry;
+import org.ameba.annotation.EnableAspects;
+import org.ameba.app.BaseConfiguration;
+import org.ameba.app.SpringProfiles;
+import org.ameba.http.PermitAllCorsConfigurationSource;
+import org.ameba.i18n.AbstractTranslator;
+import org.ameba.i18n.Translator;
+import org.ameba.mapping.BeanMapper;
+import org.ameba.mapping.DozerMapperImpl;
+import org.ameba.system.NestedReloadableResourceBundleMessageSource;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+import org.springframework.web.filter.CorsFilter;
 
+import javax.servlet.Filter;
 import javax.validation.Validator;
+import java.util.Properties;
 
 /**
  * A UAAModuleConfiguration.
@@ -29,11 +47,15 @@ import javax.validation.Validator;
  * @author Heiko Scherrer
  */
 @Configuration
+@EnableJpaAuditing
+@EnableAspects(propagateRootCause = true)
+@EnableTransactionManagement
+@Import(BaseConfiguration.class)
 class UAAModuleConfiguration {
 
     @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(15);
+    MeterRegistryCustomizer<MeterRegistry> metricsCommonTags(@Value("${spring.application.name}") String applicationName) {
+        return registry -> registry.config().commonTags("application", applicationName);
     }
 
     @Bean
@@ -41,5 +63,38 @@ class UAAModuleConfiguration {
         MethodValidationPostProcessor mvpp = new MethodValidationPostProcessor();
         mvpp.setValidator(validator);
         return mvpp;
+    }
+
+    @Profile(SpringProfiles.DEVELOPMENT_PROFILE)
+    @Bean
+    Filter corsFiler() {
+        return new CorsFilter(new PermitAllCorsConfigurationSource());
+    }
+
+    public
+    @Bean
+    Translator translator() {
+        return new AbstractTranslator() {
+            @Override
+            protected MessageSource getMessageSource() {
+                return messageSource();
+            }
+        };
+    }
+
+    public
+    @Bean
+    MessageSource messageSource() {
+        NestedReloadableResourceBundleMessageSource nrrbm = new NestedReloadableResourceBundleMessageSource();
+        nrrbm.setBasename("classpath:i18n");
+        nrrbm.setDefaultEncoding("UTF-8");
+        nrrbm.setCommonMessages(new Properties());
+        return nrrbm;
+    }
+
+    public
+    @Bean
+    BeanMapper beanMapper() {
+        return new DozerMapperImpl("META-INF/dozer/bean-mappings.xml");
     }
 }

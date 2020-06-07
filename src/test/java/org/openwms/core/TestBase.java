@@ -20,6 +20,8 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import javax.validation.Validator;
+
 /**
  * A TestBase.
  *
@@ -28,11 +30,11 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 public class TestBase {
 
     @TestConfiguration
-    @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
+    @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
     static class TestConfig {
 
         @Bean
-        LocalValidatorFactoryBean validatorFactoryBean() {
+        Validator validatorFactoryBean() {
             return new LocalValidatorFactoryBean();
         }
     }

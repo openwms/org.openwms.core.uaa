@@ -26,6 +26,9 @@ import org.springframework.util.Assert;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
@@ -35,21 +38,26 @@ import java.util.Objects;
  * An Email represents the email address of an {@code User}.
  *
  * @author Heiko Scherrer
- * @version 0.2
  * @GlossaryTerm
  * @see User
- * @since 0.1
  */
 @Entity
-@Table(name = "COR_EMAIL", uniqueConstraints = @UniqueConstraint(columnNames = {"C_USERNAME", "C_ADDRESS"}))
+@Table(name = "COR_UAA_EMAIL",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "UC_EMAIL_USER", columnNames = {"C_USERNAME", "C_ADDRESS"})
+})
 public class Email extends BaseEntity implements Serializable {
 
     /** Unique identifier of the {@code Email} (not nullable). */
-    @Column(name = "C_USERNAME", nullable = false)
-    private String username;
+    @ManyToOne
+    @JoinColumn(name = "C_USERNAME", referencedColumnName = "C_USERNAME", foreignKey = @ForeignKey(name = "FK_UAA_USER_EMAIL"))
+    private User user;
     /** The email address as String (not nullable). */
     @Column(name = "C_ADDRESS", nullable = false)
     private String emailAddress;
+    /** Whether this email address is the primary email used in the system. */
+    @Column(name = "C_PRIMARY", nullable = false)
+    private boolean primary = false;
     /** The fullname of the {@code User}. */
     @Column(name = "C_FULL_NAME")
     private String fullname;
@@ -63,35 +71,39 @@ public class Email extends BaseEntity implements Serializable {
     }
 
     /**
-     * Create a new {@code Email} with an {@code username} and an {@code emailAddress}.
+     * Create a new {@code Email}.
      *
-     * @param username The name of the User
+     * @param user The User
      * @param emailAddress The email address of the User
      * @throws IllegalArgumentException when userName or emailAddress is {@literal null} or empty
      */
-    public Email(String username, String emailAddress) {
-        Assert.hasText(username, "Username must not be null or empty");
+    public Email(User user, String emailAddress) {
+        Assert.notNull(user, "User must not be null");
         Assert.hasText(emailAddress, "EmailAddress must not be null or empty");
-        this.username = username;
+        this.user = user;
         this.emailAddress = emailAddress;
     }
 
     /**
-     * Returns the name of the {@code User} who owns this {@code Email}.
+     * Create a new {@code Email}.
      *
-     * @return The username as String
+     * @param user The User
+     * @param emailAddress The email address of the User
+     * @param primary If the email is the primary address
+     * @throws IllegalArgumentException when userName or emailAddress is {@literal null} or empty
      */
-    public String getUsername() {
-        return username;
+    public Email(User user, String emailAddress, boolean primary) {
+        this(user, emailAddress);
+        this.primary = primary;
     }
 
     /**
-     * Assign the {@code Email} to an {@code User}.
+     * Returns the {@code User}.
      *
-     * @param userName Name of the {@code User}.
+     * @return The User
      */
-    public void setUsername(String userName) {
-        this.username = userName;
+    public User getUser() {
+        return user;
     }
 
     /**
@@ -140,7 +152,7 @@ public class Email extends BaseEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Email email = (Email) o;
-        return Objects.equals(username, email.username) &&
+        return Objects.equals(user, email.user) &&
                 Objects.equals(emailAddress, email.emailAddress) &&
                 Objects.equals(fullname, email.fullname);
     }
@@ -152,7 +164,7 @@ public class Email extends BaseEntity implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(username, emailAddress, fullname);
+        return Objects.hash(user, emailAddress, fullname);
     }
 
     /**

@@ -27,31 +27,29 @@ import org.springframework.util.Assert;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 
 /**
  * A SecurityObject is the generalization of {@code Role}s and {@code Grant}s and combines common used properties of both.
  *
  * @author Heiko Scherrer
- * @version 0.2
  * @GlossaryTerm
  * @see Role
  * @see Grant
- * @since 0.1
  */
 @Entity
-@Table(name = "COR_ROLE")
+@Table(name = "COR_UAA_ROLE", uniqueConstraints = @UniqueConstraint(name = "UC_UAA_ROLE", columnNames = {"C_NAME"}))
 @Inheritance
-@DiscriminatorColumn(name = "TYPE", discriminatorType = DiscriminatorType.STRING, length = 20)
+@DiscriminatorColumn(name = "C_TYPE", length = 20)
 public class SecurityObject extends ApplicationEntity implements Serializable {
 
     /** Unique name of the {@code SecurityObject}. */
-    @Column(name = "C_NAME", unique = true, nullable = false)
+    @Column(name = "C_NAME", nullable = false)
     @OrderBy
     private String name;
 

@@ -27,6 +27,8 @@ import org.springframework.util.Assert;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -42,11 +44,12 @@ import java.time.ZonedDateTime;
  * @see User
  */
 @Entity
-@Table(name = "COR_USER_PASSWORD")
+@Table(name = "COR_UAA_USER_PASSWORD")
 public class UserPassword extends BaseEntity implements Serializable {
 
     /** {@link User} assigned to this password. */
     @ManyToOne
+    @JoinColumn(name = "C_USERNAME", referencedColumnName = "C_USERNAME", foreignKey = @ForeignKey(name = "FK_UAA_PW_USER"))
     private User user;
     /** Password. */
     @Column(name = "C_PASSWORD")

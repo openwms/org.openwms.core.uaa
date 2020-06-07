@@ -27,6 +27,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -41,11 +42,9 @@ import java.util.Set;
  * instead of {@link User}s.
  *
  * @author Heiko Scherrer
- * @version 0.2
  * @GlossaryTerm
  * @see SecurityObject
  * @see User
- * @since 0.1
  */
 @Entity
 @DiscriminatorValue("ROLE")
@@ -62,19 +61,29 @@ public class Role extends SecurityObject implements Serializable {
      * All {@link User}s assigned to this Role.
      */
     @ManyToMany(cascade = {CascadeType.REFRESH})
-    @JoinTable(name = "COR_ROLE_USER_JOIN", joinColumns = @JoinColumn(name = "ROLE_ID"), inverseJoinColumns = @JoinColumn(name = "USER_ID"))
+    @JoinTable(
+            name = "COR_UAA_ROLE_USER",
+            joinColumns = @JoinColumn(name = "C_ROLE_ID"),
+            inverseJoinColumns = @JoinColumn(name = "C_USER_ID"),
+            foreignKey = @ForeignKey(name = "FK_UAA_ROLE_USER"),
+            inverseForeignKey = @ForeignKey(name = "FK_UAA_USER_ROLE")
+    )
     private Set<User> users = new HashSet<>();
 
     /**
      * All {@link SecurityObject}s assigned to the R‡ole.
      */
     @ManyToMany(cascade = {CascadeType.REFRESH})
-    @JoinTable(name = "COR_ROLE_ROLE_JOIN", joinColumns = @JoinColumn(name = "ROLE_ID"), inverseJoinColumns = @JoinColumn(name = "GRANT_ID"))
+    @JoinTable(
+            name = "COR_UAA_ROLE_ROLE",
+            joinColumns = @JoinColumn(name = "C_ROLE_ID"),
+            inverseJoinColumns = @JoinColumn(name = "C_GRANT_ID"),
+            foreignKey = @ForeignKey(name = "FK_UAA_ROLE_GRANT"),
+            inverseForeignKey = @ForeignKey(name = "FK_UAA_GRANT_ROLE")
+    )
     private Set<SecurityObject> grants = new HashSet<>();
 
-    /**
-     * The default prefix String for each created Role. Name is {@value} .
-     */
+    /** The default prefix String for each created Role. Name is {@value} . */
     public static final String ROLE_PREFIX = "ROLE_";
 
     /**

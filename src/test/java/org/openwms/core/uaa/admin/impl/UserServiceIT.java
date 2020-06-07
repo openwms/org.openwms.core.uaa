@@ -29,6 +29,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.openwms.core.TestBase;
 import org.openwms.core.configuration.ConfigurationService;
 import org.openwms.core.configuration.UserPreference;
 import org.openwms.core.exception.ExceptionCodes;
@@ -39,15 +40,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.persistence.NoResultException;
 import javax.validation.ConstraintViolationException;
@@ -75,21 +71,7 @@ import static org.junit.Assert.fail;
 )
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 @Rollback
-public class UserServiceIT {
-
-    @TestConfiguration
-    @ComponentScan(basePackages = "org.openwms.core.uaa")
-    public static class Config {
-        @Bean
-        LocalValidatorFactoryBean validatorFactoryBean() {
-            return new LocalValidatorFactoryBean();
-        }
-
-        @Bean
-        PasswordEncoder passwordEncoder() {
-            return new BCryptPasswordEncoder(15);
-        }
-    }
+public class UserServiceIT extends TestBase {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceIT.class);
     private static final String TEST_USER = "TEST";

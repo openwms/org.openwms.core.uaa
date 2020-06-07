@@ -15,14 +15,13 @@
  */
 package org.openwms.core.app;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 /**
  * A UAASecurityConfiguration.
@@ -32,6 +31,11 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @Profile("!TEST")
 @Configuration
 class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Value("${owms.security.system.username}")
+    private String username;
+    @Value("${owms.security.system.password}")
+    private String password;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -55,7 +59,17 @@ class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         ;
     }
+/*
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser(username)
+                .password(passwordEncoder().encode(password))
+                .roles("USER");
+    }
 
+
+ */
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

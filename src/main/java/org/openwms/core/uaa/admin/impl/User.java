@@ -31,11 +31,13 @@ import org.springframework.util.Assert;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -55,15 +57,16 @@ import java.util.Set;
  * UserDetails} object that tend to be extended by projects.
  *
  * @author Heiko Scherrer
- * @version 0.2
  * @GlossaryTerm
  * @see UserDetails
  * @see UserPassword
  * @see Role
- * @since 0.1
  */
 @Entity
-@Table(name = "COR_USER", uniqueConstraints = @UniqueConstraint(name = "UC_UAA_USER_NAME", columnNames = {"C_USERNAME"}))
+@Table(name = "COR_UAA_USER", uniqueConstraints = @UniqueConstraint(name = "UC_UAA_USER_NAME", columnNames = {"C_USERNAME"}))
+@Inheritance
+@DiscriminatorColumn(name = "C_TYPE")
+@DiscriminatorValue("STANDARD")
 public class User extends ApplicationEntity implements Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
@@ -95,11 +98,8 @@ public class User extends ApplicationEntity implements Serializable {
     /** The User's fullname (doesn't have to be unique). */
     @Column(name = "C_FULLNAME")
     private String fullname;
-    /** The primary email address used to contact the User. */
-    @OneToOne(mappedBy = "username")
-    private Email primaryEmailAddress;
-    /** Secondary email addresses. */
-    @OneToMany(mappedBy = "username")
+    /** Email addresses. */
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Email> emailAddresses;
     /** More detail information of the User. */
     @Embedded
@@ -387,6 +387,14 @@ public class User extends ApplicationEntity implements Serializable {
      */
     public void setFullname(String fullname) {
         this.fullname = fullname;
+    }
+
+    public Set<Email> getEmailAddresses() {
+        return emailAddresses;
+    }
+
+    public void setEmailAddresses(Set<Email> emailAddresses) {
+        this.emailAddresses = emailAddresses;
     }
 
     /**

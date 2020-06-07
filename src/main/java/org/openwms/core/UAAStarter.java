@@ -17,6 +17,7 @@ package org.openwms.core;
 
 import org.ameba.app.SolutionApp;
 import org.openwms.core.uaa.admin.UserService;
+import org.openwms.core.uaa.admin.impl.Email;
 import org.openwms.core.uaa.admin.impl.Role;
 import org.openwms.core.uaa.admin.impl.User;
 import org.openwms.core.uaa.admin.impl.UserDetails;
@@ -27,10 +28,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
-import javax.validation.Validator;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
 import java.util.Optional;
 
 import static java.util.Arrays.asList;
@@ -46,13 +46,6 @@ public class UAAStarter {
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(15);
-    }
-
-    @Bean
-    MethodValidationPostProcessor methodValidationPostProcessor(Validator validator) {
-        MethodValidationPostProcessor mvpp = new MethodValidationPostProcessor();
-        mvpp.setValidator(validator);
-        return mvpp;
     }
 
     /**
@@ -77,6 +70,7 @@ public class UAAStarter {
                 user.setFullname("Mister Jenkins");
                 user.setLocked(false);
                 user.setRoles(asList(new Role("ROLE_USER")));
+                user.setEmailAddresses(new HashSet<>(asList(new Email(user, "tester.tester@example.com", true))));
                 UserDetails ud = new UserDetails();
                 ud.setComment("testing only");
                 ud.setDepartment("Dep. 1");

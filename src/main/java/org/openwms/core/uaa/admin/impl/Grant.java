@@ -36,8 +36,6 @@ import java.io.Serializable;
  * 
  * @GlossaryTerm
  * @author Heiko Scherrer
- * @version 0.2
- * @since 0.1
  * @see User
  * @see Role
  * @see SecurityObject

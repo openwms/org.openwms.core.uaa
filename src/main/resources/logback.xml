@@ -22,8 +22,13 @@
   <logger name="org.hibernate.type" level="OFF"/>
   <logger name="org.springframework" level="WARN"/>
   <logger name="org.openwms" level="WARN"/>
-  <logger name="org.springframework.security.oauth2" level="DEBUG"/>
-  <logger name="org.ameba" level="DEBUG"/>
+  <logger name="org.springframework.security" level="WARN"/>
+  <logger name="org.ameba" level="WARN"/>
+
+  <logger name="PRESENTATION_LAYER_EXCEPTION" level="ERROR" additivity="false">
+    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="LOGFILE"/>
+  </logger>
 
   <root level="INFO">
     <appender-ref ref="STDOUT"/>
