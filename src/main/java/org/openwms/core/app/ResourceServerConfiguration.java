@@ -38,6 +38,13 @@ class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-			http.antMatcher("/me").authorizeRequests().anyRequest().authenticated();
+        http
+                .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .and()
+                .antMatcher("/claims").antMatcher("/oauth/userinfo")
+                    .authorizeRequests()
+                .anyRequest()
+                    .authenticated();
     }
 }

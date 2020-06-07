@@ -27,6 +27,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -42,29 +43,41 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
  *
  * @author Heiko Scherrer
  */
-@Profile("!TEST && AUTHSERVER")
+@Profile("!TEST")
 @Configuration
 @EnableAuthorizationServer
 class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
     private PasswordEncoder encoder;
+    @Autowired
+    private UserDetailsService userDetailsService;
+    @Autowired
+    private AuthenticationManager authenticationManagerBean;
+    @Value("${owms.security.redirectUrl}")
+    private String redirectUrl;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory().withClient("html5").secret(encoder.encode("password")).authorizedGrantTypes("password").scopes("openid");
+        clients.inMemory()
+                .withClient("gateway")
+                .secret(encoder.encode("secret"))
+                .authorizedGrantTypes("password", "authorization_code",
+                        "refresh_token", "implicit")
+                .scopes("gateway")
+                .autoApprove(".*") // Disable user consent
+                .redirectUris(redirectUrl)
+        ;
     }
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
-                .authenticationManager(authenticationManagerBean);
-    }
-
-    private AuthenticationManager authenticationManagerBean;
-    @Autowired
-    public void setAuthenticationManagerBean(AuthenticationManager authenticationManagerBean) {
-        this.authenticationManagerBean = authenticationManagerBean;
+                .userDetailsService(userDetailsService)
+                .authenticationManager(authenticationManagerBean)
+                .tokenStore(tokenStore())
+                .accessTokenConverter(accessTokenConverter())
+        ;
     }
 
     @Override

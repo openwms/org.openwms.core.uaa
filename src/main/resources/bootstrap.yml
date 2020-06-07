@@ -59,26 +59,6 @@ eureka:
       protocol: ${owms.srv.protocol}
       zone: ${owms.eureka.zone}
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  health:
-    rabbit:
-      enabled: false
-  metrics:
-    web:
-      server:
-        request:
-          autotime:
-            enabled: true
-    export:
-      prometheus:
-        enabled: true
-  info:
-    git:
-      mode: full
 logging:
   file:
     name: BOOT-CORE-uaa.log

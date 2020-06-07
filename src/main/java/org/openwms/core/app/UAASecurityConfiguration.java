@@ -43,13 +43,34 @@ class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+
          */
         http
+                .requestMatchers()
+                    .antMatchers("/login", "/oauth/authorize", "/oauth/check_token", "/oauth/token_key")
+                .and()
+                .authorizeRequests()
+                    .anyRequest()
+                    .authenticated()
+                .and()
+                .formLogin()
+                    //.loginPage("/login/index.html")
+                    .permitAll()
+                .and()
+                .csrf()
+                .disable()
+        //        .csrfTokenRepository(
+        //                CookieCsrfTokenRepository.withHttpOnlyFalse())
+        //        .and().addFilterBefore(
+        //        ssoFilter(), BasicAuthenticationFilter.class)
+        ;
+        /*
                 .antMatcher("/**").authorizeRequests()
                 .antMatchers("/", "/index.html", "/login**", "/webjars/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling()
+//                .authenticationEntryPoint(new BasicAuthenticationEntryPoint())
                 .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
                 .and()
                 .logout()
@@ -58,6 +79,8 @@ class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         ;
+
+         */
     }
 /*
     @Override

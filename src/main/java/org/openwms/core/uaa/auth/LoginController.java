@@ -20,8 +20,17 @@ import com.nimbusds.openid.connect.sdk.claims.Gender;
 import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import org.ameba.http.MeasuredRestController;
 import org.openwms.core.http.AbstractWebController;
+import org.openwms.core.uaa.admin.impl.User;
+import org.openwms.core.uaa.admin.impl.UserWrapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.security.Principal;
 
 /**
  * A LoginController.
@@ -35,6 +44,30 @@ public class LoginController extends AbstractWebController {
 
     LoginController(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
+    }
+
+    @GetMapping("/claims")
+    public ResponseEntity<Void> loginGet() {
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/oauth/userinfo")
+    public String user(Principal principal) {
+        UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
+        if (UserWrapper.class.equals(userDetails.getClass())) {
+            User user = ((UserWrapper) userDetails).getUser();
+            final String baseUrl =
+                    ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
+            UserInfo userInfo = new UserInfo(new Subject(principal.getName()));
+            userInfo.setName(user.getFullname());
+            userInfo.setPhoneNumber(user.getUserDetails().getPhoneNo());
+            userInfo.setPicture(URI.create(baseUrl + "/uaa/user/user/" + user.getPersistentKey() + "/image/"));
+            userInfo.setGender(new Gender(user.getUserDetails().getGender().name()));
+            return userInfo.toJSONObject().toJSONString();
+        } else {
+            UserInfo userInfo = new UserInfo(new Subject(principal.getName()));
+            return userInfo.toJSONObject().toJSONString();
+        }
     }
 
     @PostMapping("/login")
