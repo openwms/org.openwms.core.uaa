@@ -23,7 +23,6 @@ spring:
   zipkin:
     sender:
       type: web
-
 feign:
   httpclient:
     connection-timeout: 30000
@@ -42,6 +41,8 @@ owms:
 
 server:
   port: ${PORT:8110}
+  servlet:
+    context-path: /uaa
 
 eureka:
   client:
@@ -121,6 +122,18 @@ spring:
         bootstrap-mode: lazy
   main:
     lazy-initialization: true
+
+---
+spring:
+  profiles: DISTRIBUTED
+  cloud:
+    config:
+      discovery:
+        enabled: true
+      enabled: true
+      fail-fast: true # true means retry
+    discovery:
+      enabled: true
 
 ---
 spring:

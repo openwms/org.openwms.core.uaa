@@ -71,9 +71,9 @@ class UserServiceImpl implements UserService {
     private final ConfigurationService confSrv;
     private final PasswordEncoder enc;
     private final Translator translator;
-    @Value("${system.user}")
+    @Value("${owms.security.system.username}")
     private String systemUsername;
-    @Value("${system.password}")
+    @Value("${owms.security.system.password}")
     private String systemPassword;
 
     UserServiceImpl(UserRepository repository, SecurityObjectRepository securityObjectDao, ConfigurationService confSrv, PasswordEncoder enc, Translator translator) {

@@ -15,6 +15,9 @@
  */
 package org.openwms.core.uaa.auth;
 
+import com.nimbusds.oauth2.sdk.id.Subject;
+import com.nimbusds.openid.connect.sdk.claims.Gender;
+import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import org.ameba.http.MeasuredRestController;
 import org.openwms.core.http.AbstractWebController;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +30,12 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @MeasuredRestController
 public class LoginController extends AbstractWebController {
+
+    private final UserDetailsService userDetailsService;
+
+    LoginController(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<Void> login() {

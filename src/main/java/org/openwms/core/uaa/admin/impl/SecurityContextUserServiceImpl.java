@@ -51,7 +51,7 @@ class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationL
     private final PasswordEncoder enc;
 
     public SecurityContextUserServiceImpl(
-            @Value("${system.user:}") String systemUsername,
+            @Value("${owms.security.system.username:}") String systemUsername,
             UserService userService,
             @Autowired(required = false) UserCache userCache,
             @Autowired(required = false) Ehcache cache,

@@ -16,17 +16,24 @@
 package org.openwms.core;
 
 import org.ameba.app.SolutionApp;
-import org.ameba.i18n.AbstractTranslator;
-import org.ameba.i18n.Translator;
-import org.ameba.mapping.BeanMapper;
-import org.ameba.mapping.DozerMapperImpl;
+import org.openwms.core.uaa.admin.UserService;
+import org.openwms.core.uaa.admin.impl.Role;
+import org.openwms.core.uaa.admin.impl.User;
+import org.openwms.core.uaa.admin.impl.UserDetails;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+
+import javax.validation.Validator;
+import java.time.ZonedDateTime;
+import java.util.Optional;
+
+import static java.util.Arrays.asList;
 
 /**
  * An UAAStarter.
@@ -34,33 +41,18 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author Heiko Scherrer
  */
 @SpringBootApplication(scanBasePackageClasses = {UAAStarter.class, SolutionApp.class})
-@EnableJpaAuditing
-@EnableTransactionManagement
 public class UAAStarter {
 
-    public
     @Bean
-    Translator translator() {
-        return new AbstractTranslator() {
-            @Override
-            protected MessageSource getMessageSource() {
-                return messageSource();
-            }
-        };
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(15);
     }
 
-    public
     @Bean
-    MessageSource messageSource() {
-        ResourceBundleMessageSource nrrbm = new ResourceBundleMessageSource();
-        nrrbm.setBasename("i18n");
-        return nrrbm;
-    }
-
-    public
-    @Bean
-    BeanMapper beanMapper() {
-        return new DozerMapperImpl("META-INF/dozer/bean-mappings.xml");
+    MethodValidationPostProcessor methodValidationPostProcessor(Validator validator) {
+        MethodValidationPostProcessor mvpp = new MethodValidationPostProcessor();
+        mvpp.setValidator(validator);
+        return mvpp;
     }
 
     /**
@@ -70,5 +62,33 @@ public class UAAStarter {
      */
     public static void main(String[] args) {
         SpringApplication.run(UAAStarter.class, args);
+    }
+
+    @Profile("DEMO")
+    @Bean
+    CommandLineRunner dataImporter(UserService service, PasswordEncoder encoder) {
+        return args -> {
+            Optional<User> tester = service.findByUsername("tester");
+            if (tester.isEmpty()) {
+                User user = new User("tester");
+                user.setEnabled(true);
+                user.setExpirationDate(ZonedDateTime.now().plusDays(1));
+                user.setExternalUser(false);
+                user.setFullname("Mister Jenkins");
+                user.setLocked(false);
+                user.setRoles(asList(new Role("ROLE_USER")));
+                UserDetails ud = new UserDetails();
+                ud.setComment("testing only");
+                ud.setDepartment("Dep. 1");
+                ud.setDescription("Just a test user");
+                ud.setGender(UserDetails.Gender.FEMALE);
+                ud.setIm("Skype:testee");
+                ud.setOffice("Off. 815");
+                ud.setPhoneNo("001-1234-56789");
+                user.setUserDetails(ud);
+                user.changePassword(encoder.encode("tester"), "tester", encoder);
+                service.create(user);
+            }
+        };
     }
 }

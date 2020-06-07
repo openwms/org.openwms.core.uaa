@@ -34,8 +34,8 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -68,7 +68,7 @@ public class User extends ApplicationEntity implements Serializable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
     /** Unique identifier of this User (not nullable). */
-    @Column(name = "C_USERNAME", unique = true, nullable = false)
+    @Column(name = "C_USERNAME", nullable = false)
     @NotEmpty
     private String username;
     /** {@code true} if the User is authenticated by an external system, otherwise {@code false}. */
@@ -96,7 +96,7 @@ public class User extends ApplicationEntity implements Serializable {
     @Column(name = "C_FULLNAME")
     private String fullname;
     /** The primary email address used to contact the User. */
-    @ManyToOne
+    @OneToOne(mappedBy = "username")
     private Email primaryEmailAddress;
     /** Secondary email addresses. */
     @OneToMany(mappedBy = "username")
