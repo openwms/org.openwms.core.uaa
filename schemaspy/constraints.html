@@ -52,44 +52,44 @@
 </thead>
 <tbody>
   <tr class='even'>
-  <td class='detail'>fk26yr8pmm77rnqdswu83cyq86q</td>
-  <td class='detail'><a href='tables/cor_role_user_join.html'>cor_role_user_join</a>.role_id</td>
-  <td class='detail'><a href='tables/cor_role.html'>cor_role</a>.c_pk</td>
+  <td class='detail'>fk_uaa_grant_role</td>
+  <td class='detail'><a href='tables/cor_uaa_role_role.html'>cor_uaa_role_role</a>.c_grant_id</td>
+  <td class='detail'><a href='tables/cor_uaa_role.html'>cor_uaa_role</a>.c_pk</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='odd'>
-  <td class='detail'>fkbk67qegv1o07b3wtwvfpweb92</td>
-  <td class='detail'><a href='tables/cor_user.html'>cor_user</a>.primary_email_address_c_pk</td>
-  <td class='detail'><a href='tables/cor_email.html'>cor_email</a>.c_pk</td>
+  <td class='detail'>fk_uaa_pw_user</td>
+  <td class='detail'><a href='tables/cor_uaa_user_password.html'>cor_uaa_user_password</a>.c_username</td>
+  <td class='detail'><a href='tables/cor_uaa_user.html'>cor_uaa_user</a>.c_username</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='even'>
-  <td class='detail'>fkckdphof988ejuadvrgxbfcgfg</td>
-  <td class='detail'><a href='tables/cor_user_password.html'>cor_user_password</a>.user_c_pk</td>
-  <td class='detail'><a href='tables/cor_user.html'>cor_user</a>.c_pk</td>
+  <td class='detail'>fk_uaa_role_grant</td>
+  <td class='detail'><a href='tables/cor_uaa_role_role.html'>cor_uaa_role_role</a>.c_role_id</td>
+  <td class='detail'><a href='tables/cor_uaa_role.html'>cor_uaa_role</a>.c_pk</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='odd'>
-  <td class='detail'>fke85ne4vji6gfdf8qq89qc9gps</td>
-  <td class='detail'><a href='tables/cor_role_user_join.html'>cor_role_user_join</a>.user_id</td>
-  <td class='detail'><a href='tables/cor_user.html'>cor_user</a>.c_pk</td>
+  <td class='detail'>fk_uaa_role_user</td>
+  <td class='detail'><a href='tables/cor_uaa_role_user.html'>cor_uaa_role_user</a>.c_role_id</td>
+  <td class='detail'><a href='tables/cor_uaa_role.html'>cor_uaa_role</a>.c_pk</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='even'>
-  <td class='detail'>fkfnobcyet6rbxxow7bf4ne4pi2</td>
-  <td class='detail'><a href='tables/cor_role_role_join.html'>cor_role_role_join</a>.grant_id</td>
-  <td class='detail'><a href='tables/cor_role.html'>cor_role</a>.c_pk</td>
+  <td class='detail'>fk_uaa_user_email</td>
+  <td class='detail'><a href='tables/cor_uaa_email.html'>cor_uaa_email</a>.c_username</td>
+  <td class='detail'><a href='tables/cor_uaa_user.html'>cor_uaa_user</a>.c_username</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>
   <tr class='odd'>
-  <td class='detail'>fkrfeb3rjw2jqkjwupp515k90xs</td>
-  <td class='detail'><a href='tables/cor_role_role_join.html'>cor_role_role_join</a>.role_id</td>
-  <td class='detail'><a href='tables/cor_role.html'>cor_role</a>.c_pk</td>
+  <td class='detail'>fk_uaa_user_role</td>
+  <td class='detail'><a href='tables/cor_uaa_role_user.html'>cor_uaa_role_user</a>.c_user_id</td>
+  <td class='detail'><a href='tables/cor_uaa_user.html'>cor_uaa_user</a>.c_pk</td>
   <td class='detail'><span title='Restrict delete:
  Parent cannot be deleted if children exist'>Restrict delete&nbsp;</span></td>
  </tr>

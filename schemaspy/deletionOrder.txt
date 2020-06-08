@@ -1,6 +1,6 @@
-cor_role_user_join
-cor_role_role_join
-cor_user_password
-cor_user
-cor_email
-cor_role
+cor_uaa_role_user
+cor_uaa_role_role
+cor_uaa_user_password
+cor_uaa_email
+cor_uaa_user
+cor_uaa_role

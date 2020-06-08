@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <database name="testdb" schema="public" type="PostgreSQL - 9.6.17">
    <tables>
-      <table name="cor_email" numRows="0" remarks="" schema="public" type="TABLE">
-         <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8">
-            <child column="primary_email_address_c_pk" foreignKey="fkbk67qegv1o07b3wtwvfpweb92" implied="false" onDeleteCascade="false" table="cor_user"/>
-         </column>
+      <table name="cor_uaa_email" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8"/>
          <column autoUpdated="false" digits="6" id="1" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
          <column autoUpdated="false" digits="6" id="2" name="c_updated" nullable="true" remarks="" size="29" type="timestamp"/>
          <column autoUpdated="false" digits="0" id="3" name="c_ol" nullable="true" remarks="" size="19" type="int8"/>
          <column autoUpdated="false" digits="0" id="4" name="c_address" nullable="false" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="5" name="c_full_name" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="6" name="c_username" nullable="false" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="6" name="c_primary" nullable="false" remarks="" size="1" type="bool"/>
+         <column autoUpdated="false" digits="0" id="7" name="c_username" nullable="true" remarks="" size="255" type="varchar">
+            <parent column="c_username" foreignKey="fk_uaa_user_email" implied="false" onDeleteCascade="false" table="cor_uaa_user"/>
+         </column>
          <primaryKey column="c_pk" sequenceNumberInPK="1"/>
-         <index name="cor_email_pkey" unique="true">
+         <index name="cor_uaa_email_pkey" unique="true">
             <column ascending="true" name="c_pk"/>
          </index>
-         <index name="ukhakp3t06s5wov4weygiydvj9u" unique="true">
+         <index name="uc_email_user" unique="true">
             <column ascending="true" name="c_username"/>
             <column ascending="true" name="c_address"/>
          </index>
       </table>
-      <table name="cor_role" numRows="0" remarks="" schema="public" type="TABLE">
-         <column autoUpdated="false" digits="0" id="0" name="type" nullable="false" remarks="" size="20" type="varchar"/>
+      <table name="cor_uaa_role" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="c_type" nullable="false" remarks="" size="20" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="c_pk" nullable="false" remarks="" size="19" type="int8">
-            <child column="grant_id" foreignKey="fkfnobcyet6rbxxow7bf4ne4pi2" implied="false" onDeleteCascade="false" table="cor_role_role_join"/>
-            <child column="role_id" foreignKey="fkrfeb3rjw2jqkjwupp515k90xs" implied="false" onDeleteCascade="false" table="cor_role_role_join"/>
-            <child column="role_id" foreignKey="fk26yr8pmm77rnqdswu83cyq86q" implied="false" onDeleteCascade="false" table="cor_role_user_join"/>
+            <child column="c_grant_id" foreignKey="fk_uaa_grant_role" implied="false" onDeleteCascade="false" table="cor_uaa_role_role"/>
+            <child column="c_role_id" foreignKey="fk_uaa_role_grant" implied="false" onDeleteCascade="false" table="cor_uaa_role_role"/>
+            <child column="c_role_id" foreignKey="fk_uaa_role_user" implied="false" onDeleteCascade="false" table="cor_uaa_role_user"/>
          </column>
          <column autoUpdated="false" digits="6" id="2" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
          <column autoUpdated="false" digits="6" id="3" name="c_updated" nullable="true" remarks="" size="29" type="timestamp"/>
@@ -35,46 +36,45 @@
          <column autoUpdated="false" digits="0" id="7" name="c_name" nullable="false" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="8" name="c_immutable" nullable="true" remarks="" size="1" type="bool"/>
          <primaryKey column="c_pk" sequenceNumberInPK="1"/>
-         <index name="cor_role_pkey" unique="true">
+         <index name="cor_uaa_role_pkey" unique="true">
             <column ascending="true" name="c_pk"/>
          </index>
-         <index name="uk_3jo27nisfp4kk1ry0qflc75se" unique="true">
+         <index name="uc_uaa_role" unique="true">
             <column ascending="true" name="c_name"/>
          </index>
       </table>
-      <table name="cor_role_role_join" numRows="0" remarks="" schema="public" type="TABLE">
-         <column autoUpdated="false" digits="0" id="0" name="role_id" nullable="false" remarks="" size="19" type="int8">
-            <parent column="c_pk" foreignKey="fkrfeb3rjw2jqkjwupp515k90xs" implied="false" onDeleteCascade="false" table="cor_role"/>
+      <table name="cor_uaa_role_role" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="c_role_id" nullable="false" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fk_uaa_role_grant" implied="false" onDeleteCascade="false" table="cor_uaa_role"/>
          </column>
-         <column autoUpdated="false" digits="0" id="1" name="grant_id" nullable="false" remarks="" size="19" type="int8">
-            <parent column="c_pk" foreignKey="fkfnobcyet6rbxxow7bf4ne4pi2" implied="false" onDeleteCascade="false" table="cor_role"/>
+         <column autoUpdated="false" digits="0" id="1" name="c_grant_id" nullable="false" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fk_uaa_grant_role" implied="false" onDeleteCascade="false" table="cor_uaa_role"/>
          </column>
-         <primaryKey column="role_id" sequenceNumberInPK="1"/>
-         <primaryKey column="grant_id" sequenceNumberInPK="2"/>
-         <index name="cor_role_role_join_pkey" unique="true">
-            <column ascending="true" name="role_id"/>
-            <column ascending="true" name="grant_id"/>
+         <primaryKey column="c_role_id" sequenceNumberInPK="1"/>
+         <primaryKey column="c_grant_id" sequenceNumberInPK="2"/>
+         <index name="cor_uaa_role_role_pkey" unique="true">
+            <column ascending="true" name="c_role_id"/>
+            <column ascending="true" name="c_grant_id"/>
          </index>
       </table>
-      <table name="cor_role_user_join" numRows="0" remarks="" schema="public" type="TABLE">
-         <column autoUpdated="false" digits="0" id="0" name="role_id" nullable="false" remarks="" size="19" type="int8">
-            <parent column="c_pk" foreignKey="fk26yr8pmm77rnqdswu83cyq86q" implied="false" onDeleteCascade="false" table="cor_role"/>
+      <table name="cor_uaa_role_user" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="c_role_id" nullable="false" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fk_uaa_role_user" implied="false" onDeleteCascade="false" table="cor_uaa_role"/>
          </column>
-         <column autoUpdated="false" digits="0" id="1" name="user_id" nullable="false" remarks="" size="19" type="int8">
-            <parent column="c_pk" foreignKey="fke85ne4vji6gfdf8qq89qc9gps" implied="false" onDeleteCascade="false" table="cor_user"/>
+         <column autoUpdated="false" digits="0" id="1" name="c_user_id" nullable="false" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fk_uaa_user_role" implied="false" onDeleteCascade="false" table="cor_uaa_user"/>
          </column>
-         <primaryKey column="role_id" sequenceNumberInPK="1"/>
-         <primaryKey column="user_id" sequenceNumberInPK="2"/>
-         <index name="cor_role_user_join_pkey" unique="true">
-            <column ascending="true" name="role_id"/>
-            <column ascending="true" name="user_id"/>
+         <primaryKey column="c_role_id" sequenceNumberInPK="1"/>
+         <primaryKey column="c_user_id" sequenceNumberInPK="2"/>
+         <index name="cor_uaa_role_user_pkey" unique="true">
+            <column ascending="true" name="c_role_id"/>
+            <column ascending="true" name="c_user_id"/>
          </index>
       </table>
-      <table name="cor_user" numRows="0" remarks="" schema="public" type="TABLE">
-         <column autoUpdated="false" digits="0" id="0" name="dtype" nullable="false" remarks="" size="31" type="varchar"/>
+      <table name="cor_uaa_user" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="c_type" nullable="false" remarks="" size="31" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="c_pk" nullable="false" remarks="" size="19" type="int8">
-            <child column="user_id" foreignKey="fke85ne4vji6gfdf8qq89qc9gps" implied="false" onDeleteCascade="false" table="cor_role_user_join"/>
-            <child column="user_c_pk" foreignKey="fkckdphof988ejuadvrgxbfcgfg" implied="false" onDeleteCascade="false" table="cor_user_password"/>
+            <child column="c_user_id" foreignKey="fk_uaa_user_role" implied="false" onDeleteCascade="false" table="cor_uaa_role_user"/>
          </column>
          <column autoUpdated="false" digits="6" id="2" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
          <column autoUpdated="false" digits="6" id="3" name="c_updated" nullable="true" remarks="" size="29" type="timestamp"/>
@@ -95,33 +95,30 @@
          <column autoUpdated="false" digits="0" id="18" name="c_image" nullable="true" remarks="" size="10" type="oid"/>
          <column autoUpdated="false" digits="0" id="19" name="c_office" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="20" name="c_phone_no" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="21" name="c_username" nullable="false" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="22" name="primary_email_address_c_pk" nullable="true" remarks="" size="19" type="int8">
-            <parent column="c_pk" foreignKey="fkbk67qegv1o07b3wtwvfpweb92" implied="false" onDeleteCascade="false" table="cor_email"/>
+         <column autoUpdated="false" digits="0" id="21" name="c_username" nullable="false" remarks="" size="255" type="varchar">
+            <child column="c_username" foreignKey="fk_uaa_user_email" implied="false" onDeleteCascade="false" table="cor_uaa_email"/>
+            <child column="c_username" foreignKey="fk_uaa_pw_user" implied="false" onDeleteCascade="false" table="cor_uaa_user_password"/>
          </column>
          <primaryKey column="c_pk" sequenceNumberInPK="1"/>
-         <index name="cor_user_pkey" unique="true">
+         <index name="cor_uaa_user_pkey" unique="true">
             <column ascending="true" name="c_pk"/>
          </index>
          <index name="uc_uaa_user_name" unique="true">
             <column ascending="true" name="c_username"/>
          </index>
-         <index name="uk_89lq18culcijwk2ehr7dasx7q" unique="true">
-            <column ascending="true" name="c_username"/>
-         </index>
       </table>
-      <table name="cor_user_password" numRows="0" remarks="" schema="public" type="TABLE">
+      <table name="cor_uaa_user_password" numRows="0" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8"/>
          <column autoUpdated="false" digits="6" id="1" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
          <column autoUpdated="false" digits="6" id="2" name="c_updated" nullable="true" remarks="" size="29" type="timestamp"/>
          <column autoUpdated="false" digits="0" id="3" name="c_ol" nullable="true" remarks="" size="19" type="int8"/>
          <column autoUpdated="false" digits="0" id="4" name="c_password" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="6" id="5" name="c_password_changed" nullable="true" remarks="" size="29" type="timestamp"/>
-         <column autoUpdated="false" digits="0" id="6" name="user_c_pk" nullable="true" remarks="" size="19" type="int8">
-            <parent column="c_pk" foreignKey="fkckdphof988ejuadvrgxbfcgfg" implied="false" onDeleteCascade="false" table="cor_user"/>
+         <column autoUpdated="false" digits="0" id="6" name="c_username" nullable="true" remarks="" size="255" type="varchar">
+            <parent column="c_username" foreignKey="fk_uaa_pw_user" implied="false" onDeleteCascade="false" table="cor_uaa_user"/>
          </column>
          <primaryKey column="c_pk" sequenceNumberInPK="1"/>
-         <index name="cor_user_password_pkey" unique="true">
+         <index name="cor_uaa_user_password_pkey" unique="true">
             <column ascending="true" name="c_pk"/>
          </index>
       </table>
