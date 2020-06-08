@@ -19,9 +19,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
  * A UAASecurityConfiguration.
@@ -39,6 +42,13 @@ class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
+        config.addAllowedMethod(HttpMethod.PUT);
+        config.addAllowedMethod(HttpMethod.DELETE);
+        source.registerCorsConfiguration("/**", config);
+
         /*
         http
                 .sessionManagement()
@@ -57,8 +67,8 @@ class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
                     //.loginPage("/login/index.html")
                     .permitAll()
                 .and()
-                .csrf()
-                .disable()
+                    .cors().configurationSource(source).and()
+                    .csrf().disable()
         //        .csrfTokenRepository(
         //                CookieCsrfTokenRepository.withHttpOnlyFalse())
         //        .and().addFilterBefore(

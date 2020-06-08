@@ -18,8 +18,6 @@ package org.openwms.core.app;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.ameba.annotation.EnableAspects;
 import org.ameba.app.BaseConfiguration;
-import org.ameba.app.SpringProfiles;
-import org.ameba.http.PermitAllCorsConfigurationSource;
 import org.ameba.i18n.AbstractTranslator;
 import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
@@ -31,13 +29,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
-import org.springframework.web.filter.CorsFilter;
 
-import javax.servlet.Filter;
 import javax.validation.Validator;
 import java.util.Properties;
 
@@ -63,12 +58,6 @@ class UAAModuleConfiguration {
         MethodValidationPostProcessor mvpp = new MethodValidationPostProcessor();
         mvpp.setValidator(validator);
         return mvpp;
-    }
-
-    @Profile(SpringProfiles.DEVELOPMENT_PROFILE)
-    @Bean
-    Filter corsFiler() {
-        return new CorsFilter(new PermitAllCorsConfigurationSource());
     }
 
     public

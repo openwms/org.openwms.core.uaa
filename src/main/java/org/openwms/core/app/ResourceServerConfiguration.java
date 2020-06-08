@@ -45,6 +45,7 @@ class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
                 .antMatcher("/claims").antMatcher("/oauth/userinfo")
                     .authorizeRequests()
                 .anyRequest()
-                    .authenticated();
+                    .authenticated()
+        ;
     }
 }
