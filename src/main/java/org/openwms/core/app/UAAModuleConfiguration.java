@@ -46,7 +46,7 @@ import java.util.Properties;
 @EnableAspects(propagateRootCause = true)
 @EnableTransactionManagement
 @Import(BaseConfiguration.class)
-class UAAModuleConfiguration {
+public class UAAModuleConfiguration {
 
     @Bean
     MeterRegistryCustomizer<MeterRegistry> metricsCommonTags(@Value("${spring.application.name}") String applicationName) {
