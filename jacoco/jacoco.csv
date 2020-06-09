@@ -39,10 +39,10 @@ OpenWMS.org CORE: UAA,org.openwms.core.search,ObjectFactory,34,0,0,0,7,0,7,0,7,0
 OpenWMS.org CORE: UAA,org.openwms.core.search,Tags,14,0,2,0,4,0,3,0,2,0
 OpenWMS.org CORE: UAA,org.openwms.core.search,VerbTag,7,0,0,0,4,0,2,0,2,0
 OpenWMS.org CORE: UAA,org.openwms.core.app,UAAModuleConfiguration,0,59,0,0,0,12,0,7,0,7
-OpenWMS.org CORE: UAA,org.openwms.core.app,UAASecurityConfiguration,68,0,0,0,21,0,3,0,3,0
+OpenWMS.org CORE: UAA,org.openwms.core.app,UAASecurityConfiguration,91,0,0,0,29,0,3,0,3,0
 OpenWMS.org CORE: UAA,org.openwms.core.app,AuthServiceConfiguration,84,0,0,0,19,0,6,0,6,0
 OpenWMS.org CORE: UAA,org.openwms.core.app,UAADistributedConfiguration,3,0,0,0,1,0,1,0,1,0
-OpenWMS.org CORE: UAA,org.openwms.core.app,ResourceServerConfiguration,0,23,0,0,0,12,0,3,0,3
+OpenWMS.org CORE: UAA,org.openwms.core.app,ResourceServerConfiguration,0,29,0,0,0,13,0,3,0,3
 OpenWMS.org CORE: UAA,org.openwms.core.app,DefaultTimeProvider,0,3,0,0,0,1,0,1,0,1
 OpenWMS.org CORE: UAA,org.openwms.core.app,UAAModuleConfiguration.new AbstractTranslator() {...},0,10,0,0,0,2,0,2,0,2
 OpenWMS.org CORE: UAA,org.openwms.core,TimeProvider,11,8,0,0,2,2,2,2,2,2

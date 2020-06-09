@@ -15,6 +15,7 @@
  */
 package org.openwms.core.app;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -29,24 +30,28 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
  */
 @Configuration
 @EnableResourceServer
-<span class="fc" id="L32">class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {</span>
+<span class="fc" id="L33">class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {</span>
+
+    @Value(&quot;${owms.security.successUrl}&quot;)
+    private String successUrl;
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-<span class="fc" id="L36">        super.configure(resources);</span>
-<span class="fc" id="L37">    }</span>
+<span class="fc" id="L40">        super.configure(resources);</span>
+<span class="fc" id="L41">    }</span>
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-<span class="fc" id="L41">        http</span>
-<span class="fc" id="L42">                .sessionManagement()</span>
-<span class="fc" id="L43">                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)</span>
-<span class="fc" id="L44">                .and()</span>
-<span class="fc" id="L45">                .antMatcher(&quot;/claims&quot;).antMatcher(&quot;/oauth/userinfo&quot;)</span>
-<span class="fc" id="L46">                    .authorizeRequests()</span>
-<span class="fc" id="L47">                .anyRequest()</span>
-<span class="fc" id="L48">                    .authenticated()</span>
+<span class="fc" id="L45">        http.sessionManagement()</span>
+<span class="fc" id="L46">                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)</span>
+<span class="fc" id="L47">                .and()</span>
+<span class="fc" id="L48">                .antMatcher(&quot;/claims&quot;).antMatcher(&quot;/oauth/userinfo&quot;)</span>
+<span class="fc" id="L49">                    .authorizeRequests()</span>
+<span class="fc" id="L50">                .anyRequest()</span>
+<span class="fc" id="L51">                    .authenticated()</span>
+<span class="fc" id="L52">                .and()</span>
+<span class="fc" id="L53">                .formLogin().defaultSuccessUrl(successUrl)</span>
         ;
-<span class="fc" id="L50">    }</span>
+<span class="fc" id="L55">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
