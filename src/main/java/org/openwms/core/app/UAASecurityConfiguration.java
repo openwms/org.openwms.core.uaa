@@ -23,6 +23,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
@@ -39,6 +41,8 @@ class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
     private String username;
     @Value("${owms.security.system.password}")
     private String password;
+    @Value("${owms.security.successUrl}")
+    private String successUrl;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -49,13 +53,10 @@ class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
         config.addAllowedMethod(HttpMethod.DELETE);
         source.registerCorsConfiguration("/**", config);
 
-        /*
         http
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
-
-         */
-        http
+                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .and()
                 .requestMatchers()
                     .antMatchers("/login", "/oauth/authorize", "/oauth/check_token", "/oauth/token_key")
                 .and()
@@ -69,8 +70,11 @@ class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                     .cors().configurationSource(source).and()
                     .csrf().disable()
-        //        .csrfTokenRepository(
-        //                CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .formLogin().defaultSuccessUrl(successUrl)
+                .and()
+                    .logout().logoutSuccessUrl(successUrl).permitAll()
+                .and()
+                    .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         //        .and().addFilterBefore(
         //        ssoFilter(), BasicAuthenticationFilter.class)
         ;
@@ -83,26 +87,11 @@ class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .authenticationEntryPoint(new BasicAuthenticationEntryPoint())
                 .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
                 .and()
-                .logout()
-                .logoutSuccessUrl("/").permitAll()
-                .and()
-                .csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         ;
 
          */
     }
-/*
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser(username)
-                .password(passwordEncoder().encode(password))
-                .roles("USER");
-    }
 
-
- */
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

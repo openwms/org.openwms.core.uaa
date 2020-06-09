@@ -5,6 +5,7 @@ eureka:
 
 owms:
   security:
+    successUrl: "/"
     redirectUrl: http://localhost:8086/login/oauth2/code/gateway
     system:
       username: openwms

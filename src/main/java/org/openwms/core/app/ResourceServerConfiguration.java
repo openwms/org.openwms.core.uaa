@@ -15,6 +15,7 @@
  */
 package org.openwms.core.app;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -31,6 +32,9 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @EnableResourceServer
 class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
+    @Value("${owms.security.successUrl}")
+    private String successUrl;
+
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         super.configure(resources);
@@ -38,14 +42,15 @@ class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http
-                .sessionManagement()
+        http.sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .antMatcher("/claims").antMatcher("/oauth/userinfo")
                     .authorizeRequests()
                 .anyRequest()
                     .authenticated()
+                .and()
+                .formLogin().defaultSuccessUrl(successUrl)
         ;
     }
 }
