@@ -33,8 +33,6 @@ import org.springframework.stereotype.Component;
  * A ServiceLayerExceptionTranslator.
  *
  * @author Heiko Scherrer
- * @version 1.0
- * @since 1.0
  */
 @Component
 @Order(16)

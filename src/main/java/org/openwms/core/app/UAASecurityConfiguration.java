@@ -36,10 +36,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Value("${owms.security.system.username}")
-    private String username;
-    @Value("${owms.security.system.password}")
-    private String password;
     @Value("${owms.security.successUrl}")
     private String successUrl;
 
@@ -48,8 +44,6 @@ class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
-        //config.addAllowedMethod(HttpMethod.PUT);
-        //config.addAllowedMethod(HttpMethod.DELETE);
         source.registerCorsConfiguration("/**", config);
 
         http
@@ -64,7 +58,6 @@ class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .authenticated()
                 .and()
                 .formLogin()
-                    //.loginPage("/login/index.html")
                     .permitAll()
                 .and()
                     .cors().configurationSource(source).and()
@@ -74,21 +67,7 @@ class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .logout().logoutSuccessUrl(successUrl).permitAll()
                 .and()
                     .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-        //        .and().addFilterBefore(
-        //        ssoFilter(), BasicAuthenticationFilter.class)
         ;
-        /*
-                .antMatcher("/**").authorizeRequests()
-                .antMatchers("/", "/index.html", "/login**", "/webjars/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .exceptionHandling()
-//                .authenticationEntryPoint(new BasicAuthenticationEntryPoint())
-                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
-                .and()
-        ;
-
-         */
     }
 
     @Bean

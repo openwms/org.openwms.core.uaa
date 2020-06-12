@@ -25,8 +25,6 @@ package org.openwms.core;
  * A CorePackage.
  *
  * @author Heiko Scherrer
- * @version 1.0
- * @since 1.0
  */
 public final class CorePackage {
 
