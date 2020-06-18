@@ -6,7 +6,7 @@ eureka:
 owms:
   security:
     successUrl: "/"
-    redirectUrl: http://localhost:8086/login/oauth2/code/gateway
+    redirectUrl: http://localhost:8086/login/oauth2/code/gateway # Override the URL expecting the Code
     system:
       username: openwms
       password: openwms

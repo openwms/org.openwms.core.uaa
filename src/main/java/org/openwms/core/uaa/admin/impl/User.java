@@ -35,6 +35,7 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -99,13 +100,13 @@ public class User extends ApplicationEntity implements Serializable {
     @Column(name = "C_FULLNAME")
     private String fullname;
     /** Email addresses. */
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Email> emailAddresses;
     /** More detail information of the User. */
     @Embedded
     private UserDetails userDetails;
     /** List of {@link Role}s assigned to the User. */
-    @ManyToMany(mappedBy = "users", cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToMany(mappedBy = "users", cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     private List<Role> roles = new ArrayList<>();
     /** Last passwords of the User. */
     @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})

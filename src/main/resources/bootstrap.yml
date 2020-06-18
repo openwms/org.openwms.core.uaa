@@ -18,6 +18,9 @@ spring:
     user:
       password: openwms
       name: openwms
+  jpa:
+    show-sql: false
+    open-in-view: false
   jackson:
     date-format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
   zipkin:

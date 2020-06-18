@@ -142,6 +142,14 @@ public class Email extends BaseEntity implements Serializable {
         this.fullname = fullname;
     }
 
+    public boolean isPrimary() {
+        return primary;
+    }
+
+    public void setPrimary(boolean primary) {
+        this.primary = primary;
+    }
+
     /**
      * {@inheritDoc}
      *

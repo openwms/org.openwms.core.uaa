@@ -45,10 +45,9 @@ class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
         http.sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
-                .antMatcher("/claims").antMatcher("/oauth/userinfo")
-                    .authorizeRequests()
-                .anyRequest()
-                    .authenticated()
+                    .antMatcher("/claims").antMatcher("/oauth/userinfo")
+                .authorizeRequests()
+                    .anyRequest().authenticated()
                 .and()
                 .formLogin().defaultSuccessUrl(successUrl)
         ;

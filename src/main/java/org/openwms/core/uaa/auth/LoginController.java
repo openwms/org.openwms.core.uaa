@@ -20,6 +20,7 @@ import com.nimbusds.openid.connect.sdk.claims.Gender;
 import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import org.ameba.http.MeasuredRestController;
 import org.openwms.core.http.AbstractWebController;
+import org.openwms.core.uaa.admin.impl.Email;
 import org.openwms.core.uaa.admin.impl.User;
 import org.openwms.core.uaa.admin.impl.UserWrapper;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +52,8 @@ public class LoginController extends AbstractWebController {
         return ResponseEntity.ok().build();
     }
 
+    //@Secured("ROLE_USER")
+    //@PreAuthorize("isAnonymous()")
     @GetMapping("/oauth/userinfo")
     public String user(Principal principal) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
@@ -58,9 +61,12 @@ public class LoginController extends AbstractWebController {
             User user = ((UserWrapper) userDetails).getUser();
             final String baseUrl =
                     ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-            UserInfo userInfo = new UserInfo(new Subject(principal.getName()));
-            userInfo.setName(user.getFullname());
+            UserInfo userInfo = new UserInfo(new Subject(user.getUsername()));
+            userInfo.setName(user.getUsername());
+            userInfo.setEmailAddress(user.getEmailAddresses().stream().filter(Email::isPrimary).findFirst().get().toString());
             userInfo.setPhoneNumber(user.getUserDetails().getPhoneNo());
+            userInfo.setFamilyName(user.getFullname());
+            userInfo.setGivenName(user.getFullname());
             userInfo.setPicture(URI.create(baseUrl + "/uaa/user/user/" + user.getPersistentKey() + "/image/"));
             userInfo.setGender(new Gender(user.getUserDetails().getGender().name()));
             return userInfo.toJSONObject().toJSONString();
