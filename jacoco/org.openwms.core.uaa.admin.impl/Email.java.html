@@ -142,6 +142,14 @@ public class Email extends BaseEntity implements Serializable {
 <span class="nc" id="L142">        this.fullname = fullname;</span>
 <span class="nc" id="L143">    }</span>
 
+    public boolean isPrimary() {
+<span class="nc" id="L146">        return primary;</span>
+    }
+
+    public void setPrimary(boolean primary) {
+<span class="nc" id="L150">        this.primary = primary;</span>
+<span class="nc" id="L151">    }</span>
+
     /**
      * {@inheritDoc}
      *
@@ -149,12 +157,12 @@ public class Email extends BaseEntity implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L152" title="All 2 branches missed.">        if (this == o) return true;</span>
-<span class="nc bnc" id="L153" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L154">        Email email = (Email) o;</span>
-<span class="nc bnc" id="L155" title="All 2 branches missed.">        return Objects.equals(user, email.user) &amp;&amp;</span>
-<span class="nc bnc" id="L156" title="All 2 branches missed.">                Objects.equals(emailAddress, email.emailAddress) &amp;&amp;</span>
-<span class="nc bnc" id="L157" title="All 2 branches missed.">                Objects.equals(fullname, email.fullname);</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L161" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L162">        Email email = (Email) o;</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">        return Objects.equals(user, email.user) &amp;&amp;</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">                Objects.equals(emailAddress, email.emailAddress) &amp;&amp;</span>
+<span class="nc bnc" id="L165" title="All 2 branches missed.">                Objects.equals(fullname, email.fullname);</span>
     }
 
     /**
@@ -164,7 +172,7 @@ public class Email extends BaseEntity implements Serializable {
      */
     @Override
     public int hashCode() {
-<span class="nc" id="L167">        return Objects.hash(user, emailAddress, fullname);</span>
+<span class="nc" id="L175">        return Objects.hash(user, emailAddress, fullname);</span>
     }
 
     /**
@@ -175,7 +183,7 @@ public class Email extends BaseEntity implements Serializable {
      */
     @Override
     public String toString() {
-<span class="nc" id="L178">        return emailAddress;</span>
+<span class="nc" id="L186">        return emailAddress;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

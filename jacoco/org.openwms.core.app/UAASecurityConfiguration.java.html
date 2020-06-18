@@ -20,7 +20,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -34,7 +36,13 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  */
 @Profile(&quot;!TEST&quot;)
 @Configuration
-<span class="nc" id="L37">class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {</span>
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(
+        securedEnabled = true,
+        prePostEnabled = true,
+        jsr250Enabled = true
+)
+<span class="nc" id="L45">class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {</span>
 
     @Value(&quot;${owms.security.successUrl}&quot;)
     private String successUrl;
@@ -42,38 +50,37 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-<span class="nc" id="L45">        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();</span>
-<span class="nc" id="L46">        CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();</span>
-<span class="nc" id="L47">        source.registerCorsConfiguration(&quot;/**&quot;, config);</span>
+<span class="nc" id="L53">        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();</span>
+<span class="nc" id="L54">        CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();</span>
+<span class="nc" id="L55">        source.registerCorsConfiguration(&quot;/**&quot;, config);</span>
 
-<span class="nc" id="L49">        http</span>
-<span class="nc" id="L50">                .sessionManagement()</span>
-<span class="nc" id="L51">                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)</span>
-<span class="nc" id="L52">                .and()</span>
-<span class="nc" id="L53">                .requestMatchers()</span>
-<span class="nc" id="L54">                    .antMatchers(&quot;/login&quot;, &quot;/oauth/authorize&quot;, &quot;/oauth/check_token&quot;, &quot;/oauth/token_key&quot;)</span>
-<span class="nc" id="L55">                .and()</span>
-<span class="nc" id="L56">                .authorizeRequests()</span>
-<span class="nc" id="L57">                    .anyRequest()</span>
-<span class="nc" id="L58">                    .authenticated()</span>
-<span class="nc" id="L59">                .and()</span>
-<span class="nc" id="L60">                .formLogin()</span>
-<span class="nc" id="L61">                    .permitAll()</span>
-<span class="nc" id="L62">                .and()</span>
-<span class="nc" id="L63">                    .cors().configurationSource(source).and()</span>
-<span class="nc" id="L64">                    .csrf().disable()</span>
-<span class="nc" id="L65">                .formLogin().defaultSuccessUrl(successUrl)</span>
+<span class="nc" id="L57">        http</span>
+<span class="nc" id="L58">                .sessionManagement()</span>
+<span class="nc" id="L59">                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)</span>
+<span class="nc" id="L60">                .and()</span>
+<span class="nc" id="L61">                .requestMatchers()</span>
+<span class="nc" id="L62">                    .antMatchers(&quot;/login&quot;, &quot;/oauth/authorize&quot;, &quot;/oauth/check_token&quot;, &quot;/oauth/token_key&quot;)</span>
+<span class="nc" id="L63">                .and()</span>
+<span class="nc" id="L64">                .authorizeRequests()</span>
+<span class="nc" id="L65">                    .anyRequest().authenticated()</span>
 <span class="nc" id="L66">                .and()</span>
-<span class="nc" id="L67">                    .logout().logoutSuccessUrl(successUrl).permitAll()</span>
-<span class="nc" id="L68">                .and()</span>
-<span class="nc" id="L69">                    .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())</span>
+<span class="nc" id="L67">                .formLogin()</span>
+<span class="nc" id="L68">                    .permitAll()</span>
+<span class="nc" id="L69">                .and()</span>
+<span class="nc" id="L70">                    .cors().configurationSource(source).and()</span>
+<span class="nc" id="L71">                    .csrf().disable()</span>
+<span class="nc" id="L72">                .formLogin().defaultSuccessUrl(successUrl)</span>
+<span class="nc" id="L73">                .and()</span>
+<span class="nc" id="L74">                    .logout().logoutSuccessUrl(successUrl).permitAll()</span>
+<span class="nc" id="L75">                .and()</span>
+<span class="nc" id="L76">                    .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())</span>
         ;
-<span class="nc" id="L71">    }</span>
+<span class="nc" id="L78">    }</span>
 
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
-<span class="nc" id="L76">        return super.authenticationManagerBean();</span>
+<span class="nc" id="L83">        return super.authenticationManagerBean();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

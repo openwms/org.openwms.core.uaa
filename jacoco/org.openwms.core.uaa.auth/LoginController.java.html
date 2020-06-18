@@ -20,6 +20,7 @@ import com.nimbusds.openid.connect.sdk.claims.Gender;
 import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import org.ameba.http.MeasuredRestController;
 import org.openwms.core.http.AbstractWebController;
+import org.openwms.core.uaa.admin.impl.Email;
 import org.openwms.core.uaa.admin.impl.User;
 import org.openwms.core.uaa.admin.impl.UserWrapper;
 import org.springframework.http.ResponseEntity;
@@ -42,37 +43,42 @@ public class LoginController extends AbstractWebController {
 
     private final UserDetailsService userDetailsService;
 
-<span class="fc" id="L45">    LoginController(UserDetailsService userDetailsService) {</span>
-<span class="fc" id="L46">        this.userDetailsService = userDetailsService;</span>
-<span class="fc" id="L47">    }</span>
+<span class="fc" id="L46">    LoginController(UserDetailsService userDetailsService) {</span>
+<span class="fc" id="L47">        this.userDetailsService = userDetailsService;</span>
+<span class="fc" id="L48">    }</span>
 
     @GetMapping(&quot;/claims&quot;)
     public ResponseEntity&lt;Void&gt; loginGet() {
-<span class="nc" id="L51">        return ResponseEntity.ok().build();</span>
+<span class="nc" id="L52">        return ResponseEntity.ok().build();</span>
     }
 
+    //@Secured(&quot;ROLE_USER&quot;)
+    //@PreAuthorize(&quot;isAnonymous()&quot;)
     @GetMapping(&quot;/oauth/userinfo&quot;)
     public String user(Principal principal) {
-<span class="nc" id="L56">        UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());</span>
-<span class="nc bnc" id="L57" title="All 2 branches missed.">        if (UserWrapper.class.equals(userDetails.getClass())) {</span>
-<span class="nc" id="L58">            User user = ((UserWrapper) userDetails).getUser();</span>
+<span class="nc" id="L59">        UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if (UserWrapper.class.equals(userDetails.getClass())) {</span>
+<span class="nc" id="L61">            User user = ((UserWrapper) userDetails).getUser();</span>
             final String baseUrl =
-<span class="nc" id="L60">                    ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();</span>
-<span class="nc" id="L61">            UserInfo userInfo = new UserInfo(new Subject(principal.getName()));</span>
-<span class="nc" id="L62">            userInfo.setName(user.getFullname());</span>
-<span class="nc" id="L63">            userInfo.setPhoneNumber(user.getUserDetails().getPhoneNo());</span>
-<span class="nc" id="L64">            userInfo.setPicture(URI.create(baseUrl + &quot;/uaa/user/user/&quot; + user.getPersistentKey() + &quot;/image/&quot;));</span>
-<span class="nc" id="L65">            userInfo.setGender(new Gender(user.getUserDetails().getGender().name()));</span>
-<span class="nc" id="L66">            return userInfo.toJSONObject().toJSONString();</span>
+<span class="nc" id="L63">                    ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();</span>
+<span class="nc" id="L64">            UserInfo userInfo = new UserInfo(new Subject(user.getUsername()));</span>
+<span class="nc" id="L65">            userInfo.setName(user.getUsername());</span>
+<span class="nc" id="L66">            userInfo.setEmailAddress(user.getEmailAddresses().stream().filter(Email::isPrimary).findFirst().get().toString());</span>
+<span class="nc" id="L67">            userInfo.setPhoneNumber(user.getUserDetails().getPhoneNo());</span>
+<span class="nc" id="L68">            userInfo.setFamilyName(user.getFullname());</span>
+<span class="nc" id="L69">            userInfo.setGivenName(user.getFullname());</span>
+<span class="nc" id="L70">            userInfo.setPicture(URI.create(baseUrl + &quot;/uaa/user/user/&quot; + user.getPersistentKey() + &quot;/image/&quot;));</span>
+<span class="nc" id="L71">            userInfo.setGender(new Gender(user.getUserDetails().getGender().name()));</span>
+<span class="nc" id="L72">            return userInfo.toJSONObject().toJSONString();</span>
         } else {
-<span class="nc" id="L68">            UserInfo userInfo = new UserInfo(new Subject(principal.getName()));</span>
-<span class="nc" id="L69">            return userInfo.toJSONObject().toJSONString();</span>
+<span class="nc" id="L74">            UserInfo userInfo = new UserInfo(new Subject(principal.getName()));</span>
+<span class="nc" id="L75">            return userInfo.toJSONObject().toJSONString();</span>
         }
     }
 
     @PostMapping(&quot;/login&quot;)
     public ResponseEntity&lt;Void&gt; login() {
-<span class="nc" id="L75">        return ResponseEntity.ok().build();</span>
+<span class="nc" id="L81">        return ResponseEntity.ok().build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
