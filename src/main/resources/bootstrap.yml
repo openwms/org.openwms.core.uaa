@@ -19,10 +19,12 @@ spring:
       password: openwms
       name: openwms
   jpa:
-    database: h2
+    database: H2
     generate-ddl: true
     hibernate:
       ddl-auto: create
+    properties:
+      hibernate.dialect: org.hibernate.dialect.H2Dialect
     show-sql: false
     open-in-view: false
   jackson:
