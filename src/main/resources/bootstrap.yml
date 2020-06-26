@@ -75,35 +75,6 @@ logging:
 
 ---
 spring:
-  profiles: ASYNCHRONOUS
-  cloud:
-    config:
-      discovery:
-        enabled: true
-      enabled: true
-      fail-fast: true # true means retry
-    discovery:
-      enabled: true
-
-management:
-  health:
-    rabbit:
-      enabled: true
-
----
-spring:
-  profiles: CLOUD
-  cloud:
-    config:
-      discovery:
-        enabled: true
-      enabled: true
-      fail-fast: true # true means retry
-    discovery:
-      enabled: true
-
----
-spring:
   profiles: DEV
   data:
     jpa:
@@ -138,8 +109,7 @@ owms:
 ---
 spring:
   profiles: K8S
-  rabbitmq:
-    host: owms-broker
+
 owms:
   eureka:
     url: http://user:sa@owms-services:8761
