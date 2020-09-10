@@ -26,10 +26,12 @@ import org.openwms.core.uaa.admin.impl.UserWrapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.security.Principal;
 
@@ -38,6 +40,7 @@ import java.security.Principal;
  *
  * @author Heiko Scherrer
  */
+//@Validated
 @MeasuredRestController
 public class LoginController extends AbstractWebController {
 
@@ -55,7 +58,7 @@ public class LoginController extends AbstractWebController {
     //@Secured("ROLE_USER")
     //@PreAuthorize("isAnonymous()")
     @GetMapping("/oauth/userinfo")
-    public String user(Principal principal) {
+    public String user(@NotNull Principal principal) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
         if (UserWrapper.class.equals(userDetails.getClass())) {
             User user = ((UserWrapper) userDetails).getUser();

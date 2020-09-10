@@ -13,47 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.core.uaa.admin;
+package org.openwms.core.uaa.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.core.UAAApplicationTest;
-import org.openwms.core.uaa.api.UAAConstants;
-import org.openwms.core.uaa.api.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.springframework.http.HttpHeaders.LOCATION;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
 /**
- * A UserControllerDocumentation.
+ * A LoginControllerDocumentation.
  *
  * @author Heiko Scherrer
  */
-@Transactional
-@Rollback
 @UAAApplicationTest
-class UserControllerDocumentation {
+class LoginControllerDocumentation {
 
     protected MockMvc mockMvc;
     @Autowired
@@ -65,45 +50,26 @@ class UserControllerDocumentation {
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation, WebApplicationContext context) {
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
+                .apply(springSecurity())
                 .apply(documentationConfiguration(restDocumentation))
                 .build();
     }
 
     @Test
-    void shall_create_user() throws Exception {
-        UserVO vo = UserVO.newBuilder()
-                .username("tester")
-                .email("tester@example.com")
-                .build();
-        MvcResult result = mockMvc.perform(
-                RestDocumentationRequestBuilders.post(UAAConstants.API_USERS)
-                        .content(objectMapper.writeValueAsString(vo))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andDo(document("user-create",
-                        preprocessResponse(prettyPrint()),
-                        requestFields(
-                                fieldWithPath("links[]").ignored(),
-                                fieldWithPath("username").description("The unique name of the User in the system"),
-                                fieldWithPath("email").description("The email address used by the User, unique in the system")
-                        )
-                ))
-                .andExpect(status().isCreated())
-                .andExpect(header().string(LOCATION, notNullValue()))
-                .andReturn();
-
-        String location = result.getResponse().getHeader(LOCATION);
+    void shall_find_user() throws Exception {
         mockMvc.perform(
-                get(location))
-                .andDo(document("user-findByPkey",
-                        preprocessResponse(prettyPrint()),
+                get("/oauth/userinfo"))
+                .andDo(document("oauth-findUserInfo",
+                        preprocessResponse(prettyPrint())/*,
                         responseFields(
                                 fieldWithPath("pKey").description("The persistent key"),
                                 fieldWithPath("username").description("The unique name of the User in the system"),
                                 fieldWithPath("externalUser").description("If the User is authenticated by an external system"),
                                 fieldWithPath("locked").description("If the User is locked and has no permission to login"),
                                 fieldWithPath("enabled").description("If the User is enabled in general")
-                        )
+                        )*/
                 ))
-                .andExpect(status().isOk());
+        //        .andExpect(status().isOk())
+        ;
     }
 }
