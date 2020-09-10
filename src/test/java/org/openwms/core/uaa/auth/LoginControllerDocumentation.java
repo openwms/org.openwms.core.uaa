@@ -21,8 +21,9 @@ import org.junit.jupiter.api.Test;
 import org.openwms.core.UAAApplicationTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.RestDocumentationContextProvider;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -31,8 +32,6 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
 /**
  * A LoginControllerDocumentation.
@@ -45,6 +44,10 @@ class LoginControllerDocumentation {
     protected MockMvc mockMvc;
     @Autowired
     protected ObjectMapper objectMapper;
+    @Autowired
+    private FilterChainProxy springSecurityFilterChain;
+    @Autowired
+    private OAuthHelper helper;
 
     /**
      * Do something before each test method.
@@ -52,15 +55,16 @@ class LoginControllerDocumentation {
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation, WebApplicationContext context) {
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
-                .apply(springSecurity())
+                .addFilter(springSecurityFilterChain)
                 .apply(documentationConfiguration(restDocumentation))
                 .build();
     }
 
     @Test
     void shall_find_user() throws Exception {
+        RequestPostProcessor bearerToken = helper.bearerToken("gateway");
         mockMvc.perform(
-                get("/oauth/userinfo").principal(new Prini))
+                get("/oauth/userinfo").with(bearerToken))
                 .andDo(document("oauth-findUserInfo",
                         preprocessResponse(prettyPrint())/*,
                         responseFields(
