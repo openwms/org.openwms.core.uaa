@@ -285,6 +285,10 @@
                     <groupId>com.nimbusds</groupId>
                     <artifactId>nimbus-jose-jwt</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>net.minidev</groupId>
+                    <artifactId>json-smart</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -314,9 +318,8 @@
             <exclusions>
                 <exclusion>
                     <groupId>net.minidev</groupId>
-                    <artifactId>net.minidev:json-smart:2.3</artifactId>
+                    <artifactId>json-smart</artifactId>
                 </exclusion>
-
             </exclusions>
         </dependency>
 
