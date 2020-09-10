@@ -4,8 +4,8 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>14</version>
-        <relativePath/>
+        <version>17</version>
+        <relativePath />
     </parent>
     <artifactId>org.openwms.core.uaa</artifactId>
     <version>1.1.0-SNAPSHOT</version>
@@ -63,8 +63,9 @@
     </ciManagement>
 
     <properties>
-        <ameba-lib.version>2.4-SNAPSHOT</ameba-lib.version>
-        <core.version>1.8.0-SNAPSHOT</core.version>
+        <ameba-lib.version>2.5-SNAPSHOT</ameba-lib.version>
+        <core.version>1.9.0-SNAPSHOT</core.version>
+        <guava.version>29.0-jre</guava.version>
         <spring-cloud-dependencies.version>Hoxton.RELEASE</spring-cloud-dependencies.version>
     </properties>
 
@@ -110,9 +111,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <executable>true</executable>
-                </configuration>
                 <executions>
                     <execution>
                         <goals>
@@ -167,6 +165,11 @@
                 <version>${core.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>net.sf.dozer</groupId>
                 <artifactId>dozer</artifactId>
                 <version>${dozer.version}</version>
@@ -216,6 +219,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -291,6 +298,7 @@
             <artifactId>jackson-datatype-jdk8</artifactId>
         </dependency>
         <dependency>
+            <!-- Need to upgrade Guava from version 11 because of CVE -->
             <!-- Required by eureka-client -->
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
@@ -355,16 +363,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <profiles>
-        <profile>
-            <id>schemagen</id>
-            <properties>
-                <surefireArgs>-Dspring.profiles.active=ASYNCHRONOUS,TEST,TESTPG</surefireArgs>
-                <schemagen.outputDirectory>${project.build.directory}/site/${project.version}</schemagen.outputDirectory>
-            </properties>
-        </profile>
-    </profiles>
 
     <repositories>
         <repository>

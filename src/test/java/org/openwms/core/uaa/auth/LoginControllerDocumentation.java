@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.openwms.core.UAAApplicationTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -30,6 +31,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
 /**
@@ -58,7 +60,7 @@ class LoginControllerDocumentation {
     @Test
     void shall_find_user() throws Exception {
         mockMvc.perform(
-                get("/oauth/userinfo"))
+                get("/oauth/userinfo").principal(new Prini))
                 .andDo(document("oauth-findUserInfo",
                         preprocessResponse(prettyPrint())/*,
                         responseFields(
