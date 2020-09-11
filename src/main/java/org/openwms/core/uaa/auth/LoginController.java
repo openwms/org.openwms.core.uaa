@@ -23,6 +23,7 @@ import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.uaa.admin.impl.Email;
 import org.openwms.core.uaa.admin.impl.User;
 import org.openwms.core.uaa.admin.impl.UserWrapper;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -57,7 +58,7 @@ public class LoginController extends AbstractWebController {
 
     //@Secured("ROLE_USER")
     //@PreAuthorize("isAnonymous()")
-    @GetMapping("/oauth/userinfo")
+    @GetMapping(value = "/oauth/userinfo", produces = MediaType.APPLICATION_JSON_VALUE)
     public String user(@NotNull Principal principal) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
         if (UserWrapper.class.equals(userDetails.getClass())) {
@@ -70,7 +71,7 @@ public class LoginController extends AbstractWebController {
             userInfo.setPhoneNumber(user.getUserDetails().getPhoneNo());
             userInfo.setFamilyName(user.getFullname());
             userInfo.setGivenName(user.getFullname());
-            userInfo.setPicture(URI.create(baseUrl + "/uaa/user/user/" + user.getPersistentKey() + "/image/"));
+            userInfo.setPicture(URI.create(baseUrl + "/uaa/user/" + user.getPersistentKey() + "/image/"));
             userInfo.setGender(new Gender(user.getUserDetails().getGender().name()));
             return userInfo.toJSONObject().toJSONString();
         } else {

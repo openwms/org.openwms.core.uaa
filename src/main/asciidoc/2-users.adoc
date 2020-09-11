@@ -24,11 +24,13 @@ If the resource exists the server responds with a `200-OK` and the `User` repres
 include::{generated}/user-findByPkey/http-response.adoc[]
 
 === Get the User Details (OAuth2 UserDetails)
-An endpoint exists to get the details of an `User` from. An OAuth2 Access Token must be provided as Bearer token in order to access the
-endpoint.
+An endpoint exists to get the details of the current logged-in `User` from. An OAuth2 Access Token must be provided as Bearer token in order
+to access the endpoint.
 
 include::{generated}/oauth-findUserInfo/http-request.adoc[]
 
 If the access token is valid and the server granted access to the resource, a JSON object with the user details is returned.
 
 include::{generated}/oauth-findUserInfo/http-response.adoc[]
+
+include::{generated}/oauth-findUserInfo/response-fields.adoc[]
