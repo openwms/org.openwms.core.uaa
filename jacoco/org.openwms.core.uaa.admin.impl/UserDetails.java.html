@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserDetails.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.uaa.admin.impl</a> &gt; <span class="el_source">UserDetails.java</span></div><h1>UserDetails.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.core.uaa.admin.impl;
+
+import org.openwms.core.values.CoreTypeDefinitions;
+import org.openwms.core.values.ImageProvider;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.Lob;
+import java.io.Serializable;
+import java.util.Arrays;
+
+/**
+ * Detailed information about an {@link User}.
+ *
+ * @author Heiko Scherrer
+ */
+@Embeddable
+<span class="fc" id="L37">public class UserDetails implements ImageProvider, Serializable {</span>
+
+    /** Some descriptive text of the {@link User}. */
+    @Column(name = &quot;C_DESCRIPTION&quot;, length = CoreTypeDefinitions.DESCRIPTION_LENGTH)
+    private String description;
+    /** Some comment text of the {@link User}. */
+    @Column(name = &quot;C_COMMENT&quot;)
+    private String comment;
+    /** Phone number assigned to the {@link User}. */
+    @Column(name = &quot;C_PHONE_NO&quot;)
+    private String phoneNo;
+    /** IM account assigned to the {@link User}. */
+    @Column(name = &quot;C_IM&quot;)
+    private String im;
+    /** Office description assigned to the {@link User}. */
+    @Column(name = &quot;C_OFFICE&quot;)
+    private String office;
+    /** Department description assigned to the {@link User}. */
+    @Column(name = &quot;C_DEPARTMENT&quot;)
+    private String department;
+    /** An image of the {@link User}. */
+    @Lob
+    @Basic(fetch = FetchType.EAGER)
+    @Column(name = &quot;C_IMAGE&quot;)
+    private byte[] image;
+    /** Gender of the {@link User}. */
+    @Enumerated(EnumType.STRING)
+    @Column(name = &quot;C_GENDER&quot;)
+    private Gender gender;
+
+    /**
+     * The {@link User}s gender.
+     *
+     * @author Heiko Scherrer
+     */
+<span class="fc" id="L72">    public static enum Gender {</span>
+        /** Male. */
+<span class="fc" id="L74">        MALE,</span>
+        /** Female. */
+<span class="fc" id="L76">        FEMALE</span>
+    }
+
+    /**
+     * Return the {@link User}s current phone number.
+     *
+     * @return The phone number
+     */
+    public String getPhoneNo() {
+<span class="fc" id="L85">        return phoneNo;</span>
+    }
+
+    /**
+     * Change the phone number of the {@link User}.
+     *
+     * @param phoneNo The new phone number
+     */
+    public void setPhoneNo(String phoneNo) {
+<span class="nc" id="L94">        this.phoneNo = phoneNo;</span>
+<span class="nc" id="L95">    }</span>
+
+    /**
+     * Return the description text of the {@link User}.
+     *
+     * @return The description
+     */
+    public String getDescription() {
+<span class="nc" id="L103">        return description;</span>
+    }
+
+    /**
+     * Change the description text of the {@link User}.
+     *
+     * @param description The new description
+     */
+    public void setDescription(String description) {
+<span class="nc" id="L112">        this.description = description;</span>
+<span class="nc" id="L113">    }</span>
+
+    /**
+     * Return a comment text of the {@link User}.
+     *
+     * @return The comment text
+     */
+    public String getComment() {
+<span class="nc" id="L121">        return comment;</span>
+    }
+
+    /**
+     * Change the comment text of the {@link User}.
+     *
+     * @param comment The new comment text
+     */
+    public void setComment(String comment) {
+<span class="nc" id="L130">        this.comment = comment;</span>
+<span class="nc" id="L131">    }</span>
+
+    /**
+     * Return the current office of the {@link User}.
+     *
+     * @return The current office.
+     */
+    public String getOffice() {
+<span class="nc" id="L139">        return office;</span>
+    }
+
+    /**
+     * Change the current office of the {@link User}.
+     *
+     * @param office The new office
+     */
+    public void setOffice(String office) {
+<span class="nc" id="L148">        this.office = office;</span>
+<span class="nc" id="L149">    }</span>
+
+    /**
+     * Return the IM account name of the {@link User}.
+     *
+     * @return The current IM account name
+     */
+    public String getIm() {
+<span class="nc" id="L157">        return im;</span>
+    }
+
+    /**
+     * Change the current IM account name of the {@link User}.
+     *
+     * @param im The new IM account name
+     */
+    public void setIm(String im) {
+<span class="nc" id="L166">        this.im = im;</span>
+<span class="nc" id="L167">    }</span>
+
+    /**
+     * Return the current department of the {@link User}.
+     *
+     * @return The current department
+     */
+    public String getDepartment() {
+<span class="nc" id="L175">        return department;</span>
+    }
+
+    /**
+     * Change the current department of the {@link User}.
+     *
+     * @param department The new department
+     */
+    public void setDepartment(String department) {
+<span class="nc" id="L184">        this.department = department;</span>
+<span class="nc" id="L185">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public byte[] getImage() {
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">        if (image == null) {</span>
+<span class="nc" id="L193">            return new byte[0];</span>
+        }
+<span class="fc" id="L195">        return Arrays.copyOf(image, image.length);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setImage(byte[] img) {
+<span class="pc bpc" id="L203" title="1 of 2 branches missed.">        image = img == null ? new byte[0] : Arrays.copyOf(img, img.length);</span>
+<span class="fc" id="L204">    }</span>
+
+    /**
+     * Return the {@link User}'s gender.
+     *
+     * @return The {@link User}'s gender
+     */
+    public Gender getGender() {
+<span class="fc" id="L212">        return gender;</span>
+    }
+
+    /**
+     * Change the {@link User}'s gender (only for compliance).
+     *
+     * @param gender The new gender
+     */
+    public void setGender(Gender gender) {
+<span class="nc" id="L221">        this.gender = gender;</span>
+<span class="nc" id="L222">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

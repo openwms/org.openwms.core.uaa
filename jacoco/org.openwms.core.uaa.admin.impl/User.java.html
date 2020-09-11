@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>User.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.uaa.admin.impl</a> &gt; <span class="el_source">User.java</span></div><h1>User.java</h1><pre class="source lang-java linenums">/*
+ * openwms.org, the Open Warehouse Management System.
+ * Copyright (C) 2014 Heiko Scherrer
+ *
+ * This file is part of openwms.org.
+ *
+ * openwms.org is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * openwms.org is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this software. If not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+package org.openwms.core.uaa.admin.impl;
+
+import org.ameba.integration.jpa.ApplicationEntity;
+import org.openwms.core.app.DefaultTimeProvider;
+import org.openwms.core.exception.InvalidPasswordException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.Assert;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Inheritance;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.PostLoad;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+
+/**
+ * An User represents a human user of the system. Typically an User is assigned to one or more {@code Roles} to define security constraints.
+ * Users can have their own configuration settings in form of {@code UserPreferences} and certain user details, encapsulated in an {@code
+ * UserDetails} object that tend to be extended by projects.
+ *
+ * @author Heiko Scherrer
+ * @GlossaryTerm
+ * @see UserDetails
+ * @see UserPassword
+ * @see Role
+ */
+@Entity
+@Table(name = &quot;COR_UAA_USER&quot;, uniqueConstraints = @UniqueConstraint(name = &quot;UC_UAA_USER_NAME&quot;, columnNames = {&quot;C_USERNAME&quot;}))
+@Inheritance
+@DiscriminatorColumn(name = &quot;C_TYPE&quot;)
+@DiscriminatorValue(&quot;STANDARD&quot;)
+public class User extends ApplicationEntity implements Serializable {
+
+<span class="fc" id="L73">    private static final Logger LOGGER = LoggerFactory.getLogger(User.class);</span>
+    /** Unique identifier of this User (not nullable). */
+    @Column(name = &quot;C_USERNAME&quot;, nullable = false)
+    @NotEmpty
+    private String username;
+    /** {@code true} if the User is authenticated by an external system, otherwise {@code false}. */
+<span class="fc" id="L79">    @Column(name = &quot;C_EXTERN&quot;)</span>
+    private boolean extern = false;
+    /** Date of the last password change. */
+    @Column(name = &quot;C_LAST_PASSWORD_CHANGE&quot;)
+    private ZonedDateTime lastPasswordChange;
+    /** {@code true} if this User is locked and has no permission to login. */
+<span class="fc" id="L85">    @Column(name = &quot;C_LOCKED&quot;)</span>
+    private boolean locked = false;
+    /** The User's current password (only kept transient). */
+    @Transient
+    private String password;
+    /** The User's current password. */
+    @Column(name = &quot;C_PASSWORD&quot;)
+    private String persistedPassword;
+    /** {@code true} if the User is enabled. This field can be managed by the UI application to lock the User manually. */
+<span class="fc" id="L94">    @Column(name = &quot;C_ENABLED&quot;)</span>
+    private boolean enabled = true;
+    /** Date when the account expires. After account expiration, the User cannot login anymore. */
+    @Column(name = &quot;C_EXPIRATION_DATE&quot;)
+    private ZonedDateTime expirationDate;
+    /** The User's fullname (doesn't have to be unique). */
+    @Column(name = &quot;C_FULLNAME&quot;)
+    private String fullname;
+    /** Email addresses. */
+    @OneToMany(mappedBy = &quot;user&quot;, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set&lt;Email&gt; emailAddresses;
+    /** More detail information of the User. */
+    @Embedded
+    private UserDetails userDetails;
+    /** List of {@link Role}s assigned to the User. */
+<span class="fc" id="L109">    @ManyToMany(mappedBy = &quot;users&quot;, cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)</span>
+    private List&lt;Role&gt; roles = new ArrayList&lt;&gt;();
+    /** Last passwords of the User. */
+<span class="fc" id="L112">    @OneToMany(mappedBy = &quot;user&quot;, cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})</span>
+    private List&lt;UserPassword&gt; passwords = new ArrayList&lt;&gt;();
+    /** The number of passwords to keep in the password history. Default: {@value}. */
+    public static final short NUMBER_STORED_PASSWORDS = 3;
+
+    /* ----------------------------- constructors ------------------- */
+
+    /** Dear JPA... */
+    protected User() {
+<span class="fc" id="L121">        super();</span>
+<span class="fc" id="L122">        loadLazy();</span>
+<span class="fc" id="L123">    }</span>
+
+    /**
+     * Create a new User with an username.
+     *
+     * @param username The unique name of the user
+     * @throws IllegalArgumentException when username is {@literal null} or empty
+     */
+    public User(String username) {
+<span class="fc" id="L132">        super();</span>
+<span class="fc" id="L133">        Assert.hasText(username, &quot;Not allowed to create an User with an empty username&quot;);</span>
+<span class="fc" id="L134">        this.username = username;</span>
+<span class="fc" id="L135">        loadLazy();</span>
+<span class="fc" id="L136">    }</span>
+
+    /**
+     * Create a new User with an username.
+     *
+     * @param username The unique name of the user
+     * @param password The password of the user
+     * @throws IllegalArgumentException when username or password is {@literal null} or empty
+     */
+    protected User(String username, String password) {
+<span class="fc" id="L146">        super();</span>
+<span class="fc" id="L147">        Assert.hasText(username, &quot;Not allowed to create an User with an empty username&quot;);</span>
+<span class="fc" id="L148">        Assert.hasText(password, &quot;Not allowed to create an User with an empty password&quot;);</span>
+<span class="fc" id="L149">        this.username = username;</span>
+<span class="fc" id="L150">        this.password = password;</span>
+<span class="fc" id="L151">    }</span>
+
+    /* ----------------------------- methods ------------------- */
+
+    /**
+     * After load, the saved password is copied to the transient one. The transient one can be overridden by the application to force a
+     * password change.
+     */
+    @PostLoad
+    public void postLoad() {
+<span class="fc" id="L161">        loadLazy();</span>
+<span class="fc" id="L162">    }</span>
+
+    protected void loadLazy() {
+<span class="fc" id="L165">        password = persistedPassword;</span>
+<span class="fc" id="L166">    }</span>
+
+    /**
+     * Return the unique username of the User.
+     *
+     * @return The current username
+     */
+    public String getUsername() {
+<span class="fc" id="L174">        return username;</span>
+    }
+
+    /**
+     * Change the username of the User.
+     *
+     * @param username The new username to set
+     */
+    protected void setUsername(String username) {
+<span class="nc" id="L183">        this.username = username;</span>
+<span class="nc" id="L184">    }</span>
+
+    /**
+     * Is the User authenticated by an external system?
+     *
+     * @return {@literal true} if so, otherwise {@literal false}
+     */
+    public boolean isExternalUser() {
+<span class="nc" id="L192">        return extern;</span>
+    }
+
+    /**
+     * Change the authentication method of the User.
+     *
+     * @param externalUser {@literal true} if the User was authenticated by an external system, otherwise {@literal false}.
+     */
+    public void setExternalUser(boolean externalUser) {
+<span class="nc" id="L201">        extern = externalUser;</span>
+<span class="nc" id="L202">    }</span>
+
+    /**
+     * Return the date when the password has changed recently.
+     *
+     * @return The date when the password has changed recently
+     */
+    public ZonedDateTime getLastPasswordChange() {
+<span class="fc" id="L210">        return lastPasswordChange;</span>
+    }
+
+    /**
+     * Check if the User is locked.
+     *
+     * @return {@literal true} if locked, otherwise {@literal false}
+     */
+    public boolean isLocked() {
+<span class="fc" id="L219">        return locked;</span>
+    }
+
+    /**
+     * Lock the User.
+     *
+     * @param locked {@literal true} to lock the User, {@literal false} to unlock
+     */
+    public void setLocked(boolean locked) {
+<span class="nc" id="L228">        this.locked = locked;</span>
+<span class="nc" id="L229">    }</span>
+
+    /**
+     * Returns the current password of the User.
+     *
+     * @return The current password as String
+     */
+    public String getPassword() {
+<span class="fc" id="L237">        return password;</span>
+    }
+
+    /**
+     * Checks if the new password is a valid and change the password of this User.
+     *
+     * @param encodedPassword The new encoded password of this User
+     * @throws InvalidPasswordException in case changing the password is not allowed or the new password is not valid
+     */
+    public void changePassword(String encodedPassword, String rawPassword, PasswordEncoder encoder) throws InvalidPasswordException {
+<span class="pc bpc" id="L247" title="1 of 4 branches missed.">        if (persistedPassword != null &amp;&amp; encoder.matches(rawPassword, persistedPassword)) {</span>
+<span class="nc" id="L248">            return;</span>
+        }
+<span class="fc" id="L250">        validateAgainstPasswordHistory(rawPassword, encoder);</span>
+<span class="fc" id="L251">        storeOldPassword(password);</span>
+<span class="fc" id="L252">        persistedPassword = encodedPassword;</span>
+<span class="fc" id="L253">        password = encodedPassword;</span>
+<span class="fc" id="L254">        lastPasswordChange = new DefaultTimeProvider().nowAsZonedDateTime();</span>
+<span class="fc" id="L255">    }</span>
+
+    /**
+     * Checks whether the password is going to change.
+     *
+     * @return {@literal true} when {@code password} is different to the originally persisted one, otherwise {@literal false}
+     */
+    public boolean hasPasswordChanged() {
+<span class="nc" id="L263">        return (persistedPassword.equals(password));</span>
+    }
+
+    /**
+     * Check whether the new password is in the history of former passwords.
+     *
+     * @param rawPassword The password to verify
+     */
+    protected void validateAgainstPasswordHistory(String rawPassword, PasswordEncoder encoder) throws InvalidPasswordException {
+<span class="fc bfc" id="L272" title="All 2 branches covered.">        for (UserPassword up : passwords) {</span>
+<span class="pc bpc" id="L273" title="1 of 2 branches missed.">            if (encoder.matches(rawPassword, up.getPassword())) {</span>
+<span class="fc" id="L274">                throw new InvalidPasswordException(&quot;Password does not match the defined rules&quot;);</span>
+            }
+<span class="nc" id="L276">        }</span>
+<span class="fc" id="L277">    }</span>
+
+    private void storeOldPassword(String oldPassword) {
+<span class="pc bpc" id="L280" title="1 of 4 branches missed.">        if (oldPassword == null || oldPassword.isEmpty()) {</span>
+<span class="pc bpc" id="L281" title="1 of 2 branches missed.">            if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L282">                LOGGER.debug(&quot;If the old password is null, do not store it in history&quot;);</span>
+            }
+<span class="fc" id="L284">            return;</span>
+        }
+<span class="fc" id="L286">        passwords.add(new UserPassword(this, oldPassword));</span>
+<span class="pc bpc" id="L287" title="1 of 2 branches missed.">        if (passwords.size() &gt; NUMBER_STORED_PASSWORDS) {</span>
+<span class="nc" id="L288">            Collections.sort(passwords, new PasswordComparator());</span>
+<span class="nc bnc" id="L289" title="All 2 branches missed.">            if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L290">                LOGGER.debug(&quot;Remove the old password from the history: &quot; + passwords.get(passwords.size() - 1));</span>
+            }
+<span class="nc" id="L292">            UserPassword pw = passwords.get(passwords.size() - 1);</span>
+<span class="nc" id="L293">            pw.setUser(null);</span>
+<span class="nc" id="L294">            passwords.remove(pw);</span>
+        }
+<span class="fc" id="L296">    }</span>
+
+    /**
+     * Determines whether the User is enabled or not.
+     *
+     * @return {@literal true} if the User is enabled, otherwise {@literal false}
+     */
+    public boolean isEnabled() {
+<span class="fc" id="L304">        return enabled;</span>
+    }
+
+    /**
+     * Enable or disable the User.
+     *
+     * @param enabled {@literal true} when enabled, otherwise {@literal false}
+     */
+    public void setEnabled(boolean enabled) {
+<span class="nc" id="L313">        this.enabled = enabled;</span>
+<span class="nc" id="L314">    }</span>
+
+    /**
+     * Return the date when the account expires.
+     *
+     * @return The expiration date
+     */
+    public ZonedDateTime getExpirationDate() {
+<span class="nc" id="L322">        return expirationDate;</span>
+    }
+
+    /**
+     * Change the date when the account expires.
+     *
+     * @param expDate The new expiration date to set
+     */
+    public void setExpirationDate(ZonedDateTime expDate) {
+<span class="nc" id="L331">        expirationDate = expDate;</span>
+<span class="nc" id="L332">    }</span>
+
+    /**
+     * Returns a list of granted {@link Role}s.
+     *
+     * @return The list of granted {@link Role}s
+     */
+    public List&lt;Role&gt; getRoles() {
+<span class="fc" id="L340">        return roles;</span>
+    }
+
+    /**
+     * Flatten {@link Role}s and {@link Grant}s and return an unmodifiable list of all {@link Grant}s assigned to this User.
+     *
+     * @return A list of all {@link Grant}s
+     */
+    public List&lt;SecurityObject&gt; getGrants() {
+<span class="fc" id="L349">        List&lt;SecurityObject&gt; grants = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L350" title="All 2 branches covered.">        for (Role role : getRoles()) {</span>
+<span class="fc" id="L351">            grants.addAll(role.getGrants());</span>
+<span class="fc" id="L352">        }</span>
+<span class="fc" id="L353">        return Collections.unmodifiableList(grants);</span>
+    }
+
+    /**
+     * Add a new {@link Role} to the list of {@link Role}s.
+     *
+     * @param role The new {@link Role} to add
+     * @return see {@link java.util.Collection#add(Object)}
+     */
+    public boolean addRole(Role role) {
+<span class="fc" id="L363">        return roles.add(role);</span>
+    }
+
+    /**
+     * Set the {@link Role}s of this User. Existing {@link Role}s will be overridden.
+     *
+     * @param roles The new list of {@link Role}s
+     */
+    public void setRoles(List&lt;Role&gt; roles) {
+<span class="nc" id="L372">        this.roles = roles;</span>
+<span class="nc" id="L373">    }</span>
+
+    /**
+     * Return the fullname of the User.
+     *
+     * @return The current fullname
+     */
+    public String getFullname() {
+<span class="fc" id="L381">        return fullname;</span>
+    }
+
+    /**
+     * Change the fullname of the User.
+     *
+     * @param fullname The new fullname to set
+     */
+    public void setFullname(String fullname) {
+<span class="fc" id="L390">        this.fullname = fullname;</span>
+<span class="fc" id="L391">    }</span>
+
+    public Set&lt;Email&gt; getEmailAddresses() {
+<span class="fc" id="L394">        return emailAddresses;</span>
+    }
+
+    public void setEmailAddresses(Set&lt;Email&gt; emailAddresses) {
+<span class="nc" id="L398">        this.emailAddresses = emailAddresses;</span>
+<span class="nc" id="L399">    }</span>
+
+    /**
+     * Return a list of recently used passwords.
+     *
+     * @return A list of recently used passwords
+     */
+    public List&lt;UserPassword&gt; getPasswords() {
+<span class="nc" id="L407">        return passwords;</span>
+    }
+
+    /**
+     * Return the details of the User.
+     *
+     * @return The userDetails
+     */
+    public UserDetails getUserDetails() {
+<span class="fc bfc" id="L416" title="All 2 branches covered.">        if (userDetails == null) {</span>
+<span class="fc" id="L417">            userDetails = new UserDetails();</span>
+        }
+<span class="fc" id="L419">        return userDetails;</span>
+    }
+
+    /**
+     * Check whether this User has UserDetails set.
+     *
+     * @return {@literal true} if set, otherwise {@literal false}
+     */
+    public boolean hasUserDetails() {
+<span class="nc bnc" id="L428" title="All 2 branches missed.">        return userDetails != null;</span>
+    }
+
+    /**
+     * Assign some details to the User.
+     *
+     * @param userDetails The userDetails to set
+     */
+    public void setUserDetails(UserDetails userDetails) {
+<span class="nc" id="L437">        this.userDetails = userDetails;</span>
+<span class="nc" id="L438">    }</span>
+
+    /**
+     * {@inheritDoc}
+     * &lt;p&gt;
+     * Does not call the superclass. Uses the username for calculation.
+     *
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+<span class="fc" id="L450">        int result = 1;</span>
+<span class="fc bfc" id="L451" title="All 2 branches covered.">        result = prime * result + ((username == null) ? 0 : username.hashCode());</span>
+<span class="fc" id="L452">        return result;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     * &lt;p&gt;
+     * Uses the username for comparison.
+     *
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+<span class="fc bfc" id="L464" title="All 2 branches covered.">        if (this == obj) {</span>
+<span class="fc" id="L465">            return true;</span>
+        }
+<span class="pc bpc" id="L467" title="1 of 2 branches missed.">        if (!(obj instanceof User)) {</span>
+<span class="nc" id="L468">            return false;</span>
+        }
+<span class="fc" id="L470">        User other = (User) obj;</span>
+<span class="pc bpc" id="L471" title="1 of 2 branches missed.">        if (username == null) {</span>
+<span class="nc bnc" id="L472" title="All 2 branches missed.">            if (other.username != null) {</span>
+<span class="nc" id="L473">                return false;</span>
+            }
+<span class="fc bfc" id="L475" title="All 2 branches covered.">        } else if (!username.equals(other.username)) {</span>
+<span class="fc" id="L476">            return false;</span>
+        }
+<span class="fc" id="L478">        return true;</span>
+    }
+
+    /**
+     * Returns the business key.
+     *
+     * @return Username
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L488">        return getUsername();</span>
+    }
+
+    /**
+     * A PasswordComparator sorts UserPassword by date ascending.
+     *
+     * @author Heiko Scherrer
+     * @version $Revision$
+     * @since 0.2
+     */
+<span class="nc" id="L498">    static class PasswordComparator implements Comparator&lt;UserPassword&gt;, Serializable {</span>
+
+        /**
+         * {@inheritDoc}
+         *
+         * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+         */
+        @Override
+        public int compare(UserPassword o1, UserPassword o2) {
+<span class="nc" id="L507">            return o2.getPasswordChanged().compareTo(o1.getPasswordChanged());</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

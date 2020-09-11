@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Grant.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.uaa.admin.impl</a> &gt; <span class="el_source">Grant.java</span></div><h1>Grant.java</h1><pre class="source lang-java linenums">/*
+ * openwms.org, the Open Warehouse Management System.
+ * Copyright (C) 2014 Heiko Scherrer
+ *
+ * This file is part of openwms.org.
+ *
+ * openwms.org is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as 
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * openwms.org is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this software. If not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ */
+package org.openwms.core.uaa.admin.impl;
+
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import java.io.Serializable;
+
+/**
+ * A Grant gives permission to access some kind of application object. Grants to security aware application objects can be permitted or
+ * denied for a certain {@code Role}, depending on the security configuration. Usually {@code Grant}s are assigned to a
+ * {@code Role} and on or more {@code User} s are assigned to each {@code Role}s. A Grant is security aware, that means it is
+ * an concrete {@code SecurityObject}.
+ * &lt;p&gt;
+ * Permissions to UI actions are managed with {@code Grant}s.
+ * &lt;/p&gt;
+ * 
+ * @GlossaryTerm
+ * @author Heiko Scherrer
+ * @see User
+ * @see Role
+ * @see SecurityObject
+ */
+@Entity
+@DiscriminatorValue(&quot;GRANT&quot;)
+public class Grant extends SecurityObject implements Serializable {
+
+    /**
+     * Dear JPA...
+     */
+<span class="fc" id="L50">    protected Grant() {</span>
+<span class="fc" id="L51">    }</span>
+
+    /**
+     * Create a new Grant.
+     * 
+     * @param name
+     *            The name of the {@code Grant}
+     * @param description
+     *            The description text of the {@code Grant}
+     */
+    public Grant(String name, String description) {
+<span class="fc" id="L62">        super(name, description);</span>
+<span class="fc" id="L63">    }</span>
+
+    /**
+     * Create a new Grant.
+     * 
+     * @param name
+     *            The name of the {@code Grant}
+     */
+    public Grant(String name) {
+<span class="fc" id="L72">        super(name);</span>
+<span class="fc" id="L73">    }</span>
+
+    /**
+     * {@inheritDoc}
+     * 
+     * Use the hashCode of the superclass with the hashCode of 'GRANT' to distinguish between {@code Grant}s and other
+     * {@code SecurityObject}s like {@code Role}s.
+     * 
+     * @see SecurityObject#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+<span class="fc" id="L86">        int result = 1;</span>
+<span class="fc" id="L87">        result = super.hashCode();</span>
+<span class="fc" id="L88">        result = prime * result + &quot;GRANT&quot;.hashCode();</span>
+<span class="fc" id="L89">        return result;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see SecurityObject#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+<span class="fc bfc" id="L99" title="All 2 branches covered.">        if (this == obj) {</span>
+<span class="fc" id="L100">            return true;</span>
+        }
+<span class="fc bfc" id="L102" title="All 2 branches covered.">        if (!(obj instanceof Grant)) {</span>
+<span class="fc" id="L103">            return false;</span>
+        }
+<span class="fc" id="L105">        Grant other = (Grant) obj;</span>
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">        if (this.getName() == null) {</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">            if (other.getName() != null) {</span>
+<span class="nc" id="L108">                return false;</span>
+            }
+<span class="fc bfc" id="L110" title="All 2 branches covered.">        } else if (!this.getName().equals(other.getName())) {</span>
+<span class="fc" id="L111">            return false;</span>
+        }
+<span class="fc" id="L113">        return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

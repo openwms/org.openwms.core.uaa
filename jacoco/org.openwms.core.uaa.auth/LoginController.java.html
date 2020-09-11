@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoginController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.uaa.auth</a> &gt; <span class="el_source">LoginController.java</span></div><h1>LoginController.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.core.uaa.auth;
+
+import com.nimbusds.oauth2.sdk.id.Subject;
+import com.nimbusds.openid.connect.sdk.claims.Gender;
+import com.nimbusds.openid.connect.sdk.claims.UserInfo;
+import org.ameba.http.MeasuredRestController;
+import org.openwms.core.http.AbstractWebController;
+import org.openwms.core.uaa.admin.impl.Email;
+import org.openwms.core.uaa.admin.impl.User;
+import org.openwms.core.uaa.admin.impl.UserWrapper;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javax.validation.constraints.NotNull;
+import java.net.URI;
+import java.security.Principal;
+
+/**
+ * A LoginController.
+ *
+ * @author Heiko Scherrer
+ */
+//@Validated
+@MeasuredRestController
+public class LoginController extends AbstractWebController {
+
+    private final UserDetailsService userDetailsService;
+
+<span class="fc" id="L50">    LoginController(UserDetailsService userDetailsService) {</span>
+<span class="fc" id="L51">        this.userDetailsService = userDetailsService;</span>
+<span class="fc" id="L52">    }</span>
+
+    @GetMapping(&quot;/claims&quot;)
+    public ResponseEntity&lt;Void&gt; loginGet() {
+<span class="nc" id="L56">        return ResponseEntity.ok().build();</span>
+    }
+
+    //@Secured(&quot;ROLE_USER&quot;)
+    //@PreAuthorize(&quot;isAnonymous()&quot;)
+    @GetMapping(value = &quot;/oauth/userinfo&quot;, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String user(@NotNull Principal principal) {
+<span class="fc" id="L63">        UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());</span>
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">        if (UserWrapper.class.equals(userDetails.getClass())) {</span>
+<span class="fc" id="L65">            User user = ((UserWrapper) userDetails).getUser();</span>
+            final String baseUrl =
+<span class="fc" id="L67">                    ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();</span>
+<span class="fc" id="L68">            UserInfo userInfo = new UserInfo(new Subject(user.getUsername()));</span>
+<span class="fc" id="L69">            userInfo.setName(user.getUsername());</span>
+<span class="fc" id="L70">            userInfo.setEmailAddress(user.getEmailAddresses().stream().filter(Email::isPrimary).findFirst().get().toString());</span>
+<span class="fc" id="L71">            userInfo.setPhoneNumber(user.getUserDetails().getPhoneNo());</span>
+<span class="fc" id="L72">            userInfo.setFamilyName(user.getFullname());</span>
+<span class="fc" id="L73">            userInfo.setGivenName(user.getFullname());</span>
+<span class="fc" id="L74">            userInfo.setPicture(URI.create(baseUrl + &quot;/uaa/user/&quot; + user.getPersistentKey() + &quot;/image/&quot;));</span>
+<span class="fc" id="L75">            userInfo.setGender(new Gender(user.getUserDetails().getGender().name()));</span>
+<span class="fc" id="L76">            return userInfo.toJSONObject().toJSONString();</span>
+        } else {
+<span class="nc" id="L78">            UserInfo userInfo = new UserInfo(new Subject(principal.getName()));</span>
+<span class="nc" id="L79">            return userInfo.toJSONObject().toJSONString();</span>
+        }
+    }
+
+    @PostMapping(&quot;/login&quot;)
+    public ResponseEntity&lt;Void&gt; login() {
+<span class="nc" id="L85">        return ResponseEntity.ok().build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
