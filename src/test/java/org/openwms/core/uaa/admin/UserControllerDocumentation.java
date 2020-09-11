@@ -72,8 +72,8 @@ class UserControllerDocumentation {
     @Test
     void shall_create_user() throws Exception {
         UserVO vo = UserVO.newBuilder()
-                .username("tester")
-                .email("tester@example.com")
+                .username("admin")
+                .email("admin@example.com")
                 .build();
         MvcResult result = mockMvc.perform(
                 RestDocumentationRequestBuilders.post(UAAConstants.API_USERS)

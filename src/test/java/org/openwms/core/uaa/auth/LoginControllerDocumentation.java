@@ -19,14 +19,28 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.core.UAAApplicationTest;
+import org.openwms.core.uaa.admin.UserService;
+import org.openwms.core.uaa.admin.impl.Email;
+import org.openwms.core.uaa.admin.impl.Role;
+import org.openwms.core.uaa.admin.impl.User;
+import org.openwms.core.uaa.admin.impl.UserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.FilterChainProxy;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Optional;
+
+import static java.util.Arrays.asList;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -48,6 +62,37 @@ class LoginControllerDocumentation {
     private FilterChainProxy springSecurityFilterChain;
     @Autowired
     private OAuthHelper helper;
+
+    @TestConfiguration
+    static class TestConfig {
+        @Bean
+        CommandLineRunner dataImporter(UserService service, PasswordEncoder encoder) {
+            return args -> {
+                Optional<User> tester = service.findByUsername("tester");
+                if (tester.isEmpty()) {
+                    User user = new User("tester");
+                    user.setEnabled(true);
+                    user.setExpirationDate(ZonedDateTime.now().plusDays(1));
+                    user.setExternalUser(false);
+                    user.setFullname("Mister Jenkins");
+                    user.setLocked(false);
+                    user.setRoles(asList(new Role("ROLE_USER")));
+                    user.setEmailAddresses(new HashSet<>(asList(new Email(user, "tester.tester@example.com", true))));
+                    UserDetails ud = new UserDetails();
+                    ud.setComment("testing only");
+                    ud.setDepartment("Dep. 1");
+                    ud.setDescription("Just a test user");
+                    ud.setGender(UserDetails.Gender.FEMALE);
+                    ud.setIm("Skype:testee");
+                    ud.setOffice("Off. 815");
+                    ud.setPhoneNo("001-1234-56789");
+                    user.setUserDetails(ud);
+                    user.changePassword(encoder.encode("tester"), "tester", encoder);
+                    service.create(user);
+                }
+            };
+        }
+    }
 
     /**
      * Do something before each test method.

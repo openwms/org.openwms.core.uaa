@@ -57,7 +57,7 @@ public class UAAStarter {
         SpringApplication.run(UAAStarter.class, args);
     }
 
-    @Profile({"DEMO", "TEST"})
+    @Profile({"DEMO"})
     @Bean
     CommandLineRunner dataImporter(UserService service, PasswordEncoder encoder) {
         return args -> {
