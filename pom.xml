@@ -66,7 +66,7 @@
         <ameba-lib.version>2.5-SNAPSHOT</ameba-lib.version>
         <core.version>1.9.0-SNAPSHOT</core.version>
         <guava.version>29.0-jre</guava.version>
-        <spring-cloud-dependencies.version>Hoxton.RELEASE</spring-cloud-dependencies.version>
+        <spring-cloud-dependencies.version>Hoxton.SR8</spring-cloud-dependencies.version>
     </properties>
 
     <reporting>
@@ -91,18 +91,18 @@
 
     <build>
         <finalName>openwms-core-uaa</finalName>
-        <!--pluginManagement>
+        <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>com.github.eirslett</groupId>
                     <artifactId>frontend-maven-plugin</artifactId>
                     <version>1.2</version>
                     <configuration>
-                        <workingDirectory>src/main/resources/public</workingDirectory>
+                        <workingDirectory>src/main/ui/public</workingDirectory>
                     </configuration>
                 </plugin>
             </plugins>
-        </pluginManagement-->
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.asciidoctor</groupId>
@@ -113,15 +113,22 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>repackage</id>
                         <goals>
                             <goal>build-info</goal>
+                            <goal>repackage</goal>
                         </goals>
+                        <configuration>
+                            <classifier>exec</classifier>
+                        </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
+                <configuration>
+                    <executable>true</executable>
+                    <layers>
+                        <enabled>true</enabled>
+                    </layers>
+                </configuration>
             </plugin>
             <!--plugin>
                 <groupId>com.github.eirslett</groupId>
@@ -241,6 +248,11 @@
                     <groupId>com.google.code.findbugs</groupId>
                     <artifactId>jsr305</artifactId>
                 </exclusion>
+                <exclusion>
+                    <!-- Has a conflict internally -->
+                    <groupId>commons-configuration</groupId>
+                    <artifactId>commons-configuration</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -248,7 +260,7 @@
             <artifactId>spring-cloud-starter-openfeign</artifactId>
             <exclusions>
                 <exclusion>
-                    <!-- Newer version pulled by actuator -->
+                    <!-- Take the newer patch from actuator -->
                     <groupId>org.hdrhistogram</groupId>
                     <artifactId>HdrHistogram</artifactId>
                 </exclusion>
@@ -321,6 +333,11 @@
                     <artifactId>json-smart</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.10</version>
         </dependency>
         <dependency>
             <groupId>net.minidev</groupId>

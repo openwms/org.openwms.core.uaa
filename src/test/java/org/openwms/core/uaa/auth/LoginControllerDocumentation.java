@@ -42,7 +42,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author Heiko Scherrer
  */
-@Sql("classpath:test.sql")
+@Sql({"classpath:test.sql"})
 @UAAApplicationTest
 class LoginControllerDocumentation {
 

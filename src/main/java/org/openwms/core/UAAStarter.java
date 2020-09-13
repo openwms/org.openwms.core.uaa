@@ -21,6 +21,9 @@ import org.openwms.core.uaa.admin.impl.Email;
 import org.openwms.core.uaa.admin.impl.Role;
 import org.openwms.core.uaa.admin.impl.User;
 import org.openwms.core.uaa.admin.impl.UserDetails;
+import org.openwms.core.uaa.auth.Client;
+import org.openwms.core.uaa.auth.ClientService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -59,7 +62,8 @@ public class UAAStarter {
 
     @Profile({"DEMO"})
     @Bean
-    CommandLineRunner dataImporter(UserService service, PasswordEncoder encoder) {
+    CommandLineRunner dataImporter(UserService service, PasswordEncoder encoder, ClientService clientService,
+            @Value("${owms.security.useEncoder}") boolean useEncoder) {
         return args -> {
             Optional<User> tester = service.findByUsername("tester");
             if (tester.isEmpty()) {
@@ -83,6 +87,17 @@ public class UAAStarter {
                 user.changePassword(encoder.encode("tester"), "tester", encoder);
                 service.create(user);
             }
+            Client client = new Client();
+            client.setClientId("gateway");
+            client.setScope("gateway");
+            client.setAuthorizedGrantTypes("password,authorization_code,refresh_token,implicit");
+            client.setWebServerRedirectUri("http://localhost:8086/login/oauth2/code/gateway");
+            client.setRefreshTokenValidity(3600);
+            client.setAccessTokenValidity(3600);
+            client.setAutoapprove("true");
+            client.setClientSecret(encoder.encode("secret"));
+            //client.setClientSecret(useEncoder ? encoder.encode("secret") : "secret");
+            clientService.create(client);
         };
     }
 }

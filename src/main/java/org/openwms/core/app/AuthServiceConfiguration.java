@@ -37,6 +37,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import javax.sql.DataSource;
+
 /**
  * A AuthServiceConfiguration.
  *
@@ -53,20 +55,18 @@ class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {
     private UserDetailsService userDetailsService;
     @Autowired
     private AuthenticationManager authenticationManagerBean;
-    @Value("${owms.security.redirectUrl}")
-    private String redirectUrl;
+    @Value("${owms.security.useEncoder}")
+    private boolean useEncoder;
+    @Autowired
+    private DataSource dataSource;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory()
-                .withClient("gateway")
-                .secret(encoder.encode("secret"))
-                .authorizedGrantTypes("password", "authorization_code",
-                        "refresh_token", "implicit")
-                .scopes("gateway")
-                .autoApprove(".*") // Disable user consent
-                .redirectUris(redirectUrl)
-        ;
+        CustomJdbcClientDetailsService clientDetailsService = new CustomJdbcClientDetailsService(dataSource);
+        if (useEncoder) {
+            clientDetailsService.setPasswordEncoder(encoder);
+        }
+        clients.withClientDetails(clientDetailsService);
     }
 
     @Override
