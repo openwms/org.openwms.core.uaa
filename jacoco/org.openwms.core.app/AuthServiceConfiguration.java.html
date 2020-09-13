@@ -37,6 +37,8 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import javax.sql.DataSource;
+
 /**
  * A AuthServiceConfiguration.
  *
@@ -45,7 +47,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 //@Profile(&quot;!TEST&quot;)
 @Configuration
 @EnableAuthorizationServer
-<span class="fc" id="L48">class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {</span>
+<span class="fc" id="L50">class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {</span>
 
     @Autowired
     private PasswordEncoder encoder;
@@ -53,20 +55,18 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
     private UserDetailsService userDetailsService;
     @Autowired
     private AuthenticationManager authenticationManagerBean;
-    @Value(&quot;${owms.security.redirectUrl}&quot;)
-    private String redirectUrl;
+    @Value(&quot;${owms.security.useEncoder}&quot;)
+    private boolean useEncoder;
+    @Autowired
+    private DataSource dataSource;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-<span class="fc" id="L61">        clients.inMemory()</span>
-<span class="fc" id="L62">                .withClient(&quot;gateway&quot;)</span>
-<span class="fc" id="L63">                .secret(encoder.encode(&quot;secret&quot;))</span>
-<span class="fc" id="L64">                .authorizedGrantTypes(&quot;password&quot;, &quot;authorization_code&quot;,</span>
-                        &quot;refresh_token&quot;, &quot;implicit&quot;)
-<span class="fc" id="L66">                .scopes(&quot;gateway&quot;)</span>
-<span class="fc" id="L67">                .autoApprove(&quot;.*&quot;) // Disable user consent</span>
-<span class="fc" id="L68">                .redirectUris(redirectUrl)</span>
-        ;
+<span class="fc" id="L65">        CustomJdbcClientDetailsService clientDetailsService = new CustomJdbcClientDetailsService(dataSource);</span>
+<span class="pc bpc" id="L66" title="1 of 2 branches missed.">        if (useEncoder) {</span>
+<span class="nc" id="L67">            clientDetailsService.setPasswordEncoder(encoder);</span>
+        }
+<span class="fc" id="L69">        clients.withClientDetails(clientDetailsService);</span>
 <span class="fc" id="L70">    }</span>
 
     @Override

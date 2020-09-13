@@ -1,0 +1,45 @@
+// dot 2.38.0 on Linux 4.15.0-1077-gcp
+// SchemaSpy rev Unknown
+digraph "cor_uaa_client_details" {
+  graph [
+    rankdir="RL"
+    bgcolor="#f7f7f7"
+    nodesep="0.18"
+    ranksep="0.46"
+    fontname="Helvetica"
+    fontsize="11"
+  ];
+  node [
+    fontname="Helvetica"
+    fontsize="11"
+    shape="plaintext"
+  ];
+  edge [
+    arrowsize="0.8"
+  ];
+  "cor_uaa_client_details" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">cor_uaa_client_details</TD></TR>
+      <TR><TD PORT="c_pk" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD></TR>
+      <TR><TD PORT="c_created" COLSPAN="3" ALIGN="LEFT">c_created</TD></TR>
+      <TR><TD PORT="c_updated" COLSPAN="3" ALIGN="LEFT">c_updated</TD></TR>
+      <TR><TD PORT="c_ol" COLSPAN="3" ALIGN="LEFT">c_ol</TD></TR>
+      <TR><TD PORT="c_pid" COLSPAN="3" ALIGN="LEFT">c_pid</TD></TR>
+      <TR><TD PORT="c_access_token_validity" COLSPAN="3" ALIGN="LEFT">c_access_token_validity</TD></TR>
+      <TR><TD PORT="c_additional_information" COLSPAN="3" ALIGN="LEFT">c_additional_information</TD></TR>
+      <TR><TD PORT="c_authorities" COLSPAN="3" ALIGN="LEFT">c_authorities</TD></TR>
+      <TR><TD PORT="c_authorized_grant_types" COLSPAN="3" ALIGN="LEFT">c_authorized_grant_types</TD></TR>
+      <TR><TD PORT="c_autoapprove" COLSPAN="3" ALIGN="LEFT">c_autoapprove</TD></TR>
+      <TR><TD PORT="c_client_id" COLSPAN="3" ALIGN="LEFT">c_client_id</TD></TR>
+      <TR><TD PORT="c_client_secret" COLSPAN="3" ALIGN="LEFT">c_client_secret</TD></TR>
+      <TR><TD PORT="c_refresh_token_validity" COLSPAN="3" ALIGN="LEFT">c_refresh_token_validity</TD></TR>
+      <TR><TD PORT="c_resource_ids" COLSPAN="3" ALIGN="LEFT">c_resource_ids</TD></TR>
+      <TR><TD PORT="c_scope" COLSPAN="3" ALIGN="LEFT">c_scope</TD></TR>
+      <TR><TD PORT="c_web_server_redirect_uri" COLSPAN="3" ALIGN="LEFT">c_web_server_redirect_uri</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 row</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+    </TABLE>>
+    URL="tables/cor_uaa_client_details.html"
+    tooltip="cor_uaa_client_details"
+  ];
+}

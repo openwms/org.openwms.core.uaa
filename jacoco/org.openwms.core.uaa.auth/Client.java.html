@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Client.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.uaa.auth</a> &gt; <span class="el_source">Client.java</span></div><h1>Client.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.core.uaa.auth;
+
+import org.ameba.integration.jpa.ApplicationEntity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Objects;
+
+/**
+ * A Client.
+ *
+ * @author Heiko Scherrer
+ */
+@Entity
+@Table(name = &quot;COR_UAA_CLIENT_DETAILS&quot;)
+<span class="fc" id="L33">public class Client extends ApplicationEntity implements Serializable {</span>
+
+    @Column(name = &quot;C_RESOURCE_IDS&quot;)
+    private String resourceIds;
+    @Column(name = &quot;C_CLIENT_ID&quot;)
+    private String clientId;
+    @Column(name = &quot;C_CLIENT_SECRET&quot;)
+    private String clientSecret;
+    @Column(name = &quot;C_SCOPE&quot;)
+    private String scope;
+    @Column(name = &quot;C_AUTHORIZED_GRANT_TYPES&quot;)
+    private String authorizedGrantTypes;
+    @Column(name = &quot;C_WEB_SERVER_REDIRECT_URI&quot;)
+    private String webServerRedirectUri;
+    @Column(name = &quot;C_AUTHORITIES&quot;)
+    private String authorities;
+    @Column(name = &quot;C_ACCESS_TOKEN_VALIDITY&quot;)
+    private int accessTokenValidity;
+    @Column(name = &quot;C_REFRESH_TOKEN_VALIDITY&quot;)
+    private int refreshTokenValidity;
+    @Column(name = &quot;C_ADDITIONAL_INFORMATION&quot;)
+    private String additionalInformation;
+    @Column(name = &quot;C_AUTOAPPROVE&quot;)
+    private String autoapprove;
+
+    public String getResourceIds() {
+<span class="nc" id="L59">        return resourceIds;</span>
+    }
+
+    public void setResourceIds(String resourceIds) {
+<span class="nc" id="L63">        this.resourceIds = resourceIds;</span>
+<span class="nc" id="L64">    }</span>
+
+    public String getClientId() {
+<span class="nc" id="L67">        return clientId;</span>
+    }
+
+    public void setClientId(String clientId) {
+<span class="nc" id="L71">        this.clientId = clientId;</span>
+<span class="nc" id="L72">    }</span>
+
+    public String getClientSecret() {
+<span class="nc" id="L75">        return clientSecret;</span>
+    }
+
+    public void setClientSecret(String clientSecret) {
+<span class="nc" id="L79">        this.clientSecret = clientSecret;</span>
+<span class="nc" id="L80">    }</span>
+
+    public String getScope() {
+<span class="nc" id="L83">        return scope;</span>
+    }
+
+    public void setScope(String scope) {
+<span class="nc" id="L87">        this.scope = scope;</span>
+<span class="nc" id="L88">    }</span>
+
+    public String getAuthorizedGrantTypes() {
+<span class="nc" id="L91">        return authorizedGrantTypes;</span>
+    }
+
+    public void setAuthorizedGrantTypes(String authorizedGrantTypes) {
+<span class="nc" id="L95">        this.authorizedGrantTypes = authorizedGrantTypes;</span>
+<span class="nc" id="L96">    }</span>
+
+    public String getWebServerRedirectUri() {
+<span class="nc" id="L99">        return webServerRedirectUri;</span>
+    }
+
+    public void setWebServerRedirectUri(String webServerRedirectUri) {
+<span class="nc" id="L103">        this.webServerRedirectUri = webServerRedirectUri;</span>
+<span class="nc" id="L104">    }</span>
+
+    public String getAuthorities() {
+<span class="nc" id="L107">        return authorities;</span>
+    }
+
+    public void setAuthorities(String authorities) {
+<span class="nc" id="L111">        this.authorities = authorities;</span>
+<span class="nc" id="L112">    }</span>
+
+    public int getAccessTokenValidity() {
+<span class="nc" id="L115">        return accessTokenValidity;</span>
+    }
+
+    public void setAccessTokenValidity(int accessTokenValidity) {
+<span class="nc" id="L119">        this.accessTokenValidity = accessTokenValidity;</span>
+<span class="nc" id="L120">    }</span>
+
+    public int getRefreshTokenValidity() {
+<span class="nc" id="L123">        return refreshTokenValidity;</span>
+    }
+
+    public void setRefreshTokenValidity(int refreshTokenValidity) {
+<span class="nc" id="L127">        this.refreshTokenValidity = refreshTokenValidity;</span>
+<span class="nc" id="L128">    }</span>
+
+    public String getAdditionalInformation() {
+<span class="nc" id="L131">        return additionalInformation;</span>
+    }
+
+    public void setAdditionalInformation(String additionalInformation) {
+<span class="nc" id="L135">        this.additionalInformation = additionalInformation;</span>
+<span class="nc" id="L136">    }</span>
+
+    public String getAutoapprove() {
+<span class="nc" id="L139">        return autoapprove;</span>
+    }
+
+    public void setAutoapprove(String autoapprove) {
+<span class="nc" id="L143">        this.autoapprove = autoapprove;</span>
+<span class="nc" id="L144">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L148" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L149" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
+<span class="nc" id="L151">        Client client = (Client) o;</span>
+<span class="nc bnc" id="L152" title="All 4 branches missed.">        return accessTokenValidity == client.accessTokenValidity &amp;&amp;</span>
+                refreshTokenValidity == client.refreshTokenValidity &amp;&amp;
+<span class="nc bnc" id="L154" title="All 2 branches missed.">                Objects.equals(resourceIds, client.resourceIds) &amp;&amp;</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">                Objects.equals(clientId, client.clientId) &amp;&amp;</span>
+<span class="nc bnc" id="L156" title="All 2 branches missed.">                Objects.equals(clientSecret, client.clientSecret) &amp;&amp;</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">                Objects.equals(scope, client.scope) &amp;&amp;</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">                Objects.equals(authorizedGrantTypes, client.authorizedGrantTypes) &amp;&amp;</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">                Objects.equals(webServerRedirectUri, client.webServerRedirectUri) &amp;&amp;</span>
+<span class="nc bnc" id="L160" title="All 2 branches missed.">                Objects.equals(authorities, client.authorities) &amp;&amp;</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">                Objects.equals(additionalInformation, client.additionalInformation) &amp;&amp;</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">                Objects.equals(autoapprove, client.autoapprove);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L167">        return Objects.hash(super.hashCode(), resourceIds, clientId, clientSecret, scope, authorizedGrantTypes, webServerRedirectUri, authorities, accessTokenValidity, refreshTokenValidity, additionalInformation, autoapprove);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
