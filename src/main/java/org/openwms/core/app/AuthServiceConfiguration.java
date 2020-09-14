@@ -27,6 +27,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -65,6 +66,8 @@ class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {
         CustomJdbcClientDetailsService clientDetailsService = new CustomJdbcClientDetailsService(dataSource);
         if (useEncoder) {
             clientDetailsService.setPasswordEncoder(encoder);
+        } else {
+            clientDetailsService.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
         }
         clients.withClientDetails(clientDetailsService);
     }
@@ -81,6 +84,11 @@ class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+        if (useEncoder) {
+            security.passwordEncoder(encoder);
+        } else {
+            security.passwordEncoder(NoOpPasswordEncoder.getInstance());
+        }
         super.configure(security);
     }
 

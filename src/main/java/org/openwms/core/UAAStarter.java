@@ -95,8 +95,7 @@ public class UAAStarter {
             client.setRefreshTokenValidity(3600);
             client.setAccessTokenValidity(3600);
             client.setAutoapprove("true");
-            client.setClientSecret(encoder.encode("secret"));
-            //client.setClientSecret(useEncoder ? encoder.encode("secret") : "secret");
+            client.setClientSecret(useEncoder ? encoder.encode("secret") : "secret");
             clientService.create(client);
         };
     }
