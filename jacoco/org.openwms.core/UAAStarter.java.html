@@ -95,10 +95,9 @@ import static java.util.Arrays.asList;
 <span class="nc" id="L95">            client.setRefreshTokenValidity(3600);</span>
 <span class="nc" id="L96">            client.setAccessTokenValidity(3600);</span>
 <span class="nc" id="L97">            client.setAutoapprove(&quot;true&quot;);</span>
-<span class="nc" id="L98">            client.setClientSecret(encoder.encode(&quot;secret&quot;));</span>
-            //client.setClientSecret(useEncoder ? encoder.encode(&quot;secret&quot;) : &quot;secret&quot;);
-<span class="nc" id="L100">            clientService.create(client);</span>
-<span class="nc" id="L101">        };</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">            client.setClientSecret(useEncoder ? encoder.encode(&quot;secret&quot;) : &quot;secret&quot;);</span>
+<span class="nc" id="L99">            clientService.create(client);</span>
+<span class="nc" id="L100">        };</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

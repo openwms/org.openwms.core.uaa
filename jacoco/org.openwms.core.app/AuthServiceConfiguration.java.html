@@ -27,6 +27,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -47,7 +48,7 @@ import javax.sql.DataSource;
 //@Profile(&quot;!TEST&quot;)
 @Configuration
 @EnableAuthorizationServer
-<span class="fc" id="L50">class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {</span>
+<span class="fc" id="L51">class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {</span>
 
     @Autowired
     private PasswordEncoder encoder;
@@ -62,38 +63,45 @@ import javax.sql.DataSource;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-<span class="fc" id="L65">        CustomJdbcClientDetailsService clientDetailsService = new CustomJdbcClientDetailsService(dataSource);</span>
-<span class="pc bpc" id="L66" title="1 of 2 branches missed.">        if (useEncoder) {</span>
-<span class="nc" id="L67">            clientDetailsService.setPasswordEncoder(encoder);</span>
+<span class="fc" id="L66">        CustomJdbcClientDetailsService clientDetailsService = new CustomJdbcClientDetailsService(dataSource);</span>
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">        if (useEncoder) {</span>
+<span class="nc" id="L68">            clientDetailsService.setPasswordEncoder(encoder);</span>
+        } else {
+<span class="fc" id="L70">            clientDetailsService.setPasswordEncoder(NoOpPasswordEncoder.getInstance());</span>
         }
-<span class="fc" id="L69">        clients.withClientDetails(clientDetailsService);</span>
-<span class="fc" id="L70">    }</span>
+<span class="fc" id="L72">        clients.withClientDetails(clientDetailsService);</span>
+<span class="fc" id="L73">    }</span>
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
-<span class="fc" id="L74">        endpoints</span>
-<span class="fc" id="L75">                .userDetailsService(userDetailsService)</span>
-<span class="fc" id="L76">                .authenticationManager(authenticationManagerBean)</span>
-<span class="fc" id="L77">                .tokenStore(tokenStore())</span>
-<span class="fc" id="L78">                .accessTokenConverter(accessTokenConverter())</span>
+<span class="fc" id="L77">        endpoints</span>
+<span class="fc" id="L78">                .userDetailsService(userDetailsService)</span>
+<span class="fc" id="L79">                .authenticationManager(authenticationManagerBean)</span>
+<span class="fc" id="L80">                .tokenStore(tokenStore())</span>
+<span class="fc" id="L81">                .accessTokenConverter(accessTokenConverter())</span>
         ;
-<span class="fc" id="L80">    }</span>
+<span class="fc" id="L83">    }</span>
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
-<span class="fc" id="L84">        super.configure(security);</span>
-<span class="fc" id="L85">    }</span>
+<span class="pc bpc" id="L87" title="1 of 2 branches missed.">        if (useEncoder) {</span>
+<span class="nc" id="L88">            security.passwordEncoder(encoder);</span>
+        } else {
+<span class="fc" id="L90">            security.passwordEncoder(NoOpPasswordEncoder.getInstance());</span>
+        }
+<span class="fc" id="L92">        super.configure(security);</span>
+<span class="fc" id="L93">    }</span>
 
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() throws Exception {
-<span class="fc" id="L89">        JwtAccessTokenConverter result = new JwtAccessTokenConverter();</span>
-<span class="fc" id="L90">        result.afterPropertiesSet();</span>
-<span class="fc" id="L91">        return result;</span>
+<span class="fc" id="L97">        JwtAccessTokenConverter result = new JwtAccessTokenConverter();</span>
+<span class="fc" id="L98">        result.afterPropertiesSet();</span>
+<span class="fc" id="L99">        return result;</span>
     }
 
     @Bean
     public TokenStore tokenStore() throws Exception {
-<span class="fc" id="L96">        return new JwtTokenStore(accessTokenConverter());</span>
+<span class="fc" id="L104">        return new JwtTokenStore(accessTokenConverter());</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
