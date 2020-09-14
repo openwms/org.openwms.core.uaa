@@ -1,0 +1,1 @@
+delete from cor_uaa_client_details;
