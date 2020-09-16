@@ -27,9 +27,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.ZonedDateTime;
@@ -44,11 +46,18 @@ import static java.util.Arrays.asList;
  * @author Heiko Scherrer
  */
 @SpringBootApplication(scanBasePackageClasses = {UAAStarter.class, SolutionApp.class})
-<span class="fc" id="L47">public class UAAStarter {</span>
+<span class="fc" id="L49">public class UAAStarter {</span>
 
+    @ConditionalOnExpression(&quot;'${owms.security.useEncoder}'=='true'&quot;)
     @Bean
     PasswordEncoder passwordEncoder() {
-<span class="fc" id="L51">        return new BCryptPasswordEncoder(15);</span>
+<span class="nc" id="L54">        return new BCryptPasswordEncoder(15);</span>
+    }
+
+    @ConditionalOnExpression(&quot;'${owms.security.useEncoder}'=='false'&quot;)
+    @Bean
+    PasswordEncoder nopPasswordEncoder() {
+<span class="fc" id="L60">        return NoOpPasswordEncoder.getInstance();</span>
     }
 
     /**
@@ -57,47 +66,47 @@ import static java.util.Arrays.asList;
      * @param args Some args
      */
     public static void main(String[] args) {
-<span class="nc" id="L60">        SpringApplication.run(UAAStarter.class, args);</span>
-<span class="nc" id="L61">    }</span>
+<span class="nc" id="L69">        SpringApplication.run(UAAStarter.class, args);</span>
+<span class="nc" id="L70">    }</span>
 
     @Profile({&quot;DEMO&quot;})
     @Bean
     CommandLineRunner dataImporter(UserService service, PasswordEncoder encoder, ClientService clientService,
             @Value(&quot;${owms.security.useEncoder}&quot;) boolean useEncoder) {
-<span class="nc" id="L67">        return args -&gt; {</span>
-<span class="nc" id="L68">            Optional&lt;User&gt; tester = service.findByUsername(&quot;tester&quot;);</span>
-<span class="nc bnc" id="L69" title="All 2 branches missed.">            if (tester.isEmpty()) {</span>
-<span class="nc" id="L70">                User user = new User(&quot;tester&quot;);</span>
-<span class="nc" id="L71">                user.setEnabled(true);</span>
-<span class="nc" id="L72">                user.setExpirationDate(ZonedDateTime.now().plusDays(1));</span>
-<span class="nc" id="L73">                user.setExternalUser(false);</span>
-<span class="nc" id="L74">                user.setFullname(&quot;Mister Jenkins&quot;);</span>
-<span class="nc" id="L75">                user.setLocked(false);</span>
-<span class="nc" id="L76">                user.setRoles(asList(new Role(&quot;ROLE_USER&quot;)));</span>
-<span class="nc" id="L77">                user.setEmailAddresses(new HashSet&lt;&gt;(asList(new Email(user, &quot;tester.tester@example.com&quot;, true))));</span>
-<span class="nc" id="L78">                UserDetails ud = new UserDetails();</span>
-<span class="nc" id="L79">                ud.setComment(&quot;testing only&quot;);</span>
-<span class="nc" id="L80">                ud.setDepartment(&quot;Dep. 1&quot;);</span>
-<span class="nc" id="L81">                ud.setDescription(&quot;Just a test user&quot;);</span>
-<span class="nc" id="L82">                ud.setGender(UserDetails.Gender.FEMALE);</span>
-<span class="nc" id="L83">                ud.setIm(&quot;Skype:testee&quot;);</span>
-<span class="nc" id="L84">                ud.setOffice(&quot;Off. 815&quot;);</span>
-<span class="nc" id="L85">                ud.setPhoneNo(&quot;001-1234-56789&quot;);</span>
-<span class="nc" id="L86">                user.setUserDetails(ud);</span>
-<span class="nc" id="L87">                user.changePassword(encoder.encode(&quot;tester&quot;), &quot;tester&quot;, encoder);</span>
-<span class="nc" id="L88">                service.create(user);</span>
+<span class="nc" id="L76">        return args -&gt; {</span>
+<span class="nc" id="L77">            Optional&lt;User&gt; tester = service.findByUsername(&quot;tester&quot;);</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">            if (tester.isEmpty()) {</span>
+<span class="nc" id="L79">                User user = new User(&quot;tester&quot;);</span>
+<span class="nc" id="L80">                user.setEnabled(true);</span>
+<span class="nc" id="L81">                user.setExpirationDate(ZonedDateTime.now().plusDays(1));</span>
+<span class="nc" id="L82">                user.setExternalUser(false);</span>
+<span class="nc" id="L83">                user.setFullname(&quot;Mister Jenkins&quot;);</span>
+<span class="nc" id="L84">                user.setLocked(false);</span>
+<span class="nc" id="L85">                user.setRoles(asList(new Role(&quot;ROLE_USER&quot;)));</span>
+<span class="nc" id="L86">                user.setEmailAddresses(new HashSet&lt;&gt;(asList(new Email(user, &quot;tester.tester@example.com&quot;, true))));</span>
+<span class="nc" id="L87">                UserDetails ud = new UserDetails();</span>
+<span class="nc" id="L88">                ud.setComment(&quot;testing only&quot;);</span>
+<span class="nc" id="L89">                ud.setDepartment(&quot;Dep. 1&quot;);</span>
+<span class="nc" id="L90">                ud.setDescription(&quot;Just a test user&quot;);</span>
+<span class="nc" id="L91">                ud.setGender(UserDetails.Gender.FEMALE);</span>
+<span class="nc" id="L92">                ud.setIm(&quot;Skype:testee&quot;);</span>
+<span class="nc" id="L93">                ud.setOffice(&quot;Off. 815&quot;);</span>
+<span class="nc" id="L94">                ud.setPhoneNo(&quot;001-1234-56789&quot;);</span>
+<span class="nc" id="L95">                user.setUserDetails(ud);</span>
+<span class="nc" id="L96">                user.changePassword(encoder.encode(&quot;tester&quot;), &quot;tester&quot;, encoder);</span>
+<span class="nc" id="L97">                service.create(user);</span>
             }
-<span class="nc" id="L90">            Client client = new Client();</span>
-<span class="nc" id="L91">            client.setClientId(&quot;gateway&quot;);</span>
-<span class="nc" id="L92">            client.setScope(&quot;gateway&quot;);</span>
-<span class="nc" id="L93">            client.setAuthorizedGrantTypes(&quot;password,authorization_code,refresh_token,implicit&quot;);</span>
-<span class="nc" id="L94">            client.setWebServerRedirectUri(&quot;http://localhost:8086/login/oauth2/code/gateway&quot;);</span>
-<span class="nc" id="L95">            client.setRefreshTokenValidity(3600);</span>
-<span class="nc" id="L96">            client.setAccessTokenValidity(3600);</span>
-<span class="nc" id="L97">            client.setAutoapprove(&quot;true&quot;);</span>
-<span class="nc bnc" id="L98" title="All 2 branches missed.">            client.setClientSecret(useEncoder ? encoder.encode(&quot;secret&quot;) : &quot;secret&quot;);</span>
-<span class="nc" id="L99">            clientService.create(client);</span>
-<span class="nc" id="L100">        };</span>
+<span class="nc" id="L99">            Client client = new Client();</span>
+<span class="nc" id="L100">            client.setClientId(&quot;gateway&quot;);</span>
+<span class="nc" id="L101">            client.setScope(&quot;gateway&quot;);</span>
+<span class="nc" id="L102">            client.setAuthorizedGrantTypes(&quot;password,authorization_code,refresh_token,implicit&quot;);</span>
+<span class="nc" id="L103">            client.setWebServerRedirectUri(&quot;http://localhost:8086/login/oauth2/code/gateway&quot;);</span>
+<span class="nc" id="L104">            client.setRefreshTokenValidity(3600);</span>
+<span class="nc" id="L105">            client.setAccessTokenValidity(3600);</span>
+<span class="nc" id="L106">            client.setAutoapprove(&quot;true&quot;);</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">            client.setClientSecret(useEncoder ? encoder.encode(&quot;secret&quot;) : &quot;secret&quot;);</span>
+<span class="nc" id="L108">            clientService.create(client);</span>
+<span class="nc" id="L109">        };</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

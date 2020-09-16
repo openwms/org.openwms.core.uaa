@@ -35,6 +35,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.security.Principal;
+import java.util.Optional;
 
 /**
  * A LoginController.
@@ -47,42 +48,45 @@ public class LoginController extends AbstractWebController {
 
     private final UserDetailsService userDetailsService;
 
-<span class="fc" id="L50">    LoginController(UserDetailsService userDetailsService) {</span>
-<span class="fc" id="L51">        this.userDetailsService = userDetailsService;</span>
-<span class="fc" id="L52">    }</span>
+<span class="fc" id="L51">    LoginController(UserDetailsService userDetailsService) {</span>
+<span class="fc" id="L52">        this.userDetailsService = userDetailsService;</span>
+<span class="fc" id="L53">    }</span>
 
     @GetMapping(&quot;/claims&quot;)
     public ResponseEntity&lt;Void&gt; loginGet() {
-<span class="nc" id="L56">        return ResponseEntity.ok().build();</span>
+<span class="nc" id="L57">        return ResponseEntity.ok().build();</span>
     }
 
     //@Secured(&quot;ROLE_USER&quot;)
     //@PreAuthorize(&quot;isAnonymous()&quot;)
     @GetMapping(value = &quot;/oauth/userinfo&quot;, produces = MediaType.APPLICATION_JSON_VALUE)
     public String user(@NotNull Principal principal) {
-<span class="fc" id="L63">        UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());</span>
-<span class="pc bpc" id="L64" title="1 of 2 branches missed.">        if (UserWrapper.class.equals(userDetails.getClass())) {</span>
-<span class="fc" id="L65">            User user = ((UserWrapper) userDetails).getUser();</span>
+<span class="fc" id="L64">        UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">        if (UserWrapper.class.equals(userDetails.getClass())) {</span>
+<span class="fc" id="L66">            User user = ((UserWrapper) userDetails).getUser();</span>
             final String baseUrl =
-<span class="fc" id="L67">                    ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();</span>
-<span class="fc" id="L68">            UserInfo userInfo = new UserInfo(new Subject(user.getUsername()));</span>
-<span class="fc" id="L69">            userInfo.setName(user.getUsername());</span>
-<span class="fc" id="L70">            userInfo.setEmailAddress(user.getEmailAddresses().stream().filter(Email::isPrimary).findFirst().get().toString());</span>
-<span class="fc" id="L71">            userInfo.setPhoneNumber(user.getUserDetails().getPhoneNo());</span>
-<span class="fc" id="L72">            userInfo.setFamilyName(user.getFullname());</span>
-<span class="fc" id="L73">            userInfo.setGivenName(user.getFullname());</span>
-<span class="fc" id="L74">            userInfo.setPicture(URI.create(baseUrl + &quot;/uaa/user/&quot; + user.getPersistentKey() + &quot;/image/&quot;));</span>
-<span class="fc" id="L75">            userInfo.setGender(new Gender(user.getUserDetails().getGender().name()));</span>
-<span class="fc" id="L76">            return userInfo.toJSONObject().toJSONString();</span>
+<span class="fc" id="L68">                    ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();</span>
+<span class="fc" id="L69">            UserInfo userInfo = new UserInfo(new Subject(user.getUsername()));</span>
+<span class="fc" id="L70">            userInfo.setName(user.getUsername());</span>
+<span class="fc" id="L71">            Optional&lt;Email&gt; first = user.getEmailAddresses().stream().filter(Email::isPrimary).findFirst();</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">            if (first.isPresent()) {</span>
+<span class="fc" id="L73">                userInfo.setEmailAddress(first.get().toString());</span>
+            }
+<span class="fc" id="L75">            userInfo.setPhoneNumber(user.getUserDetails().getPhoneNo());</span>
+<span class="fc" id="L76">            userInfo.setFamilyName(user.getFullname());</span>
+<span class="fc" id="L77">            userInfo.setGivenName(user.getFullname());</span>
+<span class="fc" id="L78">            userInfo.setPicture(URI.create(baseUrl + &quot;/uaa/user/&quot; + user.getPersistentKey() + &quot;/image/&quot;));</span>
+<span class="fc" id="L79">            userInfo.setGender(new Gender(user.getUserDetails().getGender().name()));</span>
+<span class="fc" id="L80">            return userInfo.toJSONObject().toJSONString();</span>
         } else {
-<span class="nc" id="L78">            UserInfo userInfo = new UserInfo(new Subject(principal.getName()));</span>
-<span class="nc" id="L79">            return userInfo.toJSONObject().toJSONString();</span>
+<span class="nc" id="L82">            UserInfo userInfo = new UserInfo(new Subject(principal.getName()));</span>
+<span class="nc" id="L83">            return userInfo.toJSONObject().toJSONString();</span>
         }
     }
 
     @PostMapping(&quot;/login&quot;)
     public ResponseEntity&lt;Void&gt; login() {
-<span class="nc" id="L85">        return ResponseEntity.ok().build();</span>
+<span class="nc" id="L89">        return ResponseEntity.ok().build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
