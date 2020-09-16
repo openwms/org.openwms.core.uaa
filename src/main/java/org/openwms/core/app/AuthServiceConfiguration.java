@@ -21,6 +21,9 @@
  */
 package org.openwms.core.app;
 
+import org.ameba.LoggingCategories;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -50,6 +53,7 @@ import javax.sql.DataSource;
 @EnableAuthorizationServer
 class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoggingCategories.BOOT);
     @Autowired
     private PasswordEncoder encoder;
     @Autowired
@@ -64,6 +68,7 @@ class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         CustomJdbcClientDetailsService clientDetailsService = new CustomJdbcClientDetailsService(dataSource);
+        LOGGER.info("Encoding passwords enabled? [{}]", useEncoder);
         if (useEncoder) {
             clientDetailsService.setPasswordEncoder(encoder);
         } else {
