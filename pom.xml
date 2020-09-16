@@ -111,6 +111,12 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <layers>
+                        <configuration>${project.basedir}/src/layers.xml</configuration>
+                        <enabled>true</enabled>
+                    </layers>
+                </configuration>
                 <executions>
                     <execution>
                         <id>repackage</id>
@@ -123,12 +129,6 @@
                         </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <executable>true</executable>
-                    <layers>
-                        <enabled>true</enabled>
-                    </layers>
-                </configuration>
             </plugin>
             <!--plugin>
                 <groupId>com.github.eirslett</groupId>

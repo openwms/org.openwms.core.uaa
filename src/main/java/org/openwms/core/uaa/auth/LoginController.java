@@ -35,6 +35,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.security.Principal;
+import java.util.Optional;
 
 /**
  * A LoginController.
@@ -67,7 +68,10 @@ public class LoginController extends AbstractWebController {
                     ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
             UserInfo userInfo = new UserInfo(new Subject(user.getUsername()));
             userInfo.setName(user.getUsername());
-            userInfo.setEmailAddress(user.getEmailAddresses().stream().filter(Email::isPrimary).findFirst().get().toString());
+            Optional<Email> first = user.getEmailAddresses().stream().filter(Email::isPrimary).findFirst();
+            if (first.isPresent()) {
+                userInfo.setEmailAddress(first.get().toString());
+            }
             userInfo.setPhoneNumber(user.getUserDetails().getPhoneNo());
             userInfo.setFamilyName(user.getFullname());
             userInfo.setGivenName(user.getFullname());

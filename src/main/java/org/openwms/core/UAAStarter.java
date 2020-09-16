@@ -27,9 +27,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.ZonedDateTime;
@@ -46,9 +48,16 @@ import static java.util.Arrays.asList;
 @SpringBootApplication(scanBasePackageClasses = {UAAStarter.class, SolutionApp.class})
 public class UAAStarter {
 
+    @ConditionalOnExpression("'${owms.security.useEncoder}'=='true'")
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(15);
+    }
+
+    @ConditionalOnExpression("'${owms.security.useEncoder}'=='false'")
+    @Bean
+    PasswordEncoder nopPasswordEncoder() {
+        return NoOpPasswordEncoder.getInstance();
     }
 
     /**
