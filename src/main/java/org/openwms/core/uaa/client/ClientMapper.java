@@ -13,35 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.core.uaa.auth.impl;
+package org.openwms.core.uaa.client;
 
-import org.ameba.annotation.TxService;
+import org.mapstruct.Mapper;
+import org.openwms.core.uaa.api.ClientVO;
 import org.openwms.core.uaa.auth.Client;
-import org.openwms.core.uaa.auth.ClientService;
 
 import java.util.List;
 
 /**
- * A ClientServiceImpl.
+ * A ClientMapper.
  *
  * @author Heiko Scherrer
  */
-@TxService
-class ClientServiceImpl implements ClientService {
+@Mapper(componentModel = "spring")
+public interface ClientMapper {
 
-    private final ClientRepository clientRepository;
+    List<ClientVO> clientsToClientVos(List<Client> clients);
 
-    ClientServiceImpl(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
+    ClientVO to(Client entity);
 
-    @Override
-    public Client create(Client client) {
-        return clientRepository.save(client);
-    }
-
-    @Override
-    public List<Client> findAll() {
-        return clientRepository.findAll();
-    }
+    Client to(ClientVO vo);
 }

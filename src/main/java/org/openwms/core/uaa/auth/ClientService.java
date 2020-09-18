@@ -15,6 +15,8 @@
  */
 package org.openwms.core.uaa.auth;
 
+import java.util.List;
+
 /**
  * A ClientService.
  *
@@ -23,4 +25,6 @@ package org.openwms.core.uaa.auth;
 public interface ClientService {
 
     Client create(Client client);
+
+    List<Client> findAll();
 }
