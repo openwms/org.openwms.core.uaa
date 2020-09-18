@@ -16,6 +16,7 @@
 package org.openwms.core.uaa.client;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.openwms.core.uaa.api.ClientVO;
 import org.openwms.core.uaa.auth.Client;
 
@@ -31,7 +32,9 @@ public interface ClientMapper {
 
     List<ClientVO> clientsToClientVos(List<Client> clients);
 
+    @Mapping(source = "persistentKey", target = "pKey")
     ClientVO to(Client entity);
 
+    @Mapping(source = "pKey", target = "persistentKey")
     Client to(ClientVO vo);
 }
