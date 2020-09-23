@@ -22,6 +22,7 @@ import org.openwms.core.uaa.api.UAAConstants;
 import org.openwms.core.uaa.api.UserVO;
 import org.openwms.core.uaa.admin.impl.User;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,42 +42,43 @@ import java.util.List;
  *
  * @author Heiko Scherrer
  */
+@CrossOrigin(&quot;*&quot;)
 @MeasuredRestController
 public class UsersController extends AbstractWebController {
 
     private final UserService service;
     private final BeanMapper mapper;
 
-<span class="fc" id="L50">    public UsersController(UserService service, BeanMapper mapper) {</span>
-<span class="fc" id="L51">        this.service = service;</span>
-<span class="fc" id="L52">        this.mapper = mapper;</span>
-<span class="fc" id="L53">    }</span>
+<span class="fc" id="L52">    public UsersController(UserService service, BeanMapper mapper) {</span>
+<span class="fc" id="L53">        this.service = service;</span>
+<span class="fc" id="L54">        this.mapper = mapper;</span>
+<span class="fc" id="L55">    }</span>
 
     @GetMapping(UAAConstants.API_USERS)
     public ResponseEntity&lt;List&lt;UserVO&gt;&gt; findAllUsers() {
-<span class="nc" id="L57">        return ResponseEntity.ok(mapper.map(new ArrayList&lt;&gt;(service.findAll()), UserVO.class));</span>
+<span class="nc" id="L59">        return ResponseEntity.ok(mapper.map(new ArrayList&lt;&gt;(service.findAll()), UserVO.class));</span>
     }
 
     @GetMapping(UAAConstants.API_USERS + &quot;/{pKey}&quot;)
     public ResponseEntity&lt;UserVO&gt; findUser(@PathVariable(&quot;pKey&quot;) String pKey) {
-<span class="fc" id="L62">        return ResponseEntity.ok(mapper.map(service.findByPKey(pKey), UserVO.class));</span>
+<span class="fc" id="L64">        return ResponseEntity.ok(mapper.map(service.findByPKey(pKey), UserVO.class));</span>
     }
 
     @PostMapping(UAAConstants.API_USERS)
     public ResponseEntity&lt;Void&gt; create(@RequestBody @Valid @NotNull UserVO user, HttpServletRequest req) {
-<span class="fc" id="L67">        return ResponseEntity.created(</span>
-<span class="fc" id="L68">                getLocationURIForCreatedResource(req, service.create(mapper.map(user, User.class)).getPersistentKey())</span>
-<span class="fc" id="L69">        ).build();</span>
+<span class="fc" id="L69">        return ResponseEntity.created(</span>
+<span class="fc" id="L70">                getLocationURIForCreatedResource(req, service.create(mapper.map(user, User.class)).getPersistentKey())</span>
+<span class="fc" id="L71">        ).build();</span>
     }
 
     @PutMapping(UAAConstants.API_USERS)
     public ResponseEntity&lt;UserVO&gt; save(@RequestBody @Valid UserVO user) {
-<span class="nc" id="L74">        return ResponseEntity.ok(mapper.map(service.save(mapper.map(user, User.class)), UserVO.class));</span>
+<span class="nc" id="L76">        return ResponseEntity.ok(mapper.map(service.save(mapper.map(user, User.class)), UserVO.class));</span>
     }
 
     @PatchMapping(UAAConstants.API_USERS + &quot;/{pKey}&quot;)
     public void saveImage(@RequestBody @NotNull byte[] image, @PathVariable(&quot;pKey&quot;) @NotNull String pKey) {
-<span class="nc" id="L79">        service.uploadImageFile(pKey, image);</span>
-<span class="nc" id="L80">    }</span>
+<span class="nc" id="L81">        service.uploadImageFile(pKey, image);</span>
+<span class="nc" id="L82">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
