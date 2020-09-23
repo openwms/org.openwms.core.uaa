@@ -30,7 +30,7 @@ import org.ameba.http.AbstractBase;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 
@@ -55,7 +55,7 @@ public class UserVO extends AbstractBase implements Serializable {
     private Boolean extern;
     /** When the password has been changed the last time. */
     @JsonProperty("lastPasswordChange")
-    private Date lastPasswordChange;
+    private ZonedDateTime lastPasswordChange;
     /** If the User is locked from login. */
     @JsonProperty("locked")
     private Boolean locked;
@@ -64,7 +64,7 @@ public class UserVO extends AbstractBase implements Serializable {
     private Boolean enabled;
     /** When the password expires. */
     @JsonProperty("expirationDate")
-    private Date expirationDate;
+    private ZonedDateTime expirationDate;
     /** The Users full name. */
     @JsonProperty("fullname")
     private String fullname;
@@ -110,7 +110,7 @@ public class UserVO extends AbstractBase implements Serializable {
         return username;
     }
 
-    public Date getLastPasswordChange() {
+    public ZonedDateTime getLastPasswordChange() {
         return lastPasswordChange;
     }
 
@@ -122,7 +122,7 @@ public class UserVO extends AbstractBase implements Serializable {
         return enabled;
     }
 
-    public Date getExpirationDate() {
+    public ZonedDateTime getExpirationDate() {
         return expirationDate;
     }
 
@@ -175,10 +175,10 @@ public class UserVO extends AbstractBase implements Serializable {
         private String pKey;
         private @NotEmpty(groups = ValidationGroups.Create.class) String username;
         private Boolean extern;
-        private Date lastPasswordChange;
+        private ZonedDateTime lastPasswordChange;
         private Boolean locked;
         private Boolean enabled;
-        private Date expirationDate;
+        private ZonedDateTime expirationDate;
         private String fullname;
         private @Valid UserDetailsVO userDetails;
         private @NotEmpty(groups = ValidationGroups.Create.class) String email;
@@ -201,7 +201,7 @@ public class UserVO extends AbstractBase implements Serializable {
             return this;
         }
 
-        public Builder lastPasswordChange(Date val) {
+        public Builder lastPasswordChange(ZonedDateTime val) {
             lastPasswordChange = val;
             return this;
         }
@@ -216,7 +216,7 @@ public class UserVO extends AbstractBase implements Serializable {
             return this;
         }
 
-        public Builder expirationDate(Date val) {
+        public Builder expirationDate(ZonedDateTime val) {
             expirationDate = val;
             return this;
         }

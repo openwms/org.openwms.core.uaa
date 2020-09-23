@@ -22,6 +22,7 @@ import org.openwms.core.uaa.api.UAAConstants;
 import org.openwms.core.uaa.api.UserVO;
 import org.openwms.core.uaa.admin.impl.User;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +42,7 @@ import java.util.List;
  *
  * @author Heiko Scherrer
  */
+@CrossOrigin("*")
 @MeasuredRestController
 public class UsersController extends AbstractWebController {
 

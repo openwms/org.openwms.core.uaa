@@ -36,8 +36,8 @@
             <b is-accessible="true">extern</b>
         </field>
         <field type="one-way">
-            <a is-accessible="false">lastPasswordChange</a>
-            <b is-accessible="false">lastPasswordChange</b>
+            <a is-accessible="true">lastPasswordChange</a>
+            <b is-accessible="true">lastPasswordChange</b>
         </field>
         <field>
             <a is-accessible="true">locked</a>
@@ -77,8 +77,8 @@
             <b is-accessible="true">phoneNo</b>
         </field>
         <field>
-            <a is-accessible="false">im</a>
-            <b is-accessible="false">im</b>
+            <a is-accessible="true">im</a>
+            <b is-accessible="true">im</b>
         </field>
         <field>
             <a is-accessible="true">office</a>

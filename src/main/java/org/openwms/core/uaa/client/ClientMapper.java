@@ -35,6 +35,4 @@ public interface ClientMapper {
     @Mapping(source = "persistentKey", target = "pKey")
     ClientVO to(Client entity);
 
-    @Mapping(source = "pKey", target = "persistentKey")
-    Client to(ClientVO vo);
 }
