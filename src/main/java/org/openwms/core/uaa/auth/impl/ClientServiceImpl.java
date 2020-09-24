@@ -15,11 +15,18 @@
  */
 package org.openwms.core.uaa.auth.impl;
 
+import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
+import org.ameba.exception.NotFoundException;
 import org.openwms.core.uaa.auth.Client;
 import org.openwms.core.uaa.auth.ClientService;
+import org.openwms.core.uaa.client.ClientMapper;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+
+import static java.lang.String.format;
 
 /**
  * A ClientServiceImpl.
@@ -30,17 +37,35 @@ import java.util.List;
 class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
+    private final ClientMapper mapper;
 
-    ClientServiceImpl(ClientRepository clientRepository) {
+    ClientServiceImpl(ClientRepository clientRepository, ClientMapper mapper) {
         this.clientRepository = clientRepository;
+        this.mapper = mapper;
     }
 
     @Override
-    public Client create(Client client) {
+    @Measured
+    public Client create(@NotNull Client client) {
         return clientRepository.save(client);
     }
 
     @Override
+    @Measured
+    public Client save(@NotNull Client client) {
+        Client saved = clientRepository.findBypKey(client.getPersistentKey()).orElseThrow(() -> new NotFoundException(format("No Client with PKey [%s] exists", client.getPersistentKey())));
+        mapper.copy(client, saved);
+        return clientRepository.save(saved);
+    }
+
+    @Override
+    @Measured
+    public void delete(@NotEmpty String pKey) {
+        clientRepository.deleteByPKey(pKey);
+    }
+
+    @Override
+    @Measured
     public List<Client> findAll() {
         return clientRepository.findAll();
     }

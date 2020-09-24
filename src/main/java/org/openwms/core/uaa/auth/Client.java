@@ -34,7 +34,7 @@ public class Client extends ApplicationEntity implements Serializable {
 
     @Column(name = "C_RESOURCE_IDS")
     private String resourceIds;
-    @Column(name = "C_CLIENT_ID")
+    @Column(name = "C_CLIENT_ID", nullable = false)
     private String clientId;
     @Column(name = "C_CLIENT_SECRET")
     private String clientSecret;
@@ -54,6 +54,21 @@ public class Client extends ApplicationEntity implements Serializable {
     private String additionalInformation;
     @Column(name = "C_AUTOAPPROVE")
     private String autoapprove;
+
+    @Override
+    public void setPersistentKey(String pKey) {
+        super.setPersistentKey(pKey);
+    }
+
+    @Override
+    public long getOl() {
+        return super.getOl();
+    }
+
+    @Override
+    public void setOl(long ol) {
+        super.setOl(ol);
+    }
 
     public String getResourceIds() {
         return resourceIds;

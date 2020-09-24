@@ -18,6 +18,7 @@ package org.openwms.core.uaa.api;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.ameba.http.AbstractBase;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -31,6 +32,7 @@ public class ClientVO extends AbstractBase implements Serializable {
     private String pKey;
     @JsonProperty("resourceIds")
     private String resourceIds;
+    @NotEmpty
     @JsonProperty("clientId")
     private String clientId;
     @JsonProperty("clientSecret")

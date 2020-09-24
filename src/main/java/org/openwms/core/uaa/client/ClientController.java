@@ -20,9 +20,16 @@ import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.uaa.api.ClientVO;
 import org.openwms.core.uaa.auth.ClientService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -31,6 +38,7 @@ import java.util.List;
  * @author Heiko Scherrer
  */
 @CrossOrigin("*")
+@Validated
 @MeasuredRestController
 public class ClientController extends AbstractWebController {
 
@@ -45,5 +53,21 @@ public class ClientController extends AbstractWebController {
     @GetMapping("/api/clients")
     public ResponseEntity<List<ClientVO>> findAll() {
         return ResponseEntity.ok(mapper.clientsToClientVos(clientService.findAll()));
+    }
+
+    @PostMapping("/api/clients")
+    public ResponseEntity<ClientVO> create(@RequestBody @Valid ClientVO client) {
+        return ResponseEntity.ok(mapper.to(clientService.create(mapper.from(client))));
+    }
+
+    @PutMapping("/api/clients")
+    public ResponseEntity<ClientVO> save(@RequestBody @Valid ClientVO client) {
+        return ResponseEntity.ok(mapper.to(clientService.save(mapper.from(client))));
+    }
+
+    @DeleteMapping("/api/clients/{pKey}")
+    public ResponseEntity<Void> delete(@PathVariable("pKey") String pKey) {
+        clientService.delete(pKey);
+        return ResponseEntity.noContent().build();
     }
 }

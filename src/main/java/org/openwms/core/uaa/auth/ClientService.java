@@ -15,6 +15,8 @@
  */
 package org.openwms.core.uaa.auth;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -24,7 +26,11 @@ import java.util.List;
  */
 public interface ClientService {
 
-    Client create(Client client);
+    Client create(@NotNull Client client);
+
+    Client save(@NotNull Client client);
+
+    void delete(@NotEmpty String pKey);
 
     List<Client> findAll();
 }

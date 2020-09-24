@@ -17,6 +17,11 @@ package org.openwms.core.uaa.auth.impl;
 
 import org.openwms.core.uaa.auth.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.Optional;
 
 /**
  * A ClientRepository.
@@ -24,4 +29,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Heiko Scherrer
  */
 interface ClientRepository extends JpaRepository<Client, Long> {
+
+    @Modifying
+    @Query("delete from Client c where c.pKey = :pKey")
+    void deleteByPKey(@Param("pKey") String pKey);
+
+    Optional<Client> findBypKey(String persistentKey);
 }
