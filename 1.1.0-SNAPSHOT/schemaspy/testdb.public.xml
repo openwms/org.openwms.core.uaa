@@ -12,7 +12,7 @@
          <column autoUpdated="false" digits="0" id="7" name="c_authorities" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="8" name="c_authorized_grant_types" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="9" name="c_autoapprove" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="10" name="c_client_id" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="10" name="c_client_id" nullable="false" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="11" name="c_client_secret" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="12" name="c_refresh_token_validity" nullable="true" remarks="" size="10" type="int4"/>
          <column autoUpdated="false" digits="0" id="13" name="c_resource_ids" nullable="true" remarks="" size="255" type="varchar"/>

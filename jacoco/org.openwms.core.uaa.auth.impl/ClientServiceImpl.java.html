@@ -15,34 +15,73 @@
  */
 package org.openwms.core.uaa.auth.impl;
 
+import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
+import org.ameba.exception.NotFoundException;
 import org.openwms.core.uaa.auth.Client;
 import org.openwms.core.uaa.auth.ClientService;
+import org.openwms.core.uaa.client.ClientMapper;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
+import static java.lang.String.format;
+
 /**
- * A ClientServiceImpl.
+ * A ClientServiceImpl is a Spring managed transactional Service.
  *
  * @author Heiko Scherrer
  */
+@Validated
 @TxService
 class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
+    private final ClientMapper mapper;
 
-<span class="fc" id="L34">    ClientServiceImpl(ClientRepository clientRepository) {</span>
-<span class="fc" id="L35">        this.clientRepository = clientRepository;</span>
-<span class="fc" id="L36">    }</span>
+<span class="fc" id="L44">    ClientServiceImpl(ClientRepository clientRepository, ClientMapper mapper) {</span>
+<span class="fc" id="L45">        this.clientRepository = clientRepository;</span>
+<span class="fc" id="L46">        this.mapper = mapper;</span>
+<span class="fc" id="L47">    }</span>
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Client create(Client client) {
-<span class="nc" id="L40">        return clientRepository.save(client);</span>
+    @Measured
+    public Client create(@NotNull Client client) {
+<span class="nc" id="L55">        return clientRepository.save(client);</span>
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
+    @Measured
+    public Client save(@NotNull Client client) {
+<span class="nc" id="L64">        Client saved = clientRepository.findBypKey(client.getPersistentKey()).orElseThrow(() -&gt; new NotFoundException(format(&quot;No Client with PKey [%s] exists&quot;, client.getPersistentKey())));</span>
+<span class="nc" id="L65">        mapper.copy(client, saved);</span>
+<span class="nc" id="L66">        return clientRepository.save(saved);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public void delete(@NotEmpty String pKey) {
+<span class="nc" id="L75">        clientRepository.deleteByPKey(pKey);</span>
+<span class="nc" id="L76">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
     public List&lt;Client&gt; findAll() {
-<span class="nc" id="L45">        return clientRepository.findAll();</span>
+<span class="nc" id="L84">        return clientRepository.findAll();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

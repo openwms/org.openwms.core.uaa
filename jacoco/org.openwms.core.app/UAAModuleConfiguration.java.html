@@ -18,6 +18,8 @@ package org.openwms.core.app;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.ameba.annotation.EnableAspects;
 import org.ameba.app.BaseConfiguration;
+import org.ameba.app.SpringProfiles;
+import org.ameba.http.PermitAllCorsConfigurationSource;
 import org.ameba.i18n.AbstractTranslator;
 import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
@@ -29,10 +31,13 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+import org.springframework.web.filter.CorsFilter;
 
+import javax.servlet.Filter;
 import javax.validation.Validator;
 import java.util.Properties;
 
@@ -46,27 +51,33 @@ import java.util.Properties;
 @EnableAspects(propagateRootCause = true)
 @EnableTransactionManagement
 @Import(BaseConfiguration.class)
-<span class="fc" id="L49">public class UAAModuleConfiguration {</span>
+<span class="fc" id="L54">public class UAAModuleConfiguration {</span>
+
+    @Profile(SpringProfiles.DEVELOPMENT_PROFILE)
+    public @Bean
+    Filter corsFiler() {
+<span class="nc" id="L59">        return new CorsFilter(new PermitAllCorsConfigurationSource());</span>
+    }
 
     @Bean
     MeterRegistryCustomizer&lt;MeterRegistry&gt; metricsCommonTags(@Value(&quot;${spring.application.name}&quot;) String applicationName) {
-<span class="fc" id="L53">        return registry -&gt; registry.config().commonTags(&quot;application&quot;, applicationName);</span>
+<span class="fc" id="L64">        return registry -&gt; registry.config().commonTags(&quot;application&quot;, applicationName);</span>
     }
 
     @Bean
     MethodValidationPostProcessor methodValidationPostProcessor(Validator validator) {
-<span class="fc" id="L58">        MethodValidationPostProcessor mvpp = new MethodValidationPostProcessor();</span>
-<span class="fc" id="L59">        mvpp.setValidator(validator);</span>
-<span class="fc" id="L60">        return mvpp;</span>
+<span class="fc" id="L69">        MethodValidationPostProcessor mvpp = new MethodValidationPostProcessor();</span>
+<span class="fc" id="L70">        mvpp.setValidator(validator);</span>
+<span class="fc" id="L71">        return mvpp;</span>
     }
 
     public
     @Bean
     Translator translator() {
-<span class="fc" id="L66">        return new AbstractTranslator() {</span>
+<span class="fc" id="L77">        return new AbstractTranslator() {</span>
             @Override
             protected MessageSource getMessageSource() {
-<span class="fc" id="L69">                return messageSource();</span>
+<span class="fc" id="L80">                return messageSource();</span>
             }
         };
     }
@@ -74,17 +85,17 @@ import java.util.Properties;
     public
     @Bean
     MessageSource messageSource() {
-<span class="fc" id="L77">        NestedReloadableResourceBundleMessageSource nrrbm = new NestedReloadableResourceBundleMessageSource();</span>
-<span class="fc" id="L78">        nrrbm.setBasename(&quot;classpath:i18n&quot;);</span>
-<span class="fc" id="L79">        nrrbm.setDefaultEncoding(&quot;UTF-8&quot;);</span>
-<span class="fc" id="L80">        nrrbm.setCommonMessages(new Properties());</span>
-<span class="fc" id="L81">        return nrrbm;</span>
+<span class="fc" id="L88">        NestedReloadableResourceBundleMessageSource nrrbm = new NestedReloadableResourceBundleMessageSource();</span>
+<span class="fc" id="L89">        nrrbm.setBasename(&quot;classpath:i18n&quot;);</span>
+<span class="fc" id="L90">        nrrbm.setDefaultEncoding(&quot;UTF-8&quot;);</span>
+<span class="fc" id="L91">        nrrbm.setCommonMessages(new Properties());</span>
+<span class="fc" id="L92">        return nrrbm;</span>
     }
 
     public
     @Bean
     BeanMapper beanMapper() {
-<span class="fc" id="L87">        return new DozerMapperImpl(&quot;META-INF/dozer/bean-mappings.xml&quot;);</span>
+<span class="fc" id="L98">        return new DozerMapperImpl(&quot;META-INF/dozer/bean-mappings.xml&quot;);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

@@ -1,5 +1,5 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-OpenWMS.org CORE: UAA,org.openwms.core.uaa.auth,Client,235,3,30,0,48,1,39,1,24,1
+OpenWMS.org CORE: UAA,org.openwms.core.uaa.auth,Client,249,3,30,0,54,1,43,1,28,1
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.auth,LoginController,19,87,2,2,4,18,4,2,2,2
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.api,RoleVO.Builder,35,0,0,0,13,0,7,0,7,0
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.api,UserDetailsVO.Builder,45,0,0,0,17,0,9,0,9,0
@@ -40,10 +40,10 @@ OpenWMS.org CORE: UAA,org.openwms.core.search,Tag,42,0,0,0,13,0,7,0,7,0
 OpenWMS.org CORE: UAA,org.openwms.core.search,ObjectFactory,34,0,0,0,7,0,7,0,7,0
 OpenWMS.org CORE: UAA,org.openwms.core.search,Tags,14,0,2,0,4,0,3,0,2,0
 OpenWMS.org CORE: UAA,org.openwms.core.search,VerbTag,7,0,0,0,4,0,2,0,2,0
-OpenWMS.org CORE: UAA,org.openwms.core.uaa.client,ClientController,8,9,0,0,1,4,1,1,1,1
-OpenWMS.org CORE: UAA,org.openwms.core.uaa.client,ClientMapperImpl,87,3,6,0,23,1,5,1,2,1
-OpenWMS.org CORE: UAA,org.openwms.core.uaa.auth.impl,ClientServiceImpl,10,6,0,0,2,3,2,1,2,1
-OpenWMS.org CORE: UAA,org.openwms.core.app,UAAModuleConfiguration,0,59,0,0,0,12,0,7,0,7
+OpenWMS.org CORE: UAA,org.openwms.core.uaa.client,ClientController,39,9,0,0,5,4,4,1,4,1
+OpenWMS.org CORE: UAA,org.openwms.core.uaa.client,ClientMapperImpl,201,3,10,0,55,1,9,1,4,1
+OpenWMS.org CORE: UAA,org.openwms.core.uaa.auth.impl,ClientServiceImpl,49,9,0,0,7,4,5,1,5,1
+OpenWMS.org CORE: UAA,org.openwms.core.app,UAAModuleConfiguration,7,59,0,0,1,12,1,7,1,7
 OpenWMS.org CORE: UAA,org.openwms.core.app,UAASecurityConfiguration,0,85,0,0,0,26,0,3,0,3
 OpenWMS.org CORE: UAA,org.openwms.core.app,CustomJdbcClientDetailsService,0,29,0,0,0,10,0,2,0,2
 OpenWMS.org CORE: UAA,org.openwms.core.app,AuthServiceConfiguration,0,66,0,0,0,20,0,7,0,7

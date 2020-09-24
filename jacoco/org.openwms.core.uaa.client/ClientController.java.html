@@ -20,9 +20,16 @@ import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.uaa.api.ClientVO;
 import org.openwms.core.uaa.auth.ClientService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -30,21 +37,37 @@ import java.util.List;
  *
  * @author Heiko Scherrer
  */
-@CrossOrigin(&quot;*&quot;)
+@Validated
 @MeasuredRestController
 public class ClientController extends AbstractWebController {
 
     private final ClientService clientService;
     private final ClientMapper mapper;
 
-<span class="fc" id="L40">    public ClientController(ClientService clientService, ClientMapper mapper) {</span>
-<span class="fc" id="L41">        this.clientService = clientService;</span>
-<span class="fc" id="L42">        this.mapper = mapper;</span>
-<span class="fc" id="L43">    }</span>
+<span class="fc" id="L47">    public ClientController(ClientService clientService, ClientMapper mapper) {</span>
+<span class="fc" id="L48">        this.clientService = clientService;</span>
+<span class="fc" id="L49">        this.mapper = mapper;</span>
+<span class="fc" id="L50">    }</span>
 
     @GetMapping(&quot;/api/clients&quot;)
     public ResponseEntity&lt;List&lt;ClientVO&gt;&gt; findAll() {
-<span class="nc" id="L47">        return ResponseEntity.ok(mapper.clientsToClientVos(clientService.findAll()));</span>
+<span class="nc" id="L54">        return ResponseEntity.ok(mapper.clientsToClientVos(clientService.findAll()));</span>
+    }
+
+    @PostMapping(&quot;/api/clients&quot;)
+    public ResponseEntity&lt;ClientVO&gt; create(@RequestBody @Valid ClientVO client) {
+<span class="nc" id="L59">        return ResponseEntity.ok(mapper.to(clientService.create(mapper.from(client))));</span>
+    }
+
+    @PutMapping(&quot;/api/clients&quot;)
+    public ResponseEntity&lt;ClientVO&gt; save(@RequestBody @Valid ClientVO client) {
+<span class="nc" id="L64">        return ResponseEntity.ok(mapper.to(clientService.save(mapper.from(client))));</span>
+    }
+
+    @DeleteMapping(&quot;/api/clients/{pKey}&quot;)
+    public ResponseEntity&lt;Void&gt; delete(@PathVariable(&quot;pKey&quot;) String pKey) {
+<span class="nc" id="L69">        clientService.delete(pKey);</span>
+<span class="nc" id="L70">        return ResponseEntity.noContent().build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

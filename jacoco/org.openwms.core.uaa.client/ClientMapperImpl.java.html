@@ -50,5 +50,50 @@ import org.springframework.stereotype.Component;
 
 <span class="nc" id="L51">        return clientVO;</span>
     }
+
+    @Override
+    public Client from(ClientVO vo) {
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        if ( vo == null ) {</span>
+<span class="nc" id="L57">            return null;</span>
+        }
+
+<span class="nc" id="L60">        Client client = new Client();</span>
+
+<span class="nc" id="L62">        client.setPersistentKey( vo.getpKey() );</span>
+<span class="nc" id="L63">        client.setResourceIds( vo.getResourceIds() );</span>
+<span class="nc" id="L64">        client.setClientId( vo.getClientId() );</span>
+<span class="nc" id="L65">        client.setClientSecret( vo.getClientSecret() );</span>
+<span class="nc" id="L66">        client.setScope( vo.getScope() );</span>
+<span class="nc" id="L67">        client.setAuthorizedGrantTypes( vo.getAuthorizedGrantTypes() );</span>
+<span class="nc" id="L68">        client.setWebServerRedirectUri( vo.getWebServerRedirectUri() );</span>
+<span class="nc" id="L69">        client.setAuthorities( vo.getAuthorities() );</span>
+<span class="nc" id="L70">        client.setAccessTokenValidity( vo.getAccessTokenValidity() );</span>
+<span class="nc" id="L71">        client.setRefreshTokenValidity( vo.getRefreshTokenValidity() );</span>
+<span class="nc" id="L72">        client.setAdditionalInformation( vo.getAdditionalInformation() );</span>
+<span class="nc" id="L73">        client.setAutoapprove( vo.getAutoapprove() );</span>
+
+<span class="nc" id="L75">        return client;</span>
+    }
+
+    @Override
+    public void copy(Client client, Client target) {
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        if ( client == null ) {</span>
+<span class="nc" id="L81">            return;</span>
+        }
+
+<span class="nc" id="L84">        target.setPersistentKey( client.getPersistentKey() );</span>
+<span class="nc" id="L85">        target.setOl( client.getOl() );</span>
+<span class="nc" id="L86">        target.setResourceIds( client.getResourceIds() );</span>
+<span class="nc" id="L87">        target.setClientId( client.getClientId() );</span>
+<span class="nc" id="L88">        target.setClientSecret( client.getClientSecret() );</span>
+<span class="nc" id="L89">        target.setScope( client.getScope() );</span>
+<span class="nc" id="L90">        target.setAuthorizedGrantTypes( client.getAuthorizedGrantTypes() );</span>
+<span class="nc" id="L91">        target.setWebServerRedirectUri( client.getWebServerRedirectUri() );</span>
+<span class="nc" id="L92">        target.setAuthorities( client.getAuthorities() );</span>
+<span class="nc" id="L93">        target.setAccessTokenValidity( client.getAccessTokenValidity() );</span>
+<span class="nc" id="L94">        target.setRefreshTokenValidity( client.getRefreshTokenValidity() );</span>
+<span class="nc" id="L95">        target.setAdditionalInformation( client.getAdditionalInformation() );</span>
+<span class="nc" id="L96">        target.setAutoapprove( client.getAutoapprove() );</span>
+<span class="nc" id="L97">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

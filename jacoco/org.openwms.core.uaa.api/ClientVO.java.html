@@ -18,6 +18,7 @@ package org.openwms.core.uaa.api;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.ameba.http.AbstractBase;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -25,12 +26,13 @@ import java.io.Serializable;
  *
  * @author Heiko Scherrer
  */
-<span class="nc" id="L28">public class ClientVO extends AbstractBase implements Serializable {</span>
+<span class="nc" id="L29">public class ClientVO extends AbstractBase implements Serializable {</span>
 
     @JsonProperty(&quot;pKey&quot;)
     private String pKey;
     @JsonProperty(&quot;resourceIds&quot;)
     private String resourceIds;
+    @NotEmpty
     @JsonProperty(&quot;clientId&quot;)
     private String clientId;
     @JsonProperty(&quot;clientSecret&quot;)
@@ -53,99 +55,99 @@ import java.io.Serializable;
     private String autoapprove;
 
     public String getpKey() {
-<span class="nc" id="L56">        return pKey;</span>
+<span class="nc" id="L58">        return pKey;</span>
     }
 
     public void setpKey(String pKey) {
-<span class="nc" id="L60">        this.pKey = pKey;</span>
-<span class="nc" id="L61">    }</span>
+<span class="nc" id="L62">        this.pKey = pKey;</span>
+<span class="nc" id="L63">    }</span>
 
     public String getResourceIds() {
-<span class="nc" id="L64">        return resourceIds;</span>
+<span class="nc" id="L66">        return resourceIds;</span>
     }
 
     public void setResourceIds(String resourceIds) {
-<span class="nc" id="L68">        this.resourceIds = resourceIds;</span>
-<span class="nc" id="L69">    }</span>
+<span class="nc" id="L70">        this.resourceIds = resourceIds;</span>
+<span class="nc" id="L71">    }</span>
 
     public String getClientId() {
-<span class="nc" id="L72">        return clientId;</span>
+<span class="nc" id="L74">        return clientId;</span>
     }
 
     public void setClientId(String clientId) {
-<span class="nc" id="L76">        this.clientId = clientId;</span>
-<span class="nc" id="L77">    }</span>
+<span class="nc" id="L78">        this.clientId = clientId;</span>
+<span class="nc" id="L79">    }</span>
 
     public String getClientSecret() {
-<span class="nc" id="L80">        return clientSecret;</span>
+<span class="nc" id="L82">        return clientSecret;</span>
     }
 
     public void setClientSecret(String clientSecret) {
-<span class="nc" id="L84">        this.clientSecret = clientSecret;</span>
-<span class="nc" id="L85">    }</span>
+<span class="nc" id="L86">        this.clientSecret = clientSecret;</span>
+<span class="nc" id="L87">    }</span>
 
     public String getScope() {
-<span class="nc" id="L88">        return scope;</span>
+<span class="nc" id="L90">        return scope;</span>
     }
 
     public void setScope(String scope) {
-<span class="nc" id="L92">        this.scope = scope;</span>
-<span class="nc" id="L93">    }</span>
+<span class="nc" id="L94">        this.scope = scope;</span>
+<span class="nc" id="L95">    }</span>
 
     public String getAuthorizedGrantTypes() {
-<span class="nc" id="L96">        return authorizedGrantTypes;</span>
+<span class="nc" id="L98">        return authorizedGrantTypes;</span>
     }
 
     public void setAuthorizedGrantTypes(String authorizedGrantTypes) {
-<span class="nc" id="L100">        this.authorizedGrantTypes = authorizedGrantTypes;</span>
-<span class="nc" id="L101">    }</span>
+<span class="nc" id="L102">        this.authorizedGrantTypes = authorizedGrantTypes;</span>
+<span class="nc" id="L103">    }</span>
 
     public String getWebServerRedirectUri() {
-<span class="nc" id="L104">        return webServerRedirectUri;</span>
+<span class="nc" id="L106">        return webServerRedirectUri;</span>
     }
 
     public void setWebServerRedirectUri(String webServerRedirectUri) {
-<span class="nc" id="L108">        this.webServerRedirectUri = webServerRedirectUri;</span>
-<span class="nc" id="L109">    }</span>
+<span class="nc" id="L110">        this.webServerRedirectUri = webServerRedirectUri;</span>
+<span class="nc" id="L111">    }</span>
 
     public String getAuthorities() {
-<span class="nc" id="L112">        return authorities;</span>
+<span class="nc" id="L114">        return authorities;</span>
     }
 
     public void setAuthorities(String authorities) {
-<span class="nc" id="L116">        this.authorities = authorities;</span>
-<span class="nc" id="L117">    }</span>
+<span class="nc" id="L118">        this.authorities = authorities;</span>
+<span class="nc" id="L119">    }</span>
 
     public int getAccessTokenValidity() {
-<span class="nc" id="L120">        return accessTokenValidity;</span>
+<span class="nc" id="L122">        return accessTokenValidity;</span>
     }
 
     public void setAccessTokenValidity(int accessTokenValidity) {
-<span class="nc" id="L124">        this.accessTokenValidity = accessTokenValidity;</span>
-<span class="nc" id="L125">    }</span>
+<span class="nc" id="L126">        this.accessTokenValidity = accessTokenValidity;</span>
+<span class="nc" id="L127">    }</span>
 
     public int getRefreshTokenValidity() {
-<span class="nc" id="L128">        return refreshTokenValidity;</span>
+<span class="nc" id="L130">        return refreshTokenValidity;</span>
     }
 
     public void setRefreshTokenValidity(int refreshTokenValidity) {
-<span class="nc" id="L132">        this.refreshTokenValidity = refreshTokenValidity;</span>
-<span class="nc" id="L133">    }</span>
+<span class="nc" id="L134">        this.refreshTokenValidity = refreshTokenValidity;</span>
+<span class="nc" id="L135">    }</span>
 
     public String getAdditionalInformation() {
-<span class="nc" id="L136">        return additionalInformation;</span>
+<span class="nc" id="L138">        return additionalInformation;</span>
     }
 
     public void setAdditionalInformation(String additionalInformation) {
-<span class="nc" id="L140">        this.additionalInformation = additionalInformation;</span>
-<span class="nc" id="L141">    }</span>
+<span class="nc" id="L142">        this.additionalInformation = additionalInformation;</span>
+<span class="nc" id="L143">    }</span>
 
     public String getAutoapprove() {
-<span class="nc" id="L144">        return autoapprove;</span>
+<span class="nc" id="L146">        return autoapprove;</span>
     }
 
     public void setAutoapprove(String autoapprove) {
-<span class="nc" id="L148">        this.autoapprove = autoapprove;</span>
-<span class="nc" id="L149">    }</span>
+<span class="nc" id="L150">        this.autoapprove = autoapprove;</span>
+<span class="nc" id="L151">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
