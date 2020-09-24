@@ -20,17 +20,39 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * A ClientService.
+ * A ClientService is a CRUD service dealing with {@link Client}s.
  *
  * @author Heiko Scherrer
  */
 public interface ClientService {
 
+    /**
+     * Save a non-existing {@link Client} instance.
+     *
+     * @param client The instance to save
+     * @return The saved instance
+     */
     Client create(@NotNull Client client);
 
+    /**
+     * Update an existing {@link Client} instance.
+     *
+     * @param client The instance to save
+     * @return The saved instance
+     */
     Client save(@NotNull Client client);
 
+    /**
+     * Delete a {@link Client}.
+     *
+     * @param pKey The identifiable persistent key
+     */
     void delete(@NotEmpty String pKey);
 
+    /**
+     * Find and return all existing {@link Client}s.
+     *
+     * @return A list of those
+     */
     List<Client> findAll();
 }

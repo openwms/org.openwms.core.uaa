@@ -24,7 +24,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A Client.
+ * A Client is the representation of an OAuth2 Client.
  *
  * @author Heiko Scherrer
  */
@@ -158,6 +158,11 @@ public class Client extends ApplicationEntity implements Serializable {
         this.autoapprove = autoapprove;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Use all fields.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -177,8 +182,23 @@ public class Client extends ApplicationEntity implements Serializable {
                 Objects.equals(autoapprove, client.autoapprove);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * Use all fields.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), resourceIds, clientId, clientSecret, scope, authorizedGrantTypes, webServerRedirectUri, authorities, accessTokenValidity, refreshTokenValidity, additionalInformation, autoapprove);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Just return the {@code clientId}.
+     */
+    @Override
+    public String toString() {
+        return clientId;
     }
 }

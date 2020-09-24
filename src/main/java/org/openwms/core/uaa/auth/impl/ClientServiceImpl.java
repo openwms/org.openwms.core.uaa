@@ -21,6 +21,7 @@ import org.ameba.exception.NotFoundException;
 import org.openwms.core.uaa.auth.Client;
 import org.openwms.core.uaa.auth.ClientService;
 import org.openwms.core.uaa.client.ClientMapper;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -29,10 +30,11 @@ import java.util.List;
 import static java.lang.String.format;
 
 /**
- * A ClientServiceImpl.
+ * A ClientServiceImpl is a Spring managed transactional Service.
  *
  * @author Heiko Scherrer
  */
+@Validated
 @TxService
 class ClientServiceImpl implements ClientService {
 
@@ -44,12 +46,18 @@ class ClientServiceImpl implements ClientService {
         this.mapper = mapper;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Measured
     public Client create(@NotNull Client client) {
         return clientRepository.save(client);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Measured
     public Client save(@NotNull Client client) {
@@ -58,12 +66,18 @@ class ClientServiceImpl implements ClientService {
         return clientRepository.save(saved);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Measured
     public void delete(@NotEmpty String pKey) {
         clientRepository.deleteByPKey(pKey);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Measured
     public List<Client> findAll() {
