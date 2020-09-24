@@ -43,7 +43,6 @@ import java.util.Optional;
  *
  * @author Heiko Scherrer
  */
-@CrossOrigin("*")
 @MeasuredRestController
 public class LoginController extends AbstractWebController {
 

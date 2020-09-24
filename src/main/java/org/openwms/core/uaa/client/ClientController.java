@@ -37,7 +37,6 @@ import java.util.List;
  *
  * @author Heiko Scherrer
  */
-@CrossOrigin("*")
 @Validated
 @MeasuredRestController
 public class ClientController extends AbstractWebController {
