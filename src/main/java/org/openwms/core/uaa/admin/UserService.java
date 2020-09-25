@@ -37,14 +37,14 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
     /**
      * Change the current {@link User}s password.
      *
-     * @param userPassword The {@link UserPassword} to change
+     * @param userPassword The UserPassword to change
      */
     void changeUserPassword(@NotNull UserPassword userPassword);
 
     /**
      * Attach and save an {@code image} to an {@link User} with {@code id}.
      *
-     * @param pKey The persistent key of the {@link User}
+     * @param pKey The persistent key of the User
      * @param image Image to be stored
      */
     void uploadImageFile(String pKey, byte[] image);
@@ -52,25 +52,25 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
     /**
      * Return a transient {@link User} entity object, serving as a template.
      *
-     * @param username Username of the {@link User}
-     * @return An empty {@link User} template
+     * @param username Username of the User
+     * @return An empty User template
      */
     User getTemplate(String username);
 
     /**
      * Save changes on an {@link User} and additionally save the User's password and preferences.
      *
-     * @param user The {@link User} to change
-     * @param userPassword The {@link User}s password
-     * @param prefs An array of {@link UserPreference} objects
-     * @return The saved {@link User} instance
+     * @param user The User to change
+     * @param userPassword The Users password
+     * @param prefs An array of UserPreference objects
+     * @return The saved User instance
      */
     User saveUserProfile(@NotNull User user, @NotNull UserPassword userPassword, UserPreference... prefs);
 
     /**
      * Create and return the {@link SystemUser} without persisting this user.
      *
-     * @return the {@link SystemUser} instance
+     * @return the SystemUser instance
      */
     SystemUser createSystemUser();
 
@@ -98,5 +98,17 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
      */
     @NotNull User findByPKey(@NotEmpty String pKey);
 
+    /**
+     * Delete an {@link User}.
+     *
+     * @param username The User's unique name
+     */
     void remove(String username);
+
+    /**
+     * Delete an {@link User}.
+     *
+     * @param pKey The identifiable persistent key
+     */
+    void delete(String pKey);
 }

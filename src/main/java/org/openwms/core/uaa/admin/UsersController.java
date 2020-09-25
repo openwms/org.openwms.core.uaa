@@ -23,6 +23,7 @@ import org.openwms.core.uaa.api.UserVO;
 import org.openwms.core.uaa.admin.impl.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +62,7 @@ public class UsersController extends AbstractWebController {
     }
 
     @GetMapping(UAAConstants.API_USERS + "/{pKey}")
-    public ResponseEntity<UserVO> findUser(@PathVariable("pKey") String pKey) {
+    public ResponseEntity<UserVO> findUser(@PathVariable("pKey") @NotEmpty String pKey) {
         return ResponseEntity.ok(mapper.map(service.findByPKey(pKey), UserVO.class));
     }
 
@@ -77,7 +79,12 @@ public class UsersController extends AbstractWebController {
     }
 
     @PatchMapping(UAAConstants.API_USERS + "/{pKey}")
-    public void saveImage(@RequestBody @NotNull byte[] image, @PathVariable("pKey") @NotNull String pKey) {
+    public void saveImage(@RequestBody @NotNull byte[] image, @PathVariable("pKey") @NotEmpty String pKey) {
         service.uploadImageFile(pKey, image);
+    }
+
+    @DeleteMapping(UAAConstants.API_USERS + "/{pKey}")
+    public void delete(@PathVariable("pKey") @NotEmpty String pKey) {
+        service.delete(pKey);
     }
 }

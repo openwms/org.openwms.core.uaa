@@ -56,7 +56,7 @@ import java.util.Optional;
  * autowires collaborators, therefore XML configuration becomes obsolete. This class is marked with Amebas {@link TxService} annotation to
  * benefit from Springs exception translation interceptor. Traditional CRUD operations are delegated to an {@link UserRepository}.
  * <p>
- * This implementation exists since Spring 2.0, be careful to use with the latest Spring versions
+ * This implementation exists since Spring 2.0.
  *
  * @author Heiko Scherrer
  * @since 0.1
@@ -71,17 +71,19 @@ class UserServiceImpl implements UserService {
     private final ConfigurationService confSrv;
     private final PasswordEncoder enc;
     private final Translator translator;
-    @Value("${owms.security.system.username}")
-    private String systemUsername;
-    @Value("${owms.security.system.password}")
-    private String systemPassword;
+    private final String systemUsername;
+    private final String systemPassword;
 
-    UserServiceImpl(UserRepository repository, SecurityObjectRepository securityObjectDao, ConfigurationService confSrv, PasswordEncoder enc, Translator translator) {
+    UserServiceImpl(UserRepository repository, SecurityObjectRepository securityObjectDao, ConfigurationService confSrv,
+            PasswordEncoder enc, Translator translator, @Value("${owms.security.system.username}") String systemUsername,
+            @Value("${owms.security.system.password}") String systemPassword) {
         this.repository = repository;
         this.securityObjectDao = securityObjectDao;
         this.confSrv = confSrv;
         this.enc = enc;
         this.translator = translator;
+        this.systemUsername = systemUsername;
+        this.systemPassword = systemPassword;
     }
 
     /**
@@ -91,10 +93,10 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
+    @Measured
     public void uploadImageFile(String pKey, byte[] image) {
-        User user = repository
-                .findBypKey(pKey)
-                .orElseThrow(() -> new NotFoundException(
+        User user = repository.findBypKey(pKey).orElseThrow(
+                () -> new NotFoundException(
                         translator.translate(ExceptionCodes.ENTITY_NOT_EXIST, pKey),
                         ExceptionCodes.ENTITY_NOT_EXIST)
                 );
@@ -111,6 +113,7 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
+    @Measured
     public User save(User entity) {
         Assert.notNull(entity, ExceptionCodes.USER_SAVE_NOT_BE_NULL);
         return repository.save(entity);
@@ -123,6 +126,7 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional(readOnly = true)
+    @Measured
     public User getTemplate(String username) {
         return new User(username);
     }
@@ -134,10 +138,10 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional(readOnly = true)
+    @Measured
     public SystemUser createSystemUser() {
         SystemUser sys = new SystemUser(systemUsername, systemPassword);
-        Role role = new Role.Builder(SystemUser.SYSTEM_ROLE_NAME).withDescription("SuperUsers Role").asImmutable()
-                .build();
+        Role role = new Role.Builder(SystemUser.SYSTEM_ROLE_NAME).withDescription("SuperUsers Role").asImmutable().build();
         role.setGrants(new HashSet<>(securityObjectDao.findAll()));
         sys.addRole(role);
         return sys;
@@ -149,13 +153,12 @@ class UserServiceImpl implements UserService {
     @Override
     @Measured
     public User create(@NotNull @Valid User user) {
-        Optional<User> eo = repository.findByUsername(user.getUsername());
-        if (eo.isPresent()) {
-            throw new ResourceExistsException("user with username already exists");
-        }
+        repository.findByUsername(user.getUsername()).orElseThrow(() -> new ResourceExistsException("user with username already exists"));
         return repository.save(user);
     }
 
+    WS Kommunikation Client Stomp RabbitMQ Alternatove
+            Workshop im Confluence Zeit planen und Teilnehmer
     /**
      * {@inheritDoc}
      */
@@ -180,28 +183,31 @@ class UserServiceImpl implements UserService {
     @Override
     @Measured
     public void remove(String username) {
-        repository.delete(repository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, username))));
+        repository.delete(repository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, username)))
+        );
     }
 
     /**
      * {@inheritDoc}
-     *
-     * @throws ServiceLayerException if <ul> <li><code>userPassword</code> is <code>null</code></li> <li>the new password is invalid and
-     * does not match the password rules</li> </ul>
-     * @throws NotFoundException if no {@link User} exists
      */
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
+    @Measured
     public void changeUserPassword(@NotNull UserPassword userPassword) {
-        User entity = repository.findByUsername(userPassword.getUser().getUsername()).orElseThrow(() -> new NotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, userPassword.getUser()
-                .getUsername()), ExceptionCodes.USER_NOT_EXIST));
+        User entity = repository.findByUsername(userPassword.getUser().getUsername()).orElseThrow(
+                () -> new NotFoundException(
+                        translator.translate(ExceptionCodes.USER_NOT_EXIST, userPassword.getUser().getUsername()),
+                        ExceptionCodes.USER_NOT_EXIST
+                )
+        );
         try {
             entity.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);
             repository.save(entity);
         } catch (InvalidPasswordException ipe) {
             LOGGER.error(ipe.getMessage());
-            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PW_INVALID, userPassword.getUser()
-                    .getUsername()), ExceptionCodes.USER_PW_INVALID);
+            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PW_INVALID, userPassword.getUser().getUsername()),
+                    ExceptionCodes.USER_PW_INVALID);
         }
     }
 
@@ -210,36 +216,33 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
+    @Measured
     public User saveUserProfile(@NotNull User user, @NotNull UserPassword userPassword, UserPreference... prefs) {
         try {
             user.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);
         } catch (InvalidPasswordException ipe) {
             LOGGER.error(ipe.getMessage());
-            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PW_INVALID,
-                    userPassword.getPassword()), ExceptionCodes.USER_PW_INVALID);
+            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PW_INVALID, userPassword.getPassword()),
+                    ExceptionCodes.USER_PW_INVALID);
         }
         Arrays.stream(prefs).forEach(confSrv::save);
         return save(user);
     }
 
     /**
-     * Find and return a collection of all existing entities of type {@code T}.
-     *
-     * @return All entities or an empty collection, never {@literal null}
+     * {@inheritDoc}
      */
     @Override
+    @Measured
     public Collection<User> findAll() {
         return repository.findAll();
     }
 
     /**
-     * Find an entity instance by the given technical key {@code id},
-     *
-     * @param pk The technical key
-     * @return The instance
-     * @throws NotFoundException may be thrown if no entity found
+     * {@inheritDoc}
      */
     @Override
+    @Measured
     public User findById(Long pk) {
         return repository.findById(pk).orElseThrow(() -> new NotFoundException(String.format("No User with pk %s found", pk)));
     }
