@@ -153,12 +153,13 @@ class UserServiceImpl implements UserService {
     @Override
     @Measured
     public User create(@NotNull @Valid User user) {
-        repository.findByUsername(user.getUsername()).orElseThrow(() -> new ResourceExistsException("user with username already exists"));
+        Optional<User> optUser = repository.findByUsername(user.getUsername());
+        if (optUser.isPresent()) {
+            throw new ResourceExistsException("User with username already exists");
+        }
         return repository.save(user);
     }
 
-    WS Kommunikation Client Stomp RabbitMQ Alternatove
-            Workshop im Confluence Zeit planen und Teilnehmer
     /**
      * {@inheritDoc}
      */
@@ -186,6 +187,14 @@ class UserServiceImpl implements UserService {
         repository.delete(repository.findByUsername(username).orElseThrow(
                 () -> new EntityNotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, username)))
         );
+    }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public void delete(String pKey) {
+        repository.deleteByPkey(pKey);
     }
 
     /**

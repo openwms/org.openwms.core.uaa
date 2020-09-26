@@ -22,6 +22,9 @@
 package org.openwms.core.uaa.admin.impl;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
@@ -29,9 +32,6 @@ import java.util.Optional;
  * An UserRepository offers functionality regarding {@link User} entity classes.
  *
  * @author Heiko Scherrer
- * @version 0.2
- * @see User
- * @since 0.1
  */
 interface UserRepository extends JpaRepository<User, Long> {
 
@@ -39,13 +39,9 @@ interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
 
-    /**
-     * Find an {@link User} by his username and password.
-     *
-     * @param username The username
-     * @param persistedPassword The password
-     * @return The {@link User}
-     */
     Optional<User> findByUsernameAndPersistedPassword(String username, String persistedPassword);
 
+    @Modifying
+    @Query("delete from User u where u.pKey = :pKey")
+    void deleteByPkey(@Param("pKey") String pKey);
 }

@@ -72,7 +72,7 @@ class UserControllerDocumentation {
     @Test
     void shall_create_user() throws Exception {
         UserVO vo = UserVO.newBuilder()
-                .username("admin")
+                .username("admin2")
                 .email("admin@example.com")
                 .build();
         MvcResult result = mockMvc.perform(
