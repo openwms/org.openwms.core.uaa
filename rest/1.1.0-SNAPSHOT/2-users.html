@@ -456,12 +456,12 @@ created, modified and retrieved. An <code>User</code> is also allowed to authent
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /users HTTP/1.1
 Content-Type: application/json
-Content-Length: 76
+Content-Length: 77
 Host: localhost:8080
 
 {
   "links" : [ ],
-  "username" : "admin",
+  "username" : "admin2",
   "email" : "admin@example.com"
 }</code></pre>
 </div>
@@ -501,7 +501,7 @@ Host: localhost:8080
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Location: http://localhost:8080/users/d056e0ac-e691-4091-b5e7-27a1ddd1e8fc/</code></pre>
+Location: http://localhost:8080/users/30bcfcc5-daf2-4d02-a745-256034465ee3/</code></pre>
 </div>
 </div>
 </div>
@@ -513,7 +513,7 @@ resource:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users/d056e0ac-e691-4091-b5e7-27a1ddd1e8fc/ HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users/30bcfcc5-daf2-4d02-a745-256034465ee3/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -527,11 +527,11 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/hal+json
-Content-Length: 143
+Content-Length: 144
 
 {
-  "pKey" : "d056e0ac-e691-4091-b5e7-27a1ddd1e8fc",
-  "username" : "admin",
+  "pKey" : "30bcfcc5-daf2-4d02-a745-256034465ee3",
+  "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
   "enabled" : true
@@ -548,7 +548,7 @@ to access the endpoint.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDEwMTYyOTIsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6Ijc4YTNlYmM2LTFlZTQtNGUxMy1hOTc5LWFmZTk0NDMzOTAzNyIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.OJwFkXOslBgx6Fe__7rjk7JKHUEewq-rgbg-cFC53BM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDExODk5NDEsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjM2MDI2MjU2LTJmOGQtNDU2Zi1iZTc1LTQ0MGY4NTFiNTRlNiIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.GrnnUN1BmZELQNC0KqJCojjAUUGDIvu43lDUhVaTjqg
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -641,7 +641,7 @@ X-Frame-Options: DENY
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-09-24 20:43:41 UTC
+Last updated 2020-09-26 20:57:57 UTC
 </div>
 </div>
 </body>

@@ -56,7 +56,7 @@ import java.util.Optional;
  * autowires collaborators, therefore XML configuration becomes obsolete. This class is marked with Amebas {@link TxService} annotation to
  * benefit from Springs exception translation interceptor. Traditional CRUD operations are delegated to an {@link UserRepository}.
  * &lt;p&gt;
- * This implementation exists since Spring 2.0, be careful to use with the latest Spring versions
+ * This implementation exists since Spring 2.0.
  *
  * @author Heiko Scherrer
  * @since 0.1
@@ -71,18 +71,20 @@ class UserServiceImpl implements UserService {
     private final ConfigurationService confSrv;
     private final PasswordEncoder enc;
     private final Translator translator;
-    @Value(&quot;${owms.security.system.username}&quot;)
-    private String systemUsername;
-    @Value(&quot;${owms.security.system.password}&quot;)
-    private String systemPassword;
+    private final String systemUsername;
+    private final String systemPassword;
 
-<span class="fc" id="L79">    UserServiceImpl(UserRepository repository, SecurityObjectRepository securityObjectDao, ConfigurationService confSrv, PasswordEncoder enc, Translator translator) {</span>
+    UserServiceImpl(UserRepository repository, SecurityObjectRepository securityObjectDao, ConfigurationService confSrv,
+            PasswordEncoder enc, Translator translator, @Value(&quot;${owms.security.system.username}&quot;) String systemUsername,
+<span class="fc" id="L79">            @Value(&quot;${owms.security.system.password}&quot;) String systemPassword) {</span>
 <span class="fc" id="L80">        this.repository = repository;</span>
 <span class="fc" id="L81">        this.securityObjectDao = securityObjectDao;</span>
 <span class="fc" id="L82">        this.confSrv = confSrv;</span>
 <span class="fc" id="L83">        this.enc = enc;</span>
 <span class="fc" id="L84">        this.translator = translator;</span>
-<span class="fc" id="L85">    }</span>
+<span class="fc" id="L85">        this.systemUsername = systemUsername;</span>
+<span class="fc" id="L86">        this.systemPassword = systemPassword;</span>
+<span class="fc" id="L87">    }</span>
 
     /**
      * {@inheritDoc}
@@ -91,16 +93,16 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
+    @Measured
     public void uploadImageFile(String pKey, byte[] image) {
-<span class="fc" id="L95">        User user = repository</span>
-<span class="fc" id="L96">                .findBypKey(pKey)</span>
-<span class="fc" id="L97">                .orElseThrow(() -&gt; new NotFoundException(</span>
-<span class="fc" id="L98">                        translator.translate(ExceptionCodes.ENTITY_NOT_EXIST, pKey),</span>
+<span class="fc" id="L98">        User user = repository.findBypKey(pKey).orElseThrow(</span>
+<span class="fc" id="L99">                () -&gt; new NotFoundException(</span>
+<span class="fc" id="L100">                        translator.translate(ExceptionCodes.ENTITY_NOT_EXIST, pKey),</span>
                         ExceptionCodes.ENTITY_NOT_EXIST)
                 );
-<span class="fc" id="L101">        user.getUserDetails().setImage(image);</span>
-<span class="fc" id="L102">        repository.save(user);</span>
-<span class="fc" id="L103">    }</span>
+<span class="fc" id="L103">        user.getUserDetails().setImage(image);</span>
+<span class="fc" id="L104">        repository.save(user);</span>
+<span class="fc" id="L105">    }</span>
 
     /**
      * {@inheritDoc}
@@ -111,9 +113,10 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
+    @Measured
     public User save(User entity) {
-<span class="fc" id="L115">        Assert.notNull(entity, ExceptionCodes.USER_SAVE_NOT_BE_NULL);</span>
-<span class="fc" id="L116">        return repository.save(entity);</span>
+<span class="fc" id="L118">        Assert.notNull(entity, ExceptionCodes.USER_SAVE_NOT_BE_NULL);</span>
+<span class="fc" id="L119">        return repository.save(entity);</span>
     }
 
     /**
@@ -123,8 +126,9 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional(readOnly = true)
+    @Measured
     public User getTemplate(String username) {
-<span class="fc" id="L127">        return new User(username);</span>
+<span class="fc" id="L131">        return new User(username);</span>
     }
 
     /**
@@ -134,13 +138,13 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional(readOnly = true)
+    @Measured
     public SystemUser createSystemUser() {
-<span class="fc" id="L138">        SystemUser sys = new SystemUser(systemUsername, systemPassword);</span>
-<span class="fc" id="L139">        Role role = new Role.Builder(SystemUser.SYSTEM_ROLE_NAME).withDescription(&quot;SuperUsers Role&quot;).asImmutable()</span>
-<span class="fc" id="L140">                .build();</span>
-<span class="fc" id="L141">        role.setGrants(new HashSet&lt;&gt;(securityObjectDao.findAll()));</span>
-<span class="fc" id="L142">        sys.addRole(role);</span>
-<span class="fc" id="L143">        return sys;</span>
+<span class="fc" id="L143">        SystemUser sys = new SystemUser(systemUsername, systemPassword);</span>
+<span class="fc" id="L144">        Role role = new Role.Builder(SystemUser.SYSTEM_ROLE_NAME).withDescription(&quot;SuperUsers Role&quot;).asImmutable().build();</span>
+<span class="fc" id="L145">        role.setGrants(new HashSet&lt;&gt;(securityObjectDao.findAll()));</span>
+<span class="fc" id="L146">        sys.addRole(role);</span>
+<span class="fc" id="L147">        return sys;</span>
     }
 
     /**
@@ -149,11 +153,11 @@ class UserServiceImpl implements UserService {
     @Override
     @Measured
     public User create(@NotNull @Valid User user) {
-<span class="fc" id="L152">        Optional&lt;User&gt; eo = repository.findByUsername(user.getUsername());</span>
-<span class="pc bpc" id="L153" title="1 of 2 branches missed.">        if (eo.isPresent()) {</span>
-<span class="nc" id="L154">            throw new ResourceExistsException(&quot;user with username already exists&quot;);</span>
+<span class="fc" id="L156">        Optional&lt;User&gt; optUser = repository.findByUsername(user.getUsername());</span>
+<span class="pc bpc" id="L157" title="1 of 2 branches missed.">        if (optUser.isPresent()) {</span>
+<span class="nc" id="L158">            throw new ResourceExistsException(&quot;User with username already exists&quot;);</span>
         }
-<span class="fc" id="L156">        return repository.save(user);</span>
+<span class="fc" id="L160">        return repository.save(user);</span>
     }
 
     /**
@@ -162,7 +166,7 @@ class UserServiceImpl implements UserService {
     @Override
     @Measured
     public Optional&lt;User&gt; findByUsername(@NotEmpty String username) {
-<span class="fc" id="L165">        return repository.findByUsername(username);</span>
+<span class="fc" id="L169">        return repository.findByUsername(username);</span>
     }
 
     /**
@@ -171,7 +175,7 @@ class UserServiceImpl implements UserService {
     @Override
     @Measured
     public @NotNull User findByPKey(@NotEmpty String pKey) {
-<span class="pc" id="L174">        return repository.findBypKey(pKey).orElseThrow(() -&gt; new EntityNotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, pKey)));</span>
+<span class="pc" id="L178">        return repository.findBypKey(pKey).orElseThrow(() -&gt; new EntityNotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, pKey)));</span>
     }
 
     /**
@@ -180,68 +184,76 @@ class UserServiceImpl implements UserService {
     @Override
     @Measured
     public void remove(String username) {
-<span class="fc" id="L183">        repository.delete(repository.findByUsername(username).orElseThrow(() -&gt; new EntityNotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, username))));</span>
-<span class="fc" id="L184">    }</span>
+<span class="fc" id="L187">        repository.delete(repository.findByUsername(username).orElseThrow(</span>
+                () -&gt; new EntityNotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, username)))
+        );
+<span class="fc" id="L190">    }</span>
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public void delete(String pKey) {
+<span class="nc" id="L197">        repository.deleteByPkey(pKey);</span>
+<span class="nc" id="L198">    }</span>
 
     /**
      * {@inheritDoc}
-     *
-     * @throws ServiceLayerException if &lt;ul&gt; &lt;li&gt;&lt;code&gt;userPassword&lt;/code&gt; is &lt;code&gt;null&lt;/code&gt;&lt;/li&gt; &lt;li&gt;the new password is invalid and
-     * does not match the password rules&lt;/li&gt; &lt;/ul&gt;
-     * @throws NotFoundException if no {@link User} exists
      */
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
+    @Measured
     public void changeUserPassword(@NotNull UserPassword userPassword) {
-<span class="fc" id="L196">        User entity = repository.findByUsername(userPassword.getUser().getUsername()).orElseThrow(() -&gt; new NotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, userPassword.getUser()</span>
-<span class="fc" id="L197">                .getUsername()), ExceptionCodes.USER_NOT_EXIST));</span>
+<span class="fc" id="L207">        User entity = repository.findByUsername(userPassword.getUser().getUsername()).orElseThrow(</span>
+<span class="fc" id="L208">                () -&gt; new NotFoundException(</span>
+<span class="fc" id="L209">                        translator.translate(ExceptionCodes.USER_NOT_EXIST, userPassword.getUser().getUsername()),</span>
+                        ExceptionCodes.USER_NOT_EXIST
+                )
+        );
         try {
-<span class="fc" id="L199">            entity.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);</span>
-<span class="fc" id="L200">            repository.save(entity);</span>
-<span class="fc" id="L201">        } catch (InvalidPasswordException ipe) {</span>
-<span class="fc" id="L202">            LOGGER.error(ipe.getMessage());</span>
-<span class="fc" id="L203">            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PW_INVALID, userPassword.getUser()</span>
-<span class="fc" id="L204">                    .getUsername()), ExceptionCodes.USER_PW_INVALID);</span>
-<span class="fc" id="L205">        }</span>
-<span class="fc" id="L206">    }</span>
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @FireAfterTransaction(events = {UserChangedEvent.class})
-    public User saveUserProfile(@NotNull User user, @NotNull UserPassword userPassword, UserPreference... prefs) {
-        try {
-<span class="fc" id="L215">            user.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);</span>
+<span class="fc" id="L214">            entity.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);</span>
+<span class="fc" id="L215">            repository.save(entity);</span>
 <span class="fc" id="L216">        } catch (InvalidPasswordException ipe) {</span>
 <span class="fc" id="L217">            LOGGER.error(ipe.getMessage());</span>
-<span class="fc" id="L218">            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PW_INVALID,</span>
-<span class="fc" id="L219">                    userPassword.getPassword()), ExceptionCodes.USER_PW_INVALID);</span>
+<span class="fc" id="L218">            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PW_INVALID, userPassword.getUser().getUsername()),</span>
+                    ExceptionCodes.USER_PW_INVALID);
 <span class="fc" id="L220">        }</span>
-<span class="fc" id="L221">        Arrays.stream(prefs).forEach(confSrv::save);</span>
-<span class="fc" id="L222">        return save(user);</span>
+<span class="fc" id="L221">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @FireAfterTransaction(events = {UserChangedEvent.class})
+    @Measured
+    public User saveUserProfile(@NotNull User user, @NotNull UserPassword userPassword, UserPreference... prefs) {
+        try {
+<span class="fc" id="L231">            user.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);</span>
+<span class="fc" id="L232">        } catch (InvalidPasswordException ipe) {</span>
+<span class="fc" id="L233">            LOGGER.error(ipe.getMessage());</span>
+<span class="fc" id="L234">            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PW_INVALID, userPassword.getPassword()),</span>
+                    ExceptionCodes.USER_PW_INVALID);
+<span class="fc" id="L236">        }</span>
+<span class="fc" id="L237">        Arrays.stream(prefs).forEach(confSrv::save);</span>
+<span class="fc" id="L238">        return save(user);</span>
     }
 
     /**
-     * Find and return a collection of all existing entities of type {@code T}.
-     *
-     * @return All entities or an empty collection, never {@literal null}
+     * {@inheritDoc}
      */
     @Override
+    @Measured
     public Collection&lt;User&gt; findAll() {
-<span class="fc" id="L232">        return repository.findAll();</span>
+<span class="fc" id="L247">        return repository.findAll();</span>
     }
 
     /**
-     * Find an entity instance by the given technical key {@code id},
-     *
-     * @param pk The technical key
-     * @return The instance
-     * @throws NotFoundException may be thrown if no entity found
+     * {@inheritDoc}
      */
     @Override
+    @Measured
     public User findById(Long pk) {
-<span class="fc" id="L244">        return repository.findById(pk).orElseThrow(() -&gt; new NotFoundException(String.format(&quot;No User with pk %s found&quot;, pk)));</span>
+<span class="fc" id="L256">        return repository.findById(pk).orElseThrow(() -&gt; new NotFoundException(String.format(&quot;No User with pk %s found&quot;, pk)));</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
