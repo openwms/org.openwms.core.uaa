@@ -15,6 +15,8 @@
  */
 package org.openwms.core.uaa.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.ameba.http.AbstractBase;
 
@@ -26,6 +28,8 @@ import java.io.Serializable;
  *
  * @author Heiko Scherrer
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ClientVO extends AbstractBase implements Serializable {
 
     @JsonProperty("pKey")

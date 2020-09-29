@@ -171,6 +171,46 @@ public class UserVO extends AbstractBase implements Serializable {
         return Objects.hash(super.hashCode(), pKey, username, extern, lastPasswordChange, locked, enabled, expirationDate, fullname, userDetails, email);
     }
 
+    public void setpKey(java.lang.String pKey) {
+        this.pKey = pKey;
+    }
+
+    public void setUsername(java.lang.String username) {
+        this.username = username;
+    }
+
+    public void setExtern(java.lang.Boolean extern) {
+        this.extern = extern;
+    }
+
+    public void setLastPasswordChange(ZonedDateTime lastPasswordChange) {
+        this.lastPasswordChange = lastPasswordChange;
+    }
+
+    public void setLocked(java.lang.Boolean locked) {
+        this.locked = locked;
+    }
+
+    public void setEnabled(java.lang.Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setExpirationDate(ZonedDateTime expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public void setFullname(java.lang.String fullname) {
+        this.fullname = fullname;
+    }
+
+    public void setUserDetails(UserDetailsVO userDetails) {
+        this.userDetails = userDetails;
+    }
+
+    public void setEmail(java.lang.String email) {
+        this.email = email;
+    }
+
     public static final class Builder {
         private String pKey;
         private @NotEmpty(groups = ValidationGroups.Create.class) String username;
