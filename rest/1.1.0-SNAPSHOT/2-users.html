@@ -501,7 +501,17 @@ Host: localhost:8080
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Location: http://localhost:8080/users/30bcfcc5-daf2-4d02-a745-256034465ee3/</code></pre>
+Location: http://localhost:8080/users/b37b0b61-7a57-4c2d-86e0-ca74d838e371/
+Content-Type: application/hal+json
+Content-Length: 144
+
+{
+  "pKey" : "b37b0b61-7a57-4c2d-86e0-ca74d838e371",
+  "username" : "admin2",
+  "externalUser" : false,
+  "locked" : false,
+  "enabled" : true
+}</code></pre>
 </div>
 </div>
 </div>
@@ -513,7 +523,7 @@ resource:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users/30bcfcc5-daf2-4d02-a745-256034465ee3/ HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users/b37b0b61-7a57-4c2d-86e0-ca74d838e371/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -530,7 +540,7 @@ Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "30bcfcc5-daf2-4d02-a745-256034465ee3",
+  "pKey" : "b37b0b61-7a57-4c2d-86e0-ca74d838e371",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -548,7 +558,7 @@ to access the endpoint.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDExODk5NDEsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjM2MDI2MjU2LTJmOGQtNDU2Zi1iZTc1LTQ0MGY4NTFiNTRlNiIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.GrnnUN1BmZELQNC0KqJCojjAUUGDIvu43lDUhVaTjqg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDE0NTI2NDQsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjQ0ZTc2MGZiLWNhMmUtNDkwNi1hZWFlLTI1YmFjODBiNTc5NCIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.hwHAayCt7qSKqZsgqp5M4FfRRkgy7dTeba00OWq77ac
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -641,7 +651,7 @@ X-Frame-Options: DENY
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-09-26 20:57:57 UTC
+Last updated 2020-09-29 21:56:15 UTC
 </div>
 </div>
 </body>
