@@ -21,6 +21,7 @@ import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.uaa.api.UAAConstants;
 import org.openwms.core.uaa.api.UserVO;
 import org.openwms.core.uaa.admin.impl.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -67,10 +68,11 @@ public class UsersController extends AbstractWebController {
     }
 
     @PostMapping(UAAConstants.API_USERS)
-    public ResponseEntity<Void> create(@RequestBody @Valid @NotNull UserVO user, HttpServletRequest req) {
-        return ResponseEntity.created(
-                getLocationURIForCreatedResource(req, service.create(mapper.map(user, User.class)).getPersistentKey())
-        ).build();
+    public ResponseEntity<UserVO> create(@RequestBody @Valid @NotNull UserVO user, HttpServletRequest req) {
+        User created = service.create(mapper.map(user, User.class));
+        return ResponseEntity
+                .created(getLocationURIForCreatedResource(req, created.getPersistentKey()))
+                .body(mapper.map(created, UserVO.class));
     }
 
     @PutMapping(UAAConstants.API_USERS)
