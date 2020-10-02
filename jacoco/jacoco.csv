@@ -8,7 +8,7 @@ OpenWMS.org CORE: UAA,org.openwms.core.uaa.api,UserVO.Builder,40,15,0,0,16,5,8,3
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.api,UserDetailsVO,179,0,22,0,33,0,24,0,13,0
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.api,ClientVO,87,0,0,0,37,0,25,0,25,0
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.api,SecurityObjectVO,67,0,10,0,15,0,13,0,8,0
-OpenWMS.org CORE: UAA,org.openwms.core.uaa.api,UserVO,147,80,28,0,15,25,16,13,2,13
+OpenWMS.org CORE: UAA,org.openwms.core.uaa.api,UserVO,179,88,28,0,31,29,24,15,10,15
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,SystemUserAuthority,14,17,6,0,1,5,4,3,1,3
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,User,110,283,13,23,35,70,25,30,15,22
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,SecurityServiceImpl,16,54,3,3,3,12,3,4,0,4

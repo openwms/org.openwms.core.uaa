@@ -171,6 +171,46 @@ public class UserVO extends AbstractBase implements Serializable {
 <span class="nc" id="L171">        return Objects.hash(super.hashCode(), pKey, username, extern, lastPasswordChange, locked, enabled, expirationDate, fullname, userDetails, email);</span>
     }
 
+    public void setpKey(java.lang.String pKey) {
+<span class="nc" id="L175">        this.pKey = pKey;</span>
+<span class="nc" id="L176">    }</span>
+
+    public void setUsername(java.lang.String username) {
+<span class="fc" id="L179">        this.username = username;</span>
+<span class="fc" id="L180">    }</span>
+
+    public void setExtern(java.lang.Boolean extern) {
+<span class="nc" id="L183">        this.extern = extern;</span>
+<span class="nc" id="L184">    }</span>
+
+    public void setLastPasswordChange(ZonedDateTime lastPasswordChange) {
+<span class="nc" id="L187">        this.lastPasswordChange = lastPasswordChange;</span>
+<span class="nc" id="L188">    }</span>
+
+    public void setLocked(java.lang.Boolean locked) {
+<span class="nc" id="L191">        this.locked = locked;</span>
+<span class="nc" id="L192">    }</span>
+
+    public void setEnabled(java.lang.Boolean enabled) {
+<span class="nc" id="L195">        this.enabled = enabled;</span>
+<span class="nc" id="L196">    }</span>
+
+    public void setExpirationDate(ZonedDateTime expirationDate) {
+<span class="nc" id="L199">        this.expirationDate = expirationDate;</span>
+<span class="nc" id="L200">    }</span>
+
+    public void setFullname(java.lang.String fullname) {
+<span class="nc" id="L203">        this.fullname = fullname;</span>
+<span class="nc" id="L204">    }</span>
+
+    public void setUserDetails(UserDetailsVO userDetails) {
+<span class="nc" id="L207">        this.userDetails = userDetails;</span>
+<span class="nc" id="L208">    }</span>
+
+    public void setEmail(java.lang.String email) {
+<span class="fc" id="L211">        this.email = email;</span>
+<span class="fc" id="L212">    }</span>
+
     public static final class Builder {
         private String pKey;
         private @NotEmpty(groups = ValidationGroups.Create.class) String username;
@@ -187,57 +227,57 @@ public class UserVO extends AbstractBase implements Serializable {
         }
 
         public Builder pKey(String val) {
-<span class="nc" id="L190">            pKey = val;</span>
-<span class="nc" id="L191">            return this;</span>
-        }
-
-        public Builder username(@NotEmpty(groups = ValidationGroups.Create.class) String val) {
-<span class="fc" id="L195">            username = val;</span>
-<span class="fc" id="L196">            return this;</span>
-        }
-
-        public Builder extern(Boolean val) {
-<span class="nc" id="L200">            extern = val;</span>
-<span class="nc" id="L201">            return this;</span>
-        }
-
-        public Builder lastPasswordChange(ZonedDateTime val) {
-<span class="nc" id="L205">            lastPasswordChange = val;</span>
-<span class="nc" id="L206">            return this;</span>
-        }
-
-        public Builder locked(Boolean val) {
-<span class="nc" id="L210">            locked = val;</span>
-<span class="nc" id="L211">            return this;</span>
-        }
-
-        public Builder enabled(Boolean val) {
-<span class="nc" id="L215">            enabled = val;</span>
-<span class="nc" id="L216">            return this;</span>
-        }
-
-        public Builder expirationDate(ZonedDateTime val) {
-<span class="nc" id="L220">            expirationDate = val;</span>
-<span class="nc" id="L221">            return this;</span>
-        }
-
-        public Builder fullname(String val) {
-<span class="nc" id="L225">            fullname = val;</span>
-<span class="nc" id="L226">            return this;</span>
-        }
-
-        public Builder userDetails(@Valid UserDetailsVO val) {
-<span class="nc" id="L230">            userDetails = val;</span>
+<span class="nc" id="L230">            pKey = val;</span>
 <span class="nc" id="L231">            return this;</span>
         }
 
-        public Builder email(@NotEmpty(groups = ValidationGroups.Create.class) String val) {
-<span class="fc" id="L235">            email = val;</span>
+        public Builder username(@NotEmpty(groups = ValidationGroups.Create.class) String val) {
+<span class="fc" id="L235">            username = val;</span>
 <span class="fc" id="L236">            return this;</span>
         }
 
+        public Builder extern(Boolean val) {
+<span class="nc" id="L240">            extern = val;</span>
+<span class="nc" id="L241">            return this;</span>
+        }
+
+        public Builder lastPasswordChange(ZonedDateTime val) {
+<span class="nc" id="L245">            lastPasswordChange = val;</span>
+<span class="nc" id="L246">            return this;</span>
+        }
+
+        public Builder locked(Boolean val) {
+<span class="nc" id="L250">            locked = val;</span>
+<span class="nc" id="L251">            return this;</span>
+        }
+
+        public Builder enabled(Boolean val) {
+<span class="nc" id="L255">            enabled = val;</span>
+<span class="nc" id="L256">            return this;</span>
+        }
+
+        public Builder expirationDate(ZonedDateTime val) {
+<span class="nc" id="L260">            expirationDate = val;</span>
+<span class="nc" id="L261">            return this;</span>
+        }
+
+        public Builder fullname(String val) {
+<span class="nc" id="L265">            fullname = val;</span>
+<span class="nc" id="L266">            return this;</span>
+        }
+
+        public Builder userDetails(@Valid UserDetailsVO val) {
+<span class="nc" id="L270">            userDetails = val;</span>
+<span class="nc" id="L271">            return this;</span>
+        }
+
+        public Builder email(@NotEmpty(groups = ValidationGroups.Create.class) String val) {
+<span class="fc" id="L275">            email = val;</span>
+<span class="fc" id="L276">            return this;</span>
+        }
+
         public UserVO build() {
-<span class="fc" id="L240">            return new UserVO(this);</span>
+<span class="fc" id="L280">            return new UserVO(this);</span>
         }
     }
 }
