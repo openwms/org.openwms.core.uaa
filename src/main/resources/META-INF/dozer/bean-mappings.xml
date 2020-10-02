@@ -98,4 +98,24 @@
         </field>
     </mapping>
 
+    <mapping>
+        <class-a>org.openwms.core.uaa.admin.impl.Role</class-a>
+        <class-b>org.openwms.core.uaa.api.RoleVO</class-b>
+        <field>
+            <a is-accessible="true">pKey</a>
+            <b is-accessible="true">pKey</b>
+        </field>
+        <field>
+            <a is-accessible="true">name</a>
+            <b is-accessible="true">name</b>
+        </field>
+        <field>
+            <a is-accessible="true">description</a>
+            <b is-accessible="true">description</b>
+        </field>
+        <field>
+            <a is-accessible="true">immutable</a>
+            <b is-accessible="true">immutable</b>
+        </field>
+    </mapping>
 </mappings>
