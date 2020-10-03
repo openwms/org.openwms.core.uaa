@@ -117,5 +117,13 @@
             <a is-accessible="true">immutable</a>
             <b is-accessible="true">immutable</b>
         </field>
+        <field>
+            <a is-accessible="true">grants</a>
+            <b is-accessible="true">grants</b>
+        </field>
+        <field>
+            <a is-accessible="true">users</a>
+            <b is-accessible="true">users</b>
+        </field>
     </mapping>
 </mappings>

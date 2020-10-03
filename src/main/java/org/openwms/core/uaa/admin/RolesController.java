@@ -69,10 +69,10 @@ public class RolesController extends AbstractWebController {
      * Documented here: https://openwms.atlassian.net/wiki/x/BIAWAQ
      */
     @PostMapping(UAAConstants.API_ROLES)
-    public ResponseEntity<Void> create(@RequestBody @Valid @NotNull RoleVO role, HttpServletRequest req) {
-        return ResponseEntity.created(
-                getLocationURIForCreatedResource(req, service.save(mapper.map(role, Role.class)).getPersistentKey())
-        ).build();
+    public ResponseEntity<RoleVO> create(@RequestBody @Valid @NotNull RoleVO role, HttpServletRequest req) {
+        return ResponseEntity.ok(
+                mapper.map(service.save(mapper.map(role, Role.class)), RoleVO.class)
+        );
     }
 
     @PutMapping(UAAConstants.API_ROLES)
