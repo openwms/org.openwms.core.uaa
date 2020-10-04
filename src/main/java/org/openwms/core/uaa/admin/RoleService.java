@@ -22,7 +22,9 @@
 package org.openwms.core.uaa.admin;
 
 import org.openwms.core.uaa.admin.impl.Role;
+import org.openwms.core.uaa.auth.Client;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
@@ -52,4 +54,11 @@ public interface RoleService {
      * @return The updated Role instance
      */
     Role save(@NotNull Role role);
+
+    /**
+     * Delete a {@link Role}.
+     *
+     * @param pKey The identifiable persistent key
+     */
+    void delete(@NotEmpty String pKey);
 }

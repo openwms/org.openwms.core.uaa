@@ -30,7 +30,9 @@ import org.openwms.core.uaa.admin.impl.Role;
 import org.openwms.core.uaa.api.UAAConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -81,5 +83,11 @@ public class RolesController extends AbstractWebController {
             throw new HttpBusinessException("Role to save is a transient one", HttpStatus.NOT_ACCEPTABLE);
         }
         return ResponseEntity.ok(mapper.map(service.save(mapper.map(role, Role.class)), RoleVO.class));
+    }
+
+    @DeleteMapping(UAAConstants.API_ROLES + "/{pKey}")
+    public ResponseEntity<Void> delete(@PathVariable("pKey") String pKey) {
+        service.delete(pKey);
+        return ResponseEntity.noContent().build();
     }
 }

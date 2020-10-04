@@ -22,6 +22,9 @@
 package org.openwms.core.uaa.admin.impl;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  * A RoleRepository offers functionality to find and modify {@link Role} entity classes.
@@ -29,4 +32,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author <a href="mailto:russelltina@users.sourceforge.net">Tina Russell</a>
  */
 interface RoleRepository extends JpaRepository<Role, Long> {
+
+    @Modifying
+    @Query("delete from Role r where r.pKey = :pKey")
+    void deleteByPKey(@Param("pKey") String pKey);
 }

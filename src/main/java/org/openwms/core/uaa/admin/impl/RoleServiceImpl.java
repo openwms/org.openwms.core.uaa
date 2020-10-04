@@ -26,6 +26,7 @@ import org.ameba.annotation.TxService;
 import org.openwms.core.uaa.admin.RoleService;
 import org.springframework.validation.annotation.Validated;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 
 /**
@@ -59,5 +60,14 @@ class RoleServiceImpl implements RoleService {
     @Measured
     public Role save(Role role) {
         return repository.save(role);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public void delete(@NotEmpty String pKey) {
+        repository.deleteByPKey(pKey);
     }
 }
