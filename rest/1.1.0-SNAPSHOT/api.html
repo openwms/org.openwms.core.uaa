@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="(1.1.0-SNAPSHOT-68)">
+<meta name="author" content="(1.1.0-SNAPSHOT-69)">
 <title>OpenWMS.org WMS: RESTful API (Receiving Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org WMS: RESTful API (Receiving Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.1.0-SNAPSHOT-68)</span><br>
+<span id="author" class="author">(1.1.0-SNAPSHOT-69)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -766,12 +766,12 @@ Host: localhost:8080
 Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
-Location: http://localhost:8080/users/40048679-e481-448e-b60f-2c2cb4f15d6a/
+Location: http://localhost:8080/users/f162408e-c773-45d1-91c6-64d6a2912552/
 Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "40048679-e481-448e-b60f-2c2cb4f15d6a",
+  "pKey" : "f162408e-c773-45d1-91c6-64d6a2912552",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -788,7 +788,7 @@ resource:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/40048679-e481-448e-b60f-2c2cb4f15d6a/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/f162408e-c773-45d1-91c6-64d6a2912552/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -805,7 +805,7 @@ Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "40048679-e481-448e-b60f-2c2cb4f15d6a",
+  "pKey" : "f162408e-c773-45d1-91c6-64d6a2912552",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -823,7 +823,7 @@ to access the endpoint.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDE3MTE1NjksInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6ImYzYjFkMTZhLTA3NDYtNGU3Mi1hMjA2LWU1MmFkZTIwMDcyZCIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.rHjBooJb_OzDz6uFiXpzV2BNBbhSnduEJeSqcOOxUM8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDE4Nzk5MzYsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6ImQ0NjQ0MmJmLWFjNjktNGIyZC1iZTM5LTljYzhkZTVhMjM2ZSIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.fEc3FQzxhOwaqYJOCzgm32S3AXWCzrMn-pcJnHUtfHs
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -916,7 +916,7 @@ X-Frame-Options: DENY
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-10-02 21:51:39 UTC
+Last updated 2020-10-04 20:37:42 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
