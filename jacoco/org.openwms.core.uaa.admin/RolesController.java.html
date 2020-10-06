@@ -30,6 +30,7 @@ import org.openwms.core.uaa.admin.impl.Role;
 import org.openwms.core.uaa.api.UAAConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,17 +55,18 @@ public class RolesController extends AbstractWebController {
     private final RoleService service;
     private final BeanMapper mapper;
 
-<span class="fc" id="L57">    public RolesController(RoleService service, BeanMapper mapper) {</span>
-<span class="fc" id="L58">        this.service = service;</span>
-<span class="fc" id="L59">        this.mapper = mapper;</span>
-<span class="fc" id="L60">    }</span>
+<span class="fc" id="L58">    public RolesController(RoleService service, BeanMapper mapper) {</span>
+<span class="fc" id="L59">        this.service = service;</span>
+<span class="fc" id="L60">        this.mapper = mapper;</span>
+<span class="fc" id="L61">    }</span>
 
     /**
      * Documented here: https://openwms.atlassian.net/wiki/x/EYAWAQ
      **/
+    @Transactional(readOnly = true)
     @GetMapping(UAAConstants.API_ROLES)
     public ResponseEntity&lt;List&lt;RoleVO&gt;&gt; findAllRoles() {
-<span class="nc" id="L67">        return ResponseEntity.ok(mapper.map(new ArrayList&lt;&gt;(service.findAll()), RoleVO.class));</span>
+<span class="nc" id="L69">        return ResponseEntity.ok(mapper.map(new ArrayList&lt;&gt;(service.findAll()), RoleVO.class));</span>
     }
 
     /**
@@ -72,23 +74,23 @@ public class RolesController extends AbstractWebController {
      */
     @PostMapping(UAAConstants.API_ROLES)
     public ResponseEntity&lt;RoleVO&gt; create(@RequestBody @Valid @NotNull RoleVO role, HttpServletRequest req) {
-<span class="nc" id="L75">        return ResponseEntity.ok(</span>
-<span class="nc" id="L76">                mapper.map(service.save(mapper.map(role, Role.class)), RoleVO.class)</span>
+<span class="nc" id="L77">        return ResponseEntity.ok(</span>
+<span class="nc" id="L78">                mapper.map(service.save(mapper.map(role, Role.class)), RoleVO.class)</span>
         );
     }
 
     @PutMapping(UAAConstants.API_ROLES)
     public ResponseEntity&lt;RoleVO&gt; save(@RequestBody @Valid @NotNull RoleVO role) {
-<span class="nc bnc" id="L82" title="All 2 branches missed.">        if (role.getName() == null) {</span>
-<span class="nc" id="L83">            throw new HttpBusinessException(&quot;Role to save is a transient one&quot;, HttpStatus.NOT_ACCEPTABLE);</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (role.getName() == null) {</span>
+<span class="nc" id="L85">            throw new HttpBusinessException(&quot;Role to save is a transient one&quot;, HttpStatus.NOT_ACCEPTABLE);</span>
         }
-<span class="nc" id="L85">        return ResponseEntity.ok(mapper.map(service.save(mapper.map(role, Role.class)), RoleVO.class));</span>
+<span class="nc" id="L87">        return ResponseEntity.ok(mapper.map(service.save(mapper.map(role, Role.class)), RoleVO.class));</span>
     }
 
     @DeleteMapping(UAAConstants.API_ROLES + &quot;/{pKey}&quot;)
     public ResponseEntity&lt;Void&gt; delete(@PathVariable(&quot;pKey&quot;) String pKey) {
-<span class="nc" id="L90">        service.delete(pKey);</span>
-<span class="nc" id="L91">        return ResponseEntity.noContent().build();</span>
+<span class="nc" id="L92">        service.delete(pKey);</span>
+<span class="nc" id="L93">        return ResponseEntity.noContent().build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
