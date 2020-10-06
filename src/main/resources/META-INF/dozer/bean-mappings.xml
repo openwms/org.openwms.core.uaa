@@ -99,8 +99,8 @@
     </mapping>
 
     <mapping>
-        <class-a>org.openwms.core.uaa.admin.impl.Role</class-a>
-        <class-b>org.openwms.core.uaa.api.RoleVO</class-b>
+        <class-a>org.openwms.core.uaa.api.RoleVO</class-a>
+        <class-b>org.openwms.core.uaa.admin.impl.Role</class-b>
         <field>
             <a is-accessible="true">pKey</a>
             <b is-accessible="true">pKey</b>
@@ -121,7 +121,7 @@
             <a is-accessible="true">grants</a>
             <b is-accessible="true">grants</b>
         </field>
-        <field>
+        <field type="one-way"> <!-- avoid lazy fetching -->
             <a is-accessible="true">users</a>
             <b is-accessible="true">users</b>
         </field>

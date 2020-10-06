@@ -30,6 +30,7 @@ import org.openwms.core.uaa.admin.impl.Role;
 import org.openwms.core.uaa.api.UAAConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,6 +63,7 @@ public class RolesController extends AbstractWebController {
     /**
      * Documented here: https://openwms.atlassian.net/wiki/x/EYAWAQ
      **/
+    @Transactional(readOnly = true)
     @GetMapping(UAAConstants.API_ROLES)
     public ResponseEntity<List<RoleVO>> findAllRoles() {
         return ResponseEntity.ok(mapper.map(new ArrayList<>(service.findAll()), RoleVO.class));
