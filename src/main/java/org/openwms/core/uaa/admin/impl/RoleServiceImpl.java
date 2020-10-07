@@ -23,11 +23,13 @@ package org.openwms.core.uaa.admin.impl;
 
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
+import org.ameba.mapping.BeanMapper;
 import org.openwms.core.uaa.admin.RoleService;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
+import java.util.Optional;
 
 /**
  * A RoleServiceImpl is a Spring managed transactional service that deals with {@link Role}s.
@@ -38,10 +40,12 @@ import java.util.Collection;
 @TxService
 class RoleServiceImpl implements RoleService {
 
-    private RoleRepository repository;
+    private final RoleRepository repository;
+    private final BeanMapper mapper;
 
-    RoleServiceImpl(RoleRepository repository) {
+    RoleServiceImpl(RoleRepository repository, BeanMapper mapper) {
         this.repository = repository;
+        this.mapper = mapper;
     }
 
     /**
@@ -59,7 +63,9 @@ class RoleServiceImpl implements RoleService {
     @Override
     @Measured
     public Role save(Role role) {
-        return repository.save(role);
+        Optional<Role> roleOpt = repository.findByName(role.getName());
+        return roleOpt.map(value -> repository.save(mapper.mapFromTo(role, value))).
+                orElseGet(() -> repository.save(role));
     }
 
     /**
