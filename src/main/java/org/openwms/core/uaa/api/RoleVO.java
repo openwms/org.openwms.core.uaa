@@ -29,6 +29,7 @@ import org.ameba.http.AbstractBase;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -56,10 +57,10 @@ public class RoleVO extends AbstractBase implements Serializable {
     private String description;
     /** A collection of Users that are assigned to the Role. */
     @JsonProperty("users")
-    private Set<UserVO> users;
+    private Set<UserVO> users = new HashSet<>();
     /** A collection of Grants that are assigned to the Role. */
     @JsonProperty("grants")
-    private Set<SecurityObjectVO> grants ;
+    private Set<SecurityObjectVO> grants = new HashSet<>();
 
     @JsonCreator
     public RoleVO() {

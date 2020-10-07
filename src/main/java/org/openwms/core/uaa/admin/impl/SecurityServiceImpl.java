@@ -21,6 +21,7 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
+import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.i18n.Translator;
 import org.openwms.core.annotation.FireAfterTransaction;
@@ -58,6 +59,7 @@ class SecurityServiceImpl implements SecurityService {
      */
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
+    @Measured
     public List<Grant> mergeGrants(String moduleName, List<Grant> grants) {
         Assert.notNull(moduleName, translator.translate(ExceptionCodes.MODULENAME_NOT_NULL));
         if (LOGGER.isDebugEnabled()) {
@@ -74,5 +76,11 @@ class SecurityServiceImpl implements SecurityService {
             securityObjectRepository.deleteAll(persisted);
         }
         return result;
+    }
+
+    @Override
+    @Measured
+    public List<Grant> findAllGrants() {
+        return securityObjectRepository.findAllGrants();
     }
 }

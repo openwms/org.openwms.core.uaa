@@ -28,6 +28,8 @@ package org.openwms.core.uaa.api;
  */
 public final class UAAConstants {
 
+    /** API root to hit Grants (plural). */
+    public static final String API_GRANTS = "/grants";
     /** API root to hit Roles (plural). */
     public static final String API_ROLES = "/roles";
     /** API root to hit Users (plural). */

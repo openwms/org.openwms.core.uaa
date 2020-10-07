@@ -43,4 +43,6 @@ public interface SecurityService {
      * @return All existing {@link Grant}s
      */
     List<Grant> mergeGrants(@NotNull String moduleName, List<Grant> grants);
+
+    List<Grant> findAllGrants();
 }

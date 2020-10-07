@@ -26,6 +26,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 /**
  * A RoleRepository offers functionality to find and modify {@link Role} entity classes.
  *
@@ -36,4 +38,6 @@ interface RoleRepository extends JpaRepository<Role, Long> {
     @Modifying
     @Query("delete from Role r where r.pKey = :pKey")
     void deleteByPKey(@Param("pKey") String pKey);
+
+    Optional<Role> findByName(String name);
 }

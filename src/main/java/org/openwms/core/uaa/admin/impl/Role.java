@@ -229,6 +229,9 @@ public class Role extends SecurityObject implements Serializable {
      * @return A Set of all {@link SecurityObject}s belonging to this Role
      */
     public Set<SecurityObject> getGrants() {
+        if (grants == null) {
+            grants = new HashSet<>();
+        }
         return Collections.unmodifiableSet(grants);
     }
 
