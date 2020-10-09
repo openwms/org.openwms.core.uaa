@@ -21,6 +21,7 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
+import org.ameba.mapping.BeanMapper;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -52,7 +53,11 @@ import static org.junit.Assert.fail;
 @RunWith(SpringRunner.class)
 @DataJpaTest(
         showSql = false,
-        includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = RoleService.class)
+        includeFilters =
+                {
+                        @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = RoleService.class)
+                        ,@ComponentScan.Filter(pattern = "org.ameba.mapping.*")
+                }
 )
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 public class RoleServiceIT extends TestBase {
@@ -62,6 +67,8 @@ public class RoleServiceIT extends TestBase {
     @Autowired
     private TestEntityManager entityManager;
 
+    @Autowired
+    private BeanMapper beanMapper;
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
