@@ -22,6 +22,7 @@
 package org.openwms.core.uaa.admin.impl;
 
 import org.ameba.mapping.BeanMapper;
+import org.ameba.mapping.DozerMapperImpl;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -34,6 +35,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -56,7 +59,6 @@ import static org.junit.Assert.fail;
         includeFilters =
                 {
                         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = RoleService.class)
-                        ,@ComponentScan.Filter(pattern = "org.ameba.mapping.*")
                 }
 )
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
@@ -66,11 +68,16 @@ public class RoleServiceIT extends TestBase {
     private RoleService srv;
     @Autowired
     private TestEntityManager entityManager;
-
-    @Autowired
-    private BeanMapper beanMapper;
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+
+    @TestConfiguration
+    public static class TestConfig {
+        @Bean
+        public BeanMapper beanMapper() {
+            return new DozerMapperImpl("META-INF/dozer/bean-mappings.xml");
+        }
+    }
 
     /**
      * Setting up some test data.
