@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClientVO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.uaa.api</a> &gt; <span class="el_source">ClientVO.java</span></div><h1>ClientVO.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.core.uaa.api;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.ameba.http.AbstractBase;
+
+import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
+
+/**
+ * A ClientVO.
+ *
+ * @author Heiko Scherrer
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+<span class="nc" id="L33">public class ClientVO extends AbstractBase implements Serializable {</span>
+
+    @JsonProperty(&quot;pKey&quot;)
+    private String pKey;
+    @JsonProperty(&quot;resourceIds&quot;)
+    private String resourceIds;
+    @NotEmpty
+    @JsonProperty(&quot;clientId&quot;)
+    private String clientId;
+    @JsonProperty(&quot;clientSecret&quot;)
+    private String clientSecret;
+    @JsonProperty(&quot;scope&quot;)
+    private String scope;
+    @JsonProperty(&quot;authorizedGrantTypes&quot;)
+    private String authorizedGrantTypes;
+    @JsonProperty(&quot;webServerRedirectUri&quot;)
+    private String webServerRedirectUri;
+    @JsonProperty(&quot;authorities&quot;)
+    private String authorities;
+    @JsonProperty(&quot;accessTokenValidity&quot;)
+    private int accessTokenValidity;
+    @JsonProperty(&quot;refreshTokenValidity&quot;)
+    private int refreshTokenValidity;
+    @JsonProperty(&quot;additionalInformation&quot;)
+    private String additionalInformation;
+    @JsonProperty(&quot;autoapprove&quot;)
+    private String autoapprove;
+
+    public String getpKey() {
+<span class="nc" id="L62">        return pKey;</span>
+    }
+
+    public void setpKey(String pKey) {
+<span class="nc" id="L66">        this.pKey = pKey;</span>
+<span class="nc" id="L67">    }</span>
+
+    public String getResourceIds() {
+<span class="nc" id="L70">        return resourceIds;</span>
+    }
+
+    public void setResourceIds(String resourceIds) {
+<span class="nc" id="L74">        this.resourceIds = resourceIds;</span>
+<span class="nc" id="L75">    }</span>
+
+    public String getClientId() {
+<span class="nc" id="L78">        return clientId;</span>
+    }
+
+    public void setClientId(String clientId) {
+<span class="nc" id="L82">        this.clientId = clientId;</span>
+<span class="nc" id="L83">    }</span>
+
+    public String getClientSecret() {
+<span class="nc" id="L86">        return clientSecret;</span>
+    }
+
+    public void setClientSecret(String clientSecret) {
+<span class="nc" id="L90">        this.clientSecret = clientSecret;</span>
+<span class="nc" id="L91">    }</span>
+
+    public String getScope() {
+<span class="nc" id="L94">        return scope;</span>
+    }
+
+    public void setScope(String scope) {
+<span class="nc" id="L98">        this.scope = scope;</span>
+<span class="nc" id="L99">    }</span>
+
+    public String getAuthorizedGrantTypes() {
+<span class="nc" id="L102">        return authorizedGrantTypes;</span>
+    }
+
+    public void setAuthorizedGrantTypes(String authorizedGrantTypes) {
+<span class="nc" id="L106">        this.authorizedGrantTypes = authorizedGrantTypes;</span>
+<span class="nc" id="L107">    }</span>
+
+    public String getWebServerRedirectUri() {
+<span class="nc" id="L110">        return webServerRedirectUri;</span>
+    }
+
+    public void setWebServerRedirectUri(String webServerRedirectUri) {
+<span class="nc" id="L114">        this.webServerRedirectUri = webServerRedirectUri;</span>
+<span class="nc" id="L115">    }</span>
+
+    public String getAuthorities() {
+<span class="nc" id="L118">        return authorities;</span>
+    }
+
+    public void setAuthorities(String authorities) {
+<span class="nc" id="L122">        this.authorities = authorities;</span>
+<span class="nc" id="L123">    }</span>
+
+    public int getAccessTokenValidity() {
+<span class="nc" id="L126">        return accessTokenValidity;</span>
+    }
+
+    public void setAccessTokenValidity(int accessTokenValidity) {
+<span class="nc" id="L130">        this.accessTokenValidity = accessTokenValidity;</span>
+<span class="nc" id="L131">    }</span>
+
+    public int getRefreshTokenValidity() {
+<span class="nc" id="L134">        return refreshTokenValidity;</span>
+    }
+
+    public void setRefreshTokenValidity(int refreshTokenValidity) {
+<span class="nc" id="L138">        this.refreshTokenValidity = refreshTokenValidity;</span>
+<span class="nc" id="L139">    }</span>
+
+    public String getAdditionalInformation() {
+<span class="nc" id="L142">        return additionalInformation;</span>
+    }
+
+    public void setAdditionalInformation(String additionalInformation) {
+<span class="nc" id="L146">        this.additionalInformation = additionalInformation;</span>
+<span class="nc" id="L147">    }</span>
+
+    public String getAutoapprove() {
+<span class="nc" id="L150">        return autoapprove;</span>
+    }
+
+    public void setAutoapprove(String autoapprove) {
+<span class="nc" id="L154">        this.autoapprove = autoapprove;</span>
+<span class="nc" id="L155">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
