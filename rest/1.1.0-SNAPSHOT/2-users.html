@@ -493,20 +493,17 @@ Host: localhost:8080
 </tbody>
 </table>
 <div class="paragraph">
-<p>If the <code>User</code> has been created successfully, the server returns the URI to the created resource:</p>
+<p>If the <code>User</code> has been created successfully, the server returns the URI to the created resource in the <code>Location</code> header:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
-Location: http://localhost:8080/users/5e161bda-40ee-4a1c-ad34-333a2b83081d/
+Location: http://localhost:8080/users/426fb062-467f-4a74-8098-4e173ccb12b7/
 Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "5e161bda-40ee-4a1c-ad34-333a2b83081d",
+  "pKey" : "426fb062-467f-4a74-8098-4e173ccb12b7",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -518,12 +515,12 @@ Content-Length: 144
 <div class="sect2">
 <h3 id="_find_an_user_by_persistent_key">Find an User by persistent key</h3>
 <div class="paragraph">
-<p>A newly created <code>User</code> can be retrieved by following the URI in the <code>LOCATION</code> header of the response. This URI points to the created
+<p>A newly created <code>User</code> can be retrieved by following the URI in the <code>Location</code> header of the response. This URI points to the created
 resource:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users/5e161bda-40ee-4a1c-ad34-333a2b83081d/ HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users/426fb062-467f-4a74-8098-4e173ccb12b7/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -533,14 +530,11 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Vary: Origin
-Vary: Access-Control-Request-Method
-Vary: Access-Control-Request-Headers
 Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "5e161bda-40ee-4a1c-ad34-333a2b83081d",
+  "pKey" : "426fb062-467f-4a74-8098-4e173ccb12b7",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -558,7 +552,7 @@ to access the endpoint.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDI0ODM1ODcsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6ImFlMmE3M2U5LTM1OTYtNDE0NC1hNGVmLWI5YjYzMTFjMTYxOCIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.l1i1Y4Jr0owjo5PQEillM_UXAx_afkJYD5BYjFsGAgk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDMyNzExMDUsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjgyMjI2MDFjLTI3YTYtNDQ4OS05OWZhLTI1ODAyOGM0ZjgzOSIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.ongMUsS_2bBzs3s0UHCxDOu0DHmKsVBB9aiN1OG6IVQ
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -646,12 +640,32 @@ X-Frame-Options: DENY
 </tbody>
 </table>
 </div>
+<div class="sect2">
+<h3 id="_delete_an_user">Delete an User</h3>
+<div class="paragraph">
+<p>To finally delete all <code>User</code> data a <code>DELETE</code> request to the persistent key of the <code>User</code> is required:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /users/426fb062-467f-4a74-8098-4e173ccb12b7/ HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>User</code> is not assigned somewhere else (in <code>Roles</code>) and it has been deleted successfully the server responds:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-10-11 20:18:36 UTC
+Last updated 2020-10-20 23:03:56 UTC
 </div>
 </div>
 </body>
