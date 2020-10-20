@@ -41,7 +41,6 @@ import javax.sql.DataSource;
  *
  * @author Heiko Scherrer
  */
-//@Profile("!TEST")
 @Configuration
 @EnableAuthorizationServer
 class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {

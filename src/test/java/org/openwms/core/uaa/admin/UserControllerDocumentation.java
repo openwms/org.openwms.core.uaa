@@ -42,6 +42,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -105,5 +106,13 @@ class UserControllerDocumentation {
                         )
                 ))
                 .andExpect(status().isOk());
+
+        String pKey = location.substring(location.substring(0, location.length()-1).lastIndexOf("/"));
+        mockMvc.perform(
+                delete(UAAConstants.API_USERS + pKey))
+                .andDo(document("user-delete",
+                        preprocessResponse(prettyPrint())
+                ))
+                .andExpect(status().isNoContent());
     }
 }

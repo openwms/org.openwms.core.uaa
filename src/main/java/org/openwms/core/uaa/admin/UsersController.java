@@ -18,12 +18,10 @@ package org.openwms.core.uaa.admin;
 import org.ameba.http.MeasuredRestController;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.core.http.AbstractWebController;
+import org.openwms.core.uaa.admin.impl.User;
 import org.openwms.core.uaa.api.UAAConstants;
 import org.openwms.core.uaa.api.UserVO;
-import org.openwms.core.uaa.admin.impl.User;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -45,7 +43,6 @@ import java.util.List;
  *
  * @author Heiko Scherrer
  */
-@CrossOrigin("*")
 @MeasuredRestController
 public class UsersController extends AbstractWebController {
 
@@ -81,12 +78,14 @@ public class UsersController extends AbstractWebController {
     }
 
     @PatchMapping(UAAConstants.API_USERS + "/{pKey}")
-    public void saveImage(@RequestBody @NotNull byte[] image, @PathVariable("pKey") @NotEmpty String pKey) {
+    public ResponseEntity<Void> saveImage(@RequestBody @NotNull byte[] image, @PathVariable("pKey") @NotEmpty String pKey) {
         service.uploadImageFile(pKey, image);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(UAAConstants.API_USERS + "/{pKey}")
-    public void delete(@PathVariable("pKey") @NotEmpty String pKey) {
+    public ResponseEntity<Void> delete(@PathVariable("pKey") @NotEmpty String pKey) {
         service.delete(pKey);
+        return ResponseEntity.noContent().build();
     }
 }
