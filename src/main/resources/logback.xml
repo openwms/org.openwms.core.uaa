@@ -2,7 +2,7 @@
 <configuration debug="false" scan="false" scanPeriod="30 seconds">
 
   <property name="LOG_TEMP" value="/tmp/owms" />
-  <property name="MODULE_NAME" value="UAA-Service" />
+  <property name="MODULE_NAME" value="CORE-UAA" />
 
   <include resource="logback-appenders.xml" />
   <include resource="logback-loggers.xml" />
