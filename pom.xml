@@ -65,7 +65,7 @@
     <properties>
         <ameba-lib.version>2.6</ameba-lib.version>
         <core.version>1.9.0-SNAPSHOT</core.version>
-        <guava.version>29.0-jre</guava.version>
+        <guava.version>30.0-jre</guava.version>
         <org.mapstruct.version>1.4.0.Beta1</org.mapstruct.version>
         <spring-cloud-dependencies.version>Hoxton.SR8</spring-cloud-dependencies.version>
     </properties>
