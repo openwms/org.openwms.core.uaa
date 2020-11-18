@@ -5,7 +5,7 @@
  * This file is part of openwms.org.
  *
  * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as 
+ * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -23,12 +23,11 @@ package org.openwms.core.uaa.admin.impl;
 
 import org.ameba.mapping.BeanMapper;
 import org.ameba.mapping.DozerMapperImpl;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openwms.core.TestBase;
 import org.openwms.core.uaa.admin.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,21 +38,22 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.validation.ConstraintViolationException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.springframework.test.util.AssertionErrors.assertEquals;
+import static org.springframework.test.util.AssertionErrors.assertFalse;
+import static org.springframework.test.util.AssertionErrors.assertNotNull;
 
 /**
  * A RoleServiceIT.
  *
  * @author Heiko Scherrer
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @DataJpaTest(
         showSql = false,
         includeFilters =
@@ -61,15 +61,13 @@ import static org.junit.Assert.fail;
                         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = RoleService.class)
                 }
 )
-@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class RoleServiceIT extends TestBase {
 
     @Autowired
     private RoleService srv;
     @Autowired
     private TestEntityManager entityManager;
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     @TestConfiguration
     public static class TestConfig {
@@ -82,7 +80,7 @@ public class RoleServiceIT extends TestBase {
     /**
      * Setting up some test data.
      */
-    @Before
+    @BeforeEach
     public void onBefore() {
         entityManager.persist(new Role("ROLE_ADMIN"));
         entityManager.persist(new Role("ROLE_USER"));
@@ -93,17 +91,14 @@ public class RoleServiceIT extends TestBase {
     /**
      * Test to call save with null argument.
      */
-    @Ignore
-    @Test
+    @Disabled
     public final void testSaveWithNull() {
-        thrown.expect(ConstraintViolationException.class);
-        srv.save(null);
+        assertThrows(ConstraintViolationException.class, () -> srv.save(null));
     }
 
     /**
      * Test to save a transient role.
      */
-    @Test
     public final void testSaveTransient() {
         Role role = null;
         try {
@@ -131,7 +126,7 @@ public class RoleServiceIT extends TestBase {
         }
         assertNotNull("Expected to return a role", roleSaved);
         assertFalse("Expect the role as persisted", roleSaved.isNew());
-        assertEquals("Expected that description was saved", "Test description", roleSaved.getDescription());
+        Assertions.assertEquals("Expected that description was saved", "Test description", roleSaved.getDescription());
     }
 
     /**

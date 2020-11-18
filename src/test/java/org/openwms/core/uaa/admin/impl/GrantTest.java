@@ -21,19 +21,21 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.openwms.core.uaa.admin.impl.Grant;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import static org.assertj.core.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * A GrantTest.
  * 
  * @author Heiko Scherrer
- * @version $Revision: $
- * @since 0.2
  */
 public class GrantTest {
 
@@ -52,18 +54,18 @@ public class GrantTest {
         Grant grant3 = new Grant(GRANT_NAME3, "hijkl");
 
         // Just the name is considered
-        Assert.assertTrue(grant1.equals(grant2));
-        Assert.assertFalse(grant1.equals(new Object()));
-        Assert.assertTrue(grant1.equals(grant1));
-        Assert.assertFalse(grant1.equals(grant3));
+        assertTrue(grant1.equals(grant2));
+        assertFalse(grant1.equals(new Object()));
+        assertTrue(grant1.equals(grant1));
+        assertFalse(grant1.equals(grant3));
 
         // Test behavior in hashed collections
         Set<Grant> grants = new HashSet<Grant>();
         grants.add(grant1);
         grants.add(grant2);
-        Assert.assertTrue(grants.size() == 1);
+        assertTrue(grants.size() == 1);
         grants.add(grant3);
-        Assert.assertTrue(grants.size() == 2);
+        assertTrue(grants.size() == 2);
     }
 
     /**
@@ -72,8 +74,8 @@ public class GrantTest {
     @Test
     public final void testGrant() {
         Grant grant = new Grant();
-        Assert.assertNull(grant.getName());
-        Assert.assertNull(grant.getDescription());
+        assertNull(grant.getName());
+        assertNull(grant.getDescription());
     }
 
     /**
@@ -82,8 +84,8 @@ public class GrantTest {
     @Test
     public final void testGrantStringString() {
         Grant grant = new Grant(GRANT_NAME1, GRANT_DESC1);
-        Assert.assertEquals(GRANT_NAME1, grant.getName());
-        Assert.assertEquals(GRANT_DESC1, grant.getDescription());
+        assertEquals(GRANT_NAME1, grant.getName());
+        assertEquals(GRANT_DESC1, grant.getDescription());
     }
 
     /**
@@ -93,11 +95,11 @@ public class GrantTest {
     public final void testGrantStringStringEmpty() {
         try {
             new Grant(null, GRANT_DESC1);
-            Assert.fail("IAE expected when creating Grant(String, String) with name equals to null");
+            fail("IAE expected when creating Grant(String, String) with name equals to null");
         } catch (IllegalArgumentException iae) {}
         try {
             new Grant("", GRANT_DESC1);
-            Assert.fail("IAE expected when creating Grant(String, String) with empty name");
+            fail("IAE expected when creating Grant(String, String) with empty name");
         } catch (IllegalArgumentException iae) {}
     }
 
@@ -107,8 +109,8 @@ public class GrantTest {
     @Test
     public final void testGrantString() {
         Grant grant = new Grant(GRANT_NAME1);
-        Assert.assertEquals(GRANT_NAME1, grant.getName());
-        Assert.assertNull(grant.getDescription());
+        assertEquals(GRANT_NAME1, grant.getName());
+        assertNull(grant.getDescription());
     }
 
     /**
@@ -118,11 +120,11 @@ public class GrantTest {
     public final void testGrantStringEmpty() {
         try {
             new Grant(null);
-            Assert.fail("IAE expected when creating Grant(String) with name equals to null");
+            fail("IAE expected when creating Grant(String) with name equals to null");
         } catch (IllegalArgumentException iae) {}
         try {
             new Grant("");
-            Assert.fail("IAE expected when creating Grant(String) with empty name");
+            fail("IAE expected when creating Grant(String) with empty name");
         } catch (IllegalArgumentException iae) {}
     }
 }

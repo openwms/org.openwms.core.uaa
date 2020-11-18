@@ -5,7 +5,7 @@
  * This file is part of openwms.org.
  *
  * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as 
+ * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -21,31 +21,19 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.openwms.core.uaa.admin.impl.Grant;
-import org.openwms.core.uaa.admin.impl.Role;
-import org.openwms.core.uaa.admin.impl.SecurityObject;
-import org.openwms.core.uaa.admin.impl.User;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.HashSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * A RoleTest.
- *
- * @author Heiko Scherrer
- * @version 1.0
- * @since 1.0
  */
 public class RoleTest {
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     private static final String TEST_ROLE = "ROLE_TEST";
     private static final String TEST_ROLE2 = "ROLE_TEST2";
@@ -59,19 +47,17 @@ public class RoleTest {
     final void testCreation() {
         Role role = new Role(TEST_ROLE, TEST_DESCR);
         assertThat(role.getName()).isEqualTo(TEST_ROLE);
-        Assert.assertEquals(TEST_DESCR, role.getDescription());
+        assertEquals(TEST_DESCR, role.getDescription());
         Role role2 = new Role(TEST_ROLE2);
-        Assert.assertEquals(TEST_ROLE2, role2.getName());
+        assertEquals(TEST_ROLE2, role2.getName());
     }
 
     /**
      * Ensure that it is not allowed to create a Role without a name.
      */
-    public
     @Test
     final void testCreationNegative1() {
-        thrown.expect(IllegalArgumentException.class);
-        new Role("");
+        assertThrows(IllegalArgumentException.class, () -> new Role(""));
     }
 
     /**
@@ -80,8 +66,7 @@ public class RoleTest {
     public
     @Test
     final void testCreationNegative2() {
-        thrown.expect(IllegalArgumentException.class);
-        new Role("", "TEST");
+        assertThrows(IllegalArgumentException.class, () -> new Role("", "TEST"));
     }
 
     /**
@@ -90,8 +75,7 @@ public class RoleTest {
     public
     @Test
     final void testCreationNegative3() {
-        thrown.expect(IllegalArgumentException.class);
-        new Role(null);
+        assertThrows(IllegalArgumentException.class, () -> new Role(null));
     }
 
     /**
@@ -100,8 +84,7 @@ public class RoleTest {
     public
     @Test
     final void testCreationNegative4() {
-        thrown.expect(IllegalArgumentException.class);
-        new Role(null, "TEST");
+        assertThrows(IllegalArgumentException.class, () -> new Role(null, "TEST"));
     }
 
     /**
@@ -134,8 +117,7 @@ public class RoleTest {
     @Test
     final void testAddUsersNegative() {
         Role role = new Role(TEST_ROLE);
-        thrown.expect(IllegalArgumentException.class);
-        role.addUser(null);
+        assertThrows(IllegalArgumentException.class, () -> role.addUser(null));
     }
 
     /**
@@ -159,8 +141,7 @@ public class RoleTest {
     @Test
     final void testRemoveUserNegative() {
         Role role = new Role(TEST_ROLE);
-        thrown.expect(IllegalArgumentException.class);
-        role.removeUser(null);
+        assertThrows(IllegalArgumentException.class, () -> role.removeUser(null));
     }
 
     /**
@@ -183,7 +164,7 @@ public class RoleTest {
     @Test
     final void testSetUsersNegative() {
         Role role = new Role(TEST_ROLE);
-        thrown.expect(IllegalArgumentException.class);
+        assertThrows(IllegalArgumentException.class);
         role.setUsers(null);
     }
 
@@ -207,7 +188,7 @@ public class RoleTest {
     @Test
     final void testAddGrantNegative() {
         Role role = new Role(TEST_ROLE);
-        thrown.expect(IllegalArgumentException.class);
+        assertThrows(IllegalArgumentException.class);
         role.addGrant(null);
     }
 
@@ -232,7 +213,7 @@ public class RoleTest {
     @Test
     final void testRemoveGrantNegative() {
         Role role = new Role(TEST_ROLE);
-        thrown.expect(IllegalArgumentException.class);
+        assertThrows(IllegalArgumentException.class);
         role.removeGrant(null);
     }
 
@@ -257,7 +238,7 @@ public class RoleTest {
     @Test
     final void testRemoveGrantsNegative() {
         Role role = new Role(TEST_ROLE);
-        thrown.expect(IllegalArgumentException.class);
+        assertThrows(IllegalArgumentException.class);
         role.removeGrants(null);
     }
 
@@ -281,7 +262,7 @@ public class RoleTest {
     @Test
     final void testSetGrantsNegative() {
         Role role = new Role(TEST_ROLE);
-        thrown.expect(IllegalArgumentException.class);
+        assertThrows(IllegalArgumentException.class);
         role.setGrants(null);
     }
 }

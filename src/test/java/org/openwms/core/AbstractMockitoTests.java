@@ -15,8 +15,8 @@
  */
 package org.openwms.core;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ public abstract class AbstractMockitoTests {
     /**
      * Setting up some test data.
      */
-    @Before
+    @BeforeEach
     public void onSuperBefore() {
         doBefore();
         MockitoAnnotations.initMocks(this);
@@ -45,7 +45,7 @@ public abstract class AbstractMockitoTests {
     /**
      * Clean up, clear lists.
      */
-    @After
+    @AfterEach
     public void onSuperAfter() {
         doAfter();
     }

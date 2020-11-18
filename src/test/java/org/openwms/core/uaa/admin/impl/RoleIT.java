@@ -21,12 +21,9 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openwms.core.TestBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,24 +31,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.persistence.PersistenceException;
 import java.util.HashSet;
 import java.util.Set;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * A RoleTest.
  *
  * @author Heiko Scherrer
  */
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @DataJpaTest(showSql = false)
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 public class RoleIT extends TestBase {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
     private static final Logger LOGGER = LoggerFactory.getLogger(RoleIT.class);
 
     private static final String TEST_ROLE = "ROLE_TEST";
@@ -68,7 +68,7 @@ public class RoleIT extends TestBase {
     /**
      * Setup data.
      */
-    @Before
+    @BeforeEach
     public void onBefore() {
         knownUser = new User(KNOWN_USER);
         knownRole = new Role(KNOWN_ROLE);
@@ -91,7 +91,7 @@ public class RoleIT extends TestBase {
             entityManager.persist(role);
             entityManager.persist(role2);
             entityManager.flush();
-            Assert.fail("No unique constraint on rolename");
+            fail("No unique constraint on rolename");
         } catch (PersistenceException pe) {
             LOGGER.debug("OK:Tested unique constraint on rolename.");
         }
@@ -109,7 +109,7 @@ public class RoleIT extends TestBase {
         try {
             entityManager.merge(knownRole);
             entityManager.flush();
-            Assert.fail("Must fail because merging of transient users is not permitted");
+            fail("Must fail because merging of transient users is not permitted");
         } catch (Exception e) {
             LOGGER.debug("OK: Exception when trying to merge a transient User with a Role");
         }
@@ -125,16 +125,16 @@ public class RoleIT extends TestBase {
         Role role3 = new Role(TEST_ROLE2);
 
         // Just the name is considered
-        Assert.assertTrue(role1.equals(role2));
-        Assert.assertFalse(role1.equals(role3));
+        assertTrue(role1.equals(role2));
+        assertFalse(role1.equals(role3));
 
         // Test behavior in hashed collections
         Set<Role> roles = new HashSet<>();
         roles.add(role1);
         roles.add(role2);
-        Assert.assertTrue(roles.size() == 1);
+        assertTrue(roles.size() == 1);
         roles.add(role3);
-        Assert.assertTrue(roles.size() == 2);
+        assertTrue(roles.size() == 2);
     }
 
     /**
@@ -143,9 +143,9 @@ public class RoleIT extends TestBase {
     @Test
     public final void testRoleBuilder() {
         Role role1 = new Role.Builder(TEST_ROLE).withDescription(TEST_DESCR).asImmutable().build();
-        Assert.assertEquals(TEST_ROLE, role1.getName());
-        Assert.assertEquals(TEST_DESCR, role1.getDescription());
-        Assert.assertTrue(role1.getImmutable());
+        assertEquals(TEST_ROLE, role1.getName());
+        assertEquals(TEST_DESCR, role1.getDescription());
+        assertTrue(role1.getImmutable());
     }
 
     /**
@@ -160,11 +160,11 @@ public class RoleIT extends TestBase {
 
         Long cnt = (Long) entityManager.getEntityManager().createQuery("select count(r) from Role r where r.name = :rolename")
                 .setParameter("rolename", KNOWN_ROLE).getSingleResult();
-        Assert.assertEquals("Role must be removed", 0, cnt.intValue());
+        assertEquals(0, cnt.intValue(), "Role must be removed");
 
         cnt = (Long) entityManager.getEntityManager().createQuery("select count(u) from User u where u.username = :username")
                 .setParameter("username", KNOWN_USER).getSingleResult();
-        Assert.assertEquals("User may not be removed", 1, cnt.intValue());
+        assertEquals(1, cnt.intValue(), "User may not be removed");
 
     }
 }

@@ -21,9 +21,8 @@
  */
 package org.openwms.core.search;
 
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.openwms.core.AbstractMockitoTests;
@@ -35,6 +34,7 @@ import org.openwms.core.uaa.admin.impl.User;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 
 /**
@@ -57,24 +57,24 @@ public class ActionServiceTest extends AbstractMockitoTests {
     @Test
     public final void testFindAllActions() {
         Collection<Action> result = srv.findAllActions();
-        Assert.assertNotNull(result);
+        assertNotNull(result);
     }
 
     @Test
     public final void testFindAllActionsUser() {
         Collection<Action> result = srv.findAllActions(new SystemUser(SystemUser.SYSTEM_USERNAME,
                 SystemUser.SYSTEM_USERNAME));
-        Assert.assertNotNull(result);
+        assertNotNull(result);
     }
 
     @Test
     public final void testFindAllTags() {
         Collection<Tag> result = srv
                 .findAllTags(new SystemUser(SystemUser.SYSTEM_USERNAME, SystemUser.SYSTEM_USERNAME));
-        Assert.assertNotNull(result);
+        assertNotNull(result);
     }
 
-    @Ignore
+    @Disabled("Of no reason. Taken over fro JUnit4 tests and needs rework")
     @Test
     public final void testSave() {
         Collection<Action> actions = new ArrayList<Action>();
@@ -89,6 +89,6 @@ public class ActionServiceTest extends AbstractMockitoTests {
         when(confSrv.save(uPref)).thenReturn(uPref);
 
         Collection<Action> result = srv.save(user, actions);
-        Assert.assertNotNull(result);
+        assertNotNull(result);
     }
 }

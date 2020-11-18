@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>17</version>
+        <version>18</version>
         <relativePath />
     </parent>
     <artifactId>org.openwms.core.uaa</artifactId>
@@ -63,11 +63,12 @@
     </ciManagement>
 
     <properties>
-        <ameba-lib.version>2.6</ameba-lib.version>
+        <ameba-lib.version>2.7-SNAPSHOT</ameba-lib.version>
         <core.version>1.9.0-SNAPSHOT</core.version>
+        <servo-core.version>0.12.21</servo-core.version>
         <guava.version>30.0-jre</guava.version>
         <org.mapstruct.version>1.4.0.Beta1</org.mapstruct.version>
-        <spring-cloud-dependencies.version>Hoxton.SR8</spring-cloud-dependencies.version>
+        <spring-cloud-dependencies.version>2020.0.0-SNAPSHOT</spring-cloud-dependencies.version>
     </properties>
 
     <reporting>
@@ -202,16 +203,9 @@
                 <version>${guava.version}</version>
             </dependency>
             <dependency>
-                <groupId>net.sf.dozer</groupId>
-                <artifactId>dozer</artifactId>
-                <version>${dozer.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <!-- bites with netflix-ribbon -->
-                        <groupId>commons-collections</groupId>
-                        <artifactId>commons-collections</artifactId>
-                    </exclusion>
-                </exclusions>
+                <groupId>com.netflix.servo</groupId>
+                <artifactId>servo-core</artifactId>
+                <version>${servo-core.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mapstruct</groupId>
@@ -283,23 +277,11 @@
                     <groupId>com.google.code.findbugs</groupId>
                     <artifactId>jsr305</artifactId>
                 </exclusion>
-                <exclusion>
-                    <!-- Has a conflict internally -->
-                    <groupId>commons-configuration</groupId>
-                    <artifactId>commons-configuration</artifactId>
-                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
-            <exclusions>
-                <exclusion>
-                    <!-- Take the newer patch from actuator -->
-                    <groupId>org.hdrhistogram</groupId>
-                    <artifactId>HdrHistogram</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -359,6 +341,11 @@
 
         <!-- Fix Exclusions -->
         <dependency>
+            <groupId>com.netflix.servo</groupId>
+            <artifactId>servo-core</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
             <version>8.18.1</version>
@@ -368,11 +355,6 @@
                     <artifactId>json-smart</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
-            <version>1.10</version>
         </dependency>
         <dependency>
             <groupId>net.minidev</groupId>
@@ -478,5 +460,31 @@
                 <enabled>false</enabled>
             </releases>
         </repository>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
     </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 </project>
