@@ -27,13 +27,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.constraints.NotNull;
 import java.net.URI;
 import java.security.Principal;
 import java.util.Optional;
@@ -60,7 +57,7 @@ public class LoginController extends AbstractWebController {
     //@Secured("ROLE_USER")
     //@PreAuthorize("isAnonymous()")
     @GetMapping(value = "/oauth/userinfo", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String user(@NotNull Principal principal) {
+    public String user(Principal principal) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
         if (UserWrapper.class.equals(userDetails.getClass())) {
             User user = ((UserWrapper) userDetails).getUser();
