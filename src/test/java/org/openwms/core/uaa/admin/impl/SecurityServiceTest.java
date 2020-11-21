@@ -22,19 +22,12 @@
 package org.openwms.core.uaa.admin.impl;
 
 import org.ameba.i18n.Translator;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.openwms.core.AbstractMockitoTests;
-import org.openwms.core.uaa.admin.impl.Grant;
-import org.openwms.core.uaa.admin.impl.RoleRepository;
-import org.openwms.core.uaa.admin.impl.SecurityObject;
-import org.openwms.core.uaa.admin.impl.SecurityObjectRepository;
-import org.openwms.core.uaa.admin.impl.SecurityServiceImpl;
 import org.springframework.context.MessageSource;
 
 import java.util.ArrayList;
@@ -42,8 +35,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
@@ -55,15 +49,11 @@ import static org.mockito.Mockito.when;
  * A SecurityServiceTest.
  *
  * @author Heiko Scherrer
- * @version $Revision: $
- * @since 0.1
  */
 public class SecurityServiceTest extends AbstractMockitoTests {
 
     @Mock
     private SecurityObjectRepository dao;
-    @Mock
-    private RoleRepository roleDao;
     @Mock
     private MessageSource messageSource;
     @Mock
@@ -71,12 +61,10 @@ public class SecurityServiceTest extends AbstractMockitoTests {
     @InjectMocks
     private SecurityServiceImpl srv;
 
-    public @Rule ExpectedException thrown = ExpectedException.none();
-
     /**
      * Setting up some test data.
      */
-    @Before
+    @BeforeEach
     public void onBefore() {
         when(messageSource.getMessage(anyString(), new Object[]{anyObject()}, any(Locale.class))).thenReturn("");
     }
@@ -84,11 +72,8 @@ public class SecurityServiceTest extends AbstractMockitoTests {
     /**
      * Test to call service with null.
      */
-    public
-    @Test
-    final void testMergeGrantsWithNull() {
-        thrown.expect(IllegalArgumentException.class);
-        srv.mergeGrants(null, null);
+    @Test void testMergeGrantsWithNull() {
+        assertThrows(IllegalArgumentException.class, () -> srv.mergeGrants(null, null));
     }
 
     /**
@@ -96,9 +81,8 @@ public class SecurityServiceTest extends AbstractMockitoTests {
      * <p>
      * Add a new Grant.
      */
-    @Ignore
-    @Test
-    public final void testMergeGrantsNew() {
+    @Disabled
+    @Test void testMergeGrantsNew() {
         // prepare data
         Grant testGrant = new Grant("TMS_NEW");
 
@@ -128,8 +112,7 @@ public class SecurityServiceTest extends AbstractMockitoTests {
      * <p>
      * Merge existing Grants.
      */
-    @Test
-    public final void testMergeGrantsExisting() {
+    @Test void testMergeGrantsExisting() {
         // prepare data
         Grant testGrant = new Grant("TMS_NEW");
 

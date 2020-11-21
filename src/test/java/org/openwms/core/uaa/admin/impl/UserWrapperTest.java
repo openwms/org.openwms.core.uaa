@@ -21,13 +21,8 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.openwms.core.uaa.admin.impl.Grant;
-import org.openwms.core.uaa.admin.impl.Role;
-import org.openwms.core.uaa.admin.impl.User;
-import org.openwms.core.uaa.admin.impl.UserWrapper;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -35,54 +30,36 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
  * A UserWrapperTest.
  * 
  * @author Heiko Scherrer
- * @version $Revision: $
- * @since 0.2
  */
 public class UserWrapperTest {
 
     private static final String TEST_USER = "TEST_USER";
 
-    /**
-     * Test method for
-     * {@link UserWrapper#UserWrapper(org.openwms.core.system.usermanagement.User)}
-     * .
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public final void testUserWrapperForNull() {
-        new UserWrapper(null);
+    @Test void testUserWrapperForNull() {
+        assertThrows(IllegalArgumentException.class, () -> new UserWrapper(null));
     }
 
-    /**
-     * Test method for
-     * {@link UserWrapper#UserWrapper(org.openwms.core.system.usermanagement.User)}
-     * .
-     */
-    @Test
-    public final void testUserWrapper() {
+    @Test void testUserWrapper() {
         UserWrapper uw = new UserWrapper(new User(TEST_USER));
-        Assert.assertEquals(new User(TEST_USER), uw.getUser());
+        assertEquals(new User(TEST_USER), uw.getUser());
     }
 
-    /**
-     * Test method for
-     * {@link UserWrapper#getAuthorities()}.
-     */
-    @Test
-    public final void testGetAuthoritiesWithNull() {
+    @Test void testGetAuthoritiesWithNull() {
         UserWrapper uw = new UserWrapper(new User(TEST_USER));
-        Assert.assertNotNull(uw.getAuthorities());
+        assertNotNull(uw.getAuthorities());
     }
 
-    /**
-     * Test method for
-     * {@link UserWrapper#getAuthorities()}.
-     */
-    @Test
-    public final void testGetAuthorities() {
+    @Test void testGetAuthorities() {
         Role r = new Role("TEST_ROLE");
         r.addGrant(new Grant("TEST_GRANT"));
         User u = new User(TEST_USER);
@@ -90,90 +67,50 @@ public class UserWrapperTest {
 
         UserWrapper uw = new UserWrapper(u);
         Collection<GrantedAuthority> auths = uw.getAuthorities();
-        Assert.assertFalse(auths.isEmpty());
-        Assert.assertEquals(auths.iterator().next().getAuthority(), "TEST_GRANT");
+        assertFalse(auths.isEmpty());
+        assertEquals(auths.iterator().next().getAuthority(), "TEST_GRANT");
     }
 
-    /**
-     * Test method for
-     * {@link UserWrapper#getPassword()}.
-     * 
-     * @throws Exception
-     */
-    @Ignore
-    @Test
-    public final void testGetPassword() throws Exception {
+    @Disabled
+    @Test void testGetPassword() throws Exception {
         User u = new User(TEST_USER);
         BCryptPasswordEncoder enc = new BCryptPasswordEncoder(15);
         u.changePassword(enc.encode("PASS"), "PASS", enc);
         UserWrapper uw = new UserWrapper(u);
-        Assert.assertEquals("PASS", uw.getPassword());
+        assertEquals("PASS", uw.getPassword());
     }
 
-    /**
-     * Test method for
-     * {@link UserWrapper#getUsername()}.
-     */
-    @Test
-    public final void testGetUsername() {
+    @Test void testGetUsername() {
         User u = new User(TEST_USER);
         UserWrapper uw = new UserWrapper(u);
-        Assert.assertEquals(TEST_USER, uw.getUsername());
+        assertEquals(TEST_USER, uw.getUsername());
     }
 
-    /**
-     * Test method for
-     * {@link UserWrapper#isAccountNonExpired()}
-     * .
-     */
-    @Test
-    public final void testIsAccountNonExpired() {
+    @Test void testIsAccountNonExpired() {
         User u = new User(TEST_USER);
         UserWrapper uw = new UserWrapper(u);
-        Assert.assertTrue(uw.isAccountNonExpired());
+        assertTrue(uw.isAccountNonExpired());
     }
 
-    /**
-     * Test method for
-     * {@link UserWrapper#isAccountNonLocked()}.
-     */
-    @Test
-    public final void testIsAccountNonLocked() {
+    @Test void testIsAccountNonLocked() {
         User u = new User(TEST_USER);
         UserWrapper uw = new UserWrapper(u);
-        Assert.assertTrue(uw.isAccountNonLocked());
+        assertTrue(uw.isAccountNonLocked());
     }
 
-    /**
-     * Test method for
-     * {@link UserWrapper#isCredentialsNonExpired()}
-     * .
-     */
-    @Test
-    public final void testIsCredentialsNonExpired() {
+    @Test void testIsCredentialsNonExpired() {
         User u = new User(TEST_USER);
         UserWrapper uw = new UserWrapper(u);
-        Assert.assertTrue(uw.isCredentialsNonExpired());
+        assertTrue(uw.isCredentialsNonExpired());
     }
 
-    /**
-     * Test method for
-     * {@link UserWrapper#isEnabled()}.
-     */
-    @Test
-    public final void testIsEnabled() {
+    @Test void testIsEnabled() {
         User u = new User(TEST_USER);
         UserWrapper uw = new UserWrapper(u);
-        Assert.assertTrue(uw.isEnabled());
+        assertTrue(uw.isEnabled());
     }
 
-    /**
-     * Test method for
-     * {@link UserWrapper#equals(java.lang.Object)}
-     * .
-     */
-    @Test
-    public final void testEqualsObject() {
+    @Test void testEqualsObject() {
         User u = new User(TEST_USER);
         User usr = new User("TEST_USER2");
         UserWrapper uw = new UserWrapper(u);
@@ -181,24 +118,19 @@ public class UserWrapperTest {
         UserWrapper usrw = new UserWrapper(usr);
 
         // Test to itself
-        Assert.assertTrue(uw.equals(uw));
+        assertTrue(uw.equals(uw));
         // Test for null
-        Assert.assertFalse(uw.equals(null));
+        assertFalse(uw.equals(null));
         // Test for symmetric
-        Assert.assertTrue(uw.equals(uw2));
-        Assert.assertTrue(uw2.equals(uw));
+        assertTrue(uw.equals(uw2));
+        assertTrue(uw2.equals(uw));
         // Test incompatible types
-        Assert.assertFalse(uw.equals(TEST_USER));
-        Assert.assertFalse(uw.equals(usrw));
-        Assert.assertFalse(usrw.equals(uw));
+        assertFalse(uw.equals(TEST_USER));
+        assertFalse(uw.equals(usrw));
+        assertFalse(usrw.equals(uw));
     }
 
-    /**
-     * Test method for
-     * {@link UserWrapper#hashCode()} .
-     */
-    @Test
-    public final void testHashCode() {
+    @Test void testHashCode() {
         User u = new User(TEST_USER);
         User u2 = new User("TEST_USER2");
         User u3 = new User(TEST_USER);
@@ -211,23 +143,18 @@ public class UserWrapperTest {
         wrappers.add(uw2);
 
         // Test for same return value
-        Assert.assertTrue(uw.hashCode() == uw.hashCode());
+        assertTrue(uw.hashCode() == uw.hashCode());
         // Test for same value for two refs
-        Assert.assertTrue(uw.hashCode() == uw3.hashCode());
+        assertTrue(uw.hashCode() == uw3.hashCode());
 
-        Assert.assertTrue(wrappers.contains(uw));
-        Assert.assertTrue(wrappers.contains(uw2));
+        assertTrue(wrappers.contains(uw));
+        assertTrue(wrappers.contains(uw2));
     }
 
-    /**
-     * Test method for
-     * {@link UserWrapper#toString()}.
-     */
-    @Test
-    public final void testToString() {
+    @Test void testToString() {
         User u = new User(TEST_USER);
         UserWrapper uw = new UserWrapper(u);
-        Assert.assertEquals(TEST_USER, uw.toString());
+        assertEquals(TEST_USER, uw.toString());
     }
 
 }

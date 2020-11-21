@@ -126,7 +126,7 @@ public class RoleServiceIT extends TestBase {
         }
         assertNotNull("Expected to return a role", roleSaved);
         assertFalse("Expect the role as persisted", roleSaved.isNew());
-        Assertions.assertEquals("Expected that description was saved", "Test description", roleSaved.getDescription());
+        Assertions.assertEquals("Test description", roleSaved.getDescription(), "Expected that description was saved");
     }
 
     /**

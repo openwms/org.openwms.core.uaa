@@ -21,34 +21,28 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.openwms.core.uaa.admin.impl.SystemUser;
-import org.openwms.core.uaa.admin.impl.SystemUserWrapper;
-import org.openwms.core.uaa.admin.impl.User;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
  * A SystemUserWrapperTest.
  * 
  * @author Heiko Scherrer
- * @version $Revision: $
- * @since 0.2
  */
 public class SystemUserWrapperTest {
 
     private static final String TEST_USER = "TEST_USER";
 
-    /**
-     * Test method for
-     * {@link SystemUserWrapper#hashCode()}.
-     */
-    @Test
-    public final void testHashCode() {
+    @Test void testHashCode() {
         User u = new User(TEST_USER);
         User u2 = new User("TEST_USER2");
         User u3 = new User(TEST_USER);
@@ -61,55 +55,32 @@ public class SystemUserWrapperTest {
         wrappers.add(uw2);
 
         // Test for same return value
-        Assert.assertTrue(uw.hashCode() == uw.hashCode());
+        assertTrue(uw.hashCode() == uw.hashCode());
         // Test for same value for two refs
-        Assert.assertTrue(uw.hashCode() == uw3.hashCode());
+        assertTrue(uw.hashCode() == uw3.hashCode());
 
-        Assert.assertTrue(wrappers.contains(uw));
-        Assert.assertTrue(wrappers.contains(uw2));
+        assertTrue(wrappers.contains(uw));
+        assertTrue(wrappers.contains(uw2));
     }
 
-    /**
-     * Test method for
-     * {@link SystemUserWrapper#addDefaultGrants(java.util.Collection)}
-     * .
-     */
     @Test
     public final void testAddDefaultGrants() {
         SystemUserWrapper suw = new SystemUserWrapper(new User(TEST_USER));
-        Assert.assertEquals(1, suw.getAuthorities().size());
-        Assert.assertEquals(1, suw.getAuthorities().size());
-        Assert.assertEquals(SystemUser.SYSTEM_ROLE_NAME, suw.getAuthorities().iterator().next().getAuthority());
-
+        assertEquals(1, suw.getAuthorities().size());
+        assertEquals(1, suw.getAuthorities().size());
+        assertEquals(SystemUser.SYSTEM_ROLE_NAME, suw.getAuthorities().iterator().next().getAuthority());
     }
 
-    /**
-     * Test method for
-     * <ul>
-     * <li>
-     * {@link SystemUserWrapper#getPassword()}.</li>
-     * <li>
-     * {@link SystemUserWrapper#setPassword(java.lang.String)}
-     * </li>
-     * </ul>
-     */
-    @Ignore
-    @Test
-    public final void testGetPassword() throws Exception {
+    @Disabled
+    @Test void testGetPassword() throws Exception {
         User user = new User(TEST_USER);
         BCryptPasswordEncoder enc = new BCryptPasswordEncoder(15);
         user.changePassword(enc.encode("PASS"), "PASS", enc);
         SystemUserWrapper suw = new SystemUserWrapper(user);
-        Assert.assertEquals("PASS", suw.getPassword());
+        assertEquals("PASS", suw.getPassword());
     }
 
-    /**
-     * Test method for
-     * {@link SystemUserWrapper#equals(java.lang.Object)}
-     * .
-     */
-    @Test
-    public final void testEqualsObject() {
+    @Test void testEqualsObject() {
         User u = new User(TEST_USER);
         User usr = new User("TEST_USER2");
         SystemUserWrapper suw = new SystemUserWrapper(u);
@@ -117,38 +88,32 @@ public class SystemUserWrapperTest {
         SystemUserWrapper susrw = new SystemUserWrapper(usr);
 
         // Test to itself
-        Assert.assertTrue(suw.equals(suw));
+        assertTrue(suw.equals(suw));
         // Test for null
-        Assert.assertFalse(suw.equals(null));
+        assertFalse(suw.equals(null));
         // Test for symmetric
-        Assert.assertTrue(suw.equals(suw2));
-        Assert.assertTrue(suw2.equals(suw));
+        assertTrue(suw.equals(suw2));
+        assertTrue(suw2.equals(suw));
         // Test incompatible types
-        Assert.assertFalse(suw.equals(TEST_USER));
-        Assert.assertFalse(suw.equals(susrw));
-        Assert.assertFalse(susrw.equals(suw));
+        assertFalse(suw.equals(TEST_USER));
+        assertFalse(suw.equals(susrw));
+        assertFalse(susrw.equals(suw));
         // This password is null, the other is set
         suw2.setPassword("PASS");
-        Assert.assertFalse(suw.equals(suw2));
+        assertFalse(suw.equals(suw2));
         // Same password, but different user is wrapped
         susrw.setPassword("PASS");
         suw.setPassword("PASS");
-        Assert.assertFalse(suw.equals(susrw));
+        assertFalse(suw.equals(susrw));
         // Same user and same password
         suw.setPassword("PASS");
-        Assert.assertTrue(suw.equals(suw2));
+        assertTrue(suw.equals(suw2));
         // Same user but different password
         suw2.setPassword("PASS2");
-        Assert.assertFalse(suw.equals(suw2));
+        assertFalse(suw.equals(suw2));
     }
 
-    /**
-     * Test method for
-     * {@link SystemUserWrapper#SystemUserWrapper(User)}
-     * .
-     */
-    @Test(expected = IllegalArgumentException.class)
-    public final void testSystemUserWrapper() {
-        new SystemUserWrapper(null);
+    @Test void testSystemUserWrapper() {
+        assertThrows(IllegalArgumentException.class, () -> new SystemUserWrapper(null));
     }
 }

@@ -21,11 +21,8 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.openwms.core.exception.InvalidPasswordException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,13 +32,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * An UserTest.
  *
  * @author Heiko Scherrer
- * @version 0.1
- * @since 0.1
  */
 public class UserTest {
 
@@ -50,26 +47,14 @@ public class UserTest {
     private static final String TEST_USER2 = "Test username2";
     private static final String TEST_PASSWORD = "Test password";
 
-    public @Rule ExpectedException thrown = ExpectedException.none();
-
-    /**
-     * Test positive creation of User instances.
-     */
-    public
-    @Test
-    final void testCreation() {
+    @Test void testCreation() {
         User user1 = new User(TEST_USER1);
         assertThat(TEST_USER1).isEqualTo(user1.getUsername());
         assertThat(user1.getPk()).isNull();
         assertThat(user1.isNew()).isTrue();
     }
 
-    /**
-     * Test positive creation of User instances.
-     */
-    public
-    @Test
-    final void testCreation2() {
+    @Test void testCreation2() {
         User user1 = new User(TEST_USER2, TEST_PASSWORD);
         assertThat(TEST_USER2).isEqualTo(user1.getUsername());
         assertThat(TEST_PASSWORD).isEqualTo(user1.getPassword());
@@ -77,53 +62,24 @@ public class UserTest {
         assertThat(user1.isNew()).isTrue();
     }
 
-    /**
-     * Test that it is not possible to create invalid User instances.
-     */
-    public
-    @Test
-    final void testCreationNegative() {
-        thrown.expect(IllegalArgumentException.class);
-        new User("");
+    @Test void testCreationNegative() {
+        assertThrows(IllegalArgumentException.class, () -> new User(""));
     }
 
-    /**
-     * Test that it is not possible to create invalid User instances.
-     */
-    public
-    @Test
-    final void testCreationNegative2() {
-        thrown.expect(IllegalArgumentException.class);
-        new User("", TEST_PASSWORD);
+    @Test void testCreationNegative2() {
+        assertThrows(IllegalArgumentException.class, () -> new User("", TEST_PASSWORD));
     }
 
-    /**
-     * Test that it is not possible to create invalid User instances.
-     */
-    public
-    @Test
-    final void testCreationNegativ3() {
-        thrown.expect(IllegalArgumentException.class);
-        new User(null);
+    @Test void testCreationNegativ3() {
+        assertThrows(IllegalArgumentException.class, () -> new User(null));
     }
 
-    /**
-     * Test that it is not possible to create invalid User instances.
-     */
-    public
-    @Test
-    final void testCreationNegative4() {
-        thrown.expect(IllegalArgumentException.class);
-        new User(null, TEST_PASSWORD);
+    @Test void testCreationNegative4() {
+        assertThrows(IllegalArgumentException.class, () -> new User(null, TEST_PASSWORD));
     }
 
-    /**
-     * Test that only valid passwords can be stored and the removal of the oldest password in the history list works.
-     */
-    @Ignore
-    public
-    @Test
-    final void testPasswordHistory() {
+    @Disabled
+    @Test void testPasswordHistory() {
         User u1 = new User(TEST_USER1);
         BCryptPasswordEncoder enc = new BCryptPasswordEncoder(15);
 
@@ -137,7 +93,7 @@ public class UserTest {
                 }
             } catch (InvalidPasswordException e) {
                 if (i <= User.NUMBER_STORED_PASSWORDS) {
-                    Assert.fail("Number of acceptable passwords not exceeded");
+                    fail("Number of acceptable passwords not exceeded");
                 } else {
                     LOGGER.debug("OK: Exception because password is already in the list, set password to:" + i);
                     try {
@@ -166,12 +122,7 @@ public class UserTest {
         }
     }
 
-    /**
-     * Test hashCode() and equals(obj).
-     */
-    public
-    @Test
-    final void testHashCodeEquals() {
+    @Test void testHashCodeEquals() {
         User user1 = new User(TEST_USER1);
         User user2 = new User(TEST_USER1);
         User user3 = new User(TEST_USER2);

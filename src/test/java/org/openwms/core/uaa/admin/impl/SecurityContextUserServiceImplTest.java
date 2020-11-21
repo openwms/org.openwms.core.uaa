@@ -21,7 +21,7 @@
 package org.openwms.core.uaa.admin.impl;
 
 import net.sf.ehcache.Ehcache;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.openwms.core.AbstractMockitoTests;
@@ -34,10 +34,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -46,8 +46,6 @@ import static org.mockito.Mockito.when;
  * A SecurityContextUserServiceImplTest.
  *
  * @author Heiko Scherrer
- * @version $Revision: $
- * @since 0.1
  */
 public class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
 
