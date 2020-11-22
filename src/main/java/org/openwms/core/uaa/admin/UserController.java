@@ -18,8 +18,8 @@ package org.openwms.core.uaa.admin;
 import org.ameba.http.MeasuredRestController;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.core.http.AbstractWebController;
+import org.openwms.core.http.Index;
 import org.openwms.core.uaa.admin.impl.User;
-import org.openwms.core.uaa.api.UAAConstants;
 import org.openwms.core.uaa.api.UserVO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,34 +37,52 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.openwms.core.uaa.api.UAAConstants.API_USERS;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 /**
- * An UsersController represents a RESTful access to {@code User}s. It is transactional by the means it is the outer application service
+ * An UserController represents a RESTful access to {@code User}s. It is transactional by the means it is the outer application service
  * facade that returns validated and completed {@code User} objects to its clients.
  *
  * @author Heiko Scherrer
  */
 @MeasuredRestController
-public class UsersController extends AbstractWebController {
+public class UserController extends AbstractWebController {
 
     private final UserService service;
     private final BeanMapper mapper;
 
-    public UsersController(UserService service, BeanMapper mapper) {
+    public UserController(UserService service, BeanMapper mapper) {
         this.service = service;
         this.mapper = mapper;
     }
 
-    @GetMapping(UAAConstants.API_USERS)
+    @GetMapping(API_USERS + "/index")
+    public ResponseEntity<Index> index() {
+        return ResponseEntity.ok(
+                new Index(
+                        linkTo(methodOn(UserController.class).findAllUsers()).withRel("users-findall"),
+                        linkTo(methodOn(UserController.class).findUser("pKey")).withRel("users-findbypkey"),
+                        linkTo(methodOn(UserController.class).create(new UserVO(), null)).withRel("users-create"),
+                        linkTo(methodOn(UserController.class).save(new UserVO())).withRel("users-save"),
+                        linkTo(methodOn(UserController.class).saveImage("".getBytes(), "pKey")).withRel("users-saveimage"),
+                        linkTo(methodOn(UserController.class).delete("pKey")).withRel("users-delete")
+                )
+        );
+    }
+
+    @GetMapping(API_USERS)
     public ResponseEntity<List<UserVO>> findAllUsers() {
         return ResponseEntity.ok(mapper.map(new ArrayList<>(service.findAll()), UserVO.class));
     }
 
-    @GetMapping(UAAConstants.API_USERS + "/{pKey}")
+    @GetMapping(API_USERS + "/{pKey}")
     public ResponseEntity<UserVO> findUser(@PathVariable("pKey") @NotEmpty String pKey) {
         return ResponseEntity.ok(mapper.map(service.findByPKey(pKey), UserVO.class));
     }
 
-    @PostMapping(UAAConstants.API_USERS)
+    @PostMapping(API_USERS)
     public ResponseEntity<UserVO> create(@RequestBody @Valid @NotNull UserVO user, HttpServletRequest req) {
         User created = service.create(mapper.map(user, User.class));
         return ResponseEntity
@@ -72,18 +90,18 @@ public class UsersController extends AbstractWebController {
                 .body(mapper.map(created, UserVO.class));
     }
 
-    @PutMapping(UAAConstants.API_USERS)
+    @PutMapping(API_USERS)
     public ResponseEntity<UserVO> save(@RequestBody @Valid UserVO user) {
         return ResponseEntity.ok(mapper.map(service.save(mapper.map(user, User.class)), UserVO.class));
     }
 
-    @PatchMapping(UAAConstants.API_USERS + "/{pKey}")
+    @PatchMapping(API_USERS + "/{pKey}")
     public ResponseEntity<Void> saveImage(@RequestBody @NotNull byte[] image, @PathVariable("pKey") @NotEmpty String pKey) {
         service.uploadImageFile(pKey, image);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping(UAAConstants.API_USERS + "/{pKey}")
+    @DeleteMapping(API_USERS + "/{pKey}")
     public ResponseEntity<Void> delete(@PathVariable("pKey") @NotEmpty String pKey) {
         service.delete(pKey);
         return ResponseEntity.noContent().build();

@@ -19,9 +19,9 @@ import org.ameba.http.MeasuredRestController;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.HttpBusinessException;
-import org.openwms.core.uaa.api.RoleVO;
+import org.openwms.core.http.Index;
 import org.openwms.core.uaa.admin.impl.Role;
-import org.openwms.core.uaa.api.UAAConstants;
+import org.openwms.core.uaa.api.RoleVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,27 +38,43 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.openwms.core.uaa.api.UAAConstants.API_ROLES;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 /**
- * A RolesController.
+ * A RoleController.
  *
  * @author Heiko Scherrer
  */
 @MeasuredRestController
-public class RolesController extends AbstractWebController {
+public class RoleController extends AbstractWebController {
 
     private final RoleService service;
     private final BeanMapper mapper;
 
-    public RolesController(RoleService service, BeanMapper mapper) {
+    public RoleController(RoleService service, BeanMapper mapper) {
         this.service = service;
         this.mapper = mapper;
+    }
+
+    @GetMapping(API_ROLES + "/index")
+    public ResponseEntity<Index> index() {
+        return ResponseEntity.ok(
+                new Index(
+                        linkTo(methodOn(RoleController.class).findAllRoles()).withRel("roles-findall"),
+                        linkTo(methodOn(RoleController.class).create(new RoleVO(), null)).withRel("roles-create"),
+                        linkTo(methodOn(RoleController.class).save(new RoleVO())).withRel("roles-save"),
+                        linkTo(methodOn(RoleController.class).delete("pKey")).withRel("roles-delete")
+                )
+        );
     }
 
     /**
      * Documented here: https://openwms.atlassian.net/wiki/x/EYAWAQ
      **/
     @Transactional(readOnly = true)
-    @GetMapping(UAAConstants.API_ROLES)
+    @GetMapping(API_ROLES)
     public ResponseEntity<List<RoleVO>> findAllRoles() {
         return ResponseEntity.ok(mapper.map(new ArrayList<>(service.findAll()), RoleVO.class));
     }
@@ -66,14 +82,14 @@ public class RolesController extends AbstractWebController {
     /**
      * Documented here: https://openwms.atlassian.net/wiki/x/BIAWAQ
      */
-    @PostMapping(UAAConstants.API_ROLES)
+    @PostMapping(API_ROLES)
     public ResponseEntity<RoleVO> create(@RequestBody @Valid @NotNull RoleVO role, HttpServletRequest req) {
         return ResponseEntity.ok(
                 mapper.map(service.save(mapper.map(role, Role.class)), RoleVO.class)
         );
     }
 
-    @PutMapping(UAAConstants.API_ROLES)
+    @PutMapping(API_ROLES)
     public ResponseEntity<RoleVO> save(@RequestBody @Valid @NotNull RoleVO role) {
         if (role.getName() == null) {
             throw new HttpBusinessException("Role to save is a transient one", HttpStatus.NOT_ACCEPTABLE);
@@ -81,7 +97,7 @@ public class RolesController extends AbstractWebController {
         return ResponseEntity.ok(mapper.map(service.save(mapper.map(role, Role.class)), RoleVO.class));
     }
 
-    @DeleteMapping(UAAConstants.API_ROLES + "/{pKey}")
+    @DeleteMapping(API_ROLES + "/{pKey}")
     public ResponseEntity<Void> delete(@PathVariable("pKey") String pKey) {
         service.delete(pKey);
         return ResponseEntity.noContent().build();

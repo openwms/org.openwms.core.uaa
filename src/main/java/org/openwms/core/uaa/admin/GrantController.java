@@ -18,8 +18,8 @@ package org.openwms.core.uaa.admin;
 import org.ameba.http.MeasuredRestController;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.core.http.AbstractWebController;
+import org.openwms.core.http.Index;
 import org.openwms.core.uaa.api.SecurityObjectVO;
-import org.openwms.core.uaa.api.UAAConstants;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,24 +27,37 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.openwms.core.uaa.api.UAAConstants.API_GRANTS;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 /**
- * A GrantsController.
+ * A GrantController.
  *
  * @author Heiko Scherrer
  */
 @MeasuredRestController
-public class GrantsController extends AbstractWebController {
+public class GrantController extends AbstractWebController {
 
     private final SecurityService service;
     private final BeanMapper mapper;
 
-    public GrantsController(SecurityService service, BeanMapper mapper) {
+    public GrantController(SecurityService service, BeanMapper mapper) {
         this.service = service;
         this.mapper = mapper;
     }
 
+    @GetMapping(API_GRANTS + "/index")
+    public ResponseEntity<Index> index() {
+        return ResponseEntity.ok(
+                new Index(
+                        linkTo(methodOn(GrantController.class).findAllGrants()).withRel("grants-findall")
+                )
+        );
+    }
+
     @Transactional(readOnly = true)
-    @GetMapping(UAAConstants.API_GRANTS)
+    @GetMapping(API_GRANTS)
     public ResponseEntity<List<SecurityObjectVO>> findAllGrants() {
         return ResponseEntity.ok(mapper.map(new ArrayList<>(service.findAllGrants()), SecurityObjectVO.class));
     }
