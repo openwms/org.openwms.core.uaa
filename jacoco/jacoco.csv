@@ -28,9 +28,9 @@ OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,UserServiceImpl,19,296,1,1
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,User.PasswordComparator,9,0,0,0,2,0,2,0,2,0
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,SecurityContextUserServiceImpl,0,98,1,11,0,23,1,9,0,4
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,Role.Builder,0,33,0,0,0,10,0,4,0,4
-OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin,GrantsController,12,9,0,0,1,4,1,1,1,1
-OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin,RolesController,60,9,2,0,8,4,5,1,4,1
-OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin,UsersController,36,51,0,0,4,11,3,4,3,4
+OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin,UserController,127,51,0,0,11,11,4,4,4,4
+OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin,GrantController,31,9,0,0,3,4,2,1,2,1
+OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin,RoleController,123,9,2,0,13,4,6,1,5,1
 OpenWMS.org CORE: UAA,org.openwms.core.search,ActionServiceImpl,2,24,0,0,1,6,1,4,1,4
 OpenWMS.org CORE: UAA,org.openwms.core.search,Action,115,0,6,0,33,0,20,0,17,0
 OpenWMS.org CORE: UAA,org.openwms.core.search,Action.Builder,29,0,0,0,9,0,4,0,4,0
@@ -41,7 +41,7 @@ OpenWMS.org CORE: UAA,org.openwms.core.search,Tag,42,0,0,0,13,0,7,0,7,0
 OpenWMS.org CORE: UAA,org.openwms.core.search,ObjectFactory,34,0,0,0,7,0,7,0,7,0
 OpenWMS.org CORE: UAA,org.openwms.core.search,Tags,14,0,2,0,4,0,3,0,2,0
 OpenWMS.org CORE: UAA,org.openwms.core.search,VerbTag,7,0,0,0,4,0,2,0,2,0
-OpenWMS.org CORE: UAA,org.openwms.core.uaa.client,ClientController,39,9,0,0,5,4,4,1,4,1
+OpenWMS.org CORE: UAA,org.openwms.core.uaa.client,ClientController,101,9,0,0,10,4,5,1,5,1
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.client,ClientMapperImpl,201,3,10,0,55,1,9,1,4,1
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.auth.impl,ClientServiceImpl,49,9,0,0,7,4,5,1,5,1
 OpenWMS.org CORE: UAA,org.openwms.core.app,UAAModuleConfiguration,7,59,0,0,1,12,1,7,1,7
@@ -54,6 +54,7 @@ OpenWMS.org CORE: UAA,org.openwms.core.app,DefaultTimeProvider,0,3,0,0,0,1,0,1,0
 OpenWMS.org CORE: UAA,org.openwms.core.app,UAAModuleConfiguration.new AbstractTranslator() {...},0,10,0,0,0,2,0,2,0,2
 OpenWMS.org CORE: UAA,org.openwms.core,TimeProvider,11,8,0,0,2,2,2,2,2,2
 OpenWMS.org CORE: UAA,org.openwms.core,ServiceLayerExceptionTranslator,19,3,4,0,5,1,3,1,1,1
+OpenWMS.org CORE: UAA,org.openwms.core,IndexController,0,58,0,0,0,6,0,2,0,2
 OpenWMS.org CORE: UAA,org.openwms.core,UAAStarter,152,5,4,0,36,2,6,2,4,2
 OpenWMS.org CORE: UAA,org.openwms.core.configuration,ConfigurationServiceImpl,0,5,0,0,0,2,0,2,0,2
 OpenWMS.org CORE: UAA,org.openwms.core.configuration,UserPreference,21,6,0,0,8,3,4,1,4,1

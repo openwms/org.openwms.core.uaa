@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="(1.1.0-SNAPSHOT-80)">
+<meta name="author" content="(1.1.0-SNAPSHOT-81)">
 <title>OpenWMS.org WMS: RESTful API (Receiving Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org WMS: RESTful API (Receiving Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.1.0-SNAPSHOT-80)</span><br>
+<span id="author" class="author">(1.1.0-SNAPSHOT-81)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -690,15 +690,39 @@ format or has produced an error on server side, the API will decline the request
 <p>The initial HTTP request to retrieve information about all available resources looks like the following. The Index page is a public
 available resource and does not need any authentication.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 1-index.adoc - include::/home/travis/build/openwms/org.openwms.core.uaa/target/generated-snippets/get-index/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The <code>Index</code> resource is returned in the response body with the response status of 200-OK. This main <code>Index</code> lists all primary resource
 entities to follow next.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 1-index.adoc - include::/home/travis/build/openwms/org.openwms.core.uaa/target/generated-snippets/get-index/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 347
+
+{
+  "_links" : {
+    "user-index" : {
+      "href" : "http://localhost:8080/users/index"
+    },
+    "role-index" : {
+      "href" : "http://localhost:8080/roles/index"
+    },
+    "grant-index" : {
+      "href" : "http://localhost:8080/grants/index"
+    },
+    "client-index" : {
+      "href" : "http://localhost:8080/api/clients/index"
+    }
+  }
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>A client application only needs to know about the agreed link names and follow the corresponding <code>href</code> link to navigate to further
@@ -764,12 +788,12 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/465e53e9-7872-4e7c-b4e1-9a69f8620728/
+Location: http://localhost:8080/users/8851caaa-70e2-4bca-b419-9796d59a9e25/
 Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "465e53e9-7872-4e7c-b4e1-9a69f8620728",
+  "pKey" : "8851caaa-70e2-4bca-b419-9796d59a9e25",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -786,7 +810,7 @@ resource:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/465e53e9-7872-4e7c-b4e1-9a69f8620728/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/8851caaa-70e2-4bca-b419-9796d59a9e25/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -800,7 +824,7 @@ Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "465e53e9-7872-4e7c-b4e1-9a69f8620728",
+  "pKey" : "8851caaa-70e2-4bca-b419-9796d59a9e25",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -818,7 +842,7 @@ to access the endpoint.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDYwOTAyMzAsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6Ijc2NDEyNDg4LTA0YTgtNDZmZS05NzBkLTBiMzgyNzMzZjExMSIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.Y5lf0m5Qg272AANWkXHqDZ02qicQs9meuZtJiubIaGw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDYwOTQyMzAsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6ImM3MGE4NGFiLTkwOTUtNDM0MS04ZTMyLWY2YWVjYWFiNmFjMCIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.jtdJfaiRPD6B4NPypXsb7ZJ2TfUHpGkS0fX_UdQzuSQ
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -913,7 +937,7 @@ X-Frame-Options: DENY
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /users/465e53e9-7872-4e7c-b4e1-9a69f8620728/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /users/8851caaa-70e2-4bca-b419-9796d59a9e25/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -931,7 +955,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-11-22 14:07:52 UTC
+Last updated 2020-11-22 15:15:29 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
