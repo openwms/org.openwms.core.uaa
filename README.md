@@ -85,4 +85,4 @@ $ mvn package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -Psonar
 $ mvn site scm-publish:publish-scm
 ```
 
-[1]: images/ClassDiagram.svg
+[1]: src/site/resources/images/ClassDiagram.svg
