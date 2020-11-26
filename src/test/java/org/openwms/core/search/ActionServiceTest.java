@@ -42,36 +42,32 @@ import static org.mockito.Mockito.when;
  * 
  * @author Heiko Scherrer
  */
-public class ActionServiceTest extends AbstractMockitoTests {
+class ActionServiceTest extends AbstractMockitoTests {
 
     @Mock
     private ConfigurationService confSrv;
     @InjectMocks
     private ActionServiceImpl srv = new ActionServiceImpl();
 
-    @Test
-    public final void testFindAllActions() {
+    @Test final void testFindAllActions() {
         Collection<Action> result = srv.findAllActions();
         assertNotNull(result);
     }
 
-    @Test
-    public final void testFindAllActionsUser() {
+    @Test final void testFindAllActionsUser() {
         Collection<Action> result = srv.findAllActions(new SystemUser(SystemUser.SYSTEM_USERNAME,
                 SystemUser.SYSTEM_USERNAME));
         assertNotNull(result);
     }
 
-    @Test
-    public final void testFindAllTags() {
+    @Test final void testFindAllTags() {
         Collection<Tag> result = srv
                 .findAllTags(new SystemUser(SystemUser.SYSTEM_USERNAME, SystemUser.SYSTEM_USERNAME));
         assertNotNull(result);
     }
 
     @Disabled("Of no reason. Taken over fro JUnit4 tests and needs rework")
-    @Test
-    public final void testSave() {
+    @Test final void testSave() {
         Collection<Action> actions = new ArrayList<Action>();
         actions.add(new Action());
 

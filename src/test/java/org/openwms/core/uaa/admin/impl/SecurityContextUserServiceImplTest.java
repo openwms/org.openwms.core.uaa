@@ -47,7 +47,7 @@ import static org.mockito.Mockito.when;
  *
  * @author Heiko Scherrer
  */
-public class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
+class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
 
     private static final String TEST_USER = "TEST_USER";
     @Mock
@@ -65,8 +65,7 @@ public class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
      * Test method for {@link SecurityContextUserServiceImpl#onApplicationEvent(org.openwms.core.event.UserChangedEvent)}
      * .
      */
-    @Test
-    public final void testOnApplicationEventWithCache() {
+    @Test final void testOnApplicationEventWithCache() {
         srv.onApplicationEvent(new UserChangedEvent(this));
         verify(cache).removeAll();
     }
@@ -76,8 +75,7 @@ public class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
      * <p>
      * Test that the cache works and no service nor dao is called.
      */
-    @Test
-    public final void testLoadUserByUsernameFromCache() {
+    @Test final void testLoadUserByUsernameFromCache() {
         when(userCache.getUserFromCache(TEST_USER)).thenReturn(new UserWrapper(new User(TEST_USER)));
         UserDetails cachedUser = srv.loadUserByUsername(TEST_USER);
 
@@ -93,8 +91,7 @@ public class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
      * Test for the SystemUser credentials, that user can be cached but not fetched from the dao. In this test the cache is not tested. We
      * expect that the cache is empty.
      */
-    @Test
-    public final void testLoadUserByUsernameSystemUser() {
+    @Test final void testLoadUserByUsernameSystemUser() {
         SystemUser su = new SystemUser(SystemUser.SYSTEM_USERNAME, SystemUser.SYSTEM_USERNAME);
         SystemUserWrapper suw = new SystemUserWrapper(su);
 
@@ -115,8 +112,7 @@ public class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
      * <p>
      * Test for a usual User not a SystemUser, that User is can be resolved from the dao and is put in cache afterwards.
      */
-    @Test
-    public final void testLoadUserByUsernameNotCached() {
+    @Test final void testLoadUserByUsernameNotCached() {
         when(userCache.getUserFromCache("NOT_CACHED_USER")).thenReturn(null);
         when(userService.findByUsername("NOT_CACHED_USER")).thenReturn(Optional.of(new User("NOT_CACHED_USER")));
 
@@ -136,8 +132,7 @@ public class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
      * <p>
      * Test that calling the service to load an unknown User fails with an exception and nothing is put into cache.
      */
-    @Test
-    public final void testLoadUserByUsernameNotFound() {
+    @Test final void testLoadUserByUsernameNotFound() {
         when(userCache.getUserFromCache("UNKNOWN_USER")).thenReturn(null);
         when(userService.findByUsername("UNKNOWN_USER")).thenReturn(Optional.empty());
 

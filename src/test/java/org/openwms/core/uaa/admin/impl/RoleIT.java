@@ -50,7 +50,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest(showSql = false)
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
-public class RoleIT extends TestBase {
+class RoleIT extends TestBase {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RoleIT.class);
 
@@ -82,8 +82,7 @@ public class RoleIT extends TestBase {
     /**
      * Creating two roles with same id must fail.
      */
-    @Test
-    public final void testRoleConstraint() {
+    @Test final void testRoleConstraint() {
         Role role = new Role(TEST_ROLE);
         Role role2 = new Role(TEST_ROLE);
         entityManager.persist(role);
@@ -99,8 +98,7 @@ public class RoleIT extends TestBase {
     /**
      * Test the JPA lifecycle. Transient Users may not be created whenever a Role is merged.
      */
-    @Test
-    public final void testLifecycleWithTransientUsers() {
+    @Test final void testLifecycleWithTransientUsers() {
         knownRole.addUser(knownUser);
         knownRole = entityManager.merge(knownRole);
 
@@ -117,8 +115,7 @@ public class RoleIT extends TestBase {
     /**
      * Test hashCode() and equals(obj).
      */
-    @Test
-    public final void testHashCodeEquals() {
+    @Test final void testHashCodeEquals() {
         Role role1 = new Role(TEST_ROLE);
         Role role2 = new Role(TEST_ROLE);
         Role role3 = new Role(TEST_ROLE2);
@@ -131,16 +128,15 @@ public class RoleIT extends TestBase {
         Set<Role> roles = new HashSet<>();
         roles.add(role1);
         roles.add(role2);
-        assertEquals(roles.size(), 1);
+        assertEquals(1, roles.size());
         roles.add(role3);
-        assertEquals(roles.size(), 2);
+        assertEquals(2, roles.size());
     }
 
     /**
      * Test the internal Role builder.
      */
-    @Test
-    public final void testRoleBuilder() {
+    @Test final void testRoleBuilder() {
         Role role1 = new Role.Builder(TEST_ROLE).withDescription(TEST_DESCR).asImmutable().build();
         assertEquals(TEST_ROLE, role1.getName());
         assertEquals(TEST_DESCR, role1.getDescription());
@@ -150,8 +146,7 @@ public class RoleIT extends TestBase {
     /**
      * Test of JPA cascade lifecycle. Do not remove already existing User when removing a Role.
      */
-    @Test
-    public final void testLifecycleRemoveRoleNotUsers() {
+    @Test final void testLifecycleRemoveRoleNotUsers() {
         knownRole.addUser(knownUser);
         knownRole = entityManager.merge(knownRole);
 
@@ -164,6 +159,5 @@ public class RoleIT extends TestBase {
         cnt = (Long) entityManager.getEntityManager().createQuery("select count(u) from User u where u.username = :username")
                 .setParameter("username", KNOWN_USER).getSingleResult();
         assertEquals(1, cnt.intValue(), "User may not be removed");
-
     }
 }

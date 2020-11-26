@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
  *
  * @author Heiko Scherrer
  */
-public class GrantTest {
+class GrantTest {
 
     private static final String GRANT_NAME1 = "GRANT_NAME1";
     private static final String GRANT_NAME2 = "GRANT_NAME1";
@@ -46,8 +46,7 @@ public class GrantTest {
     /**
      * Test method for {@link org.openwms.core.system.usermanagement.Grant#equals(java.lang.Object)} .
      */
-    @Test
-    public final void testEqualsObject() {
+    @Test final void testEqualsObject() {
         Grant grant1 = new Grant(GRANT_NAME1, "abc");
         Grant grant2 = new Grant(GRANT_NAME2, "defg");
         Grant grant3 = new Grant(GRANT_NAME3, "hijkl");
@@ -59,19 +58,18 @@ public class GrantTest {
         assertNotEquals(grant1, grant3);
 
         // Test behavior in hashed collections
-        Set<Grant> grants = new HashSet<Grant>();
+        Set<Grant> grants = new HashSet<>();
         grants.add(grant1);
         grants.add(grant2);
-        assertEquals(grants.size(), 1);
+        assertEquals(1, grants.size());
         grants.add(grant3);
-        assertEquals(grants.size(), 2);
+        assertEquals(2, grants.size());
     }
 
     /**
      * Test method for {@link org.openwms.core.system.usermanagement.Grant#Grant()}.
      */
-    @Test
-    public final void testGrant() {
+    @Test final void testGrant() {
         Grant grant = new Grant();
         assertNull(grant.getName());
         assertNull(grant.getDescription());
@@ -80,8 +78,7 @@ public class GrantTest {
     /**
      * Test method for {@link org.openwms.core.system.usermanagement.Grant#Grant(java.lang.String, java.lang.String)} .
      */
-    @Test
-    public final void testGrantStringString() {
+    @Test final void testGrantStringString() {
         Grant grant = new Grant(GRANT_NAME1, GRANT_DESC1);
         assertEquals(GRANT_NAME1, grant.getName());
         assertEquals(GRANT_DESC1, grant.getDescription());
@@ -90,8 +87,7 @@ public class GrantTest {
     /**
      * Test method for {@link org.openwms.core.system.usermanagement.Grant#Grant(java.lang.String, java.lang.String)} .
      */
-    @Test
-    public final void testGrantStringStringEmpty() {
+    @Test final void testGrantStringStringEmpty() {
         try {
             new Grant(null, GRANT_DESC1);
             fail("IAE expected when creating Grant(String, String) with name equals to null");
