@@ -1,23 +1,17 @@
 /*
- * openwms.org, the Open Warehouse Management System.
- * Copyright (C) 2014 Heiko Scherrer
+ * Copyright 2005-2020 the original author or authors.
  *
- * This file is part of openwms.org.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as 
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * openwms.org is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this software. If not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.openwms.core.uaa.admin.impl;
 
@@ -50,6 +44,7 @@ import java.util.Set;
 @DiscriminatorValue("ROLE")
 public class Role extends SecurityObject implements Serializable {
 
+    public static final String NOT_ALLOWED_TO_CREATE_A_ROLE_WITH_AN_EMPTY_NAME = "Not allowed to create a Role with an empty name";
     /**
      * Whether or not this Role is immutable. Immutable Roles can't be modified.
      */
@@ -90,8 +85,6 @@ public class Role extends SecurityObject implements Serializable {
      * A builder class to construct Role instances.
      *
      * @author Heiko Scherrer
-     * @version $Revision$
-     * @since 0.1
      */
     public static class Builder {
 
@@ -104,7 +97,7 @@ public class Role extends SecurityObject implements Serializable {
          * @throws IllegalArgumentException when name is {@literal null} or empty
          */
         public Builder(String name) {
-            Assert.hasText(name, "Not allowed to create a Role with an empty name");
+            Assert.hasText(name, NOT_ALLOWED_TO_CREATE_A_ROLE_WITH_AN_EMPTY_NAME);
             role = new Role(name);
             role.immutable = false;
         }
@@ -156,7 +149,7 @@ public class Role extends SecurityObject implements Serializable {
      */
     public Role(String name) {
         super(name);
-        Assert.hasText(name, "Not allowed to create a Role with an empty name");
+        Assert.hasText(name, NOT_ALLOWED_TO_CREATE_A_ROLE_WITH_AN_EMPTY_NAME);
     }
 
     /**
@@ -168,7 +161,7 @@ public class Role extends SecurityObject implements Serializable {
      */
     public Role(String name, String description) {
         super(name, description);
-        Assert.hasText(name, "Not allowed to create a Role with an empty name");
+        Assert.hasText(name, NOT_ALLOWED_TO_CREATE_A_ROLE_WITH_AN_EMPTY_NAME);
     }
 
     /**

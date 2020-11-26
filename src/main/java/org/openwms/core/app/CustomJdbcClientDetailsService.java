@@ -38,7 +38,7 @@ public class CustomJdbcClientDetailsService extends JdbcClientDetailsService {
     private static final String FIND_SQL = BASE_FIND_STATEMENT + " order by C_CLIENT_ID";
     private static final String SELECT_SQL = BASE_FIND_STATEMENT + " where C_CLIENT_ID = ?";
     private static final String UPDATE_SQL = "update COR_UAA_CLIENT_DETAILS " + "set "
-            + CLIENT_FIELDS_FOR_UPDATE.replaceAll(", ", "=?, ") + "=? where C_CLIENT_ID = ?";
+            + CLIENT_FIELDS_FOR_UPDATE.replace(", ", "=?, ") + "=? where C_CLIENT_ID = ?";
     private static final String UPDATE_SECRET_SQL = "update COR_UAA_CLIENT_DETAILS set C_CLIENT_SECRET = ? where C_CLIENT_ID = ?";
 
     public CustomJdbcClientDetailsService(DataSource dataSource) {

@@ -50,11 +50,6 @@ public class ActionServiceTest extends AbstractMockitoTests {
     private ActionServiceImpl srv = new ActionServiceImpl();
 
     @Test
-    public final void testActionServiceImpl() {
-        new ActionServiceImpl();
-    }
-
-    @Test
     public final void testFindAllActions() {
         Collection<Action> result = srv.findAllActions();
         assertNotNull(result);
