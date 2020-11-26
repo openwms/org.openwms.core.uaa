@@ -69,7 +69,7 @@ public class UserDetails implements ImageProvider, Serializable {
      *
      * @author Heiko Scherrer
      */
-    public static enum Gender {
+    public enum Gender {
         /** Male. */
         MALE,
         /** Female. */

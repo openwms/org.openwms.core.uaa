@@ -55,21 +55,6 @@ public class Client extends ApplicationEntity implements Serializable {
     @Column(name = "C_AUTOAPPROVE")
     private String autoapprove;
 
-    @Override
-    public void setPersistentKey(String pKey) {
-        super.setPersistentKey(pKey);
-    }
-
-    @Override
-    public long getOl() {
-        return super.getOl();
-    }
-
-    @Override
-    public void setOl(long ol) {
-        super.setOl(ol);
-    }
-
     public String getResourceIds() {
         return resourceIds;
     }

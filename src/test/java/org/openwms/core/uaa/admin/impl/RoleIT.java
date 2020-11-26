@@ -38,7 +38,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -86,10 +86,9 @@ public class RoleIT extends TestBase {
     public final void testRoleConstraint() {
         Role role = new Role(TEST_ROLE);
         Role role2 = new Role(TEST_ROLE);
-
+        entityManager.persist(role);
+        entityManager.persist(role2);
         try {
-            entityManager.persist(role);
-            entityManager.persist(role2);
             entityManager.flush();
             fail("No unique constraint on rolename");
         } catch (PersistenceException pe) {
@@ -125,16 +124,16 @@ public class RoleIT extends TestBase {
         Role role3 = new Role(TEST_ROLE2);
 
         // Just the name is considered
-        assertTrue(role1.equals(role2));
-        assertFalse(role1.equals(role3));
+        assertEquals(role2, role1);
+        assertNotEquals(role3, role1);
 
         // Test behavior in hashed collections
         Set<Role> roles = new HashSet<>();
         roles.add(role1);
         roles.add(role2);
-        assertTrue(roles.size() == 1);
+        assertEquals(roles.size(), 1);
         roles.add(role3);
-        assertTrue(roles.size() == 2);
+        assertEquals(roles.size(), 2);
     }
 
     /**

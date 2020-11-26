@@ -22,6 +22,7 @@ import org.ameba.http.AbstractBase;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * A ClientVO.
@@ -152,5 +153,30 @@ public class ClientVO extends AbstractBase implements Serializable {
 
     public void setAutoapprove(String autoapprove) {
         this.autoapprove = autoapprove;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        ClientVO clientVO = (ClientVO) o;
+        return accessTokenValidity == clientVO.accessTokenValidity &&
+                refreshTokenValidity == clientVO.refreshTokenValidity &&
+                Objects.equals(pKey, clientVO.pKey) &&
+                Objects.equals(resourceIds, clientVO.resourceIds) &&
+                Objects.equals(clientId, clientVO.clientId) &&
+                Objects.equals(clientSecret, clientVO.clientSecret) &&
+                Objects.equals(scope, clientVO.scope) &&
+                Objects.equals(authorizedGrantTypes, clientVO.authorizedGrantTypes) &&
+                Objects.equals(webServerRedirectUri, clientVO.webServerRedirectUri) &&
+                Objects.equals(authorities, clientVO.authorities) &&
+                Objects.equals(additionalInformation, clientVO.additionalInformation) &&
+                Objects.equals(autoapprove, clientVO.autoapprove);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), pKey, resourceIds, clientId, clientSecret, scope, authorizedGrantTypes, webServerRedirectUri, authorities, accessTokenValidity, refreshTokenValidity, additionalInformation, autoapprove);
     }
 }

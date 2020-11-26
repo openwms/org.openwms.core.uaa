@@ -5,7 +5,7 @@
  * This file is part of openwms.org.
  *
  * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as 
+ * it under the terms of the GNU General Public License as
  * published by the Free Software Foundation; either version 2 of the
  * License, or (at your option) any later version.
  *
@@ -28,13 +28,12 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * A GrantTest.
- * 
+ *
  * @author Heiko Scherrer
  */
 public class GrantTest {
@@ -54,18 +53,18 @@ public class GrantTest {
         Grant grant3 = new Grant(GRANT_NAME3, "hijkl");
 
         // Just the name is considered
-        assertTrue(grant1.equals(grant2));
-        assertFalse(grant1.equals(new Object()));
-        assertTrue(grant1.equals(grant1));
-        assertFalse(grant1.equals(grant3));
+        assertEquals(grant1, grant2);
+        assertNotEquals(grant1, new Object());
+        assertEquals(grant1, grant1);
+        assertNotEquals(grant1, grant3);
 
         // Test behavior in hashed collections
         Set<Grant> grants = new HashSet<Grant>();
         grants.add(grant1);
         grants.add(grant2);
-        assertTrue(grants.size() == 1);
+        assertEquals(grants.size(), 1);
         grants.add(grant3);
-        assertTrue(grants.size() == 2);
+        assertEquals(grants.size(), 2);
     }
 
     /**
@@ -96,11 +95,13 @@ public class GrantTest {
         try {
             new Grant(null, GRANT_DESC1);
             fail("IAE expected when creating Grant(String, String) with name equals to null");
-        } catch (IllegalArgumentException iae) {}
+        } catch (IllegalArgumentException iae) {
+        }
         try {
             new Grant("", GRANT_DESC1);
             fail("IAE expected when creating Grant(String, String) with empty name");
-        } catch (IllegalArgumentException iae) {}
+        } catch (IllegalArgumentException iae) {
+        }
     }
 
     /**
@@ -121,10 +122,12 @@ public class GrantTest {
         try {
             new Grant(null);
             fail("IAE expected when creating Grant(String) with name equals to null");
-        } catch (IllegalArgumentException iae) {}
+        } catch (IllegalArgumentException iae) {
+        }
         try {
             new Grant("");
             fail("IAE expected when creating Grant(String) with empty name");
-        } catch (IllegalArgumentException iae) {}
+        } catch (IllegalArgumentException iae) {
+        }
     }
 }

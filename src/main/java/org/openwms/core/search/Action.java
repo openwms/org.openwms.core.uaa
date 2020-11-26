@@ -110,7 +110,7 @@ public class Action implements Serializable {
      * @return the name.
      */
     public String getName() {
-        return id;
+        return getId();
     }
 
     /**
