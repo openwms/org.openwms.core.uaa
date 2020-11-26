@@ -1,25 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserWrapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.uaa.admin.impl</a> &gt; <span class="el_source">UserWrapper.java</span></div><h1>UserWrapper.java</h1><pre class="source lang-java linenums">/*
- * openwms.org, the Open Warehouse Management System.
- * Copyright (C) 2014 Heiko Scherrer
- *
- * This file is part of openwms.org.
- *
- * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as 
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
- *
- * openwms.org is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this software. If not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
- */
-package org.openwms.core.uaa.admin.impl;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserWrapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.uaa.admin.impl</a> &gt; <span class="el_source">UserWrapper.java</span></div><h1>UserWrapper.java</h1><pre class="source lang-java linenums">package org.openwms.core.uaa.admin.impl;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,28 +12,26 @@ import java.util.stream.Collectors;
  * An UserWrapper is used as an adapter between {@link Role}s, {@link SecurityObject}s and Spring's {@link GrantedAuthority} objects.
  *
  * @author &lt;a href=&quot;mailto:russelltina@users.sourceforge.net&quot;&gt;Tina Russell&lt;/a&gt;
- * @version 0.2
  * @see SecurityObject
  * @see Role
  * @see org.springframework.security.core.GrantedAuthority
  * @see org.springframework.security.core.userdetails.UserDetails
- * @since 0.1
  */
 public class UserWrapper implements UserDetails, UserHolder {
 
     private User user;
-<span class="fc" id="L46">    private Collection&lt;GrantedAuthority&gt; authorities = null;</span>
+<span class="fc" id="L23">    private Collection&lt;GrantedAuthority&gt; authorities = null;</span>
 
     /**
      * Create a new UserWrapper.
      *
      * @param user The User to wrap
      */
-<span class="fc" id="L53">    public UserWrapper(User user) {</span>
-<span class="fc" id="L54">        Assert.notNull(user, &quot;Not allowed to create an UserWrapper with null argument&quot;);</span>
-<span class="fc" id="L55">        this.user = user;</span>
-<span class="fc" id="L56">        this.user.getRoles().size();</span>
-<span class="fc" id="L57">    }</span>
+<span class="fc" id="L30">    public UserWrapper(User user) {</span>
+<span class="fc" id="L31">        Assert.notNull(user, &quot;Not allowed to create an UserWrapper with null argument&quot;);</span>
+<span class="fc" id="L32">        this.user = user;</span>
+<span class="fc" id="L33">        this.user.getRoles().size();</span>
+<span class="fc" id="L34">    }</span>
 
     /**
      * Subclasses can set a collection of grants that are always available for an User. This is useful for administrative accounts.
@@ -62,14 +39,14 @@ public class UserWrapper implements UserDetails, UserHolder {
      * @param authz A collection of grants (authorities) where the default grants are added to
      */
     protected void addDefaultGrants(Collection&lt;GrantedAuthority&gt; authz) {
-<span class="fc" id="L65">    }</span>
+<span class="fc" id="L42">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
     public User getUser() {
-<span class="fc" id="L72">        return user;</span>
+<span class="fc" id="L49">        return user;</span>
     }
 
     /**
@@ -79,12 +56,12 @@ public class UserWrapper implements UserDetails, UserHolder {
      */
     @Override
     public Collection&lt;GrantedAuthority&gt; getAuthorities() {
-<span class="fc bfc" id="L82" title="All 2 branches covered.">        if (null == authorities) {</span>
-<span class="fc" id="L83">            authorities = new HashSet&lt;&gt;();</span>
-<span class="fc" id="L84">            authorities.addAll(user.getGrants().stream().map(SecurityObjectAuthority::new).collect(Collectors.toList()));</span>
-<span class="fc" id="L85">            addDefaultGrants(authorities);</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (null == authorities) {</span>
+<span class="fc" id="L60">            authorities = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L61">            authorities.addAll(user.getGrants().stream().map(SecurityObjectAuthority::new).collect(Collectors.toList()));</span>
+<span class="fc" id="L62">            addDefaultGrants(authorities);</span>
         }
-<span class="fc" id="L87">        return authorities;</span>
+<span class="fc" id="L64">        return authorities;</span>
     }
 
     /**
@@ -94,7 +71,7 @@ public class UserWrapper implements UserDetails, UserHolder {
      */
     @Override
     public String getPassword() {
-<span class="nc" id="L97">        return user.getPassword();</span>
+<span class="nc" id="L74">        return user.getPassword();</span>
     }
 
     /**
@@ -104,7 +81,7 @@ public class UserWrapper implements UserDetails, UserHolder {
      */
     @Override
     public String getUsername() {
-<span class="fc" id="L107">        return user.getUsername();</span>
+<span class="fc" id="L84">        return user.getUsername();</span>
     }
 
     /**
@@ -114,7 +91,7 @@ public class UserWrapper implements UserDetails, UserHolder {
      */
     @Override
     public boolean isAccountNonExpired() {
-<span class="fc" id="L117">        return true;</span>
+<span class="fc" id="L94">        return true;</span>
     }
 
     /**
@@ -124,7 +101,7 @@ public class UserWrapper implements UserDetails, UserHolder {
      */
     @Override
     public boolean isAccountNonLocked() {
-<span class="pc bpc" id="L127" title="1 of 2 branches missed.">        return !user.isLocked();</span>
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">        return !user.isLocked();</span>
     }
 
     /**
@@ -135,7 +112,7 @@ public class UserWrapper implements UserDetails, UserHolder {
      */
     @Override
     public boolean isCredentialsNonExpired() {
-<span class="fc" id="L138">        return true;</span>
+<span class="fc" id="L115">        return true;</span>
     }
 
     /**
@@ -145,7 +122,7 @@ public class UserWrapper implements UserDetails, UserHolder {
      */
     @Override
     public boolean isEnabled() {
-<span class="fc" id="L148">        return user.isEnabled();</span>
+<span class="fc" id="L125">        return user.isEnabled();</span>
     }
 
     /**
@@ -156,10 +133,10 @@ public class UserWrapper implements UserDetails, UserHolder {
     @Override
     public int hashCode() {
         final int prime = 31;
-<span class="fc" id="L159">        int result = 1;</span>
-<span class="pc bpc" id="L160" title="1 of 2 branches missed.">        result = prime * result + ((authorities == null) ? 0 : authorities.hashCode());</span>
-<span class="pc bpc" id="L161" title="1 of 2 branches missed.">        result = prime * result + ((user == null) ? 0 : user.hashCode());</span>
-<span class="fc" id="L162">        return result;</span>
+<span class="fc" id="L136">        int result = 1;</span>
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">        result = prime * result + ((authorities == null) ? 0 : authorities.hashCode());</span>
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">        result = prime * result + ((user == null) ? 0 : user.hashCode());</span>
+<span class="fc" id="L139">        return result;</span>
     }
 
     /**
@@ -169,31 +146,31 @@ public class UserWrapper implements UserDetails, UserHolder {
      */
     @Override
     public boolean equals(Object obj) {
-<span class="fc bfc" id="L172" title="All 2 branches covered.">        if (this == obj) {</span>
-<span class="fc" id="L173">            return true;</span>
+<span class="fc bfc" id="L149" title="All 2 branches covered.">        if (this == obj) {</span>
+<span class="fc" id="L150">            return true;</span>
         }
-<span class="fc bfc" id="L175" title="All 2 branches covered.">        if (obj == null) {</span>
-<span class="fc" id="L176">            return false;</span>
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        if (obj == null) {</span>
+<span class="fc" id="L153">            return false;</span>
         }
-<span class="fc bfc" id="L178" title="All 2 branches covered.">        if (getClass() != obj.getClass()) {</span>
-<span class="fc" id="L179">            return false;</span>
+<span class="fc bfc" id="L155" title="All 2 branches covered.">        if (getClass() != obj.getClass()) {</span>
+<span class="fc" id="L156">            return false;</span>
         }
-<span class="fc" id="L181">        UserWrapper other = (UserWrapper) obj;</span>
-<span class="pc bpc" id="L182" title="1 of 2 branches missed.">        if (authorities == null) {</span>
-<span class="pc bpc" id="L183" title="1 of 2 branches missed.">            if (other.authorities != null) {</span>
-<span class="nc" id="L184">                return false;</span>
+<span class="fc" id="L158">        UserWrapper other = (UserWrapper) obj;</span>
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">        if (authorities == null) {</span>
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">            if (other.authorities != null) {</span>
+<span class="nc" id="L161">                return false;</span>
             }
-<span class="nc bnc" id="L186" title="All 2 branches missed.">        } else if (!authorities.equals(other.authorities)) {</span>
-<span class="nc" id="L187">            return false;</span>
+<span class="nc bnc" id="L163" title="All 2 branches missed.">        } else if (!authorities.equals(other.authorities)) {</span>
+<span class="nc" id="L164">            return false;</span>
         }
-<span class="pc bpc" id="L189" title="1 of 2 branches missed.">        if (user == null) {</span>
-<span class="nc bnc" id="L190" title="All 2 branches missed.">            if (other.user != null) {</span>
-<span class="nc" id="L191">                return false;</span>
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">        if (user == null) {</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">            if (other.user != null) {</span>
+<span class="nc" id="L168">                return false;</span>
             }
-<span class="fc bfc" id="L193" title="All 2 branches covered.">        } else if (!user.equals(other.user)) {</span>
-<span class="fc" id="L194">            return false;</span>
+<span class="fc bfc" id="L170" title="All 2 branches covered.">        } else if (!user.equals(other.user)) {</span>
+<span class="fc" id="L171">            return false;</span>
         }
-<span class="fc" id="L196">        return true;</span>
+<span class="fc" id="L173">        return true;</span>
     }
 
     /**
@@ -204,7 +181,7 @@ public class UserWrapper implements UserDetails, UserHolder {
      */
     @Override
     public String toString() {
-<span class="fc" id="L207">        return getUsername();</span>
+<span class="fc" id="L184">        return getUsername();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

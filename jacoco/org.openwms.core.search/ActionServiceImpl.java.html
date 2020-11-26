@@ -1,53 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ActionServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.search</a> &gt; <span class="el_source">ActionServiceImpl.java</span></div><h1>ActionServiceImpl.java</h1><pre class="source lang-java linenums">/*
- * openwms.org, the Open Warehouse Management System.
- * Copyright (C) 2014 Heiko Scherrer
+ * Copyright 2005-2020 the original author or authors.
  *
- * This file is part of openwms.org.
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as 
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * openwms.org is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this software. If not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.openwms.core.search;
 
 import org.ameba.annotation.TxService;
-import org.openwms.core.configuration.ConfigurationService;
 import org.openwms.core.uaa.admin.impl.User;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
 import java.util.HashSet;
 
 /**
- * An ActionServiceImpl is used by the GUI to find all defined search actions.
+ * An ActionServiceImpl is a Spring managed transaction service used by the UI to work with actions.
  * 
  * @author Heiko Scherrer
- * @version 0.2
- * @since 0.2
  */
 @TxService
-public class ActionServiceImpl implements ActionService {
+<span class="fc" id="L30">class ActionServiceImpl implements ActionService {</span>
 
-    @Autowired
-    private ConfigurationService confSrv;
-<span class="fc" id="L44">    private Collection&lt;Action&gt; actions = new HashSet&lt;&gt;();</span>
-<span class="fc" id="L45">    private Collection&lt;Tag&gt; tags = new HashSet&lt;&gt;();</span>
-
-    /**
-     * Create a new ActionServiceImpl.
-     */
-<span class="fc" id="L50">    public ActionServiceImpl() {}</span>
+<span class="fc" id="L32">    private Collection&lt;Action&gt; actions = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L33">    private Collection&lt;Tag&gt; tags = new HashSet&lt;&gt;();</span>
 
     /**
      * {@inheritDoc}
@@ -56,7 +39,7 @@ public class ActionServiceImpl implements ActionService {
      */
     @Override
     public Collection&lt;Action&gt; findAllActions() {
-<span class="fc" id="L59">        return actions;</span>
+<span class="fc" id="L42">        return actions;</span>
     }
 
     /**
@@ -74,7 +57,7 @@ public class ActionServiceImpl implements ActionService {
             }
         }
         */
-<span class="fc" id="L77">        return new HashSet&lt;&gt;(0);</span>
+<span class="fc" id="L60">        return new HashSet&lt;&gt;(0);</span>
     }
 
     /**
@@ -82,7 +65,7 @@ public class ActionServiceImpl implements ActionService {
      */
     @Override
     public Collection&lt;Tag&gt; findAllTags(User user) {
-<span class="fc" id="L85">        return tags;</span>
+<span class="fc" id="L68">        return tags;</span>
     }
 
     /**
@@ -113,7 +96,7 @@ public class ActionServiceImpl implements ActionService {
         result = confSrv.save(result);
         return (Collection&lt;Action&gt;) result.getBinValue();
         */
-<span class="nc" id="L116">        return null;</span>
+<span class="nc" id="L99">        return null;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

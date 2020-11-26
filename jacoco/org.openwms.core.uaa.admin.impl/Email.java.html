@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Email.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.uaa.admin.impl</a> &gt; <span class="el_source">Email.java</span></div><h1>Email.java</h1><pre class="source lang-java linenums">/*
- * openwms.org, the Open Warehouse Management System.
- * Copyright (C) 2014 Heiko Scherrer
+ * Copyright 2005-2020 the original author or authors.
  *
- * This file is part of openwms.org.
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as 
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * openwms.org is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this software. If not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.openwms.core.uaa.admin.impl;
 
@@ -56,7 +50,7 @@ public class Email extends BaseEntity implements Serializable {
     @Column(name = &quot;C_ADDRESS&quot;, nullable = false)
     private String emailAddress;
     /** Whether this email address is the primary email used in the system. */
-<span class="pc" id="L59">    @Column(name = &quot;C_PRIMARY&quot;, nullable = false)</span>
+<span class="pc" id="L53">    @Column(name = &quot;C_PRIMARY&quot;, nullable = false)</span>
     private boolean primary = false;
     /** The fullname of the {@code User}. */
     @Column(name = &quot;C_FULL_NAME&quot;)
@@ -67,8 +61,8 @@ public class Email extends BaseEntity implements Serializable {
     /**
      * Dear JPA...
      */
-<span class="fc" id="L70">    protected Email() {</span>
-<span class="fc" id="L71">    }</span>
+<span class="fc" id="L64">    protected Email() {</span>
+<span class="fc" id="L65">    }</span>
 
     /**
      * Create a new {@code Email}.
@@ -77,12 +71,12 @@ public class Email extends BaseEntity implements Serializable {
      * @param emailAddress The email address of the User
      * @throws IllegalArgumentException when userName or emailAddress is {@literal null} or empty
      */
-<span class="nc" id="L80">    public Email(User user, String emailAddress) {</span>
-<span class="nc" id="L81">        Assert.notNull(user, &quot;User must not be null&quot;);</span>
-<span class="nc" id="L82">        Assert.hasText(emailAddress, &quot;EmailAddress must not be null or empty&quot;);</span>
-<span class="nc" id="L83">        this.user = user;</span>
-<span class="nc" id="L84">        this.emailAddress = emailAddress;</span>
-<span class="nc" id="L85">    }</span>
+<span class="nc" id="L74">    public Email(User user, String emailAddress) {</span>
+<span class="nc" id="L75">        Assert.notNull(user, &quot;User must not be null&quot;);</span>
+<span class="nc" id="L76">        Assert.hasText(emailAddress, &quot;EmailAddress must not be null or empty&quot;);</span>
+<span class="nc" id="L77">        this.user = user;</span>
+<span class="nc" id="L78">        this.emailAddress = emailAddress;</span>
+<span class="nc" id="L79">    }</span>
 
     /**
      * Create a new {@code Email}.
@@ -93,9 +87,9 @@ public class Email extends BaseEntity implements Serializable {
      * @throws IllegalArgumentException when userName or emailAddress is {@literal null} or empty
      */
     public Email(User user, String emailAddress, boolean primary) {
-<span class="nc" id="L96">        this(user, emailAddress);</span>
-<span class="nc" id="L97">        this.primary = primary;</span>
-<span class="nc" id="L98">    }</span>
+<span class="nc" id="L90">        this(user, emailAddress);</span>
+<span class="nc" id="L91">        this.primary = primary;</span>
+<span class="nc" id="L92">    }</span>
 
     /**
      * Returns the {@code User}.
@@ -103,7 +97,7 @@ public class Email extends BaseEntity implements Serializable {
      * @return The User
      */
     public User getUser() {
-<span class="nc" id="L106">        return user;</span>
+<span class="nc" id="L100">        return user;</span>
     }
 
     /**
@@ -112,7 +106,7 @@ public class Email extends BaseEntity implements Serializable {
      * @return The emailAddress.
      */
     public String getEmailAddress() {
-<span class="nc" id="L115">        return emailAddress;</span>
+<span class="nc" id="L109">        return emailAddress;</span>
     }
 
     /**
@@ -121,8 +115,8 @@ public class Email extends BaseEntity implements Serializable {
      * @param emailAddress The emailAddress to set.
      */
     public void setEmailAddress(String emailAddress) {
-<span class="nc" id="L124">        this.emailAddress = emailAddress;</span>
-<span class="nc" id="L125">    }</span>
+<span class="nc" id="L118">        this.emailAddress = emailAddress;</span>
+<span class="nc" id="L119">    }</span>
 
     /**
      * Return the fullname.
@@ -130,7 +124,7 @@ public class Email extends BaseEntity implements Serializable {
      * @return The fullname.
      */
     public String getFullname() {
-<span class="nc" id="L133">        return fullname;</span>
+<span class="nc" id="L127">        return fullname;</span>
     }
 
     /**
@@ -139,16 +133,16 @@ public class Email extends BaseEntity implements Serializable {
      * @param fullname The fullname to set.
      */
     public void setFullname(String fullname) {
-<span class="nc" id="L142">        this.fullname = fullname;</span>
-<span class="nc" id="L143">    }</span>
+<span class="nc" id="L136">        this.fullname = fullname;</span>
+<span class="nc" id="L137">    }</span>
 
     public boolean isPrimary() {
-<span class="fc" id="L146">        return primary;</span>
+<span class="fc" id="L140">        return primary;</span>
     }
 
     public void setPrimary(boolean primary) {
-<span class="nc" id="L150">        this.primary = primary;</span>
-<span class="nc" id="L151">    }</span>
+<span class="nc" id="L144">        this.primary = primary;</span>
+<span class="nc" id="L145">    }</span>
 
     /**
      * {@inheritDoc}
@@ -157,12 +151,12 @@ public class Email extends BaseEntity implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L160" title="All 2 branches missed.">        if (this == o) return true;</span>
-<span class="nc bnc" id="L161" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc" id="L162">        Email email = (Email) o;</span>
-<span class="nc bnc" id="L163" title="All 2 branches missed.">        return Objects.equals(user, email.user) &amp;&amp;</span>
-<span class="nc bnc" id="L164" title="All 2 branches missed.">                Objects.equals(emailAddress, email.emailAddress) &amp;&amp;</span>
-<span class="nc bnc" id="L165" title="All 2 branches missed.">                Objects.equals(fullname, email.fullname);</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L155" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L156">        Email email = (Email) o;</span>
+<span class="nc bnc" id="L157" title="All 2 branches missed.">        return Objects.equals(user, email.user) &amp;&amp;</span>
+<span class="nc bnc" id="L158" title="All 2 branches missed.">                Objects.equals(emailAddress, email.emailAddress) &amp;&amp;</span>
+<span class="nc bnc" id="L159" title="All 2 branches missed.">                Objects.equals(fullname, email.fullname);</span>
     }
 
     /**
@@ -172,7 +166,7 @@ public class Email extends BaseEntity implements Serializable {
      */
     @Override
     public int hashCode() {
-<span class="fc" id="L175">        return Objects.hash(user, emailAddress, fullname);</span>
+<span class="fc" id="L169">        return Objects.hash(user, emailAddress, fullname);</span>
     }
 
     /**
@@ -183,7 +177,7 @@ public class Email extends BaseEntity implements Serializable {
      */
     @Override
     public String toString() {
-<span class="fc" id="L186">        return emailAddress;</span>
+<span class="fc" id="L180">        return emailAddress;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

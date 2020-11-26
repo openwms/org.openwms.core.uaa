@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Role.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.uaa.admin.impl</a> &gt; <span class="el_source">Role.java</span></div><h1>Role.java</h1><pre class="source lang-java linenums">/*
- * openwms.org, the Open Warehouse Management System.
- * Copyright (C) 2014 Heiko Scherrer
+ * Copyright 2005-2020 the original author or authors.
  *
- * This file is part of openwms.org.
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as 
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * openwms.org is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this software. If not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.openwms.core.uaa.admin.impl;
 
@@ -50,17 +44,18 @@ import java.util.Set;
 @DiscriminatorValue(&quot;ROLE&quot;)
 public class Role extends SecurityObject implements Serializable {
 
+    public static final String NOT_ALLOWED_TO_CREATE_A_ROLE_WITH_AN_EMPTY_NAME = &quot;Not allowed to create a Role with an empty name&quot;;
     /**
      * Whether or not this Role is immutable. Immutable Roles can't be modified.
      */
-<span class="fc" id="L56">    @Column(name = &quot;C_IMMUTABLE&quot;)</span>
-<span class="fc" id="L57">    private Boolean immutable = false;</span>
+<span class="fc" id="L51">    @Column(name = &quot;C_IMMUTABLE&quot;)</span>
+<span class="fc" id="L52">    private Boolean immutable = false;</span>
 
     /* ------------------- collection mapping ------------------- */
     /**
      * All {@link User}s assigned to this Role.
      */
-<span class="fc" id="L63">    @ManyToMany(cascade = {CascadeType.REFRESH})</span>
+<span class="fc" id="L58">    @ManyToMany(cascade = {CascadeType.REFRESH})</span>
     @JoinTable(
             name = &quot;COR_UAA_ROLE_USER&quot;,
             joinColumns = @JoinColumn(name = &quot;C_ROLE_ID&quot;),
@@ -73,7 +68,7 @@ public class Role extends SecurityObject implements Serializable {
     /**
      * All {@link SecurityObject}s assigned to the R‡ole.
      */
-<span class="fc" id="L76">    @ManyToMany(cascade = {CascadeType.REFRESH})</span>
+<span class="fc" id="L71">    @ManyToMany(cascade = {CascadeType.REFRESH})</span>
     @JoinTable(
             name = &quot;COR_UAA_ROLE_ROLE&quot;,
             joinColumns = @JoinColumn(name = &quot;C_ROLE_ID&quot;),
@@ -90,8 +85,6 @@ public class Role extends SecurityObject implements Serializable {
      * A builder class to construct Role instances.
      *
      * @author Heiko Scherrer
-     * @version $Revision$
-     * @since 0.1
      */
     public static class Builder {
 
@@ -103,11 +96,11 @@ public class Role extends SecurityObject implements Serializable {
          * @param name The name of the Role
          * @throws IllegalArgumentException when name is {@literal null} or empty
          */
-<span class="fc" id="L106">        public Builder(String name) {</span>
-<span class="fc" id="L107">            Assert.hasText(name, &quot;Not allowed to create a Role with an empty name&quot;);</span>
-<span class="fc" id="L108">            role = new Role(name);</span>
-<span class="fc" id="L109">            role.immutable = false;</span>
-<span class="fc" id="L110">        }</span>
+<span class="fc" id="L99">        public Builder(String name) {</span>
+<span class="fc" id="L100">            Assert.hasText(name, NOT_ALLOWED_TO_CREATE_A_ROLE_WITH_AN_EMPTY_NAME);</span>
+<span class="fc" id="L101">            role = new Role(name);</span>
+<span class="fc" id="L102">            role.immutable = false;</span>
+<span class="fc" id="L103">        }</span>
 
         /**
          * Add a description text to the Role.
@@ -116,8 +109,8 @@ public class Role extends SecurityObject implements Serializable {
          * @return the builder instance
          */
         public Builder withDescription(String description) {
-<span class="fc" id="L119">            role.setDescription(description);</span>
-<span class="fc" id="L120">            return this;</span>
+<span class="fc" id="L112">            role.setDescription(description);</span>
+<span class="fc" id="L113">            return this;</span>
         }
 
         /**
@@ -126,8 +119,8 @@ public class Role extends SecurityObject implements Serializable {
          * @return the builder instance
          */
         public Builder asImmutable() {
-<span class="fc" id="L129">            role.immutable = true;</span>
-<span class="fc" id="L130">            return this;</span>
+<span class="fc" id="L122">            role.immutable = true;</span>
+<span class="fc" id="L123">            return this;</span>
         }
 
         /**
@@ -136,7 +129,7 @@ public class Role extends SecurityObject implements Serializable {
          * @return the constructed Role
          */
         public Role build() {
-<span class="fc" id="L139">            return role;</span>
+<span class="fc" id="L132">            return role;</span>
         }
     }
 
@@ -145,8 +138,8 @@ public class Role extends SecurityObject implements Serializable {
     /**
      * Dear JPA...
      */
-<span class="fc" id="L148">    Role() {</span>
-<span class="fc" id="L149">    }</span>
+<span class="fc" id="L141">    Role() {</span>
+<span class="fc" id="L142">    }</span>
 
     /**
      * Create a new Role with a name.
@@ -155,9 +148,9 @@ public class Role extends SecurityObject implements Serializable {
      * @throws IllegalArgumentException when name is {@literal null} or empty
      */
     public Role(String name) {
-<span class="fc" id="L158">        super(name);</span>
-<span class="fc" id="L159">        Assert.hasText(name, &quot;Not allowed to create a Role with an empty name&quot;);</span>
-<span class="fc" id="L160">    }</span>
+<span class="fc" id="L151">        super(name);</span>
+<span class="fc" id="L152">        Assert.hasText(name, NOT_ALLOWED_TO_CREATE_A_ROLE_WITH_AN_EMPTY_NAME);</span>
+<span class="fc" id="L153">    }</span>
 
     /**
      * Create a new Role with a name and a description.
@@ -167,9 +160,9 @@ public class Role extends SecurityObject implements Serializable {
      * @throws IllegalArgumentException when name is {@literal null} or empty
      */
     public Role(String name, String description) {
-<span class="fc" id="L170">        super(name, description);</span>
-<span class="fc" id="L171">        Assert.hasText(name, &quot;Not allowed to create a Role with an empty name&quot;);</span>
-<span class="fc" id="L172">    }</span>
+<span class="fc" id="L163">        super(name, description);</span>
+<span class="fc" id="L164">        Assert.hasText(name, NOT_ALLOWED_TO_CREATE_A_ROLE_WITH_AN_EMPTY_NAME);</span>
+<span class="fc" id="L165">    }</span>
 
     /**
      * Get the immutable.
@@ -177,7 +170,7 @@ public class Role extends SecurityObject implements Serializable {
      * @return the immutable.
      */
     public Boolean getImmutable() {
-<span class="fc" id="L180">        return immutable;</span>
+<span class="fc" id="L173">        return immutable;</span>
     }
 
     /**
@@ -186,7 +179,7 @@ public class Role extends SecurityObject implements Serializable {
      * @return A Set of all {@link User}s assigned to the Role
      */
     public Set&lt;User&gt; getUsers() {
-<span class="fc" id="L189">        return Collections.unmodifiableSet(users);</span>
+<span class="fc" id="L182">        return Collections.unmodifiableSet(users);</span>
     }
 
     /**
@@ -197,8 +190,8 @@ public class Role extends SecurityObject implements Serializable {
      * @throws IllegalArgumentException if user is {@literal null}
      */
     public boolean addUser(User user) {
-<span class="fc" id="L200">        Assert.notNull(user, &quot;User to add must not be null&quot;);</span>
-<span class="fc" id="L201">        return users.add(user);</span>
+<span class="fc" id="L193">        Assert.notNull(user, &quot;User to add must not be null&quot;);</span>
+<span class="fc" id="L194">        return users.add(user);</span>
     }
 
     /**
@@ -208,9 +201,9 @@ public class Role extends SecurityObject implements Serializable {
      * @throws IllegalArgumentException if user is {@literal null}
      */
     public void removeUser(User user) {
-<span class="fc" id="L211">        Assert.notNull(user, &quot;User to remove must not be null&quot;);</span>
-<span class="fc" id="L212">        users.remove(user);</span>
-<span class="fc" id="L213">    }</span>
+<span class="fc" id="L204">        Assert.notNull(user, &quot;User to remove must not be null&quot;);</span>
+<span class="fc" id="L205">        users.remove(user);</span>
+<span class="fc" id="L206">    }</span>
 
     /**
      * Set all {@link User}s belonging to this Role.
@@ -219,9 +212,9 @@ public class Role extends SecurityObject implements Serializable {
      * @throws IllegalArgumentException if users is {@literal null}
      */
     public void setUsers(Set&lt;User&gt; users) {
-<span class="fc" id="L222">        Assert.notNull(users, &quot;Set of Users must not be null&quot;);</span>
-<span class="fc" id="L223">        this.users = users;</span>
-<span class="fc" id="L224">    }</span>
+<span class="fc" id="L215">        Assert.notNull(users, &quot;Set of Users must not be null&quot;);</span>
+<span class="fc" id="L216">        this.users = users;</span>
+<span class="fc" id="L217">    }</span>
 
     /**
      * Return an unmodifiable Set of all {@link SecurityObject}s belonging to the Role.
@@ -229,10 +222,10 @@ public class Role extends SecurityObject implements Serializable {
      * @return A Set of all {@link SecurityObject}s belonging to this Role
      */
     public Set&lt;SecurityObject&gt; getGrants() {
-<span class="pc bpc" id="L232" title="1 of 2 branches missed.">        if (grants == null) {</span>
-<span class="nc" id="L233">            grants = new HashSet&lt;&gt;();</span>
+<span class="pc bpc" id="L225" title="1 of 2 branches missed.">        if (grants == null) {</span>
+<span class="nc" id="L226">            grants = new HashSet&lt;&gt;();</span>
         }
-<span class="fc" id="L235">        return Collections.unmodifiableSet(grants);</span>
+<span class="fc" id="L228">        return Collections.unmodifiableSet(grants);</span>
     }
 
     /**
@@ -244,8 +237,8 @@ public class Role extends SecurityObject implements Serializable {
      * @throws IllegalArgumentException if grant is {@literal null}
      */
     public boolean addGrant(SecurityObject grant) {
-<span class="fc" id="L247">        Assert.notNull(grant, &quot;Grant to add must not be null&quot;);</span>
-<span class="fc" id="L248">        return grants.add(grant);</span>
+<span class="fc" id="L240">        Assert.notNull(grant, &quot;Grant to add must not be null&quot;);</span>
+<span class="fc" id="L241">        return grants.add(grant);</span>
     }
 
     /**
@@ -257,8 +250,8 @@ public class Role extends SecurityObject implements Serializable {
      * @throws IllegalArgumentException if grant is {@literal null}
      */
     public boolean removeGrant(SecurityObject grant) {
-<span class="fc" id="L260">        Assert.notNull(grant, &quot;Grant to remove must not be null&quot;);</span>
-<span class="fc" id="L261">        return grants.remove(grant);</span>
+<span class="fc" id="L253">        Assert.notNull(grant, &quot;Grant to remove must not be null&quot;);</span>
+<span class="fc" id="L254">        return grants.remove(grant);</span>
     }
 
     /**
@@ -270,8 +263,8 @@ public class Role extends SecurityObject implements Serializable {
      * @throws IllegalArgumentException if {@code grants} is {@literal null}
      */
     public boolean removeGrants(List&lt;? extends SecurityObject&gt; grants) {
-<span class="fc" id="L273">        Assert.notNull(grants, &quot;Grants to remove must not be null&quot;);</span>
-<span class="fc" id="L274">        return this.grants.removeAll(grants);</span>
+<span class="fc" id="L266">        Assert.notNull(grants, &quot;Grants to remove must not be null&quot;);</span>
+<span class="fc" id="L267">        return this.grants.removeAll(grants);</span>
     }
 
     /**
@@ -281,9 +274,9 @@ public class Role extends SecurityObject implements Serializable {
      * @throws IllegalArgumentException if grants is {@literal null}
      */
     public void setGrants(Set&lt;SecurityObject&gt; grants) {
-<span class="fc" id="L284">        Assert.notNull(grants, &quot;Set of Grants must not be null&quot;);</span>
-<span class="fc" id="L285">        this.grants = grants;</span>
-<span class="fc" id="L286">    }</span>
+<span class="fc" id="L277">        Assert.notNull(grants, &quot;Set of Grants must not be null&quot;);</span>
+<span class="fc" id="L278">        this.grants = grants;</span>
+<span class="fc" id="L279">    }</span>
 
     /**
      * {@inheritDoc}
@@ -295,10 +288,10 @@ public class Role extends SecurityObject implements Serializable {
     @Override
     public int hashCode() {
         final int prime = 31;
-<span class="fc" id="L298">        int result = 1;</span>
-<span class="fc" id="L299">        result = super.hashCode();</span>
-<span class="fc" id="L300">        result = prime * result + &quot;ROLE&quot;.hashCode();</span>
-<span class="fc" id="L301">        return result;</span>
+<span class="fc" id="L291">        int result = 1;</span>
+<span class="fc" id="L292">        result = super.hashCode();</span>
+<span class="fc" id="L293">        result = prime * result + &quot;ROLE&quot;.hashCode();</span>
+<span class="fc" id="L294">        return result;</span>
     }
 
     /**
@@ -310,21 +303,21 @@ public class Role extends SecurityObject implements Serializable {
      */
     @Override
     public boolean equals(Object obj) {
-<span class="pc bpc" id="L313" title="1 of 2 branches missed.">        if (this == obj) {</span>
-<span class="nc" id="L314">            return true;</span>
+<span class="pc bpc" id="L306" title="1 of 2 branches missed.">        if (this == obj) {</span>
+<span class="nc" id="L307">            return true;</span>
         }
-<span class="pc bpc" id="L316" title="1 of 2 branches missed.">        if (!(obj instanceof Role)) {</span>
-<span class="nc" id="L317">            return false;</span>
+<span class="pc bpc" id="L309" title="1 of 2 branches missed.">        if (!(obj instanceof Role)) {</span>
+<span class="nc" id="L310">            return false;</span>
         }
-<span class="fc" id="L319">        Role other = (Role) obj;</span>
-<span class="pc bpc" id="L320" title="1 of 2 branches missed.">        if (this.getName() == null) {</span>
-<span class="nc bnc" id="L321" title="All 2 branches missed.">            if (other.getName() != null) {</span>
-<span class="nc" id="L322">                return false;</span>
+<span class="fc" id="L312">        Role other = (Role) obj;</span>
+<span class="pc bpc" id="L313" title="1 of 2 branches missed.">        if (this.getName() == null) {</span>
+<span class="nc bnc" id="L314" title="All 2 branches missed.">            if (other.getName() != null) {</span>
+<span class="nc" id="L315">                return false;</span>
             }
-<span class="fc bfc" id="L324" title="All 2 branches covered.">        } else if (!this.getName().equals(other.getName())) {</span>
-<span class="fc" id="L325">            return false;</span>
+<span class="fc bfc" id="L317" title="All 2 branches covered.">        } else if (!this.getName().equals(other.getName())) {</span>
+<span class="fc" id="L318">            return false;</span>
         }
-<span class="fc" id="L327">        return true;</span>
+<span class="fc" id="L320">        return true;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

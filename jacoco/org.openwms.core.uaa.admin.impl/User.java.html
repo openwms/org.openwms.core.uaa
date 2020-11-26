@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>User.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.uaa.admin.impl</a> &gt; <span class="el_source">User.java</span></div><h1>User.java</h1><pre class="source lang-java linenums">/*
- * openwms.org, the Open Warehouse Management System.
- * Copyright (C) 2014 Heiko Scherrer
+ * Copyright 2005-2020 the original author or authors.
  *
- * This file is part of openwms.org.
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * openwms.org is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this software. If not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.openwms.core.uaa.admin.impl;
 
@@ -70,19 +64,19 @@ import java.util.Set;
 @DiscriminatorValue(&quot;STANDARD&quot;)
 public class User extends ApplicationEntity implements Serializable {
 
-<span class="fc" id="L73">    private static final Logger LOGGER = LoggerFactory.getLogger(User.class);</span>
+<span class="fc" id="L67">    private static final Logger LOGGER = LoggerFactory.getLogger(User.class);</span>
     /** Unique identifier of this User (not nullable). */
     @Column(name = &quot;C_USERNAME&quot;, nullable = false)
     @NotEmpty
     private String username;
     /** {@code true} if the User is authenticated by an external system, otherwise {@code false}. */
-<span class="fc" id="L79">    @Column(name = &quot;C_EXTERN&quot;)</span>
+<span class="fc" id="L73">    @Column(name = &quot;C_EXTERN&quot;)</span>
     private boolean extern = false;
     /** Date of the last password change. */
     @Column(name = &quot;C_LAST_PASSWORD_CHANGE&quot;)
     private ZonedDateTime lastPasswordChange;
     /** {@code true} if this User is locked and has no permission to login. */
-<span class="fc" id="L85">    @Column(name = &quot;C_LOCKED&quot;)</span>
+<span class="fc" id="L79">    @Column(name = &quot;C_LOCKED&quot;)</span>
     private boolean locked = false;
     /** The User's current password (only kept transient). */
     @Transient
@@ -91,7 +85,7 @@ public class User extends ApplicationEntity implements Serializable {
     @Column(name = &quot;C_PASSWORD&quot;)
     private String persistedPassword;
     /** {@code true} if the User is enabled. This field can be managed by the UI application to lock the User manually. */
-<span class="fc" id="L94">    @Column(name = &quot;C_ENABLED&quot;)</span>
+<span class="fc" id="L88">    @Column(name = &quot;C_ENABLED&quot;)</span>
     private boolean enabled = true;
     /** Date when the account expires. After account expiration, the User cannot login anymore. */
     @Column(name = &quot;C_EXPIRATION_DATE&quot;)
@@ -106,10 +100,10 @@ public class User extends ApplicationEntity implements Serializable {
     @Embedded
     private UserDetails userDetails;
     /** List of {@link Role}s assigned to the User. */
-<span class="fc" id="L109">    @ManyToMany(mappedBy = &quot;users&quot;, cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)</span>
+<span class="fc" id="L103">    @ManyToMany(mappedBy = &quot;users&quot;, cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)</span>
     private List&lt;Role&gt; roles = new ArrayList&lt;&gt;();
     /** Last passwords of the User. */
-<span class="fc" id="L112">    @OneToMany(mappedBy = &quot;user&quot;, cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})</span>
+<span class="fc" id="L106">    @OneToMany(mappedBy = &quot;user&quot;, cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})</span>
     private List&lt;UserPassword&gt; passwords = new ArrayList&lt;&gt;();
     /** The number of passwords to keep in the password history. Default: {@value}. */
     public static final short NUMBER_STORED_PASSWORDS = 3;
@@ -118,9 +112,9 @@ public class User extends ApplicationEntity implements Serializable {
 
     /** Dear JPA... */
     protected User() {
-<span class="fc" id="L121">        super();</span>
-<span class="fc" id="L122">        loadLazy();</span>
-<span class="fc" id="L123">    }</span>
+<span class="fc" id="L115">        super();</span>
+<span class="fc" id="L116">        loadLazy();</span>
+<span class="fc" id="L117">    }</span>
 
     /**
      * Create a new User with an username.
@@ -129,11 +123,11 @@ public class User extends ApplicationEntity implements Serializable {
      * @throws IllegalArgumentException when username is {@literal null} or empty
      */
     public User(String username) {
-<span class="fc" id="L132">        super();</span>
-<span class="fc" id="L133">        Assert.hasText(username, &quot;Not allowed to create an User with an empty username&quot;);</span>
-<span class="fc" id="L134">        this.username = username;</span>
-<span class="fc" id="L135">        loadLazy();</span>
-<span class="fc" id="L136">    }</span>
+<span class="fc" id="L126">        super();</span>
+<span class="fc" id="L127">        Assert.hasText(username, &quot;Not allowed to create an User with an empty username&quot;);</span>
+<span class="fc" id="L128">        this.username = username;</span>
+<span class="fc" id="L129">        loadLazy();</span>
+<span class="fc" id="L130">    }</span>
 
     /**
      * Create a new User with an username.
@@ -143,12 +137,12 @@ public class User extends ApplicationEntity implements Serializable {
      * @throws IllegalArgumentException when username or password is {@literal null} or empty
      */
     protected User(String username, String password) {
-<span class="fc" id="L146">        super();</span>
-<span class="fc" id="L147">        Assert.hasText(username, &quot;Not allowed to create an User with an empty username&quot;);</span>
-<span class="fc" id="L148">        Assert.hasText(password, &quot;Not allowed to create an User with an empty password&quot;);</span>
-<span class="fc" id="L149">        this.username = username;</span>
-<span class="fc" id="L150">        this.password = password;</span>
-<span class="fc" id="L151">    }</span>
+<span class="fc" id="L140">        super();</span>
+<span class="fc" id="L141">        Assert.hasText(username, &quot;Not allowed to create an User with an empty username&quot;);</span>
+<span class="fc" id="L142">        Assert.hasText(password, &quot;Not allowed to create an User with an empty password&quot;);</span>
+<span class="fc" id="L143">        this.username = username;</span>
+<span class="fc" id="L144">        this.password = password;</span>
+<span class="fc" id="L145">    }</span>
 
     /* ----------------------------- methods ------------------- */
 
@@ -158,12 +152,12 @@ public class User extends ApplicationEntity implements Serializable {
      */
     @PostLoad
     public void postLoad() {
-<span class="fc" id="L161">        loadLazy();</span>
-<span class="fc" id="L162">    }</span>
+<span class="fc" id="L155">        loadLazy();</span>
+<span class="fc" id="L156">    }</span>
 
     protected void loadLazy() {
-<span class="fc" id="L165">        password = persistedPassword;</span>
-<span class="fc" id="L166">    }</span>
+<span class="fc" id="L159">        password = persistedPassword;</span>
+<span class="fc" id="L160">    }</span>
 
     /**
      * Return the unique username of the User.
@@ -171,7 +165,7 @@ public class User extends ApplicationEntity implements Serializable {
      * @return The current username
      */
     public String getUsername() {
-<span class="fc" id="L174">        return username;</span>
+<span class="fc" id="L168">        return username;</span>
     }
 
     /**
@@ -180,8 +174,8 @@ public class User extends ApplicationEntity implements Serializable {
      * @param username The new username to set
      */
     protected void setUsername(String username) {
-<span class="nc" id="L183">        this.username = username;</span>
-<span class="nc" id="L184">    }</span>
+<span class="nc" id="L177">        this.username = username;</span>
+<span class="nc" id="L178">    }</span>
 
     /**
      * Is the User authenticated by an external system?
@@ -189,7 +183,7 @@ public class User extends ApplicationEntity implements Serializable {
      * @return {@literal true} if so, otherwise {@literal false}
      */
     public boolean isExternalUser() {
-<span class="nc" id="L192">        return extern;</span>
+<span class="nc" id="L186">        return extern;</span>
     }
 
     /**
@@ -198,8 +192,8 @@ public class User extends ApplicationEntity implements Serializable {
      * @param externalUser {@literal true} if the User was authenticated by an external system, otherwise {@literal false}.
      */
     public void setExternalUser(boolean externalUser) {
-<span class="nc" id="L201">        extern = externalUser;</span>
-<span class="nc" id="L202">    }</span>
+<span class="nc" id="L195">        extern = externalUser;</span>
+<span class="nc" id="L196">    }</span>
 
     /**
      * Return the date when the password has changed recently.
@@ -207,7 +201,7 @@ public class User extends ApplicationEntity implements Serializable {
      * @return The date when the password has changed recently
      */
     public ZonedDateTime getLastPasswordChange() {
-<span class="nc" id="L210">        return lastPasswordChange;</span>
+<span class="nc" id="L204">        return lastPasswordChange;</span>
     }
 
     /**
@@ -216,7 +210,7 @@ public class User extends ApplicationEntity implements Serializable {
      * @return {@literal true} if locked, otherwise {@literal false}
      */
     public boolean isLocked() {
-<span class="fc" id="L219">        return locked;</span>
+<span class="fc" id="L213">        return locked;</span>
     }
 
     /**
@@ -225,8 +219,8 @@ public class User extends ApplicationEntity implements Serializable {
      * @param locked {@literal true} to lock the User, {@literal false} to unlock
      */
     public void setLocked(boolean locked) {
-<span class="nc" id="L228">        this.locked = locked;</span>
-<span class="nc" id="L229">    }</span>
+<span class="nc" id="L222">        this.locked = locked;</span>
+<span class="nc" id="L223">    }</span>
 
     /**
      * Returns the current password of the User.
@@ -234,7 +228,7 @@ public class User extends ApplicationEntity implements Serializable {
      * @return The current password as String
      */
     public String getPassword() {
-<span class="fc" id="L237">        return password;</span>
+<span class="fc" id="L231">        return password;</span>
     }
 
     /**
@@ -244,15 +238,15 @@ public class User extends ApplicationEntity implements Serializable {
      * @throws InvalidPasswordException in case changing the password is not allowed or the new password is not valid
      */
     public void changePassword(String encodedPassword, String rawPassword, PasswordEncoder encoder) throws InvalidPasswordException {
-<span class="pc bpc" id="L247" title="1 of 4 branches missed.">        if (persistedPassword != null &amp;&amp; encoder.matches(rawPassword, persistedPassword)) {</span>
-<span class="nc" id="L248">            return;</span>
+<span class="pc bpc" id="L241" title="1 of 4 branches missed.">        if (persistedPassword != null &amp;&amp; encoder.matches(rawPassword, persistedPassword)) {</span>
+<span class="nc" id="L242">            return;</span>
         }
-<span class="fc" id="L250">        validateAgainstPasswordHistory(rawPassword, encoder);</span>
-<span class="fc" id="L251">        storeOldPassword(password);</span>
-<span class="fc" id="L252">        persistedPassword = encodedPassword;</span>
-<span class="fc" id="L253">        password = encodedPassword;</span>
-<span class="fc" id="L254">        lastPasswordChange = new DefaultTimeProvider().nowAsZonedDateTime();</span>
-<span class="fc" id="L255">    }</span>
+<span class="fc" id="L244">        validateAgainstPasswordHistory(rawPassword, encoder);</span>
+<span class="fc" id="L245">        storeOldPassword(password);</span>
+<span class="fc" id="L246">        persistedPassword = encodedPassword;</span>
+<span class="fc" id="L247">        password = encodedPassword;</span>
+<span class="fc" id="L248">        lastPasswordChange = new DefaultTimeProvider().nowAsZonedDateTime();</span>
+<span class="fc" id="L249">    }</span>
 
     /**
      * Checks whether the password is going to change.
@@ -260,7 +254,7 @@ public class User extends ApplicationEntity implements Serializable {
      * @return {@literal true} when {@code password} is different to the originally persisted one, otherwise {@literal false}
      */
     public boolean hasPasswordChanged() {
-<span class="nc" id="L263">        return (persistedPassword.equals(password));</span>
+<span class="nc" id="L257">        return (persistedPassword.equals(password));</span>
     }
 
     /**
@@ -269,31 +263,31 @@ public class User extends ApplicationEntity implements Serializable {
      * @param rawPassword The password to verify
      */
     protected void validateAgainstPasswordHistory(String rawPassword, PasswordEncoder encoder) throws InvalidPasswordException {
-<span class="fc bfc" id="L272" title="All 2 branches covered.">        for (UserPassword up : passwords) {</span>
-<span class="pc bpc" id="L273" title="1 of 2 branches missed.">            if (encoder.matches(rawPassword, up.getPassword())) {</span>
-<span class="fc" id="L274">                throw new InvalidPasswordException(&quot;Password does not match the defined rules&quot;);</span>
+<span class="fc bfc" id="L266" title="All 2 branches covered.">        for (UserPassword up : passwords) {</span>
+<span class="pc bpc" id="L267" title="1 of 2 branches missed.">            if (encoder.matches(rawPassword, up.getPassword())) {</span>
+<span class="fc" id="L268">                throw new InvalidPasswordException(&quot;Password does not match the defined rules&quot;);</span>
             }
-<span class="nc" id="L276">        }</span>
-<span class="fc" id="L277">    }</span>
+<span class="nc" id="L270">        }</span>
+<span class="fc" id="L271">    }</span>
 
     private void storeOldPassword(String oldPassword) {
-<span class="pc bpc" id="L280" title="1 of 4 branches missed.">        if (oldPassword == null || oldPassword.isEmpty()) {</span>
-<span class="pc bpc" id="L281" title="1 of 2 branches missed.">            if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L282">                LOGGER.debug(&quot;If the old password is null, do not store it in history&quot;);</span>
+<span class="pc bpc" id="L274" title="1 of 4 branches missed.">        if (oldPassword == null || oldPassword.isEmpty()) {</span>
+<span class="pc bpc" id="L275" title="1 of 2 branches missed.">            if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L276">                LOGGER.debug(&quot;If the old password is null, do not store it in history&quot;);</span>
             }
-<span class="fc" id="L284">            return;</span>
+<span class="fc" id="L278">            return;</span>
         }
-<span class="fc" id="L286">        passwords.add(new UserPassword(this, oldPassword));</span>
-<span class="pc bpc" id="L287" title="1 of 2 branches missed.">        if (passwords.size() &gt; NUMBER_STORED_PASSWORDS) {</span>
-<span class="nc" id="L288">            Collections.sort(passwords, new PasswordComparator());</span>
-<span class="nc bnc" id="L289" title="All 2 branches missed.">            if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L290">                LOGGER.debug(&quot;Remove the old password from the history: &quot; + passwords.get(passwords.size() - 1));</span>
+<span class="fc" id="L280">        passwords.add(new UserPassword(this, oldPassword));</span>
+<span class="pc bpc" id="L281" title="1 of 2 branches missed.">        if (passwords.size() &gt; NUMBER_STORED_PASSWORDS) {</span>
+<span class="nc" id="L282">            Collections.sort(passwords, new PasswordComparator());</span>
+<span class="nc bnc" id="L283" title="All 2 branches missed.">            if (LOGGER.isDebugEnabled()) {</span>
+<span class="nc" id="L284">                LOGGER.debug(&quot;Remove the old password from the history: &quot; + passwords.get(passwords.size() - 1));</span>
             }
-<span class="nc" id="L292">            UserPassword pw = passwords.get(passwords.size() - 1);</span>
-<span class="nc" id="L293">            pw.setUser(null);</span>
-<span class="nc" id="L294">            passwords.remove(pw);</span>
+<span class="nc" id="L286">            UserPassword pw = passwords.get(passwords.size() - 1);</span>
+<span class="nc" id="L287">            pw.setUser(null);</span>
+<span class="nc" id="L288">            passwords.remove(pw);</span>
         }
-<span class="fc" id="L296">    }</span>
+<span class="fc" id="L290">    }</span>
 
     /**
      * Determines whether the User is enabled or not.
@@ -301,7 +295,7 @@ public class User extends ApplicationEntity implements Serializable {
      * @return {@literal true} if the User is enabled, otherwise {@literal false}
      */
     public boolean isEnabled() {
-<span class="fc" id="L304">        return enabled;</span>
+<span class="fc" id="L298">        return enabled;</span>
     }
 
     /**
@@ -310,8 +304,8 @@ public class User extends ApplicationEntity implements Serializable {
      * @param enabled {@literal true} when enabled, otherwise {@literal false}
      */
     public void setEnabled(boolean enabled) {
-<span class="nc" id="L313">        this.enabled = enabled;</span>
-<span class="nc" id="L314">    }</span>
+<span class="nc" id="L307">        this.enabled = enabled;</span>
+<span class="nc" id="L308">    }</span>
 
     /**
      * Return the date when the account expires.
@@ -319,7 +313,7 @@ public class User extends ApplicationEntity implements Serializable {
      * @return The expiration date
      */
     public ZonedDateTime getExpirationDate() {
-<span class="nc" id="L322">        return expirationDate;</span>
+<span class="nc" id="L316">        return expirationDate;</span>
     }
 
     /**
@@ -328,8 +322,8 @@ public class User extends ApplicationEntity implements Serializable {
      * @param expDate The new expiration date to set
      */
     public void setExpirationDate(ZonedDateTime expDate) {
-<span class="nc" id="L331">        expirationDate = expDate;</span>
-<span class="nc" id="L332">    }</span>
+<span class="nc" id="L325">        expirationDate = expDate;</span>
+<span class="nc" id="L326">    }</span>
 
     /**
      * Returns a list of granted {@link Role}s.
@@ -337,7 +331,7 @@ public class User extends ApplicationEntity implements Serializable {
      * @return The list of granted {@link Role}s
      */
     public List&lt;Role&gt; getRoles() {
-<span class="fc" id="L340">        return roles;</span>
+<span class="fc" id="L334">        return roles;</span>
     }
 
     /**
@@ -346,11 +340,11 @@ public class User extends ApplicationEntity implements Serializable {
      * @return A list of all {@link Grant}s
      */
     public List&lt;SecurityObject&gt; getGrants() {
-<span class="fc" id="L349">        List&lt;SecurityObject&gt; grants = new ArrayList&lt;&gt;();</span>
-<span class="fc bfc" id="L350" title="All 2 branches covered.">        for (Role role : getRoles()) {</span>
-<span class="fc" id="L351">            grants.addAll(role.getGrants());</span>
-<span class="fc" id="L352">        }</span>
-<span class="fc" id="L353">        return Collections.unmodifiableList(grants);</span>
+<span class="fc" id="L343">        List&lt;SecurityObject&gt; grants = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L344" title="All 2 branches covered.">        for (Role role : getRoles()) {</span>
+<span class="fc" id="L345">            grants.addAll(role.getGrants());</span>
+<span class="fc" id="L346">        }</span>
+<span class="fc" id="L347">        return Collections.unmodifiableList(grants);</span>
     }
 
     /**
@@ -360,7 +354,7 @@ public class User extends ApplicationEntity implements Serializable {
      * @return see {@link java.util.Collection#add(Object)}
      */
     public boolean addRole(Role role) {
-<span class="fc" id="L363">        return roles.add(role);</span>
+<span class="fc" id="L357">        return roles.add(role);</span>
     }
 
     /**
@@ -369,8 +363,8 @@ public class User extends ApplicationEntity implements Serializable {
      * @param roles The new list of {@link Role}s
      */
     public void setRoles(List&lt;Role&gt; roles) {
-<span class="nc" id="L372">        this.roles = roles;</span>
-<span class="nc" id="L373">    }</span>
+<span class="nc" id="L366">        this.roles = roles;</span>
+<span class="nc" id="L367">    }</span>
 
     /**
      * Return the fullname of the User.
@@ -378,7 +372,7 @@ public class User extends ApplicationEntity implements Serializable {
      * @return The current fullname
      */
     public String getFullname() {
-<span class="fc" id="L381">        return fullname;</span>
+<span class="fc" id="L375">        return fullname;</span>
     }
 
     /**
@@ -387,16 +381,16 @@ public class User extends ApplicationEntity implements Serializable {
      * @param fullname The new fullname to set
      */
     public void setFullname(String fullname) {
-<span class="fc" id="L390">        this.fullname = fullname;</span>
-<span class="fc" id="L391">    }</span>
+<span class="fc" id="L384">        this.fullname = fullname;</span>
+<span class="fc" id="L385">    }</span>
 
     public Set&lt;Email&gt; getEmailAddresses() {
-<span class="fc" id="L394">        return emailAddresses;</span>
+<span class="fc" id="L388">        return emailAddresses;</span>
     }
 
     public void setEmailAddresses(Set&lt;Email&gt; emailAddresses) {
-<span class="nc" id="L398">        this.emailAddresses = emailAddresses;</span>
-<span class="nc" id="L399">    }</span>
+<span class="nc" id="L392">        this.emailAddresses = emailAddresses;</span>
+<span class="nc" id="L393">    }</span>
 
     /**
      * Return a list of recently used passwords.
@@ -404,7 +398,7 @@ public class User extends ApplicationEntity implements Serializable {
      * @return A list of recently used passwords
      */
     public List&lt;UserPassword&gt; getPasswords() {
-<span class="nc" id="L407">        return passwords;</span>
+<span class="nc" id="L401">        return passwords;</span>
     }
 
     /**
@@ -413,10 +407,10 @@ public class User extends ApplicationEntity implements Serializable {
      * @return The userDetails
      */
     public UserDetails getUserDetails() {
-<span class="fc bfc" id="L416" title="All 2 branches covered.">        if (userDetails == null) {</span>
-<span class="fc" id="L417">            userDetails = new UserDetails();</span>
+<span class="fc bfc" id="L410" title="All 2 branches covered.">        if (userDetails == null) {</span>
+<span class="fc" id="L411">            userDetails = new UserDetails();</span>
         }
-<span class="fc" id="L419">        return userDetails;</span>
+<span class="fc" id="L413">        return userDetails;</span>
     }
 
     /**
@@ -425,7 +419,7 @@ public class User extends ApplicationEntity implements Serializable {
      * @return {@literal true} if set, otherwise {@literal false}
      */
     public boolean hasUserDetails() {
-<span class="nc bnc" id="L428" title="All 2 branches missed.">        return userDetails != null;</span>
+<span class="nc bnc" id="L422" title="All 2 branches missed.">        return userDetails != null;</span>
     }
 
     /**
@@ -434,8 +428,8 @@ public class User extends ApplicationEntity implements Serializable {
      * @param userDetails The userDetails to set
      */
     public void setUserDetails(UserDetails userDetails) {
-<span class="nc" id="L437">        this.userDetails = userDetails;</span>
-<span class="nc" id="L438">    }</span>
+<span class="nc" id="L431">        this.userDetails = userDetails;</span>
+<span class="nc" id="L432">    }</span>
 
     /**
      * {@inheritDoc}
@@ -447,9 +441,9 @@ public class User extends ApplicationEntity implements Serializable {
     @Override
     public int hashCode() {
         final int prime = 31;
-<span class="fc" id="L450">        int result = 1;</span>
-<span class="fc bfc" id="L451" title="All 2 branches covered.">        result = prime * result + ((username == null) ? 0 : username.hashCode());</span>
-<span class="fc" id="L452">        return result;</span>
+<span class="fc" id="L444">        int result = 1;</span>
+<span class="fc bfc" id="L445" title="All 2 branches covered.">        result = prime * result + ((username == null) ? 0 : username.hashCode());</span>
+<span class="fc" id="L446">        return result;</span>
     }
 
     /**
@@ -461,21 +455,21 @@ public class User extends ApplicationEntity implements Serializable {
      */
     @Override
     public boolean equals(Object obj) {
-<span class="fc bfc" id="L464" title="All 2 branches covered.">        if (this == obj) {</span>
-<span class="fc" id="L465">            return true;</span>
+<span class="fc bfc" id="L458" title="All 2 branches covered.">        if (this == obj) {</span>
+<span class="fc" id="L459">            return true;</span>
         }
-<span class="pc bpc" id="L467" title="1 of 2 branches missed.">        if (!(obj instanceof User)) {</span>
-<span class="nc" id="L468">            return false;</span>
+<span class="pc bpc" id="L461" title="1 of 2 branches missed.">        if (!(obj instanceof User)) {</span>
+<span class="nc" id="L462">            return false;</span>
         }
-<span class="fc" id="L470">        User other = (User) obj;</span>
-<span class="pc bpc" id="L471" title="1 of 2 branches missed.">        if (username == null) {</span>
-<span class="nc bnc" id="L472" title="All 2 branches missed.">            if (other.username != null) {</span>
-<span class="nc" id="L473">                return false;</span>
+<span class="fc" id="L464">        User other = (User) obj;</span>
+<span class="pc bpc" id="L465" title="1 of 2 branches missed.">        if (username == null) {</span>
+<span class="nc bnc" id="L466" title="All 2 branches missed.">            if (other.username != null) {</span>
+<span class="nc" id="L467">                return false;</span>
             }
-<span class="fc bfc" id="L475" title="All 2 branches covered.">        } else if (!username.equals(other.username)) {</span>
-<span class="fc" id="L476">            return false;</span>
+<span class="fc bfc" id="L469" title="All 2 branches covered.">        } else if (!username.equals(other.username)) {</span>
+<span class="fc" id="L470">            return false;</span>
         }
-<span class="fc" id="L478">        return true;</span>
+<span class="fc" id="L472">        return true;</span>
     }
 
     /**
@@ -485,7 +479,7 @@ public class User extends ApplicationEntity implements Serializable {
      */
     @Override
     public String toString() {
-<span class="nc" id="L488">        return getUsername();</span>
+<span class="nc" id="L482">        return getUsername();</span>
     }
 
     /**
@@ -495,7 +489,7 @@ public class User extends ApplicationEntity implements Serializable {
      * @version $Revision$
      * @since 0.2
      */
-<span class="nc" id="L498">    static class PasswordComparator implements Comparator&lt;UserPassword&gt;, Serializable {</span>
+<span class="nc" id="L492">    static class PasswordComparator implements Comparator&lt;UserPassword&gt;, Serializable {</span>
 
         /**
          * {@inheritDoc}
@@ -504,7 +498,7 @@ public class User extends ApplicationEntity implements Serializable {
          */
         @Override
         public int compare(UserPassword o1, UserPassword o2) {
-<span class="nc" id="L507">            return o2.getPasswordChanged().compareTo(o1.getPasswordChanged());</span>
+<span class="nc" id="L501">            return o2.getPasswordChanged().compareTo(o1.getPasswordChanged());</span>
         }
     }
 }

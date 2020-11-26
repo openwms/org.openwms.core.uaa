@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RoleServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.uaa.admin.impl</a> &gt; <span class="el_source">RoleServiceImpl.java</span></div><h1>RoleServiceImpl.java</h1><pre class="source lang-java linenums">/*
- * openwms.org, the Open Warehouse Management System.
- * Copyright (C) 2014 Heiko Scherrer
+ * Copyright 2005-2020 the original author or authors.
  *
- * This file is part of openwms.org.
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * openwms.org is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as 
- * published by the Free Software Foundation; either version 2 of the
- * License, or (at your option) any later version.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * openwms.org is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this software. If not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.openwms.core.uaa.admin.impl;
 
@@ -43,10 +37,10 @@ class RoleServiceImpl implements RoleService {
     private final RoleRepository repository;
     private final BeanMapper mapper;
 
-<span class="fc" id="L46">    RoleServiceImpl(RoleRepository repository, BeanMapper mapper) {</span>
-<span class="fc" id="L47">        this.repository = repository;</span>
-<span class="fc" id="L48">        this.mapper = mapper;</span>
-<span class="fc" id="L49">    }</span>
+<span class="fc" id="L40">    RoleServiceImpl(RoleRepository repository, BeanMapper mapper) {</span>
+<span class="fc" id="L41">        this.repository = repository;</span>
+<span class="fc" id="L42">        this.mapper = mapper;</span>
+<span class="fc" id="L43">    }</span>
 
     /**
      * {@inheritDoc}
@@ -54,7 +48,7 @@ class RoleServiceImpl implements RoleService {
     @Override
     @Measured
     public Collection&lt;Role&gt; findAll() {
-<span class="fc" id="L57">        return repository.findAll();</span>
+<span class="fc" id="L51">        return repository.findAll();</span>
     }
 
     /**
@@ -63,9 +57,9 @@ class RoleServiceImpl implements RoleService {
     @Override
     @Measured
     public Role save(Role role) {
-<span class="fc" id="L66">        Optional&lt;Role&gt; roleOpt = repository.findByName(role.getName());</span>
-<span class="fc" id="L67">        return roleOpt.map(value -&gt; repository.save(mapper.mapFromTo(role, value))).</span>
-<span class="pc" id="L68">                orElseGet(() -&gt; repository.save(role));</span>
+<span class="fc" id="L60">        Optional&lt;Role&gt; roleOpt = repository.findByName(role.getName());</span>
+<span class="fc" id="L61">        return roleOpt.map(value -&gt; repository.save(mapper.mapFromTo(role, value))).</span>
+<span class="pc" id="L62">                orElseGet(() -&gt; repository.save(role));</span>
     }
 
     /**
@@ -74,7 +68,7 @@ class RoleServiceImpl implements RoleService {
     @Override
     @Measured
     public void delete(@NotEmpty String pKey) {
-<span class="nc" id="L77">        repository.deleteByPKey(pKey);</span>
-<span class="nc" id="L78">    }</span>
+<span class="nc" id="L71">        repository.deleteByPKey(pKey);</span>
+<span class="nc" id="L72">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
