@@ -103,8 +103,7 @@ class GrantTest {
     /**
      * Test method for {@link org.openwms.core.system.usermanagement.Grant#Grant(java.lang.String)} .
      */
-    @Test
-    public final void testGrantString() {
+    @Test final void testGrantString() {
         Grant grant = new Grant(GRANT_NAME1);
         assertEquals(GRANT_NAME1, grant.getName());
         assertNull(grant.getDescription());
@@ -113,8 +112,7 @@ class GrantTest {
     /**
      * Test method for {@link org.openwms.core.system.usermanagement.Grant#Grant(java.lang.String)} .
      */
-    @Test
-    public final void testGrantStringEmpty() {
+    @Test final void testGrantStringEmpty() {
         try {
             new Grant(null);
             fail("IAE expected when creating Grant(String) with name equals to null");
