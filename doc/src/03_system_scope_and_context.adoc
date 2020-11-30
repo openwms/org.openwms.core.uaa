@@ -1,2 +1,4 @@
 [[section-system-scope-and-context]]
 == System Scope and Context
+
+image:03-context-EN.png["System Context"]
