@@ -1,0 +1,12 @@
+[[resources-role]]
+== Role
+A `Role` represents...
+
+=== Role Index
+An overview of all possible operations on `Roles` can be found on the `Role` index page that is retrieved with a `GET` request:
+
+include::{generated}/roles-index/http-request.adoc[]
+
+And the server responds with a `HAL+JSON` representation to further operations:
+
+include::{generated}/roles-index/http-response.adoc[]

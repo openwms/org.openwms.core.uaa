@@ -70,6 +70,14 @@ class UserControllerDocumentation {
                 .build();
     }
 
+    @Test void shall_build_index() throws Exception {
+        mockMvc.perform(
+                get(UAAConstants.API_USERS + "/index")
+        )
+                .andDo(document("users-index"))
+                .andExpect(status().isOk());
+    }
+
     @Test
     void shall_create_user() throws Exception {
         UserVO vo = UserVO.newBuilder()

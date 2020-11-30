@@ -1,0 +1,12 @@
+[[resources-grant]]
+== Grant
+A `Grant` represents...
+
+=== Grant Index
+An overview of all possible operations on `Grants` can be found on the `Grant` index page that is retrieved with a `GET` request:
+
+include::{generated}/grants-index/http-request.adoc[]
+
+And the server responds with a `HAL+JSON` representation to further operations:
+
+include::{generated}/grants-index/http-response.adoc[]

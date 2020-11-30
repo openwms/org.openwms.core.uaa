@@ -3,6 +3,15 @@
 A `User` represents a human user of the system, usually in front of an UI who interacts with the system. `User` representations can be
 created, modified and retrieved. An `User` is also allowed to authenticate against an UAA endpoint.
 
+=== User Index
+An overview of all possible operations on `Users` can be found on the `User` index page that is retrieved with a `GET` request:
+
+include::{generated}/users-index/http-request.adoc[]
+
+And the server responds with a `HAL+JSON` representation to further operations:
+
+include::{generated}/users-index/http-response.adoc[]
+
 === Create an User
 To create a new `User` instance a `POST` request must be send to the server with the mandatory fields of the `User` in the request body
 

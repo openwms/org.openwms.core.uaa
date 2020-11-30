@@ -1,0 +1,12 @@
+[[resources-client]]
+== Client
+A `Client` represents...
+
+=== Client Index
+An overview of all possible operations on `Clients` can be found on the `Client` index page that is retrieved with a `GET` request:
+
+include::{generated}/clients-index/http-request.adoc[]
+
+And the server responds with a `HAL+JSON` representation to further operations:
+
+include::{generated}/clients-index/http-response.adoc[]
