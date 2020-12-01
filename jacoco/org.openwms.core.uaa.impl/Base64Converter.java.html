@@ -29,15 +29,15 @@ public class Base64Converter extends DozerConverter&lt;byte[], String&gt; {
      * {@inheritDoc}
      */
     public Base64Converter() {
-<span class="nc" id="L32">        super(byte[].class, String.class);</span>
-<span class="nc" id="L33">    }</span>
+<span class="fc" id="L32">        super(byte[].class, String.class);</span>
+<span class="fc" id="L33">    }</span>
 
     /**
      * {@inheritDoc}
      */
     @Override
     public String convertTo(byte[] source, String destination) {
-<span class="nc" id="L40">        return Base64.encodeBase64String(source);</span>
+<span class="fc" id="L40">        return Base64.encodeBase64String(source);</span>
     }
 
     /**

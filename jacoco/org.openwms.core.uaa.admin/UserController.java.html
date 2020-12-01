@@ -74,7 +74,7 @@ public class UserController extends AbstractWebController {
 
     @GetMapping(API_USERS)
     public ResponseEntity&lt;List&lt;UserVO&gt;&gt; findAllUsers() {
-<span class="nc" id="L77">        return ResponseEntity.ok(mapper.map(new ArrayList&lt;&gt;(service.findAll()), UserVO.class));</span>
+<span class="fc" id="L77">        return ResponseEntity.ok(mapper.map(new ArrayList&lt;&gt;(service.findAll()), UserVO.class));</span>
     }
 
     @GetMapping(API_USERS + &quot;/{pKey}&quot;)

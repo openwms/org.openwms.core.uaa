@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="(1.1.0-SNAPSHOT-92)">
+<meta name="author" content="(1.1.0-SNAPSHOT-93)">
 <title>OpenWMS.org WMS: RESTful API (Receiving Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org WMS: RESTful API (Receiving Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.1.0-SNAPSHOT-92)</span><br>
+<span id="author" class="author">(1.1.0-SNAPSHOT-93)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -465,6 +465,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_user_index">User Index</a></li>
 <li><a href="#_create_an_user">Create an User</a></li>
+<li><a href="#_find_all_users">Find all Users</a></li>
 <li><a href="#_find_an_user_by_persistent_key">Find an User by persistent key</a></li>
 <li><a href="#_get_the_user_details_oauth2_userdetails">Get the User Details (OAuth2 UserDetails)</a></li>
 <li><a href="#_delete_an_user">Delete an User</a></li>
@@ -849,17 +850,72 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/85bab799-80d1-4098-bc13-5eb54c95be48/
+Location: http://localhost:8080/users/55ac0aab-65b7-4f5e-a0a8-2a1d537152d0/
 Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "85bab799-80d1-4098-bc13-5eb54c95be48",
+  "pKey" : "55ac0aab-65b7-4f5e-a0a8-2a1d537152d0",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
   "enabled" : true
 }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_all_users"><a class="anchor" href="#_find_all_users"></a><a class="link" href="#_find_all_users">Find all Users</a></h3>
+<div class="paragraph">
+<p>To find and retrieve an array of all existing <code>Users</code> a client may call a <code>GET</code> request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and returns either an array of <code>Users</code>&#8230;&#8203;</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 539
+
+[ {
+  "links" : [ ],
+  "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405d",
+  "username" : "tester",
+  "externalUser" : false,
+  "lastPasswordChange" : "2020-06-22T19:02:47.33044Z",
+  "locked" : false,
+  "enabled" : true,
+  "expirationDate" : "2020-06-23T19:02:45.054756Z",
+  "fullname" : "Mister Jenkins",
+  "details" : {
+    "description" : "Just a test user",
+    "comment" : "testing only",
+    "phoneNo" : "001-1234-56789",
+    "im" : "Skype:testee",
+    "office" : "Off. 815",
+    "department" : "Dep. 1",
+    "gender" : "FEMALE"
+  }
+} ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or an empty array, but always with a <code>200-OK</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 3
+
+[ ]</code></pre>
 </div>
 </div>
 </div>
@@ -871,7 +927,7 @@ resource:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/85bab799-80d1-4098-bc13-5eb54c95be48/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/55ac0aab-65b7-4f5e-a0a8-2a1d537152d0/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -885,7 +941,7 @@ Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "85bab799-80d1-4098-bc13-5eb54c95be48",
+  "pKey" : "55ac0aab-65b7-4f5e-a0a8-2a1d537152d0",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -903,7 +959,7 @@ to access the endpoint.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDY4MTY3NDcsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjMwZjVlMmRlLWZhYzktNGIyOS04NmIxLWQ5YzM5MjcwNTcxNiIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.m9j9fD4eqONglm5wg9qCYf-Rlofb2GkZfeZNcz6bKTU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDY4MTkwODUsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6ImI3YjIyMzE2LTAyZjctNGY0Ni1iZmNkLTk5YjY0OTk2YTZmZiIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.H1-uZM7Vy9tsNYE4KrW5PVstbLe35MrsLvzipp40cUk
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -998,7 +1054,7 @@ X-Frame-Options: DENY
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /users/85bab799-80d1-4098-bc13-5eb54c95be48/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /users/55ac0aab-65b7-4f5e-a0a8-2a1d537152d0/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1148,7 +1204,7 @@ Content-Length: 357
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-11-30 23:57:12 UTC
+Last updated 2020-12-01 00:36:17 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
