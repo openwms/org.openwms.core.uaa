@@ -92,19 +92,24 @@ public class UserController extends AbstractWebController {
 
     @PutMapping(API_USERS)
     public ResponseEntity&lt;UserVO&gt; save(@RequestBody @Valid UserVO user) {
-<span class="nc" id="L95">        return ResponseEntity.ok(mapper.map(service.save(mapper.map(user, User.class)), UserVO.class));</span>
+        try {
+<span class="fc" id="L96">            return ResponseEntity.ok(mapper.map(service.save(mapper.map(user, User.class)), UserVO.class));</span>
+<span class="nc" id="L97">        } catch (Exception e) {</span>
+<span class="nc" id="L98">            e.printStackTrace();</span>
+<span class="nc" id="L99">            return null;</span>
+        }
     }
 
     @PatchMapping(API_USERS + &quot;/{pKey}&quot;)
     public ResponseEntity&lt;Void&gt; saveImage(@RequestBody @NotNull byte[] image, @PathVariable(&quot;pKey&quot;) @NotEmpty String pKey) {
-<span class="nc" id="L100">        service.uploadImageFile(pKey, image);</span>
-<span class="nc" id="L101">        return ResponseEntity.ok().build();</span>
+<span class="nc" id="L105">        service.uploadImageFile(pKey, image);</span>
+<span class="nc" id="L106">        return ResponseEntity.ok().build();</span>
     }
 
     @DeleteMapping(API_USERS + &quot;/{pKey}&quot;)
     public ResponseEntity&lt;Void&gt; delete(@PathVariable(&quot;pKey&quot;) @NotEmpty String pKey) {
-<span class="fc" id="L106">        service.delete(pKey);</span>
-<span class="fc" id="L107">        return ResponseEntity.noContent().build();</span>
+<span class="fc" id="L111">        service.delete(pKey);</span>
+<span class="fc" id="L112">        return ResponseEntity.noContent().build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
