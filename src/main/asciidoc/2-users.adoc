@@ -45,6 +45,15 @@ If the resource exists the server responds with a `200-OK` and the `User` repres
 
 include::{generated}/user-findByPkey/http-response.adoc[]
 
+=== Modify an existing User
+Existing `User` instance can be modified by sending a `PUT` request with the `User` representation as request body.
+
+include::{generated}/user-save/http-request.adoc[]
+
+If the server has correctly updated the `User` the response is a:
+
+include::{generated}/user-save/http-response.adoc[]
+
 === Get the User Details (OAuth2 UserDetails)
 An endpoint exists to get the details of the current logged-in `User` from. An OAuth2 Access Token must be provided as Bearer token in order
 to access the endpoint.

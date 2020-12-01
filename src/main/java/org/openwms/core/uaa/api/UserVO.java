@@ -23,6 +23,7 @@ import org.ameba.http.AbstractBase;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Objects;
@@ -42,13 +43,14 @@ public class UserVO extends AbstractBase implements Serializable {
     private String pKey;
     /** The User's unique name. */
     @JsonProperty("username")
-    @NotEmpty(groups = ValidationGroups.Create.class)
+    @NotEmpty(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class})
     private String username;
     /** If the User is authenticated against an external system. */
     @JsonProperty("externalUser")
     private Boolean extern;
     /** When the password has been changed the last time. */
     @JsonProperty("lastPasswordChange")
+    @Null(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class})
     private ZonedDateTime lastPasswordChange;
     /** If the User is locked from login. */
     @JsonProperty("locked")
@@ -68,7 +70,7 @@ public class UserVO extends AbstractBase implements Serializable {
     private UserDetailsVO userDetails;
     /** The User's email address. */
     @JsonProperty("email")
-    @NotEmpty(groups = ValidationGroups.Create.class)
+    @NotEmpty(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class})
     private String email;
 
     @JsonCreator

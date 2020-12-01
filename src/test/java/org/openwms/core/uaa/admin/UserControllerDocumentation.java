@@ -32,12 +32,15 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.openwms.core.uaa.api.UAAConstants.API_USERS;
 import static org.springframework.http.HttpHeaders.LOCATION;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -45,6 +48,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -100,6 +104,8 @@ class UserControllerDocumentation {
                 .username("admin2")
                 .email("admin@example.com")
                 .build();
+
+        // CREATE a new User
         MvcResult result = mockMvc.perform(
                 RestDocumentationRequestBuilders.post(API_USERS)
                         .content(objectMapper.writeValueAsString(vo))
@@ -116,8 +122,9 @@ class UserControllerDocumentation {
                 .andExpect(header().string(LOCATION, notNullValue()))
                 .andReturn();
 
+        // FIND that newly created User
         String location = result.getResponse().getHeader(LOCATION);
-        mockMvc.perform(
+        String contentAsString = mockMvc.perform(
                 get(location))
                 .andDo(document("user-findByPkey",
                         preprocessResponse(prettyPrint()),
@@ -129,8 +136,30 @@ class UserControllerDocumentation {
                                 fieldWithPath("enabled").description("If the User is enabled in general")
                         )
                 ))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+        UserVO userVO = objectMapper.readValue(contentAsString, UserVO.class);
 
+        // MODIFY and SAVE the User
+        userVO.setUsername("superuser");
+        userVO.setLocked(true);
+        userVO.setEnabled(false);
+        contentAsString = mockMvc.perform(
+                put(API_USERS)
+                        .content(objectMapper.writeValueAsString(userVO))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(document("user-save",
+                        preprocessResponse(prettyPrint())))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.username", is("superuser")))
+                .andExpect(jsonPath("$.locked", is(true)))
+                .andExpect(jsonPath("$.enabled", is(false)))
+                .andReturn().getResponse().getContentAsString()
+        ;
+        userVO = objectMapper.readValue(contentAsString, UserVO.class);
+        assertThat(userVO.getUsername()).isEqualTo("superuser");
+
+        // DELETE the User
         String pKey = location.substring(location.substring(0, location.length()-1).lastIndexOf("/"));
         mockMvc.perform(
                 delete(API_USERS + pKey))

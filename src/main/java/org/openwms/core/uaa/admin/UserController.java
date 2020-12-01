@@ -92,7 +92,12 @@ public class UserController extends AbstractWebController {
 
     @PutMapping(API_USERS)
     public ResponseEntity<UserVO> save(@RequestBody @Valid UserVO user) {
-        return ResponseEntity.ok(mapper.map(service.save(mapper.map(user, User.class)), UserVO.class));
+        try {
+            return ResponseEntity.ok(mapper.map(service.save(mapper.map(user, User.class)), UserVO.class));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @PatchMapping(API_USERS + "/{pKey}")

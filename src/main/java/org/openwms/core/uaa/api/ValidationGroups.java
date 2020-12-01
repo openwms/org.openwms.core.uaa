@@ -22,6 +22,9 @@ package org.openwms.core.uaa.api;
  */
 public interface ValidationGroups {
 
-    /** Marker interface to validate creation. */
+    /** Marker interface to validate on creation. */
     interface Create {}
+
+    /** Marker interface to validate on modification. */
+    interface Modify {}
 }

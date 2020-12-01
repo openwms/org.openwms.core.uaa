@@ -28,6 +28,7 @@ import org.openwms.core.event.UserChangedEvent;
 import org.openwms.core.exception.ExceptionCodes;
 import org.openwms.core.exception.InvalidPasswordException;
 import org.openwms.core.uaa.admin.UserService;
+import org.openwms.core.uaa.api.ValidationGroups;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,12 +39,15 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
+import javax.validation.Validator;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
+
+import static org.ameba.system.ValidationUtil.validate;
 
 /**
  * An UserServiceImpl is a Spring managed transactional implementation of the {@link UserService}. Using Spring 2 annotation support
@@ -64,17 +68,19 @@ class UserServiceImpl implements UserService {
     private final ConfigurationService confSrv;
     private final PasswordEncoder enc;
     private final Translator translator;
+    private final Validator validator;
     private final String systemUsername;
     private final String systemPassword;
 
     UserServiceImpl(UserRepository repository, SecurityObjectRepository securityObjectDao, ConfigurationService confSrv,
-            PasswordEncoder enc, Translator translator, @Value("${owms.security.system.username}") String systemUsername,
+            PasswordEncoder enc, Translator translator, Validator validator, @Value("${owms.security.system.username}") String systemUsername,
             @Value("${owms.security.system.password}") String systemPassword) {
         this.repository = repository;
         this.securityObjectDao = securityObjectDao;
         this.confSrv = confSrv;
         this.enc = enc;
         this.translator = translator;
+        this.validator = validator;
         this.systemUsername = systemUsername;
         this.systemPassword = systemPassword;
     }
@@ -105,10 +111,10 @@ class UserServiceImpl implements UserService {
      * @throws ServiceLayerException if the {@code entity} argument is {@literal null}
      */
     @Override
-    @FireAfterTransaction(events = {UserChangedEvent.class})
     @Measured
     public User save(User entity) {
         Assert.notNull(entity, ExceptionCodes.USER_SAVE_NOT_BE_NULL);
+        validate(validator, entity, ValidationGroups.Modify.class);
         return repository.save(entity);
     }
 
