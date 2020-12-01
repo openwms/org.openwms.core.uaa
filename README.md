@@ -22,6 +22,7 @@ general and has multiple `Grants` assigned. A `Grant` is a permission that can b
 [![Quality](https://sonarcloud.io/api/project_badges/measure?project=org.openwms:org.openwms.core.uaa&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.openwms:org.openwms.core.uaa)
 [![Join the chat at https://gitter.im/openwms/org.openwms](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/openwms/org.openwms?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+Find more information about the service on the microservice [website...](https://openwms.github.io/org.openwms.core.uaa/)
 # Deployment
 The UAA is an essential component for all kind of applications and requires a high degree of availability. However, it is deployed in a
 redundant setup in different locations, on different cloud platforms with different ISP.
