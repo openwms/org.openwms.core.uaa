@@ -50,15 +50,15 @@ public class RoleVO extends AbstractBase implements Serializable {
     @JsonProperty(&quot;description&quot;)
     private String description;
     /** A collection of Users that are assigned to the Role. */
-<span class="nc" id="L53">    @JsonProperty(&quot;users&quot;)</span>
+<span class="pc" id="L53">    @JsonProperty(&quot;users&quot;)</span>
     private Set&lt;UserVO&gt; users = new HashSet&lt;&gt;();
     /** A collection of Grants that are assigned to the Role. */
-<span class="nc" id="L56">    @JsonProperty(&quot;grants&quot;)</span>
+<span class="pc" id="L56">    @JsonProperty(&quot;grants&quot;)</span>
     private Set&lt;SecurityObjectVO&gt; grants = new HashSet&lt;&gt;();
 
     @JsonCreator
-<span class="nc" id="L60">    public RoleVO() {</span>
-<span class="nc" id="L61">    }</span>
+<span class="fc" id="L60">    public RoleVO() {</span>
+<span class="fc" id="L61">    }</span>
 
 <span class="nc" id="L63">    private RoleVO(Builder builder) {</span>
 <span class="nc" id="L64">        pKey = builder.pKey;</span>

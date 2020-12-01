@@ -49,9 +49,9 @@ public class GrantController extends AbstractWebController {
 
     @GetMapping(API_GRANTS + &quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; index() {
-<span class="nc" id="L52">        return ResponseEntity.ok(</span>
+<span class="fc" id="L52">        return ResponseEntity.ok(</span>
                 new Index(
-<span class="nc" id="L54">                        linkTo(methodOn(GrantController.class).findAllGrants()).withRel(&quot;grants-findall&quot;)</span>
+<span class="fc" id="L54">                        linkTo(methodOn(GrantController.class).findAllGrants()).withRel(&quot;grants-findall&quot;)</span>
                 )
         );
     }

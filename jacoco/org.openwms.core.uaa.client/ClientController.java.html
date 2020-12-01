@@ -55,12 +55,12 @@ public class ClientController extends AbstractWebController {
 
     @GetMapping(API_CLIENTS + &quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; index() {
-<span class="nc" id="L58">        return ResponseEntity.ok(</span>
+<span class="fc" id="L58">        return ResponseEntity.ok(</span>
                 new Index(
-<span class="nc" id="L60">                        linkTo(methodOn(ClientController.class).findAll()).withRel(&quot;clients-findall&quot;),</span>
-<span class="nc" id="L61">                        linkTo(methodOn(ClientController.class).create(new ClientVO())).withRel(&quot;clients-create&quot;),</span>
-<span class="nc" id="L62">                        linkTo(methodOn(ClientController.class).save(new ClientVO())).withRel(&quot;clients-save&quot;),</span>
-<span class="nc" id="L63">                        linkTo(methodOn(ClientController.class).delete(&quot;pKey&quot;)).withRel(&quot;clients-delete&quot;)</span>
+<span class="fc" id="L60">                        linkTo(methodOn(ClientController.class).findAll()).withRel(&quot;clients-findall&quot;),</span>
+<span class="fc" id="L61">                        linkTo(methodOn(ClientController.class).create(new ClientVO())).withRel(&quot;clients-create&quot;),</span>
+<span class="fc" id="L62">                        linkTo(methodOn(ClientController.class).save(new ClientVO())).withRel(&quot;clients-save&quot;),</span>
+<span class="fc" id="L63">                        linkTo(methodOn(ClientController.class).delete(&quot;pKey&quot;)).withRel(&quot;clients-delete&quot;)</span>
                 )
         );
     }

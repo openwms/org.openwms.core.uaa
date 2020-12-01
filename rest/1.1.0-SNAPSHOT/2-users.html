@@ -448,6 +448,51 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 created, modified and retrieved. An <code>User</code> is also allowed to authenticate against an UAA endpoint.</p>
 </div>
 <div class="sect2">
+<h3 id="_user_index">User Index</h3>
+<div class="paragraph">
+<p>An overview of all possible operations on <code>Users</code> can be found on the <code>User</code> index page that is retrieved with a <code>GET</code> request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the server responds with a <code>HAL+JSON</code> representation to further operations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 492
+
+{
+  "_links" : {
+    "users-findall" : {
+      "href" : "http://localhost:8080/users"
+    },
+    "users-findbypkey" : {
+      "href" : "http://localhost:8080/users/pKey"
+    },
+    "users-create" : {
+      "href" : "http://localhost:8080/users"
+    },
+    "users-save" : {
+      "href" : "http://localhost:8080/users"
+    },
+    "users-saveimage" : {
+      "href" : "http://localhost:8080/users/pKey"
+    },
+    "users-delete" : {
+      "href" : "http://localhost:8080/users/pKey"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_create_an_user">Create an User</h3>
 <div class="paragraph">
 <p>To create a new <code>User</code> instance a <code>POST</code> request must be send to the server with the mandatory fields of the <code>User</code> in the request body</p>
@@ -498,12 +543,12 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/8ff7af2c-d05a-4243-8f78-df4f8ae7547f/
+Location: http://localhost:8080/users/85bab799-80d1-4098-bc13-5eb54c95be48/
 Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "8ff7af2c-d05a-4243-8f78-df4f8ae7547f",
+  "pKey" : "85bab799-80d1-4098-bc13-5eb54c95be48",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -520,7 +565,7 @@ resource:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users/8ff7af2c-d05a-4243-8f78-df4f8ae7547f/ HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users/85bab799-80d1-4098-bc13-5eb54c95be48/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -534,7 +579,7 @@ Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "8ff7af2c-d05a-4243-8f78-df4f8ae7547f",
+  "pKey" : "85bab799-80d1-4098-bc13-5eb54c95be48",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -552,7 +597,7 @@ to access the endpoint.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDY4MTUwNTcsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6ImQ3OGJjYzNlLTVkN2UtNDJiMy04NmJlLWI4MTdmZDYwNzAzZSIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19._1OrL67kIpV73eFF6q2oAp31tJ3kQ48Wz0nR6N3w-N4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDY4MTY3NDcsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjMwZjVlMmRlLWZhYzktNGIyOS04NmIxLWQ5YzM5MjcwNTcxNiIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.m9j9fD4eqONglm5wg9qCYf-Rlofb2GkZfeZNcz6bKTU
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -647,7 +692,7 @@ X-Frame-Options: DENY
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /users/8ff7af2c-d05a-4243-8f78-df4f8ae7547f/ HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /users/85bab799-80d1-4098-bc13-5eb54c95be48/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -665,7 +710,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-11-30 23:29:27 UTC
+Last updated 2020-11-30 23:57:12 UTC
 </div>
 </div>
 </body>

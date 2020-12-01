@@ -60,12 +60,12 @@ public class RoleController extends AbstractWebController {
 
     @GetMapping(API_ROLES + &quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; index() {
-<span class="nc" id="L63">        return ResponseEntity.ok(</span>
+<span class="fc" id="L63">        return ResponseEntity.ok(</span>
                 new Index(
-<span class="nc" id="L65">                        linkTo(methodOn(RoleController.class).findAllRoles()).withRel(&quot;roles-findall&quot;),</span>
-<span class="nc" id="L66">                        linkTo(methodOn(RoleController.class).create(new RoleVO(), null)).withRel(&quot;roles-create&quot;),</span>
-<span class="nc" id="L67">                        linkTo(methodOn(RoleController.class).save(new RoleVO())).withRel(&quot;roles-save&quot;),</span>
-<span class="nc" id="L68">                        linkTo(methodOn(RoleController.class).delete(&quot;pKey&quot;)).withRel(&quot;roles-delete&quot;)</span>
+<span class="fc" id="L65">                        linkTo(methodOn(RoleController.class).findAllRoles()).withRel(&quot;roles-findall&quot;),</span>
+<span class="fc" id="L66">                        linkTo(methodOn(RoleController.class).create(new RoleVO(), null)).withRel(&quot;roles-create&quot;),</span>
+<span class="fc" id="L67">                        linkTo(methodOn(RoleController.class).save(new RoleVO())).withRel(&quot;roles-save&quot;),</span>
+<span class="fc" id="L68">                        linkTo(methodOn(RoleController.class).delete(&quot;pKey&quot;)).withRel(&quot;roles-delete&quot;)</span>
                 )
         );
     }

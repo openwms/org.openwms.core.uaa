@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="(1.1.0-SNAPSHOT-91)">
+<meta name="author" content="(1.1.0-SNAPSHOT-92)">
 <title>OpenWMS.org WMS: RESTful API (Receiving Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org WMS: RESTful API (Receiving Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.1.0-SNAPSHOT-91)</span><br>
+<span id="author" class="author">(1.1.0-SNAPSHOT-92)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -463,10 +463,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#resources-index">Index</a></li>
 <li><a href="#resources-user">User</a>
 <ul class="sectlevel2">
+<li><a href="#_user_index">User Index</a></li>
 <li><a href="#_create_an_user">Create an User</a></li>
 <li><a href="#_find_an_user_by_persistent_key">Find an User by persistent key</a></li>
 <li><a href="#_get_the_user_details_oauth2_userdetails">Get the User Details (OAuth2 UserDetails)</a></li>
 <li><a href="#_delete_an_user">Delete an User</a></li>
+</ul>
+</li>
+<li><a href="#resources-role">Role</a>
+<ul class="sectlevel2">
+<li><a href="#_role_index">Role Index</a></li>
+</ul>
+</li>
+<li><a href="#resources-grant">Grant</a>
+<ul class="sectlevel2">
+<li><a href="#_grant_index">Grant Index</a></li>
+</ul>
+</li>
+<li><a href="#resources-client">Client</a>
+<ul class="sectlevel2">
+<li><a href="#_client_index">Client Index</a></li>
 </ul>
 </li>
 </ul>
@@ -738,6 +754,51 @@ resources.</p>
 created, modified and retrieved. An <code>User</code> is also allowed to authenticate against an UAA endpoint.</p>
 </div>
 <div class="sect2">
+<h3 id="_user_index"><a class="anchor" href="#_user_index"></a><a class="link" href="#_user_index">User Index</a></h3>
+<div class="paragraph">
+<p>An overview of all possible operations on <code>Users</code> can be found on the <code>User</code> index page that is retrieved with a <code>GET</code> request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the server responds with a <code>HAL+JSON</code> representation to further operations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 492
+
+{
+  "_links" : {
+    "users-findall" : {
+      "href" : "http://localhost:8080/users"
+    },
+    "users-findbypkey" : {
+      "href" : "http://localhost:8080/users/pKey"
+    },
+    "users-create" : {
+      "href" : "http://localhost:8080/users"
+    },
+    "users-save" : {
+      "href" : "http://localhost:8080/users"
+    },
+    "users-saveimage" : {
+      "href" : "http://localhost:8080/users/pKey"
+    },
+    "users-delete" : {
+      "href" : "http://localhost:8080/users/pKey"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_create_an_user"><a class="anchor" href="#_create_an_user"></a><a class="link" href="#_create_an_user">Create an User</a></h3>
 <div class="paragraph">
 <p>To create a new <code>User</code> instance a <code>POST</code> request must be send to the server with the mandatory fields of the <code>User</code> in the request body</p>
@@ -788,12 +849,12 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/8ff7af2c-d05a-4243-8f78-df4f8ae7547f/
+Location: http://localhost:8080/users/85bab799-80d1-4098-bc13-5eb54c95be48/
 Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "8ff7af2c-d05a-4243-8f78-df4f8ae7547f",
+  "pKey" : "85bab799-80d1-4098-bc13-5eb54c95be48",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -810,7 +871,7 @@ resource:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/8ff7af2c-d05a-4243-8f78-df4f8ae7547f/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/85bab799-80d1-4098-bc13-5eb54c95be48/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -824,7 +885,7 @@ Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "8ff7af2c-d05a-4243-8f78-df4f8ae7547f",
+  "pKey" : "85bab799-80d1-4098-bc13-5eb54c95be48",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -842,7 +903,7 @@ to access the endpoint.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDY4MTUwNTcsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6ImQ3OGJjYzNlLTVkN2UtNDJiMy04NmJlLWI4MTdmZDYwNzAzZSIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19._1OrL67kIpV73eFF6q2oAp31tJ3kQ48Wz0nR6N3w-N4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDY4MTY3NDcsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjMwZjVlMmRlLWZhYzktNGIyOS04NmIxLWQ5YzM5MjcwNTcxNiIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.m9j9fD4eqONglm5wg9qCYf-Rlofb2GkZfeZNcz6bKTU
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -937,7 +998,7 @@ X-Frame-Options: DENY
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /users/8ff7af2c-d05a-4243-8f78-df4f8ae7547f/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /users/85bab799-80d1-4098-bc13-5eb54c95be48/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -952,10 +1013,142 @@ Host: localhost:8080</code></pre>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="resources-role"><a class="anchor" href="#resources-role"></a><a class="link" href="#resources-role">Role</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <code>Role</code> represents&#8230;&#8203;</p>
+</div>
+<div class="sect2">
+<h3 id="_role_index"><a class="anchor" href="#_role_index"></a><a class="link" href="#_role_index">Role Index</a></h3>
+<div class="paragraph">
+<p>An overview of all possible operations on <code>Roles</code> can be found on the <code>Role</code> index page that is retrieved with a <code>GET</code> request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /roles/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the server responds with a <code>HAL+JSON</code> representation to further operations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 325
+
+{
+  "_links" : {
+    "roles-findall" : {
+      "href" : "http://localhost:8080/roles"
+    },
+    "roles-create" : {
+      "href" : "http://localhost:8080/roles"
+    },
+    "roles-save" : {
+      "href" : "http://localhost:8080/roles"
+    },
+    "roles-delete" : {
+      "href" : "http://localhost:8080/roles/pKey"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="resources-grant"><a class="anchor" href="#resources-grant"></a><a class="link" href="#resources-grant">Grant</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <code>Grant</code> represents&#8230;&#8203;</p>
+</div>
+<div class="sect2">
+<h3 id="_grant_index"><a class="anchor" href="#_grant_index"></a><a class="link" href="#_grant_index">Grant Index</a></h3>
+<div class="paragraph">
+<p>An overview of all possible operations on <code>Grants</code> can be found on the <code>Grant</code> index page that is retrieved with a <code>GET</code> request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /grants/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the server responds with a <code>HAL+JSON</code> representation to further operations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 99
+
+{
+  "_links" : {
+    "grants-findall" : {
+      "href" : "http://localhost:8080/grants"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="resources-client"><a class="anchor" href="#resources-client"></a><a class="link" href="#resources-client">Client</a></h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A <code>Client</code> represents&#8230;&#8203;</p>
+</div>
+<div class="sect2">
+<h3 id="_client_index"><a class="anchor" href="#_client_index"></a><a class="link" href="#_client_index">Client Index</a></h3>
+<div class="paragraph">
+<p>An overview of all possible operations on <code>Clients</code> can be found on the <code>Client</code> index page that is retrieved with a <code>GET</code> request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /api/clients/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And the server responds with a <code>HAL+JSON</code> representation to further operations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 357
+
+{
+  "_links" : {
+    "clients-findall" : {
+      "href" : "http://localhost:8080/api/clients"
+    },
+    "clients-create" : {
+      "href" : "http://localhost:8080/api/clients"
+    },
+    "clients-save" : {
+      "href" : "http://localhost:8080/api/clients"
+    },
+    "clients-delete" : {
+      "href" : "http://localhost:8080/api/clients/pKey"
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-11-30 23:29:27 UTC
+Last updated 2020-11-30 23:57:12 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>Index</title>
+<title>Grant</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -441,49 +441,40 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="resources-index">Index</h2>
+<h2 id="resources-grant">Grant</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The initial HTTP request to retrieve information about all available resources looks like the following. The Index page is a public
-available resource and does not need any authentication.</p>
+<p>A <code>Grant</code> represents&#8230;&#8203;</p>
+</div>
+<div class="sect2">
+<h3 id="_grant_index">Grant Index</h3>
+<div class="paragraph">
+<p>An overview of all possible operations on <code>Grants</code> can be found on the <code>Grant</code> index page that is retrieved with a <code>GET</code> request:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /index HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /grants/index HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>The <code>Index</code> resource is returned in the response body with the response status of 200-OK. This main <code>Index</code> lists all primary resource
-entities to follow next.</p>
+<p>And the server responds with a <code>HAL+JSON</code> representation to further operations:</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 347
+Content-Length: 99
 
 {
   "_links" : {
-    "user-index" : {
-      "href" : "http://localhost:8080/users/index"
-    },
-    "role-index" : {
-      "href" : "http://localhost:8080/roles/index"
-    },
-    "grant-index" : {
-      "href" : "http://localhost:8080/grants/index"
-    },
-    "client-index" : {
-      "href" : "http://localhost:8080/api/clients/index"
+    "grants-findall" : {
+      "href" : "http://localhost:8080/grants"
     }
   }
 }</code></pre>
 </div>
 </div>
-<div class="paragraph">
-<p>A client application only needs to know about the agreed link names and follow the corresponding <code>href</code> link to navigate to further
-resources.</p>
 </div>
 </div>
 </div>

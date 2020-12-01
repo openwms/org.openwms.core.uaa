@@ -60,14 +60,14 @@ public class UserController extends AbstractWebController {
 
     @GetMapping(API_USERS + &quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; index() {
-<span class="nc" id="L63">        return ResponseEntity.ok(</span>
+<span class="fc" id="L63">        return ResponseEntity.ok(</span>
                 new Index(
-<span class="nc" id="L65">                        linkTo(methodOn(UserController.class).findAllUsers()).withRel(&quot;users-findall&quot;),</span>
-<span class="nc" id="L66">                        linkTo(methodOn(UserController.class).findUser(&quot;pKey&quot;)).withRel(&quot;users-findbypkey&quot;),</span>
-<span class="nc" id="L67">                        linkTo(methodOn(UserController.class).create(new UserVO(), null)).withRel(&quot;users-create&quot;),</span>
-<span class="nc" id="L68">                        linkTo(methodOn(UserController.class).save(new UserVO())).withRel(&quot;users-save&quot;),</span>
-<span class="nc" id="L69">                        linkTo(methodOn(UserController.class).saveImage(&quot;&quot;.getBytes(), &quot;pKey&quot;)).withRel(&quot;users-saveimage&quot;),</span>
-<span class="nc" id="L70">                        linkTo(methodOn(UserController.class).delete(&quot;pKey&quot;)).withRel(&quot;users-delete&quot;)</span>
+<span class="fc" id="L65">                        linkTo(methodOn(UserController.class).findAllUsers()).withRel(&quot;users-findall&quot;),</span>
+<span class="fc" id="L66">                        linkTo(methodOn(UserController.class).findUser(&quot;pKey&quot;)).withRel(&quot;users-findbypkey&quot;),</span>
+<span class="fc" id="L67">                        linkTo(methodOn(UserController.class).create(new UserVO(), null)).withRel(&quot;users-create&quot;),</span>
+<span class="fc" id="L68">                        linkTo(methodOn(UserController.class).save(new UserVO())).withRel(&quot;users-save&quot;),</span>
+<span class="fc" id="L69">                        linkTo(methodOn(UserController.class).saveImage(&quot;&quot;.getBytes(), &quot;pKey&quot;)).withRel(&quot;users-saveimage&quot;),</span>
+<span class="fc" id="L70">                        linkTo(methodOn(UserController.class).delete(&quot;pKey&quot;)).withRel(&quot;users-delete&quot;)</span>
                 )
         );
     }
