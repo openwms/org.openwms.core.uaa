@@ -281,7 +281,7 @@ public class User extends ApplicationEntity implements Serializable {
 <span class="pc bpc" id="L281" title="1 of 2 branches missed.">        if (passwords.size() &gt; NUMBER_STORED_PASSWORDS) {</span>
 <span class="nc" id="L282">            Collections.sort(passwords, new PasswordComparator());</span>
 <span class="nc bnc" id="L283" title="All 2 branches missed.">            if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L284">                LOGGER.debug(&quot;Remove the old password from the history: &quot; + passwords.get(passwords.size() - 1));</span>
+<span class="nc" id="L284">                LOGGER.debug(&quot;Remove the old password from the history: [{}]&quot;, (passwords.get(passwords.size() - 1)));</span>
             }
 <span class="nc" id="L286">            UserPassword pw = passwords.get(passwords.size() - 1);</span>
 <span class="nc" id="L287">            pw.setUser(null);</span>

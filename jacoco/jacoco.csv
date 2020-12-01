@@ -28,7 +28,7 @@ OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,UserServiceImpl,19,310,1,1
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,User.PasswordComparator,9,0,0,0,2,0,2,0,2,0
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,SecurityContextUserServiceImpl,0,98,1,11,0,23,1,9,0,4
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,Role.Builder,0,33,0,0,0,10,0,4,0,4
-OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin,UserController,13,170,0,0,5,20,1,7,1,7
+OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin,UserController,8,170,0,0,2,20,1,7,1,7
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin,GrantController,12,28,0,0,1,6,1,2,1,2
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin,RoleController,60,72,2,0,8,9,5,2,4,2
 OpenWMS.org CORE: UAA,org.openwms.core.search,ActionServiceImpl,2,24,0,0,1,6,1,4,1,4

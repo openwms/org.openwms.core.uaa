@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="(1.1.0-SNAPSHOT-94)">
+<meta name="author" content="(1.1.0-SNAPSHOT-95)">
 <title>OpenWMS.org WMS: RESTful API (Receiving Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org WMS: RESTful API (Receiving Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.1.0-SNAPSHOT-94)</span><br>
+<span id="author" class="author">(1.1.0-SNAPSHOT-95)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -851,12 +851,12 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/7b59f982-0767-48b6-8cb4-8cdd1b130cc2/
+Location: http://localhost:8080/users/bfe53ec2-035c-4585-9bbf-c336ecda7a84/
 Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "7b59f982-0767-48b6-8cb4-8cdd1b130cc2",
+  "pKey" : "bfe53ec2-035c-4585-9bbf-c336ecda7a84",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -928,7 +928,7 @@ resource:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/7b59f982-0767-48b6-8cb4-8cdd1b130cc2/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/bfe53ec2-035c-4585-9bbf-c336ecda7a84/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -942,7 +942,7 @@ Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "7b59f982-0767-48b6-8cb4-8cdd1b130cc2",
+  "pKey" : "bfe53ec2-035c-4585-9bbf-c336ecda7a84",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -965,7 +965,7 @@ Host: localhost:8080
 
 {
   "links" : [ ],
-  "pKey" : "7b59f982-0767-48b6-8cb4-8cdd1b130cc2",
+  "pKey" : "bfe53ec2-035c-4585-9bbf-c336ecda7a84",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
@@ -983,7 +983,7 @@ Content-Type: application/hal+json
 Content-Length: 147
 
 {
-  "pKey" : "b07d034b-39ab-4a92-98c1-5da86c899889",
+  "pKey" : "b3d3ec44-fe3d-4626-b863-4abcf04cbd56",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
@@ -1001,7 +1001,7 @@ to access the endpoint.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDY4MjEzOTAsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6ImFiMTIyMTJkLTYyYTktNGE5OC04OGUyLWE4Y2ZiMDA4ODMyYyIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.LtSs_ZfGlH3eOLVioYXcNVs3MCkAs3R99NC33AurIk4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDY4MjE5NDgsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjVhZDdhMWMwLTFiMDctNDcyNi04ZjFjLTY2MzhiODRhMGExOSIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.Vu6gusewpA3WYsnVn1kFOHD51FQJU9tSjWHUoLO8q8s
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1096,7 +1096,7 @@ X-Frame-Options: DENY
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /users/7b59f982-0767-48b6-8cb4-8cdd1b130cc2/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /users/bfe53ec2-035c-4585-9bbf-c336ecda7a84/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1246,7 +1246,7 @@ Content-Length: 357
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-12-01 01:14:47 UTC
+Last updated 2020-12-01 01:24:22 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
