@@ -281,7 +281,7 @@ public class User extends ApplicationEntity implements Serializable {
         if (passwords.size() > NUMBER_STORED_PASSWORDS) {
             Collections.sort(passwords, new PasswordComparator());
             if (LOGGER.isDebugEnabled()) {
-                LOGGER.debug("Remove the old password from the history: " + passwords.get(passwords.size() - 1));
+                LOGGER.debug("Remove the old password from the history: [{}]", (passwords.get(passwords.size() - 1)));
             }
             UserPassword pw = passwords.get(passwords.size() - 1);
             pw.setUser(null);
