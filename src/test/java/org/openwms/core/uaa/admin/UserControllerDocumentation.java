@@ -19,13 +19,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.core.UAAApplicationTest;
-import org.openwms.core.uaa.api.UAAConstants;
 import org.openwms.core.uaa.api.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.openwms.core.uaa.api.UAAConstants.API_USERS;
 import static org.springframework.http.HttpHeaders.LOCATION;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -72,10 +73,25 @@ class UserControllerDocumentation {
 
     @Test void shall_build_index() throws Exception {
         mockMvc.perform(
-                get(UAAConstants.API_USERS + "/index")
+                get(API_USERS + "/index")
         )
                 .andDo(document("users-index"))
                 .andExpect(status().isOk());
+    }
+
+    @Sql("classpath:test.sql")
+    @Test void shall_find_demo_users() throws Exception {
+        mockMvc.perform(get(API_USERS))
+                .andDo(document("user-findAll"))
+                .andExpect(status().isOk())
+        ;
+    }
+
+    @Test void shall_find_no_users() throws Exception {
+        mockMvc.perform(get(API_USERS))
+                .andDo(document("user-findNone"))
+                .andExpect(status().isOk())
+        ;
     }
 
     @Test
@@ -85,7 +101,7 @@ class UserControllerDocumentation {
                 .email("admin@example.com")
                 .build();
         MvcResult result = mockMvc.perform(
-                RestDocumentationRequestBuilders.post(UAAConstants.API_USERS)
+                RestDocumentationRequestBuilders.post(API_USERS)
                         .content(objectMapper.writeValueAsString(vo))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(document("user-create",
@@ -117,7 +133,7 @@ class UserControllerDocumentation {
 
         String pKey = location.substring(location.substring(0, location.length()-1).lastIndexOf("/"));
         mockMvc.perform(
-                delete(UAAConstants.API_USERS + pKey))
+                delete(API_USERS + pKey))
                 .andDo(document("user-delete",
                         preprocessResponse(prettyPrint())
                 ))

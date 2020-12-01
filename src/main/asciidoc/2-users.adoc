@@ -22,6 +22,19 @@ If the `User` has been created successfully, the server returns the URI to the c
 
 include::{generated}/user-create/http-response.adoc[]
 
+=== Find all Users
+To find and retrieve an array of all existing `Users` a client may call a `GET` request:
+
+include::{generated}/user-findAll/http-request.adoc[]
+
+and returns either an array of `Users`...
+
+include::{generated}/user-findAll/http-response.adoc[]
+
+or an empty array, but always with a `200-OK`.
+
+include::{generated}/user-findNone/http-response.adoc[]
+
 === Find an User by persistent key
 A newly created `User` can be retrieved by following the URI in the `Location` header of the response. This URI points to the created
 resource:
