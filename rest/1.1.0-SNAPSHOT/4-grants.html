@@ -476,12 +476,48 @@ Content-Length: 99
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_find_all_grants">Find all Grants</h3>
+<div class="paragraph">
+<p>To retrieve all existing <code>Grants</code> from the server, a client simply needs to do a <code>GET</code> request to the <code>Grants</code> resource.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /grants HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server responds with a list representation of all <code>Grants</code> or an empty list:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 344
+
+[ {
+  "name" : "SEC_UAA_USER_LOOKUP",
+  "description" : "Permission to find Users"
+}, {
+  "name" : "SEC_UAA_USER_CREATE",
+  "description" : "Permission to create Users"
+}, {
+  "name" : "SEC_UAA_USER_MODIFY",
+  "description" : "Permission to modify Users"
+}, {
+  "name" : "SEC_UAA_USER_DELETE",
+  "description" : "Permission to delete Users"
+} ]</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-12-01 01:24:22 UTC
+Last updated 2020-12-02 20:37:24 UTC
 </div>
 </div>
 </body>

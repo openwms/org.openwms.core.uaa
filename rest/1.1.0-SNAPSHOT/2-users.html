@@ -465,7 +465,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 492
+Content-Length: 506
 
 {
   "_links" : {
@@ -482,7 +482,7 @@ Content-Length: 492
       "href" : "http://localhost:8080/users"
     },
     "users-saveimage" : {
-      "href" : "http://localhost:8080/users/pKey"
+      "href" : "http://localhost:8080/users/pKey/details/image"
     },
     "users-delete" : {
       "href" : "http://localhost:8080/users/pKey"
@@ -543,12 +543,12 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/bfe53ec2-035c-4585-9bbf-c336ecda7a84/
+Location: http://localhost:8080/users/27bddee2-a3ca-4a7e-a0d9-ab62834b7fa7/
 Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "bfe53ec2-035c-4585-9bbf-c336ecda7a84",
+  "pKey" : "27bddee2-a3ca-4a7e-a0d9-ab62834b7fa7",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -620,7 +620,7 @@ resource:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users/bfe53ec2-035c-4585-9bbf-c336ecda7a84/ HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users/27bddee2-a3ca-4a7e-a0d9-ab62834b7fa7/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -634,7 +634,7 @@ Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "bfe53ec2-035c-4585-9bbf-c336ecda7a84",
+  "pKey" : "27bddee2-a3ca-4a7e-a0d9-ab62834b7fa7",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -657,7 +657,7 @@ Host: localhost:8080
 
 {
   "links" : [ ],
-  "pKey" : "bfe53ec2-035c-4585-9bbf-c336ecda7a84",
+  "pKey" : "27bddee2-a3ca-4a7e-a0d9-ab62834b7fa7",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
@@ -675,13 +675,28 @@ Content-Type: application/hal+json
 Content-Length: 147
 
 {
-  "pKey" : "b3d3ec44-fe3d-4626-b863-4abcf04cbd56",
+  "pKey" : "060b25c0-db44-4229-a403-17964484c0b7",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
   "enabled" : false
 }</code></pre>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_update_the_image_of_an_existing_user">Update the image of an existing User</h3>
+<div class="paragraph">
+<p>To set the image of an existing <code>User</code> a client needs to send a <code>PATCH</code> request along the image in the <code>UserDetails</code>.</p>
+</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/travis/build/openwms/org.openwms.core.uaa/target/generated-snippets/user-saveimage/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<p>If the server has correctly updated the <code>Users</code> image the response looks like:</p>
+</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/travis/build/openwms/org.openwms.core.uaa/target/generated-snippets/user-saveimage/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -693,7 +708,7 @@ to access the endpoint.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDY4MjE5NDgsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjVhZDdhMWMwLTFiMDctNDcyNi04ZjFjLTY2MzhiODRhMGExOSIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.Vu6gusewpA3WYsnVn1kFOHD51FQJU9tSjWHUoLO8q8s
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDY5Nzc1NzksInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjM0YWFlZTJkLTY1MjMtNDg3NS04OTIxLTFhM2YyNmVlZTRkZiIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.j3XNLj9p0Ug9CZhuGk8SGLttZ8Coj0Drto6F4bH3X6M
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -788,7 +803,7 @@ X-Frame-Options: DENY
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /users/bfe53ec2-035c-4585-9bbf-c336ecda7a84/ HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /users/27bddee2-a3ca-4a7e-a0d9-ab62834b7fa7/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -806,7 +821,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-12-01 01:24:22 UTC
+Last updated 2020-12-02 20:37:24 UTC
 </div>
 </div>
 </body>

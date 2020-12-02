@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="(1.1.0-SNAPSHOT-95)">
+<meta name="author" content="(1.1.0-SNAPSHOT-96)">
 <title>OpenWMS.org WMS: RESTful API (Receiving Service)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org WMS: RESTful API (Receiving Service)</h1>
 <div class="details">
-<span id="author" class="author">(1.1.0-SNAPSHOT-95)</span><br>
+<span id="author" class="author">(1.1.0-SNAPSHOT-96)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -468,6 +468,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_find_all_users">Find all Users</a></li>
 <li><a href="#_find_an_user_by_persistent_key">Find an User by persistent key</a></li>
 <li><a href="#_modify_an_existing_user">Modify an existing User</a></li>
+<li><a href="#_update_the_image_of_an_existing_user">Update the image of an existing User</a></li>
 <li><a href="#_get_the_user_details_oauth2_userdetails">Get the User Details (OAuth2 UserDetails)</a></li>
 <li><a href="#_delete_an_user">Delete an User</a></li>
 </ul>
@@ -480,6 +481,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#resources-grant">Grant</a>
 <ul class="sectlevel2">
 <li><a href="#_grant_index">Grant Index</a></li>
+<li><a href="#_find_all_grants">Find all Grants</a></li>
 </ul>
 </li>
 <li><a href="#resources-client">Client</a>
@@ -773,7 +775,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 492
+Content-Length: 506
 
 {
   "_links" : {
@@ -790,7 +792,7 @@ Content-Length: 492
       "href" : "http://localhost:8080/users"
     },
     "users-saveimage" : {
-      "href" : "http://localhost:8080/users/pKey"
+      "href" : "http://localhost:8080/users/pKey/details/image"
     },
     "users-delete" : {
       "href" : "http://localhost:8080/users/pKey"
@@ -851,12 +853,12 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/bfe53ec2-035c-4585-9bbf-c336ecda7a84/
+Location: http://localhost:8080/users/27bddee2-a3ca-4a7e-a0d9-ab62834b7fa7/
 Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "bfe53ec2-035c-4585-9bbf-c336ecda7a84",
+  "pKey" : "27bddee2-a3ca-4a7e-a0d9-ab62834b7fa7",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -928,7 +930,7 @@ resource:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/bfe53ec2-035c-4585-9bbf-c336ecda7a84/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/27bddee2-a3ca-4a7e-a0d9-ab62834b7fa7/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -942,7 +944,7 @@ Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "bfe53ec2-035c-4585-9bbf-c336ecda7a84",
+  "pKey" : "27bddee2-a3ca-4a7e-a0d9-ab62834b7fa7",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -965,7 +967,7 @@ Host: localhost:8080
 
 {
   "links" : [ ],
-  "pKey" : "bfe53ec2-035c-4585-9bbf-c336ecda7a84",
+  "pKey" : "27bddee2-a3ca-4a7e-a0d9-ab62834b7fa7",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
@@ -983,13 +985,28 @@ Content-Type: application/hal+json
 Content-Length: 147
 
 {
-  "pKey" : "b3d3ec44-fe3d-4626-b863-4abcf04cbd56",
+  "pKey" : "060b25c0-db44-4229-a403-17964484c0b7",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
   "enabled" : false
 }</code></pre>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_update_the_image_of_an_existing_user"><a class="anchor" href="#_update_the_image_of_an_existing_user"></a><a class="link" href="#_update_the_image_of_an_existing_user">Update the image of an existing User</a></h3>
+<div class="paragraph">
+<p>To set the image of an existing <code>User</code> a client needs to send a <code>PATCH</code> request along the image in the <code>UserDetails</code>.</p>
+</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/travis/build/openwms/org.openwms.core.uaa/target/generated-snippets/user-saveimage/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<p>If the server has correctly updated the <code>Users</code> image the response looks like:</p>
+</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/travis/build/openwms/org.openwms.core.uaa/target/generated-snippets/user-saveimage/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -1001,7 +1018,7 @@ to access the endpoint.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDY4MjE5NDgsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjVhZDdhMWMwLTFiMDctNDcyNi04ZjFjLTY2MzhiODRhMGExOSIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.Vu6gusewpA3WYsnVn1kFOHD51FQJU9tSjWHUoLO8q8s
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDY5Nzc1NzksInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjM0YWFlZTJkLTY1MjMtNDg3NS04OTIxLTFhM2YyNmVlZTRkZiIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.j3XNLj9p0Ug9CZhuGk8SGLttZ8Coj0Drto6F4bH3X6M
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1096,7 +1113,7 @@ X-Frame-Options: DENY
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /users/bfe53ec2-035c-4585-9bbf-c336ecda7a84/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /users/27bddee2-a3ca-4a7e-a0d9-ab62834b7fa7/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1194,6 +1211,42 @@ Content-Length: 99
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_find_all_grants"><a class="anchor" href="#_find_all_grants"></a><a class="link" href="#_find_all_grants">Find all Grants</a></h3>
+<div class="paragraph">
+<p>To retrieve all existing <code>Grants</code> from the server, a client simply needs to do a <code>GET</code> request to the <code>Grants</code> resource.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /grants HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server responds with a list representation of all <code>Grants</code> or an empty list:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 344
+
+[ {
+  "name" : "SEC_UAA_USER_LOOKUP",
+  "description" : "Permission to find Users"
+}, {
+  "name" : "SEC_UAA_USER_CREATE",
+  "description" : "Permission to create Users"
+}, {
+  "name" : "SEC_UAA_USER_MODIFY",
+  "description" : "Permission to modify Users"
+}, {
+  "name" : "SEC_UAA_USER_DELETE",
+  "description" : "Permission to delete Users"
+} ]</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1246,7 +1299,7 @@ Content-Length: 357
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-12-01 01:24:22 UTC
+Last updated 2020-12-02 20:37:24 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

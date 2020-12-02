@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,58 +54,58 @@ public class UserController extends AbstractWebController {
     private final UserService service;
     private final BeanMapper mapper;
 
-<span class="fc" id="L56">    public UserController(UserService service, BeanMapper mapper) {</span>
-<span class="fc" id="L57">        this.service = service;</span>
-<span class="fc" id="L58">        this.mapper = mapper;</span>
-<span class="fc" id="L59">    }</span>
+<span class="fc" id="L57">    public UserController(UserService service, BeanMapper mapper) {</span>
+<span class="fc" id="L58">        this.service = service;</span>
+<span class="fc" id="L59">        this.mapper = mapper;</span>
+<span class="fc" id="L60">    }</span>
 
     @GetMapping(API_USERS + &quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; index() {
-<span class="fc" id="L63">        return ResponseEntity.ok(</span>
+<span class="fc" id="L64">        return ResponseEntity.ok(</span>
                 new Index(
-<span class="fc" id="L65">                        linkTo(methodOn(UserController.class).findAllUsers()).withRel(&quot;users-findall&quot;),</span>
-<span class="fc" id="L66">                        linkTo(methodOn(UserController.class).findUser(&quot;pKey&quot;)).withRel(&quot;users-findbypkey&quot;),</span>
-<span class="fc" id="L67">                        linkTo(methodOn(UserController.class).create(new UserVO(), null)).withRel(&quot;users-create&quot;),</span>
-<span class="fc" id="L68">                        linkTo(methodOn(UserController.class).save(new UserVO())).withRel(&quot;users-save&quot;),</span>
-<span class="fc" id="L69">                        linkTo(methodOn(UserController.class).saveImage(&quot;&quot;.getBytes(), &quot;pKey&quot;)).withRel(&quot;users-saveimage&quot;),</span>
-<span class="fc" id="L70">                        linkTo(methodOn(UserController.class).delete(&quot;pKey&quot;)).withRel(&quot;users-delete&quot;)</span>
+<span class="fc" id="L66">                        linkTo(methodOn(UserController.class).findAllUsers()).withRel(&quot;users-findall&quot;),</span>
+<span class="fc" id="L67">                        linkTo(methodOn(UserController.class).findUser(&quot;pKey&quot;)).withRel(&quot;users-findbypkey&quot;),</span>
+<span class="fc" id="L68">                        linkTo(methodOn(UserController.class).create(new UserVO(), null)).withRel(&quot;users-create&quot;),</span>
+<span class="fc" id="L69">                        linkTo(methodOn(UserController.class).save(new UserVO())).withRel(&quot;users-save&quot;),</span>
+<span class="fc" id="L70">                        linkTo(methodOn(UserController.class).saveImage(&quot;&quot;, &quot;pKey&quot;)).withRel(&quot;users-saveimage&quot;),</span>
+<span class="fc" id="L71">                        linkTo(methodOn(UserController.class).delete(&quot;pKey&quot;)).withRel(&quot;users-delete&quot;)</span>
                 )
         );
     }
 
     @GetMapping(API_USERS)
     public ResponseEntity&lt;List&lt;UserVO&gt;&gt; findAllUsers() {
-<span class="fc" id="L77">        return ResponseEntity.ok(mapper.map(new ArrayList&lt;&gt;(service.findAll()), UserVO.class));</span>
+<span class="fc" id="L78">        return ResponseEntity.ok(mapper.map(new ArrayList&lt;&gt;(service.findAll()), UserVO.class));</span>
     }
 
     @GetMapping(API_USERS + &quot;/{pKey}&quot;)
     public ResponseEntity&lt;UserVO&gt; findUser(@PathVariable(&quot;pKey&quot;) @NotEmpty String pKey) {
-<span class="fc" id="L82">        return ResponseEntity.ok(mapper.map(service.findByPKey(pKey), UserVO.class));</span>
+<span class="fc" id="L83">        return ResponseEntity.ok(mapper.map(service.findByPKey(pKey), UserVO.class));</span>
     }
 
     @PostMapping(API_USERS)
     public ResponseEntity&lt;UserVO&gt; create(@RequestBody @Valid @NotNull UserVO user, HttpServletRequest req) {
-<span class="fc" id="L87">        User created = service.create(mapper.map(user, User.class));</span>
-<span class="fc" id="L88">        return ResponseEntity</span>
-<span class="fc" id="L89">                .created(getLocationURIForCreatedResource(req, created.getPersistentKey()))</span>
-<span class="fc" id="L90">                .body(mapper.map(created, UserVO.class));</span>
+<span class="fc" id="L88">        User created = service.create(mapper.map(user, User.class));</span>
+<span class="fc" id="L89">        return ResponseEntity</span>
+<span class="fc" id="L90">                .created(getLocationURIForCreatedResource(req, created.getPersistentKey()))</span>
+<span class="fc" id="L91">                .body(mapper.map(created, UserVO.class));</span>
     }
 
     @PutMapping(API_USERS)
     public ResponseEntity&lt;UserVO&gt; save(@RequestBody @Valid UserVO user) {
-<span class="fc" id="L95">        return ResponseEntity.ok(mapper.map(service.save(mapper.map(user, User.class)), UserVO.class));</span>
+<span class="fc" id="L96">        return ResponseEntity.ok(mapper.map(service.save(mapper.map(user, User.class)), UserVO.class));</span>
     }
 
-    @PatchMapping(API_USERS + &quot;/{pKey}&quot;)
-    public ResponseEntity&lt;Void&gt; saveImage(@RequestBody @NotNull byte[] image, @PathVariable(&quot;pKey&quot;) @NotEmpty String pKey) {
-<span class="nc" id="L100">        service.uploadImageFile(pKey, image);</span>
-<span class="nc" id="L101">        return ResponseEntity.ok().build();</span>
+    @PatchMapping(API_USERS + &quot;/{pKey}/details/image&quot;)
+    public ResponseEntity&lt;Void&gt; saveImage(@RequestBody @NotNull String image, @PathVariable(&quot;pKey&quot;) @NotEmpty String pKey) {
+<span class="nc" id="L101">        service.uploadImageFile(pKey, image.getBytes(StandardCharsets.UTF_8));</span>
+<span class="nc" id="L102">        return ResponseEntity.ok().build();</span>
     }
 
     @DeleteMapping(API_USERS + &quot;/{pKey}&quot;)
     public ResponseEntity&lt;Void&gt; delete(@PathVariable(&quot;pKey&quot;) @NotEmpty String pKey) {
-<span class="fc" id="L106">        service.delete(pKey);</span>
-<span class="fc" id="L107">        return ResponseEntity.noContent().build();</span>
+<span class="fc" id="L107">        service.delete(pKey);</span>
+<span class="fc" id="L108">        return ResponseEntity.noContent().build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
