@@ -148,8 +148,7 @@ class UserControllerDocumentation {
                 put(API_USERS)
                         .content(objectMapper.writeValueAsString(userVO))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andDo(document("user-save",
-                        preprocessResponse(prettyPrint())))
+                .andDo(document("user-save", preprocessResponse(prettyPrint())))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.username", is("superuser")))
                 .andExpect(jsonPath("$.locked", is(true)))
@@ -159,13 +158,27 @@ class UserControllerDocumentation {
         userVO = objectMapper.readValue(contentAsString, UserVO.class);
         assertThat(userVO.getUsername()).isEqualTo("superuser");
 
-        // DELETE the User
         String pKey = location.substring(location.substring(0, location.length()-1).lastIndexOf("/"));
+
+        /* FIXME [openwms]: 02.12.20
+        // Add an image to the User
+        String s = Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(this.getClass().getClassLoader().getResource("pic.png").toURI())));
+        mockMvc.perform(
+                patch(API_USERS + "/" + pKey + "/details/image")
+                        .content(s)
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM_VALUE))
+                .andDo(document("user-saveimage", preprocessResponse(prettyPrint())))
+                .andExpect(status().isOk())
+        ;
+
+        contentAsString = mockMvc.perform(get(location)).andReturn().getResponse().getContentAsString();
+        UserVO u = objectMapper.readValue(contentAsString, UserVO.class);
+        assertThat(u.getUserDetails().getImage()).isEqualTo(s);
+*/
+        // DELETE the User
         mockMvc.perform(
                 delete(API_USERS + pKey))
-                .andDo(document("user-delete",
-                        preprocessResponse(prettyPrint())
-                ))
+                .andDo(document("user-delete",  preprocessResponse(prettyPrint())))
                 .andExpect(status().isNoContent());
     }
 }

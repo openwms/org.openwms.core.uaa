@@ -86,4 +86,26 @@ class LoginControllerDocumentation {
                 .andExpect(status().isOk())
         ;
     }
+
+    @Test
+    void shall_not_find_user() throws Exception {
+        RequestPostProcessor bearerToken = helper.bearerToken("UNKNOWN");
+        mockMvc.perform(
+                get("/oauth/userinfo").with(bearerToken))
+                .andDo(document("oauth-findUserInfo",
+                        preprocessResponse(prettyPrint()),
+                        responseFields(
+                                fieldWithPath("sub").description("Subject is the logged in end-user"),
+                                fieldWithPath("gender").description("The end-users gender"),
+                                fieldWithPath("name").description("Name of the end-user"),
+                                fieldWithPath("phone_number").description("Her phone number"),
+                                fieldWithPath("given_name").description("The given name"),
+                                fieldWithPath("family_name").description("Her family name"),
+                                fieldWithPath("email").description("Her primary email address"),
+                                fieldWithPath("picture").description("A link to a profile picture")
+                        )
+                ))
+                .andExpect(status().isOk())
+        ;
+    }
 }
