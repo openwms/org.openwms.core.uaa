@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserWrapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.uaa.admin.impl</a> &gt; <span class="el_source">UserWrapper.java</span></div><h1>UserWrapper.java</h1><pre class="source lang-java linenums">package org.openwms.core.uaa.admin.impl;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.Assert;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.stream.Collectors;
+
+/**
+ * An UserWrapper is used as an adapter between {@link Role}s, {@link SecurityObject}s and Spring's {@link GrantedAuthority} objects.
+ *
+ * @author &lt;a href=&quot;mailto:russelltina@users.sourceforge.net&quot;&gt;Tina Russell&lt;/a&gt;
+ * @see SecurityObject
+ * @see Role
+ * @see org.springframework.security.core.GrantedAuthority
+ * @see org.springframework.security.core.userdetails.UserDetails
+ */
+public class UserWrapper implements UserDetails, UserHolder {
+
+    private User user;
+<span class="fc" id="L23">    private Collection&lt;GrantedAuthority&gt; authorities = null;</span>
+
+    /**
+     * Create a new UserWrapper.
+     *
+     * @param user The User to wrap
+     */
+<span class="fc" id="L30">    public UserWrapper(User user) {</span>
+<span class="fc" id="L31">        Assert.notNull(user, &quot;Not allowed to create an UserWrapper with null argument&quot;);</span>
+<span class="fc" id="L32">        this.user = user;</span>
+<span class="fc" id="L33">        this.user.getRoles().size();</span>
+<span class="fc" id="L34">    }</span>
+
+    /**
+     * Subclasses can set a collection of grants that are always available for an User. This is useful for administrative accounts.
+     *
+     * @param authz A collection of grants (authorities) where the default grants are added to
+     */
+    protected void addDefaultGrants(Collection&lt;GrantedAuthority&gt; authz) {
+<span class="fc" id="L42">    }</span>
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public User getUser() {
+<span class="fc" id="L49">        return user;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return the authorities, sorted by natural key (never {@literal null})
+     */
+    @Override
+    public Collection&lt;GrantedAuthority&gt; getAuthorities() {
+<span class="fc bfc" id="L59" title="All 2 branches covered.">        if (null == authorities) {</span>
+<span class="fc" id="L60">            authorities = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L61">            authorities.addAll(user.getGrants().stream().map(SecurityObjectAuthority::new).collect(Collectors.toList()));</span>
+<span class="fc" id="L62">            addDefaultGrants(authorities);</span>
+        }
+<span class="fc" id="L64">        return authorities;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return the password (never {@literal null})
+     */
+    @Override
+    public String getPassword() {
+<span class="nc" id="L74">        return user.getPassword();</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return the username (never {@literal null})
+     */
+    @Override
+    public String getUsername() {
+<span class="fc" id="L84">        return user.getUsername();</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@literal true} if the user's account is valid (ie non-expired), {@literal false} if no longer valid (ie expired)
+     */
+    @Override
+    public boolean isAccountNonExpired() {
+<span class="fc" id="L94">        return true;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@literal true} if the user is not locked, {@literal false} otherwise
+     */
+    @Override
+    public boolean isAccountNonLocked() {
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">        return !user.isLocked();</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@literal true} if the user's credentials are valid (ie non-expired), {@literal false} if no longer valid (ie expired)
+     * @see org.springframework.security.core.userdetails.UserDetails#isCredentialsNonExpired()
+     */
+    @Override
+    public boolean isCredentialsNonExpired() {
+<span class="fc" id="L115">        return true;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return {@literal true} if the user is enabled, {@literal false} otherwise
+     */
+    @Override
+    public boolean isEnabled() {
+<span class="fc" id="L125">        return user.isEnabled();</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     * &lt;p&gt;
+     * Uses authorities and user for calculation.
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+<span class="fc" id="L136">        int result = 1;</span>
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">        result = prime * result + ((authorities == null) ? 0 : authorities.hashCode());</span>
+<span class="pc bpc" id="L138" title="1 of 2 branches missed.">        result = prime * result + ((user == null) ? 0 : user.hashCode());</span>
+<span class="fc" id="L139">        return result;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     * &lt;p&gt;
+     * Uses authorities and user for comparison.
+     */
+    @Override
+    public boolean equals(Object obj) {
+<span class="fc bfc" id="L149" title="All 2 branches covered.">        if (this == obj) {</span>
+<span class="fc" id="L150">            return true;</span>
+        }
+<span class="fc bfc" id="L152" title="All 2 branches covered.">        if (obj == null) {</span>
+<span class="fc" id="L153">            return false;</span>
+        }
+<span class="fc bfc" id="L155" title="All 2 branches covered.">        if (getClass() != obj.getClass()) {</span>
+<span class="fc" id="L156">            return false;</span>
+        }
+<span class="fc" id="L158">        UserWrapper other = (UserWrapper) obj;</span>
+<span class="pc bpc" id="L159" title="1 of 2 branches missed.">        if (authorities == null) {</span>
+<span class="pc bpc" id="L160" title="1 of 2 branches missed.">            if (other.authorities != null) {</span>
+<span class="nc" id="L161">                return false;</span>
+            }
+<span class="nc bnc" id="L163" title="All 2 branches missed.">        } else if (!authorities.equals(other.authorities)) {</span>
+<span class="nc" id="L164">            return false;</span>
+        }
+<span class="pc bpc" id="L166" title="1 of 2 branches missed.">        if (user == null) {</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">            if (other.user != null) {</span>
+<span class="nc" id="L168">                return false;</span>
+            }
+<span class="fc bfc" id="L170" title="All 2 branches covered.">        } else if (!user.equals(other.user)) {</span>
+<span class="fc" id="L171">            return false;</span>
+        }
+<span class="fc" id="L173">        return true;</span>
+    }
+
+    /**
+     * Return the Users username.
+     *
+     * @return The username of the User
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+<span class="fc" id="L184">        return getUsername();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

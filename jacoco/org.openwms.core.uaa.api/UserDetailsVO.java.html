@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserDetailsVO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.uaa.api</a> &gt; <span class="el_source">UserDetailsVO.java</span></div><h1>UserDetailsVO.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.core.uaa.api;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+
+/**
+ * A UserDetailsVO encapsulates less relevant details of an User.
+ *
+ * @author Heiko Scherrer
+ */
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class UserDetailsVO implements Serializable {
+
+    /** An base64 encoded image file. */
+    @JsonProperty(&quot;image&quot;)
+    private String image;
+    /** Some descriptive text about the User. */
+    @JsonProperty(&quot;description&quot;)
+    private String description;
+    /** Any comment text added to the User. */
+    @JsonProperty(&quot;comment&quot;)
+    private String comment;
+    /** The User's phone number. */
+    @JsonProperty(&quot;phoneNo&quot;)
+    private String phoneNo;
+    /** The User's messenger name. */
+    @JsonProperty(&quot;im&quot;)
+    private String im;
+    /** The User's office. */
+    @JsonProperty(&quot;office&quot;)
+    private String office;
+    /** The User's department. */
+    @JsonProperty(&quot;department&quot;)
+    private String department;
+    /** The User's gender. */
+    @JsonProperty(&quot;gender&quot;)
+    private String gender;
+
+    @JsonCreator
+<span class="fc" id="L62">    public UserDetailsVO() {</span>
+<span class="fc" id="L63">    }</span>
+
+<span class="nc" id="L65">    private UserDetailsVO(Builder builder) {</span>
+<span class="nc" id="L66">        image = builder.image;</span>
+<span class="nc" id="L67">        description = builder.description;</span>
+<span class="nc" id="L68">        comment = builder.comment;</span>
+<span class="nc" id="L69">        phoneNo = builder.phoneNo;</span>
+<span class="nc" id="L70">        im = builder.im;</span>
+<span class="nc" id="L71">        office = builder.office;</span>
+<span class="nc" id="L72">        department = builder.department;</span>
+<span class="nc" id="L73">        gender = builder.gender;</span>
+<span class="nc" id="L74">    }</span>
+
+    public static Builder newBuilder() {
+<span class="nc" id="L77">        return new Builder();</span>
+    }
+
+    public String getImage() {
+<span class="fc" id="L81">        return image;</span>
+    }
+
+    public String getDescription() {
+<span class="fc" id="L85">        return description;</span>
+    }
+
+    public String getComment() {
+<span class="fc" id="L89">        return comment;</span>
+    }
+
+    public String getPhoneNo() {
+<span class="fc" id="L93">        return phoneNo;</span>
+    }
+
+    public String getIm() {
+<span class="fc" id="L97">        return im;</span>
+    }
+
+    public String getOffice() {
+<span class="fc" id="L101">        return office;</span>
+    }
+
+    public String getDepartment() {
+<span class="fc" id="L105">        return department;</span>
+    }
+
+    public String getGender() {
+<span class="fc" id="L109">        return gender;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L120" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L121">        UserDetailsVO that = (UserDetailsVO) o;</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        return Objects.equals(image, that.image) &amp;&amp;</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">                Objects.equals(description, that.description) &amp;&amp;</span>
+<span class="nc bnc" id="L124" title="All 2 branches missed.">                Objects.equals(comment, that.comment) &amp;&amp;</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">                Objects.equals(phoneNo, that.phoneNo) &amp;&amp;</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">                Objects.equals(im, that.im) &amp;&amp;</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">                Objects.equals(office, that.office) &amp;&amp;</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">                Objects.equals(department, that.department) &amp;&amp;</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">                Objects.equals(gender, that.gender);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public int hashCode() {
+<span class="nc" id="L139">        return Objects.hash(image, description, comment, phoneNo, im, office, department, gender);</span>
+    }
+
+    public static final class Builder {
+        private String image;
+        private String description;
+        private String comment;
+        private String phoneNo;
+        private String im;
+        private String office;
+        private String department;
+        private String gender;
+
+        private Builder() {
+        }
+
+        public Builder image(String val) {
+<span class="nc" id="L156">            image = val;</span>
+<span class="nc" id="L157">            return this;</span>
+        }
+
+        public Builder description(String val) {
+<span class="nc" id="L161">            description = val;</span>
+<span class="nc" id="L162">            return this;</span>
+        }
+
+        public Builder comment(String val) {
+<span class="nc" id="L166">            comment = val;</span>
+<span class="nc" id="L167">            return this;</span>
+        }
+
+        public Builder phoneNo(String val) {
+<span class="nc" id="L171">            phoneNo = val;</span>
+<span class="nc" id="L172">            return this;</span>
+        }
+
+        public Builder im(String val) {
+<span class="nc" id="L176">            im = val;</span>
+<span class="nc" id="L177">            return this;</span>
+        }
+
+        public Builder office(String val) {
+<span class="nc" id="L181">            office = val;</span>
+<span class="nc" id="L182">            return this;</span>
+        }
+
+        public Builder department(String val) {
+<span class="nc" id="L186">            department = val;</span>
+<span class="nc" id="L187">            return this;</span>
+        }
+
+        public Builder gender(String val) {
+<span class="nc" id="L191">            gender = val;</span>
+<span class="nc" id="L192">            return this;</span>
+        }
+
+        public UserDetailsVO build() {
+<span class="nc" id="L196">            return new UserDetailsVO(this);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

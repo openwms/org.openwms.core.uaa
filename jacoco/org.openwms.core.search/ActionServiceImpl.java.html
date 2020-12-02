@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ActionServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.search</a> &gt; <span class="el_source">ActionServiceImpl.java</span></div><h1>ActionServiceImpl.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.core.search;
+
+import org.ameba.annotation.TxService;
+import org.openwms.core.uaa.admin.impl.User;
+
+import java.util.Collection;
+import java.util.HashSet;
+
+/**
+ * An ActionServiceImpl is a Spring managed transaction service used by the UI to work with actions.
+ * 
+ * @author Heiko Scherrer
+ */
+@TxService
+<span class="fc" id="L30">class ActionServiceImpl implements ActionService {</span>
+
+<span class="fc" id="L32">    private Collection&lt;Action&gt; actions = new HashSet&lt;&gt;();</span>
+<span class="fc" id="L33">    private Collection&lt;Tag&gt; tags = new HashSet&lt;&gt;();</span>
+
+    /**
+     * {@inheritDoc}
+     * 
+     * Returns a HashSet with all Actions.
+     */
+    @Override
+    public Collection&lt;Action&gt; findAllActions() {
+<span class="fc" id="L42">        return actions;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public Collection&lt;Action&gt; findAllActions(User user) {
+        /*
+        Collection&lt;UserPreference&gt; userPrefs = confSrv.findByType(UserPreference.class, user.getUsername());
+        PreferenceKey pKey = new PreferenceKey(PropertyScope.USER, user.getUsername(), &quot;lastSearchActions&quot;);
+        for (UserPreference pref : userPrefs) {
+            if (pref.getPrefKey().equals(pKey)) {
+                return (Collection&lt;Action&gt;) pref.getBinValue();
+            }
+        }
+        */
+<span class="fc" id="L60">        return new HashSet&lt;&gt;(0);</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Collection&lt;Tag&gt; findAllTags(User user) {
+<span class="fc" id="L68">        return tags;</span>
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @SuppressWarnings(&quot;unchecked&quot;)
+    @Override
+    public Collection&lt;Action&gt; save(User user, Collection&lt;Action&gt; actions) {
+        /*
+        Collection&lt;UserPreference&gt; userPrefs = confSrv.findByType(UserPreference.class, user.getUsername());
+        PreferenceKey pKey = new PreferenceKey(PropertyScope.USER, user.getUsername(), &quot;lastSearchActions&quot;);
+        UserPreference result = null;
+        for (UserPreference pref : userPrefs) {
+            if (pref.getPrefKey().equals(pKey)) {
+                result = pref;
+                break;
+            }
+        }
+        if (result == null) {
+            result = new UserPreference(user.getUsername(), &quot;lastSearchActions&quot;);
+            result.setDescription(&quot;All UI actions the User has previously chosen&quot;);
+            Set&lt;Action&gt; all = new HashSet&lt;Action&gt;();
+            all.addAll(actions);
+            result.setBinValue((Serializable) all);
+        } else {
+            result.setBinValue((Serializable) actions);
+        }
+        result = confSrv.save(result);
+        return (Collection&lt;Action&gt;) result.getBinValue();
+        */
+<span class="nc" id="L99">        return null;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

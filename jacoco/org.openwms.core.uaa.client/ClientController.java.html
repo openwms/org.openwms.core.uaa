@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClientController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">OpenWMS.org CORE: UAA</a> &gt; <a href="index.source.html" class="el_package">org.openwms.core.uaa.client</a> &gt; <span class="el_source">ClientController.java</span></div><h1>ClientController.java</h1><pre class="source lang-java linenums">/*
+ * Copyright 2005-2020 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.openwms.core.uaa.client;
+
+import org.ameba.http.MeasuredRestController;
+import org.openwms.core.http.AbstractWebController;
+import org.openwms.core.http.Index;
+import org.openwms.core.uaa.api.ClientVO;
+import org.openwms.core.uaa.auth.ClientService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import javax.validation.Valid;
+import java.util.List;
+
+import static org.openwms.core.uaa.api.UAAConstants.API_CLIENTS;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+/**
+ * A ClientController.
+ *
+ * @author Heiko Scherrer
+ */
+@Validated
+@MeasuredRestController
+public class ClientController extends AbstractWebController {
+
+    private final ClientService clientService;
+    private final ClientMapper mapper;
+
+<span class="fc" id="L51">    public ClientController(ClientService clientService, ClientMapper mapper) {</span>
+<span class="fc" id="L52">        this.clientService = clientService;</span>
+<span class="fc" id="L53">        this.mapper = mapper;</span>
+<span class="fc" id="L54">    }</span>
+
+    @GetMapping(API_CLIENTS + &quot;/index&quot;)
+    public ResponseEntity&lt;Index&gt; index() {
+<span class="fc" id="L58">        return ResponseEntity.ok(</span>
+                new Index(
+<span class="fc" id="L60">                        linkTo(methodOn(ClientController.class).findAll()).withRel(&quot;clients-findall&quot;),</span>
+<span class="fc" id="L61">                        linkTo(methodOn(ClientController.class).create(new ClientVO())).withRel(&quot;clients-create&quot;),</span>
+<span class="fc" id="L62">                        linkTo(methodOn(ClientController.class).save(new ClientVO())).withRel(&quot;clients-save&quot;),</span>
+<span class="fc" id="L63">                        linkTo(methodOn(ClientController.class).delete(&quot;pKey&quot;)).withRel(&quot;clients-delete&quot;)</span>
+                )
+        );
+    }
+
+    @GetMapping(API_CLIENTS)
+    public ResponseEntity&lt;List&lt;ClientVO&gt;&gt; findAll() {
+<span class="nc" id="L70">        return ResponseEntity.ok(mapper.clientsToClientVos(clientService.findAll()));</span>
+    }
+
+    @PostMapping(API_CLIENTS)
+    public ResponseEntity&lt;ClientVO&gt; create(@RequestBody @Valid ClientVO client) {
+<span class="nc" id="L75">        return ResponseEntity.ok(mapper.to(clientService.create(mapper.from(client))));</span>
+    }
+
+    @PutMapping(API_CLIENTS)
+    public ResponseEntity&lt;ClientVO&gt; save(@RequestBody @Valid ClientVO client) {
+<span class="nc" id="L80">        return ResponseEntity.ok(mapper.to(clientService.save(mapper.from(client))));</span>
+    }
+
+    @DeleteMapping(API_CLIENTS + &quot;/{pKey}&quot;)
+    public ResponseEntity&lt;Void&gt; delete(@PathVariable(&quot;pKey&quot;) String pKey) {
+<span class="nc" id="L85">        clientService.delete(pKey);</span>
+<span class="nc" id="L86">        return ResponseEntity.noContent().build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
