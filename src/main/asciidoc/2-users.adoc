@@ -54,6 +54,15 @@ If the server has correctly updated the `User` the response is a:
 
 include::{generated}/user-save/http-response.adoc[]
 
+=== Update the image of an existing User
+To set the image of an existing `User` a client needs to send a `PATCH` request along the image in the `UserDetails`.
+
+include::{generated}/user-saveimage/http-request.adoc[]
+
+If the server has correctly updated the `Users` image the response looks like:
+
+include::{generated}/user-saveimage/http-response.adoc[]
+
 === Get the User Details (OAuth2 UserDetails)
 An endpoint exists to get the details of the current logged-in `User` from. An OAuth2 Access Token must be provided as Bearer token in order
 to access the endpoint.

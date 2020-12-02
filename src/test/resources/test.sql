@@ -3,3 +3,12 @@ insert into cor_uaa_user (c_type, c_pk, c_created, c_updated, c_ol, c_pid, c_ena
 insert into cor_uaa_email (c_pk, c_created, c_updated, c_ol, c_address, c_full_name, c_primary, c_username) values (2, '2020-06-22 19:02:47.425000', '2020-06-22 19:02:47.425000', 0, 'tester.tester@example.com', null, 'true', 'tester');
 
 INSERT INTO COR_UAA_CLIENT_DETAILS (C_PK, C_PID, C_CREATED, C_OL, C_CLIENT_ID, C_CLIENT_SECRET, C_SCOPE, C_AUTHORIZED_GRANT_TYPES, C_WEB_SERVER_REDIRECT_URI, C_AUTHORITIES, C_ACCESS_TOKEN_VALIDITY,C_REFRESH_TOKEN_VALIDITY, C_ADDITIONAL_INFORMATION, C_AUTOAPPROVE) VALUES (1000, '1000', now(), 0, 'gateway', 'secret', 'gateway', 'password,authorization_code,refresh_token,implicit', 'http://localhost:8086/login/oauth2/code/gateway', null, 36000, 36000, null, true);
+
+INSERT INTO COR_UAA_ROLE (c_type, c_pk, c_created, c_ol, c_pid, c_description, c_name, c_immutable) VALUES ('ROLE', 1, now(), 0, '1', 'Super user role', 'ROLE_ADMIN', true);
+INSERT INTO COR_UAA_ROLE (c_type, c_pk, c_created, c_ol, c_pid, c_description, c_name, c_immutable) VALUES ('ROLE', 2, now(), 0, '2', 'Operator role', 'ROLE_OPS', true);
+INSERT INTO COR_UAA_ROLE (c_type, c_pk, c_created, c_ol, c_pid, c_description, c_name, c_immutable) VALUES ('GRANT', 3, now(), 0, '3', 'Permission to find Users', 'SEC_UAA_USER_LOOKUP', false);
+INSERT INTO COR_UAA_ROLE (c_type, c_pk, c_created, c_ol, c_pid, c_description, c_name, c_immutable) VALUES ('GRANT', 4, now(), 0, '4', 'Permission to create Users', 'SEC_UAA_USER_CREATE', false);
+INSERT INTO COR_UAA_ROLE (c_type, c_pk, c_created, c_ol, c_pid, c_description, c_name, c_immutable) VALUES ('GRANT', 5, now(), 0, '5', 'Permission to modify Users', 'SEC_UAA_USER_MODIFY', false);
+INSERT INTO COR_UAA_ROLE (c_type, c_pk, c_created, c_ol, c_pid, c_description, c_name, c_immutable) VALUES ('GRANT', 6, now(), 0, '6', 'Permission to delete Users', 'SEC_UAA_USER_DELETE', false);
+
+

@@ -34,6 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class UserController extends AbstractWebController {
                         linkTo(methodOn(UserController.class).findUser("pKey")).withRel("users-findbypkey"),
                         linkTo(methodOn(UserController.class).create(new UserVO(), null)).withRel("users-create"),
                         linkTo(methodOn(UserController.class).save(new UserVO())).withRel("users-save"),
-                        linkTo(methodOn(UserController.class).saveImage("".getBytes(), "pKey")).withRel("users-saveimage"),
+                        linkTo(methodOn(UserController.class).saveImage("", "pKey")).withRel("users-saveimage"),
                         linkTo(methodOn(UserController.class).delete("pKey")).withRel("users-delete")
                 )
         );
@@ -95,9 +96,9 @@ public class UserController extends AbstractWebController {
         return ResponseEntity.ok(mapper.map(service.save(mapper.map(user, User.class)), UserVO.class));
     }
 
-    @PatchMapping(API_USERS + "/{pKey}")
-    public ResponseEntity<Void> saveImage(@RequestBody @NotNull byte[] image, @PathVariable("pKey") @NotEmpty String pKey) {
-        service.uploadImageFile(pKey, image);
+    @PatchMapping(API_USERS + "/{pKey}/details/image")
+    public ResponseEntity<Void> saveImage(@RequestBody @NotNull String image, @PathVariable("pKey") @NotEmpty String pKey) {
+        service.uploadImageFile(pKey, image.getBytes(StandardCharsets.UTF_8));
         return ResponseEntity.ok().build();
     }
 

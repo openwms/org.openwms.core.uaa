@@ -19,18 +19,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.core.UAAApplicationTest;
-import org.openwms.core.uaa.api.UAAConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.openwms.core.uaa.api.UAAConstants.API_GRANTS;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -40,6 +46,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @Transactional
 @Rollback
+@Sql(scripts = "classpath:test.sql")
 @UAAApplicationTest
 class GrantControllerDocumentation {
 
@@ -47,9 +54,6 @@ class GrantControllerDocumentation {
     @Autowired
     protected ObjectMapper objectMapper;
 
-    /**
-     * Do something before each test method.
-     */
     @BeforeEach
     void setUp(RestDocumentationContextProvider restDocumentation, WebApplicationContext context) {
         mockMvc = MockMvcBuilders.webAppContextSetup(context)
@@ -58,10 +62,22 @@ class GrantControllerDocumentation {
     }
 
     @Test void shall_build_index() throws Exception {
-        mockMvc.perform(
-                get(UAAConstants.API_GRANTS + "/index")
-        )
+        mockMvc
+                .perform(get(API_GRANTS + "/index"))
                 .andDo(document("grants-index"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+        ;
+    }
+
+    @Test void shall_find_all_precreated_Users() throws Exception {
+        mockMvc
+                .perform(get(API_GRANTS))
+                .andExpect(status().isOk())
+                .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(jsonPath("$.length()", is(4)))
+                .andExpect(jsonPath("$[0].name").exists())
+                .andExpect(jsonPath("$[0].description").exists())
+                .andDo(document("grants-findall"))
+        ;
     }
 }

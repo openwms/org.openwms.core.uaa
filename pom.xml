@@ -65,9 +65,10 @@
     <properties>
         <ameba-lib.version>2.7-SNAPSHOT</ameba-lib.version>
         <core.version>1.9.0-SNAPSHOT</core.version>
-        <servo-core.version>0.12.21</servo-core.version>
+        <enforcer.skip>true</enforcer.skip> <!-- FIXME [openwms] 03.12.2020: Remove this when Spring Cloud is not on SNAPSHOT anymore -->
         <guava.version>30.0-jre</guava.version>
         <org.mapstruct.version>1.4.0.Beta1</org.mapstruct.version>
+        <servo-core.version>0.12.21</servo-core.version>
         <spring-cloud-dependencies.version>2020.0.0-SNAPSHOT</spring-cloud-dependencies.version>
         <spring-cloud-sleuth-dependencies.version>3.0.0-SNAPSHOT</spring-cloud-sleuth-dependencies.version>
     </properties>

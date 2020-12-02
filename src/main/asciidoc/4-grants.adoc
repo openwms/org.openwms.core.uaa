@@ -10,3 +10,12 @@ include::{generated}/grants-index/http-request.adoc[]
 And the server responds with a `HAL+JSON` representation to further operations:
 
 include::{generated}/grants-index/http-response.adoc[]
+
+=== Find all Grants
+To retrieve all existing `Grants` from the server, a client simply needs to do a `GET` request to the `Grants` resource.
+
+include::{generated}/grants-findall/http-request.adoc[]
+
+The server responds with a list representation of all `Grants` or an empty list:
+
+include::{generated}/grants-findall/http-response.adoc[]
