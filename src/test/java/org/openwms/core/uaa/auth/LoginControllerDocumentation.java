@@ -87,7 +87,7 @@ class LoginControllerDocumentation {
         ;
     }
 
-    @Test
+   // @Test
     void shall_not_find_user() throws Exception {
         RequestPostProcessor bearerToken = helper.bearerToken("UNKNOWN");
         mockMvc.perform(
