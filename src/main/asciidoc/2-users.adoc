@@ -13,7 +13,7 @@ And the server responds with a `HAL+JSON` representation to further operations:
 include::{generated}/users-index/http-response.adoc[]
 
 === Create an User
-To create a new `User` instance a `POST` request must be send to the server with the mandatory fields of the `User` in the request body
+To create a new `User` instance, a `POST` request must be send to the server with the mandatory fields of the `User` in the request body
 
 include::{generated}/user-create/http-request.adoc[]
 include::{generated}/user-create/request-fields.adoc[]
@@ -46,7 +46,7 @@ If the resource exists the server responds with a `200-OK` and the `User` repres
 include::{generated}/user-findByPkey/http-response.adoc[]
 
 === Modify an existing User
-Existing `User` instance can be modified by sending a `PUT` request with the `User` representation as request body.
+An existing `User` instance can be modified by sending a `PUT` request with the `User` representation as request body.
 
 include::{generated}/user-save/http-request.adoc[]
 
@@ -76,7 +76,7 @@ include::{generated}/oauth-findUserInfo/http-response.adoc[]
 include::{generated}/oauth-findUserInfo/response-fields.adoc[]
 
 === Delete an User
-To finally delete all `User` data a `DELETE` request to the persistent key of the `User` is required:
+To finally delete all `User` data a `DELETE` request with the persistent key of the `User` is required:
 
 include::{generated}/user-delete/http-request.adoc[]
 

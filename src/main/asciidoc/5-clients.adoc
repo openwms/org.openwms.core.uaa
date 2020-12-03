@@ -10,3 +10,40 @@ include::{generated}/clients-index/http-request.adoc[]
 And the server responds with a `HAL+JSON` representation to further operations:
 
 include::{generated}/clients-index/http-response.adoc[]
+
+=== Create a Client
+To create a new `Client` instance, a `POST` request must be send to the server with the mandatory fields of the `Client` in the request body
+
+include::{generated}/client-create/http-request.adoc[]
+include::{generated}/client-create/request-fields.adoc[]
+
+If the `Client` has been created successfully, the server returns the newly created resource in the response body:
+
+include::{generated}/client-create/http-response.adoc[]
+
+=== Find all Clients
+To find and retrieve an array of all existing `Clients` a client may call a `GET` request:
+
+include::{generated}/client-findAll/http-request.adoc[]
+
+and returns either an array of `Clients` or an empty array, but always a `200-OK`.
+
+include::{generated}/client-findAll/http-response.adoc[]
+
+=== Modify an existing Client
+An existing `Client` instance can be modified by sending a `PUT` request with the `Client` representation as request body.
+
+include::{generated}/client-save/http-request.adoc[]
+
+If the server has correctly updated the `Client` the response contains the updated representation:
+
+include::{generated}/client-save/http-response.adoc[]
+
+=== Delete an Client
+To finally delete all `Client` data a `DELETE` request with the persistent key of the `Client` is required:
+
+include::{generated}/client-delete/http-request.adoc[]
+
+If the `Client` has been deleted successfully the server responds:
+
+include::{generated}/client-delete/http-response.adoc[]

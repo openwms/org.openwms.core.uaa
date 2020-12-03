@@ -59,6 +59,28 @@ public class ClientVO extends AbstractBase implements Serializable {
     @JsonProperty("autoapprove")
     private String autoapprove;
 
+    public ClientVO() {
+    }
+
+    private ClientVO(Builder builder) {
+        setpKey(builder.pKey);
+        setResourceIds(builder.resourceIds);
+        setClientId(builder.clientId);
+        setClientSecret(builder.clientSecret);
+        setScope(builder.scope);
+        setAuthorizedGrantTypes(builder.authorizedGrantTypes);
+        setWebServerRedirectUri(builder.webServerRedirectUri);
+        setAuthorities(builder.authorities);
+        setAccessTokenValidity(builder.accessTokenValidity);
+        setRefreshTokenValidity(builder.refreshTokenValidity);
+        setAdditionalInformation(builder.additionalInformation);
+        setAutoapprove(builder.autoapprove);
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
     public String getpKey() {
         return pKey;
     }
@@ -178,5 +200,87 @@ public class ClientVO extends AbstractBase implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), pKey, resourceIds, clientId, clientSecret, scope, authorizedGrantTypes, webServerRedirectUri, authorities, accessTokenValidity, refreshTokenValidity, additionalInformation, autoapprove);
+    }
+
+    public static final class Builder {
+        private String pKey;
+        private String resourceIds;
+        private @NotEmpty String clientId;
+        private String clientSecret;
+        private String scope;
+        private String authorizedGrantTypes;
+        private String webServerRedirectUri;
+        private String authorities;
+        private int accessTokenValidity;
+        private int refreshTokenValidity;
+        private String additionalInformation;
+        private String autoapprove;
+
+        private Builder() {
+        }
+
+        public Builder pKey(String val) {
+            pKey = val;
+            return this;
+        }
+
+        public Builder resourceIds(String val) {
+            resourceIds = val;
+            return this;
+        }
+
+        public Builder clientId(@NotEmpty String val) {
+            clientId = val;
+            return this;
+        }
+
+        public Builder clientSecret(String val) {
+            clientSecret = val;
+            return this;
+        }
+
+        public Builder scope(String val) {
+            scope = val;
+            return this;
+        }
+
+        public Builder authorizedGrantTypes(String val) {
+            authorizedGrantTypes = val;
+            return this;
+        }
+
+        public Builder webServerRedirectUri(String val) {
+            webServerRedirectUri = val;
+            return this;
+        }
+
+        public Builder authorities(String val) {
+            authorities = val;
+            return this;
+        }
+
+        public Builder accessTokenValidity(int val) {
+            accessTokenValidity = val;
+            return this;
+        }
+
+        public Builder refreshTokenValidity(int val) {
+            refreshTokenValidity = val;
+            return this;
+        }
+
+        public Builder additionalInformation(String val) {
+            additionalInformation = val;
+            return this;
+        }
+
+        public Builder autoapprove(String val) {
+            autoapprove = val;
+            return this;
+        }
+
+        public ClientVO build() {
+            return new ClientVO(this);
+        }
     }
 }
