@@ -495,7 +495,7 @@ Content-Length: 506
 <div class="sect2">
 <h3 id="_create_an_user">Create an User</h3>
 <div class="paragraph">
-<p>To create a new <code>User</code> instance a <code>POST</code> request must be send to the server with the mandatory fields of the <code>User</code> in the request body</p>
+<p>To create a new <code>User</code> instance, a <code>POST</code> request must be send to the server with the mandatory fields of the <code>User</code> in the request body</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -543,12 +543,12 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/37cc1c81-ed34-49e6-8d7d-2164391d69b5/
+Location: http://localhost:8080/users/6a793097-afef-4e58-8fb1-0cd9672eb4ed/
 Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "37cc1c81-ed34-49e6-8d7d-2164391d69b5",
+  "pKey" : "6a793097-afef-4e58-8fb1-0cd9672eb4ed",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -620,7 +620,7 @@ resource:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users/37cc1c81-ed34-49e6-8d7d-2164391d69b5/ HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users/6a793097-afef-4e58-8fb1-0cd9672eb4ed/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -634,7 +634,7 @@ Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "37cc1c81-ed34-49e6-8d7d-2164391d69b5",
+  "pKey" : "6a793097-afef-4e58-8fb1-0cd9672eb4ed",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -646,7 +646,7 @@ Content-Length: 144
 <div class="sect2">
 <h3 id="_modify_an_existing_user">Modify an existing User</h3>
 <div class="paragraph">
-<p>Existing <code>User</code> instance can be modified by sending a <code>PUT</code> request with the <code>User</code> representation as request body.</p>
+<p>An existing <code>User</code> instance can be modified by sending a <code>PUT</code> request with the <code>User</code> representation as request body.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -657,7 +657,7 @@ Host: localhost:8080
 
 {
   "links" : [ ],
-  "pKey" : "37cc1c81-ed34-49e6-8d7d-2164391d69b5",
+  "pKey" : "6a793097-afef-4e58-8fb1-0cd9672eb4ed",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
@@ -675,7 +675,7 @@ Content-Type: application/hal+json
 Content-Length: 147
 
 {
-  "pKey" : "1f01c628-7b54-49c9-a737-2b629ed72705",
+  "pKey" : "3fbe2355-d3d0-4b7c-b258-33a98dfbe2f8",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
@@ -708,7 +708,7 @@ to access the endpoint.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDY5ODAwNjQsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjU4MGFmMzliLTM5OGQtNDc3ZS04YTIzLTU5NjAwMzE3YWZlYyIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.GqogVnhOo0jSSm7aJLbRuhtKUD5SrVaZcVUmF3OXUqU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDcwNDU2MjksInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjYzMTIyNWJlLWZmZjEtNDUwYy1hYjU5LTRmY2U1ODU1NGY2YyIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.ts5Dw-X-2pxrmbDVPparpjOhQiJDROrzr-ERNdpYYv4
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -799,11 +799,11 @@ X-Frame-Options: DENY
 <div class="sect2">
 <h3 id="_delete_an_user">Delete an User</h3>
 <div class="paragraph">
-<p>To finally delete all <code>User</code> data a <code>DELETE</code> request to the persistent key of the <code>User</code> is required:</p>
+<p>To finally delete all <code>User</code> data a <code>DELETE</code> request with the persistent key of the <code>User</code> is required:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /users/37cc1c81-ed34-49e6-8d7d-2164391d69b5/ HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /users/6a793097-afef-4e58-8fb1-0cd9672eb4ed/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -821,7 +821,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-12-02 21:19:32 UTC
+Last updated 2020-12-03 15:31:47 UTC
 </div>
 </div>
 </body>

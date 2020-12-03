@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
 import org.openwms.core.uaa.api.ClientVO;
+import org.openwms.core.uaa.api.ClientVO.Builder;
 import org.openwms.core.uaa.auth.Client;
 import org.springframework.stereotype.Component;
 
@@ -11,89 +12,89 @@ import org.springframework.stereotype.Component;
     value = &quot;org.mapstruct.ap.MappingProcessor&quot;
 )
 @Component
-<span class="fc" id="L14">public class ClientMapperImpl implements ClientMapper {</span>
+<span class="fc" id="L15">public class ClientMapperImpl implements ClientMapper {</span>
 
     @Override
     public List&lt;ClientVO&gt; clientsToClientVos(List&lt;Client&gt; clients) {
-<span class="nc bnc" id="L18" title="All 2 branches missed.">        if ( clients == null ) {</span>
-<span class="nc" id="L19">            return null;</span>
+<span class="pc bpc" id="L19" title="1 of 2 branches missed.">        if ( clients == null ) {</span>
+<span class="nc" id="L20">            return null;</span>
         }
 
-<span class="nc" id="L22">        List&lt;ClientVO&gt; list = new ArrayList&lt;ClientVO&gt;( clients.size() );</span>
-<span class="nc bnc" id="L23" title="All 2 branches missed.">        for ( Client client : clients ) {</span>
-<span class="nc" id="L24">            list.add( to( client ) );</span>
-<span class="nc" id="L25">        }</span>
+<span class="fc" id="L23">        List&lt;ClientVO&gt; list = new ArrayList&lt;ClientVO&gt;( clients.size() );</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">        for ( Client client : clients ) {</span>
+<span class="fc" id="L25">            list.add( to( client ) );</span>
+<span class="fc" id="L26">        }</span>
 
-<span class="nc" id="L27">        return list;</span>
+<span class="fc" id="L28">        return list;</span>
     }
 
     @Override
     public ClientVO to(Client entity) {
-<span class="nc bnc" id="L32" title="All 2 branches missed.">        if ( entity == null ) {</span>
-<span class="nc" id="L33">            return null;</span>
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">        if ( entity == null ) {</span>
+<span class="nc" id="L34">            return null;</span>
         }
 
-<span class="nc" id="L36">        ClientVO clientVO = new ClientVO();</span>
+<span class="fc" id="L37">        Builder clientVO = ClientVO.newBuilder();</span>
 
-<span class="nc" id="L38">        clientVO.setpKey( entity.getPersistentKey() );</span>
-<span class="nc" id="L39">        clientVO.setResourceIds( entity.getResourceIds() );</span>
-<span class="nc" id="L40">        clientVO.setClientId( entity.getClientId() );</span>
-<span class="nc" id="L41">        clientVO.setClientSecret( entity.getClientSecret() );</span>
-<span class="nc" id="L42">        clientVO.setScope( entity.getScope() );</span>
-<span class="nc" id="L43">        clientVO.setAuthorizedGrantTypes( entity.getAuthorizedGrantTypes() );</span>
-<span class="nc" id="L44">        clientVO.setWebServerRedirectUri( entity.getWebServerRedirectUri() );</span>
-<span class="nc" id="L45">        clientVO.setAuthorities( entity.getAuthorities() );</span>
-<span class="nc" id="L46">        clientVO.setAccessTokenValidity( entity.getAccessTokenValidity() );</span>
-<span class="nc" id="L47">        clientVO.setRefreshTokenValidity( entity.getRefreshTokenValidity() );</span>
-<span class="nc" id="L48">        clientVO.setAdditionalInformation( entity.getAdditionalInformation() );</span>
-<span class="nc" id="L49">        clientVO.setAutoapprove( entity.getAutoapprove() );</span>
+<span class="fc" id="L39">        clientVO.pKey( entity.getPersistentKey() );</span>
+<span class="fc" id="L40">        clientVO.resourceIds( entity.getResourceIds() );</span>
+<span class="fc" id="L41">        clientVO.clientId( entity.getClientId() );</span>
+<span class="fc" id="L42">        clientVO.clientSecret( entity.getClientSecret() );</span>
+<span class="fc" id="L43">        clientVO.scope( entity.getScope() );</span>
+<span class="fc" id="L44">        clientVO.authorizedGrantTypes( entity.getAuthorizedGrantTypes() );</span>
+<span class="fc" id="L45">        clientVO.webServerRedirectUri( entity.getWebServerRedirectUri() );</span>
+<span class="fc" id="L46">        clientVO.authorities( entity.getAuthorities() );</span>
+<span class="fc" id="L47">        clientVO.accessTokenValidity( entity.getAccessTokenValidity() );</span>
+<span class="fc" id="L48">        clientVO.refreshTokenValidity( entity.getRefreshTokenValidity() );</span>
+<span class="fc" id="L49">        clientVO.additionalInformation( entity.getAdditionalInformation() );</span>
+<span class="fc" id="L50">        clientVO.autoapprove( entity.getAutoapprove() );</span>
 
-<span class="nc" id="L51">        return clientVO;</span>
+<span class="fc" id="L52">        return clientVO.build();</span>
     }
 
     @Override
     public Client from(ClientVO vo) {
-<span class="nc bnc" id="L56" title="All 2 branches missed.">        if ( vo == null ) {</span>
-<span class="nc" id="L57">            return null;</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">        if ( vo == null ) {</span>
+<span class="nc" id="L58">            return null;</span>
         }
 
-<span class="nc" id="L60">        Client client = new Client();</span>
+<span class="fc" id="L61">        Client client = new Client();</span>
 
-<span class="nc" id="L62">        client.setPersistentKey( vo.getpKey() );</span>
-<span class="nc" id="L63">        client.setResourceIds( vo.getResourceIds() );</span>
-<span class="nc" id="L64">        client.setClientId( vo.getClientId() );</span>
-<span class="nc" id="L65">        client.setClientSecret( vo.getClientSecret() );</span>
-<span class="nc" id="L66">        client.setScope( vo.getScope() );</span>
-<span class="nc" id="L67">        client.setAuthorizedGrantTypes( vo.getAuthorizedGrantTypes() );</span>
-<span class="nc" id="L68">        client.setWebServerRedirectUri( vo.getWebServerRedirectUri() );</span>
-<span class="nc" id="L69">        client.setAuthorities( vo.getAuthorities() );</span>
-<span class="nc" id="L70">        client.setAccessTokenValidity( vo.getAccessTokenValidity() );</span>
-<span class="nc" id="L71">        client.setRefreshTokenValidity( vo.getRefreshTokenValidity() );</span>
-<span class="nc" id="L72">        client.setAdditionalInformation( vo.getAdditionalInformation() );</span>
-<span class="nc" id="L73">        client.setAutoapprove( vo.getAutoapprove() );</span>
+<span class="fc" id="L63">        client.setPersistentKey( vo.getpKey() );</span>
+<span class="fc" id="L64">        client.setResourceIds( vo.getResourceIds() );</span>
+<span class="fc" id="L65">        client.setClientId( vo.getClientId() );</span>
+<span class="fc" id="L66">        client.setClientSecret( vo.getClientSecret() );</span>
+<span class="fc" id="L67">        client.setScope( vo.getScope() );</span>
+<span class="fc" id="L68">        client.setAuthorizedGrantTypes( vo.getAuthorizedGrantTypes() );</span>
+<span class="fc" id="L69">        client.setWebServerRedirectUri( vo.getWebServerRedirectUri() );</span>
+<span class="fc" id="L70">        client.setAuthorities( vo.getAuthorities() );</span>
+<span class="fc" id="L71">        client.setAccessTokenValidity( vo.getAccessTokenValidity() );</span>
+<span class="fc" id="L72">        client.setRefreshTokenValidity( vo.getRefreshTokenValidity() );</span>
+<span class="fc" id="L73">        client.setAdditionalInformation( vo.getAdditionalInformation() );</span>
+<span class="fc" id="L74">        client.setAutoapprove( vo.getAutoapprove() );</span>
 
-<span class="nc" id="L75">        return client;</span>
+<span class="fc" id="L76">        return client;</span>
     }
 
     @Override
     public void copy(Client client, Client target) {
-<span class="nc bnc" id="L80" title="All 2 branches missed.">        if ( client == null ) {</span>
-<span class="nc" id="L81">            return;</span>
+<span class="pc bpc" id="L81" title="1 of 2 branches missed.">        if ( client == null ) {</span>
+<span class="nc" id="L82">            return;</span>
         }
 
-<span class="nc" id="L84">        target.setPersistentKey( client.getPersistentKey() );</span>
-<span class="nc" id="L85">        target.setOl( client.getOl() );</span>
-<span class="nc" id="L86">        target.setResourceIds( client.getResourceIds() );</span>
-<span class="nc" id="L87">        target.setClientId( client.getClientId() );</span>
-<span class="nc" id="L88">        target.setClientSecret( client.getClientSecret() );</span>
-<span class="nc" id="L89">        target.setScope( client.getScope() );</span>
-<span class="nc" id="L90">        target.setAuthorizedGrantTypes( client.getAuthorizedGrantTypes() );</span>
-<span class="nc" id="L91">        target.setWebServerRedirectUri( client.getWebServerRedirectUri() );</span>
-<span class="nc" id="L92">        target.setAuthorities( client.getAuthorities() );</span>
-<span class="nc" id="L93">        target.setAccessTokenValidity( client.getAccessTokenValidity() );</span>
-<span class="nc" id="L94">        target.setRefreshTokenValidity( client.getRefreshTokenValidity() );</span>
-<span class="nc" id="L95">        target.setAdditionalInformation( client.getAdditionalInformation() );</span>
-<span class="nc" id="L96">        target.setAutoapprove( client.getAutoapprove() );</span>
-<span class="nc" id="L97">    }</span>
+<span class="fc" id="L85">        target.setPersistentKey( client.getPersistentKey() );</span>
+<span class="fc" id="L86">        target.setOl( client.getOl() );</span>
+<span class="fc" id="L87">        target.setResourceIds( client.getResourceIds() );</span>
+<span class="fc" id="L88">        target.setClientId( client.getClientId() );</span>
+<span class="fc" id="L89">        target.setClientSecret( client.getClientSecret() );</span>
+<span class="fc" id="L90">        target.setScope( client.getScope() );</span>
+<span class="fc" id="L91">        target.setAuthorizedGrantTypes( client.getAuthorizedGrantTypes() );</span>
+<span class="fc" id="L92">        target.setWebServerRedirectUri( client.getWebServerRedirectUri() );</span>
+<span class="fc" id="L93">        target.setAuthorities( client.getAuthorities() );</span>
+<span class="fc" id="L94">        target.setAccessTokenValidity( client.getAccessTokenValidity() );</span>
+<span class="fc" id="L95">        target.setRefreshTokenValidity( client.getRefreshTokenValidity() );</span>
+<span class="fc" id="L96">        target.setAdditionalInformation( client.getAdditionalInformation() );</span>
+<span class="fc" id="L97">        target.setAutoapprove( client.getAutoapprove() );</span>
+<span class="fc" id="L98">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

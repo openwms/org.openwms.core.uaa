@@ -52,7 +52,7 @@ class ClientServiceImpl implements ClientService {
     @Override
     @Measured
     public Client create(@NotNull Client client) {
-<span class="nc" id="L55">        return clientRepository.save(client);</span>
+<span class="fc" id="L55">        return clientRepository.save(client);</span>
     }
 
     /**
@@ -61,9 +61,9 @@ class ClientServiceImpl implements ClientService {
     @Override
     @Measured
     public Client save(@NotNull Client client) {
-<span class="nc" id="L64">        Client saved = clientRepository.findBypKey(client.getPersistentKey()).orElseThrow(() -&gt; new NotFoundException(format(&quot;No Client with PKey [%s] exists&quot;, client.getPersistentKey())));</span>
-<span class="nc" id="L65">        mapper.copy(client, saved);</span>
-<span class="nc" id="L66">        return clientRepository.save(saved);</span>
+<span class="pc" id="L64">        Client saved = clientRepository.findBypKey(client.getPersistentKey()).orElseThrow(() -&gt; new NotFoundException(format(&quot;No Client with PKey [%s] exists&quot;, client.getPersistentKey())));</span>
+<span class="fc" id="L65">        mapper.copy(client, saved);</span>
+<span class="fc" id="L66">        return clientRepository.save(saved);</span>
     }
 
     /**
@@ -72,8 +72,8 @@ class ClientServiceImpl implements ClientService {
     @Override
     @Measured
     public void delete(@NotEmpty String pKey) {
-<span class="nc" id="L75">        clientRepository.deleteByPKey(pKey);</span>
-<span class="nc" id="L76">    }</span>
+<span class="fc" id="L75">        clientRepository.deleteByPKey(pKey);</span>
+<span class="fc" id="L76">    }</span>
 
     /**
      * {@inheritDoc}
@@ -81,7 +81,7 @@ class ClientServiceImpl implements ClientService {
     @Override
     @Measured
     public List&lt;Client&gt; findAll() {
-<span class="nc" id="L84">        return clientRepository.findAll();</span>
+<span class="fc" id="L84">        return clientRepository.findAll();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
