@@ -34,7 +34,7 @@
             <item name="REST API Documentation" href="rest/${project.version}/api.html" />
             <item name="Confluence Wiki" href="https://openwms.atlassian.net/l/c/UeA16May" />
             <item name="Javadoc" href="apidocs/index.html" />
-            <item name="Database Schema" href="schemaspy/relationships.html" />
+            <item name="Database Schema" href="${project.version}/schemaspy/relationships.html" />
             <item name="Sonarcloud" href="https://sonarcloud.io/dashboard?id=org.openwms:${project.artifactId}" />
             <item name="Jacoco" href="jacoco/index.html" />
         </menu>
