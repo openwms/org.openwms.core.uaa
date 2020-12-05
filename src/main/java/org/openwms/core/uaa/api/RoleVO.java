@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.ameba.http.AbstractBase;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -38,10 +39,11 @@ public class RoleVO extends AbstractBase implements Serializable {
 
     /** The persistent key. */
     @JsonProperty("pKey")
+    @Null(groups = {ValidationGroups.Create.class})
     private String pKey;
     /** The unique Role name. */
     @JsonProperty("name")
-    @NotEmpty
+    @NotEmpty(groups = {ValidationGroups.Create.class})
     private String name;
     /** If the Role can be modified. */
     @JsonProperty("immutable")
@@ -51,9 +53,11 @@ public class RoleVO extends AbstractBase implements Serializable {
     private String description;
     /** A collection of Users that are assigned to the Role. */
     @JsonProperty("users")
+    @Null(groups = {ValidationGroups.Create.class})
     private Set<UserVO> users = new HashSet<>();
     /** A collection of Grants that are assigned to the Role. */
     @JsonProperty("grants")
+    @Null(groups = {ValidationGroups.Create.class})
     private Set<SecurityObjectVO> grants = new HashSet<>();
 
     @JsonCreator

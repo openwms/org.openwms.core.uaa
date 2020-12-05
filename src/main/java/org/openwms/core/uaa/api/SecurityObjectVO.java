@@ -38,6 +38,18 @@ public class SecurityObjectVO implements Serializable {
     @JsonProperty("description")
     private String description;
 
+    public SecurityObjectVO() {
+    }
+
+    private SecurityObjectVO(Builder builder) {
+        setName(builder.name);
+        setDescription(builder.description);
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
     public String getName() {
         return name;
     }
@@ -86,5 +98,27 @@ public class SecurityObjectVO implements Serializable {
     @Override
     public String toString() {
         return name;
+    }
+
+    public static final class Builder {
+        private @NotEmpty String name;
+        private String description;
+
+        private Builder() {
+        }
+
+        public Builder name(@NotEmpty String val) {
+            name = val;
+            return this;
+        }
+
+        public Builder description(String val) {
+            description = val;
+            return this;
+        }
+
+        public SecurityObjectVO build() {
+            return new SecurityObjectVO(this);
+        }
     }
 }

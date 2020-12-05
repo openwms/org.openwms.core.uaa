@@ -22,9 +22,11 @@ import org.openwms.core.http.HttpBusinessException;
 import org.openwms.core.http.Index;
 import org.openwms.core.uaa.admin.impl.Role;
 import org.openwms.core.uaa.api.RoleVO;
+import org.openwms.core.uaa.api.ValidationGroups;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -83,6 +85,7 @@ public class RoleController extends AbstractWebController {
      * Documented here: https://openwms.atlassian.net/wiki/x/BIAWAQ
      */
     @PostMapping(API_ROLES)
+    @Validated(ValidationGroups.Create.class)
     public ResponseEntity<RoleVO> create(@RequestBody @Valid @NotNull RoleVO role, HttpServletRequest req) {
         return ResponseEntity.ok(
                 mapper.map(service.save(mapper.map(role, Role.class)), RoleVO.class)
