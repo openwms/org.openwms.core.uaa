@@ -22,9 +22,11 @@ import org.openwms.core.http.HttpBusinessException;
 import org.openwms.core.http.Index;
 import org.openwms.core.uaa.admin.impl.Role;
 import org.openwms.core.uaa.api.RoleVO;
+import org.openwms.core.uaa.api.ValidationGroups;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,19 +55,19 @@ public class RoleController extends AbstractWebController {
     private final RoleService service;
     private final BeanMapper mapper;
 
-<span class="fc" id="L56">    public RoleController(RoleService service, BeanMapper mapper) {</span>
-<span class="fc" id="L57">        this.service = service;</span>
-<span class="fc" id="L58">        this.mapper = mapper;</span>
-<span class="fc" id="L59">    }</span>
+<span class="fc" id="L58">    public RoleController(RoleService service, BeanMapper mapper) {</span>
+<span class="fc" id="L59">        this.service = service;</span>
+<span class="fc" id="L60">        this.mapper = mapper;</span>
+<span class="fc" id="L61">    }</span>
 
     @GetMapping(API_ROLES + &quot;/index&quot;)
     public ResponseEntity&lt;Index&gt; index() {
-<span class="fc" id="L63">        return ResponseEntity.ok(</span>
+<span class="fc" id="L65">        return ResponseEntity.ok(</span>
                 new Index(
-<span class="fc" id="L65">                        linkTo(methodOn(RoleController.class).findAllRoles()).withRel(&quot;roles-findall&quot;),</span>
-<span class="fc" id="L66">                        linkTo(methodOn(RoleController.class).create(new RoleVO(), null)).withRel(&quot;roles-create&quot;),</span>
-<span class="fc" id="L67">                        linkTo(methodOn(RoleController.class).save(new RoleVO())).withRel(&quot;roles-save&quot;),</span>
-<span class="fc" id="L68">                        linkTo(methodOn(RoleController.class).delete(&quot;pKey&quot;)).withRel(&quot;roles-delete&quot;)</span>
+<span class="fc" id="L67">                        linkTo(methodOn(RoleController.class).findAllRoles()).withRel(&quot;roles-findall&quot;),</span>
+<span class="fc" id="L68">                        linkTo(methodOn(RoleController.class).create(new RoleVO(), null)).withRel(&quot;roles-create&quot;),</span>
+<span class="fc" id="L69">                        linkTo(methodOn(RoleController.class).save(new RoleVO())).withRel(&quot;roles-save&quot;),</span>
+<span class="fc" id="L70">                        linkTo(methodOn(RoleController.class).delete(&quot;pKey&quot;)).withRel(&quot;roles-delete&quot;)</span>
                 )
         );
     }
@@ -76,31 +78,32 @@ public class RoleController extends AbstractWebController {
     @Transactional(readOnly = true)
     @GetMapping(API_ROLES)
     public ResponseEntity&lt;List&lt;RoleVO&gt;&gt; findAllRoles() {
-<span class="nc" id="L79">        return ResponseEntity.ok(mapper.map(new ArrayList&lt;&gt;(service.findAll()), RoleVO.class));</span>
+<span class="nc" id="L81">        return ResponseEntity.ok(mapper.map(new ArrayList&lt;&gt;(service.findAll()), RoleVO.class));</span>
     }
 
     /**
      * Documented here: https://openwms.atlassian.net/wiki/x/BIAWAQ
      */
     @PostMapping(API_ROLES)
+    @Validated(ValidationGroups.Create.class)
     public ResponseEntity&lt;RoleVO&gt; create(@RequestBody @Valid @NotNull RoleVO role, HttpServletRequest req) {
-<span class="nc" id="L87">        return ResponseEntity.ok(</span>
-<span class="nc" id="L88">                mapper.map(service.save(mapper.map(role, Role.class)), RoleVO.class)</span>
+<span class="fc" id="L90">        return ResponseEntity.ok(</span>
+<span class="fc" id="L91">                mapper.map(service.save(mapper.map(role, Role.class)), RoleVO.class)</span>
         );
     }
 
     @PutMapping(API_ROLES)
     public ResponseEntity&lt;RoleVO&gt; save(@RequestBody @Valid @NotNull RoleVO role) {
-<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (role.getName() == null) {</span>
-<span class="nc" id="L95">            throw new HttpBusinessException(&quot;Role to save is a transient one&quot;, HttpStatus.NOT_ACCEPTABLE);</span>
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        if (role.getName() == null) {</span>
+<span class="nc" id="L98">            throw new HttpBusinessException(&quot;Role to save is a transient one&quot;, HttpStatus.NOT_ACCEPTABLE);</span>
         }
-<span class="nc" id="L97">        return ResponseEntity.ok(mapper.map(service.save(mapper.map(role, Role.class)), RoleVO.class));</span>
+<span class="nc" id="L100">        return ResponseEntity.ok(mapper.map(service.save(mapper.map(role, Role.class)), RoleVO.class));</span>
     }
 
     @DeleteMapping(API_ROLES + &quot;/{pKey}&quot;)
     public ResponseEntity&lt;Void&gt; delete(@PathVariable(&quot;pKey&quot;) String pKey) {
-<span class="nc" id="L102">        service.delete(pKey);</span>
-<span class="nc" id="L103">        return ResponseEntity.noContent().build();</span>
+<span class="fc" id="L105">        service.delete(pKey);</span>
+<span class="fc" id="L106">        return ResponseEntity.noContent().build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

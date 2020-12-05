@@ -59,7 +59,7 @@ class RoleServiceImpl implements RoleService {
     public Role save(Role role) {
 <span class="fc" id="L60">        Optional&lt;Role&gt; roleOpt = repository.findByName(role.getName());</span>
 <span class="fc" id="L61">        return roleOpt.map(value -&gt; repository.save(mapper.mapFromTo(role, value))).</span>
-<span class="pc" id="L62">                orElseGet(() -&gt; repository.save(role));</span>
+<span class="fc" id="L62">                orElseGet(() -&gt; repository.save(role));</span>
     }
 
     /**
@@ -68,7 +68,7 @@ class RoleServiceImpl implements RoleService {
     @Override
     @Measured
     public void delete(@NotEmpty String pKey) {
-<span class="nc" id="L71">        repository.deleteByPKey(pKey);</span>
-<span class="nc" id="L72">    }</span>
+<span class="fc" id="L71">        repository.deleteByPKey(pKey);</span>
+<span class="fc" id="L72">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

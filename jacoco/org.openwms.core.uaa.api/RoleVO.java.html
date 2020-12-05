@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.ameba.http.AbstractBase;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -38,10 +39,11 @@ public class RoleVO extends AbstractBase implements Serializable {
 
     /** The persistent key. */
     @JsonProperty(&quot;pKey&quot;)
+    @Null(groups = {ValidationGroups.Create.class})
     private String pKey;
     /** The unique Role name. */
     @JsonProperty(&quot;name&quot;)
-    @NotEmpty
+    @NotEmpty(groups = {ValidationGroups.Create.class})
     private String name;
     /** If the Role can be modified. */
     @JsonProperty(&quot;immutable&quot;)
@@ -50,51 +52,53 @@ public class RoleVO extends AbstractBase implements Serializable {
     @JsonProperty(&quot;description&quot;)
     private String description;
     /** A collection of Users that are assigned to the Role. */
-<span class="pc" id="L53">    @JsonProperty(&quot;users&quot;)</span>
+<span class="fc" id="L55">    @JsonProperty(&quot;users&quot;)</span>
+    @Null(groups = {ValidationGroups.Create.class})
     private Set&lt;UserVO&gt; users = new HashSet&lt;&gt;();
     /** A collection of Grants that are assigned to the Role. */
-<span class="pc" id="L56">    @JsonProperty(&quot;grants&quot;)</span>
+<span class="fc" id="L59">    @JsonProperty(&quot;grants&quot;)</span>
+    @Null(groups = {ValidationGroups.Create.class})
     private Set&lt;SecurityObjectVO&gt; grants = new HashSet&lt;&gt;();
 
     @JsonCreator
-<span class="fc" id="L60">    public RoleVO() {</span>
-<span class="fc" id="L61">    }</span>
+<span class="fc" id="L64">    public RoleVO() {</span>
+<span class="fc" id="L65">    }</span>
 
-<span class="nc" id="L63">    private RoleVO(Builder builder) {</span>
-<span class="nc" id="L64">        pKey = builder.pKey;</span>
-<span class="nc" id="L65">        name = builder.name;</span>
-<span class="nc" id="L66">        immutable = builder.immutable;</span>
-<span class="nc" id="L67">        description = builder.description;</span>
-<span class="nc" id="L68">        users = builder.users;</span>
-<span class="nc" id="L69">        grants = builder.grants;</span>
-<span class="nc" id="L70">    }</span>
+<span class="fc" id="L67">    private RoleVO(Builder builder) {</span>
+<span class="fc" id="L68">        pKey = builder.pKey;</span>
+<span class="fc" id="L69">        name = builder.name;</span>
+<span class="fc" id="L70">        immutable = builder.immutable;</span>
+<span class="fc" id="L71">        description = builder.description;</span>
+<span class="fc" id="L72">        users = builder.users;</span>
+<span class="fc" id="L73">        grants = builder.grants;</span>
+<span class="fc" id="L74">    }</span>
 
     public static Builder newBuilder() {
-<span class="nc" id="L73">        return new Builder();</span>
+<span class="fc" id="L77">        return new Builder();</span>
     }
 
     public String getpKey() {
-<span class="nc" id="L77">        return pKey;</span>
+<span class="fc" id="L81">        return pKey;</span>
     }
 
     public String getName() {
-<span class="nc" id="L81">        return name;</span>
+<span class="fc" id="L85">        return name;</span>
     }
 
     public Boolean getImmutable() {
-<span class="nc" id="L85">        return immutable;</span>
+<span class="fc" id="L89">        return immutable;</span>
     }
 
     public String getDescription() {
-<span class="nc" id="L89">        return description;</span>
+<span class="fc" id="L93">        return description;</span>
     }
 
     public Set&lt;UserVO&gt; getUsers() {
-<span class="nc" id="L93">        return users;</span>
+<span class="fc" id="L97">        return users;</span>
     }
 
     public Set&lt;SecurityObjectVO&gt; getGrants() {
-<span class="nc" id="L97">        return grants;</span>
+<span class="fc" id="L101">        return grants;</span>
     }
 
     /**
@@ -104,16 +108,16 @@ public class RoleVO extends AbstractBase implements Serializable {
      */
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L107" title="All 2 branches missed.">        if (this == o) return true;</span>
-<span class="nc bnc" id="L108" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc bnc" id="L109" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
-<span class="nc" id="L110">        RoleVO roleVO = (RoleVO) o;</span>
-<span class="nc bnc" id="L111" title="All 2 branches missed.">        return Objects.equals(pKey, roleVO.pKey) &amp;&amp;</span>
-<span class="nc bnc" id="L112" title="All 2 branches missed.">                Objects.equals(name, roleVO.name) &amp;&amp;</span>
-<span class="nc bnc" id="L113" title="All 2 branches missed.">                Objects.equals(immutable, roleVO.immutable) &amp;&amp;</span>
-<span class="nc bnc" id="L114" title="All 2 branches missed.">                Objects.equals(description, roleVO.description) &amp;&amp;</span>
-<span class="nc bnc" id="L115" title="All 2 branches missed.">                Objects.equals(users, roleVO.users) &amp;&amp;</span>
-<span class="nc bnc" id="L116" title="All 2 branches missed.">                Objects.equals(grants, roleVO.grants);</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L112" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
+<span class="nc" id="L114">        RoleVO roleVO = (RoleVO) o;</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        return Objects.equals(pKey, roleVO.pKey) &amp;&amp;</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">                Objects.equals(name, roleVO.name) &amp;&amp;</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">                Objects.equals(immutable, roleVO.immutable) &amp;&amp;</span>
+<span class="nc bnc" id="L118" title="All 2 branches missed.">                Objects.equals(description, roleVO.description) &amp;&amp;</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">                Objects.equals(users, roleVO.users) &amp;&amp;</span>
+<span class="nc bnc" id="L120" title="All 2 branches missed.">                Objects.equals(grants, roleVO.grants);</span>
     }
 
     /**
@@ -123,7 +127,7 @@ public class RoleVO extends AbstractBase implements Serializable {
      */
     @Override
     public int hashCode() {
-<span class="nc" id="L126">        return Objects.hash(super.hashCode(), pKey, name, immutable, description, users, grants);</span>
+<span class="nc" id="L130">        return Objects.hash(super.hashCode(), pKey, name, immutable, description, users, grants);</span>
     }
 
     public static final class Builder {
@@ -138,37 +142,37 @@ public class RoleVO extends AbstractBase implements Serializable {
         }
 
         public Builder pKey(String val) {
-<span class="nc" id="L141">            pKey = val;</span>
-<span class="nc" id="L142">            return this;</span>
+<span class="nc" id="L145">            pKey = val;</span>
+<span class="nc" id="L146">            return this;</span>
         }
 
         public Builder name(String val) {
-<span class="nc" id="L146">            name = val;</span>
-<span class="nc" id="L147">            return this;</span>
+<span class="fc" id="L150">            name = val;</span>
+<span class="fc" id="L151">            return this;</span>
         }
 
         public Builder immutable(Boolean val) {
-<span class="nc" id="L151">            immutable = val;</span>
-<span class="nc" id="L152">            return this;</span>
+<span class="fc" id="L155">            immutable = val;</span>
+<span class="fc" id="L156">            return this;</span>
         }
 
         public Builder description(String val) {
-<span class="nc" id="L156">            description = val;</span>
-<span class="nc" id="L157">            return this;</span>
+<span class="fc" id="L160">            description = val;</span>
+<span class="fc" id="L161">            return this;</span>
         }
 
         public Builder users(Set&lt;UserVO&gt; val) {
-<span class="nc" id="L161">            users = val;</span>
-<span class="nc" id="L162">            return this;</span>
+<span class="fc" id="L165">            users = val;</span>
+<span class="fc" id="L166">            return this;</span>
         }
 
         public Builder grants(Set&lt;SecurityObjectVO&gt; val) {
-<span class="nc" id="L166">            grants = val;</span>
-<span class="nc" id="L167">            return this;</span>
+<span class="fc" id="L170">            grants = val;</span>
+<span class="fc" id="L171">            return this;</span>
         }
 
         public RoleVO build() {
-<span class="nc" id="L171">            return new RoleVO(this);</span>
+<span class="fc" id="L175">            return new RoleVO(this);</span>
         }
     }
 }

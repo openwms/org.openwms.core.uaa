@@ -119,7 +119,7 @@ public class SecurityObject extends ApplicationEntity implements Serializable {
     public int hashCode() {
         final int prime = 31;
 <span class="fc" id="L121">        int result = 1;</span>
-<span class="pc bpc" id="L122" title="1 of 2 branches missed.">        result = prime * result + ((name == null) ? 0 : name.hashCode());</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">        result = prime * result + ((name == null) ? 0 : name.hashCode());</span>
 <span class="fc" id="L123">        return result;</span>
     }
 
@@ -130,24 +130,24 @@ public class SecurityObject extends ApplicationEntity implements Serializable {
      */
     @Override
     public boolean equals(Object obj) {
-<span class="nc bnc" id="L133" title="All 2 branches missed.">        if (null == obj) {</span>
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">        if (null == obj) {</span>
 <span class="nc" id="L134">            return false;</span>
         }
-<span class="nc bnc" id="L136" title="All 2 branches missed.">        if (this == obj) {</span>
+<span class="pc bpc" id="L136" title="1 of 2 branches missed.">        if (this == obj) {</span>
 <span class="nc" id="L137">            return true;</span>
         }
-<span class="nc bnc" id="L139" title="All 2 branches missed.">        if (getClass() != obj.getClass()) {</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">        if (getClass() != obj.getClass()) {</span>
 <span class="nc" id="L140">            return false;</span>
         }
-<span class="nc" id="L142">        SecurityObject other = (SecurityObject) obj;</span>
-<span class="nc bnc" id="L143" title="All 2 branches missed.">        if (name == null) {</span>
-<span class="nc bnc" id="L144" title="All 2 branches missed.">            if (other.name != null) {</span>
+<span class="fc" id="L142">        SecurityObject other = (SecurityObject) obj;</span>
+<span class="pc bpc" id="L143" title="1 of 2 branches missed.">        if (name == null) {</span>
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">            if (other.name != null) {</span>
 <span class="nc" id="L145">                return false;</span>
             }
 <span class="nc bnc" id="L147" title="All 2 branches missed.">        } else if (!name.equals(other.name)) {</span>
 <span class="nc" id="L148">            return false;</span>
         }
-<span class="nc" id="L150">        return true;</span>
+<span class="fc" id="L150">        return true;</span>
     }
 
     /**
