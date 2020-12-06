@@ -39,8 +39,8 @@ If the server has correctly updated the `Client` the response contains the updat
 
 include::{generated}/client-save/http-response.adoc[]
 
-=== Delete an Client
-To finally delete all `Client` data a `DELETE` request with the persistent key of the `Client` is required:
+=== Delete a Client
+To finally delete all `Client` data, a `DELETE` request with the persistent key of the `Client` is required:
 
 include::{generated}/client-delete/http-request.adoc[]
 

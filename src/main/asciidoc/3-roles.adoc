@@ -20,3 +20,11 @@ and returns either an array of `Roles` or an empty array, but always a `200-OK`.
 
 include::{generated}/role-findAll/http-response.adoc[]
 
+=== Delete a Role
+To finally delete all `Role` data, a `DELETE` request with the persistent key of the `Role` is required:
+
+include::{generated}/role-delete/http-request.adoc[]
+
+If the `Role` has been deleted successfully the server responds:
+
+include::{generated}/role-delete/http-response.adoc[]
