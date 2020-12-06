@@ -10,3 +10,13 @@ include::{generated}/roles-index/http-request.adoc[]
 And the server responds with a `HAL+JSON` representation to further operations:
 
 include::{generated}/roles-index/http-response.adoc[]
+
+=== Find all Roles
+To find and retrieve an array of all existing `Roles` a role may call a `GET` request:
+
+include::{generated}/role-findAll/http-request.adoc[]
+
+and returns either an array of `Roles` or an empty array, but always a `200-OK`.
+
+include::{generated}/role-findAll/http-response.adoc[]
+

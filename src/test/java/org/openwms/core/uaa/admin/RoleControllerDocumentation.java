@@ -37,6 +37,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.HashSet;
 
 import static java.util.Arrays.asList;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.openwms.core.uaa.api.UAAConstants.API_ROLES;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -44,6 +45,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -123,6 +125,16 @@ class RoleControllerDocumentation {
                 ))
                 .andExpect(status().isOk())
                 .andReturn();
+    }
+
+    @Sql("classpath:test.sql")
+    @Test void shall_find_demo_roles() throws Exception {
+        mockMvc.perform(get(API_ROLES))
+                .andDo(document("role-findAll"))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()", greaterThan(0)))
+                .andExpect(status().isOk())
+        ;
     }
 
     @Sql("classpath:test.sql")
