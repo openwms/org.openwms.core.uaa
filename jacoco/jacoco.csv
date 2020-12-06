@@ -32,7 +32,7 @@ OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,SecurityContextUserService
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,Role.Builder,0,33,0,0,0,10,0,4,0,4
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin,UserController,10,169,0,0,2,20,1,7,1,7
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin,GrantController,0,40,0,0,0,7,0,3,0,3
-OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin,RoleController,37,95,2,0,4,13,3,4,2,4
+OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin,RoleController,25,107,2,0,3,14,2,5,1,5
 OpenWMS.org CORE: UAA,org.openwms.core.search,ActionServiceImpl,2,24,0,0,1,6,1,4,1,4
 OpenWMS.org CORE: UAA,org.openwms.core.search,Action,115,0,6,0,33,0,20,0,17,0
 OpenWMS.org CORE: UAA,org.openwms.core.search,Action.Builder,29,0,0,0,9,0,4,0,4,0

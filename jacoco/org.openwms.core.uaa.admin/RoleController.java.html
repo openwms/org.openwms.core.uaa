@@ -78,7 +78,7 @@ public class RoleController extends AbstractWebController {
     @Transactional(readOnly = true)
     @GetMapping(API_ROLES)
     public ResponseEntity&lt;List&lt;RoleVO&gt;&gt; findAllRoles() {
-<span class="nc" id="L81">        return ResponseEntity.ok(mapper.map(new ArrayList&lt;&gt;(service.findAll()), RoleVO.class));</span>
+<span class="fc" id="L81">        return ResponseEntity.ok(mapper.map(new ArrayList&lt;&gt;(service.findAll()), RoleVO.class));</span>
     }
 
     /**

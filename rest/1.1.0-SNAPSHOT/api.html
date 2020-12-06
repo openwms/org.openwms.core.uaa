@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="(1.1.0-SNAPSHOT-101)">
+<meta name="author" content="(1.1.0-SNAPSHOT-102)">
 <title>OpenWMS.org WMS: RESTful API (UAA)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org WMS: RESTful API (UAA)</h1>
 <div class="details">
-<span id="author" class="author">(1.1.0-SNAPSHOT-101)</span><br>
+<span id="author" class="author">(1.1.0-SNAPSHOT-102)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -476,6 +476,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#resources-role">Role</a>
 <ul class="sectlevel2">
 <li><a href="#_role_index">Role Index</a></li>
+<li><a href="#_find_all_roles">Find all Roles</a></li>
+<li><a href="#_delete_a_role">Delete a Role</a></li>
 </ul>
 </li>
 <li><a href="#resources-grant">Grant</a>
@@ -490,7 +492,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_create_a_client">Create a Client</a></li>
 <li><a href="#_find_all_clients">Find all Clients</a></li>
 <li><a href="#_modify_an_existing_client">Modify an existing Client</a></li>
-<li><a href="#_delete_an_client">Delete an Client</a></li>
+<li><a href="#_delete_a_client">Delete a Client</a></li>
 </ul>
 </li>
 </ul>
@@ -857,12 +859,12 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/3773ca51-ceff-4f02-8e32-1ebdfbcc435d/
+Location: http://localhost:8080/users/0dcffec8-2bca-4545-96d6-96c2febe8dbf/
 Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "3773ca51-ceff-4f02-8e32-1ebdfbcc435d",
+  "pKey" : "0dcffec8-2bca-4545-96d6-96c2febe8dbf",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -934,7 +936,7 @@ resource:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/3773ca51-ceff-4f02-8e32-1ebdfbcc435d/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/0dcffec8-2bca-4545-96d6-96c2febe8dbf/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -948,7 +950,7 @@ Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "3773ca51-ceff-4f02-8e32-1ebdfbcc435d",
+  "pKey" : "0dcffec8-2bca-4545-96d6-96c2febe8dbf",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -971,7 +973,7 @@ Host: localhost:8080
 
 {
   "links" : [ ],
-  "pKey" : "3773ca51-ceff-4f02-8e32-1ebdfbcc435d",
+  "pKey" : "0dcffec8-2bca-4545-96d6-96c2febe8dbf",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
@@ -989,7 +991,7 @@ Content-Type: application/hal+json
 Content-Length: 147
 
 {
-  "pKey" : "f65fc507-c3d0-4573-9f05-4a0743e87d30",
+  "pKey" : "e87aee12-f71c-47a3-9e75-348c5dbf8881",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
@@ -1022,7 +1024,7 @@ to access the endpoint.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDcyNDQ4ODYsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjRlYzFlZDk2LTcxZWQtNGMxMi1hYWRhLWIxM2UyMDc5YTBhYiIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.dQiU9Hava0NUVKCcinUBebiAxDgWCTOW9Mz8P7zC1nY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDczMjg4MTAsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjdhYTFkZTNkLTNmMzktNDc0MC1iNTZjLTBiNTVlZDgxMDA0OCIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.jRcGCC7jV9zRxRWKFZDwsdLeGeHl7FMyzNDeasvffLI
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1117,7 +1119,7 @@ X-Frame-Options: DENY
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /users/3773ca51-ceff-4f02-8e32-1ebdfbcc435d/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /users/0dcffec8-2bca-4545-96d6-96c2febe8dbf/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1174,6 +1176,66 @@ Content-Length: 325
     }
   }
 }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_all_roles"><a class="anchor" href="#_find_all_roles"></a><a class="link" href="#_find_all_roles">Find all Roles</a></h3>
+<div class="paragraph">
+<p>To find and retrieve an array of all existing <code>Roles</code> a role may call a <code>GET</code> request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /roles HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and returns either an array of <code>Roles</code> or an empty array, but always a <code>200-OK</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 310
+
+[ {
+  "links" : [ ],
+  "pKey" : "1",
+  "name" : "ROLE_ADMIN",
+  "immutable" : true,
+  "description" : "Super user role",
+  "users" : [ ],
+  "grants" : [ ]
+}, {
+  "links" : [ ],
+  "pKey" : "2",
+  "name" : "ROLE_OPS",
+  "immutable" : true,
+  "description" : "Operator role",
+  "users" : [ ],
+  "grants" : [ ]
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_delete_a_role"><a class="anchor" href="#_delete_a_role"></a><a class="link" href="#_delete_a_role">Delete a Role</a></h3>
+<div class="paragraph">
+<p>To finally delete all <code>Role</code> data, a <code>DELETE</code> request with the persistent key of the <code>Role</code> is required:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /roles/1 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Role</code> has been deleted successfully the server responds:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 204 No Content</code></pre>
 </div>
 </div>
 </div>
@@ -1407,7 +1469,7 @@ Content-Type: application/hal+json
 Content-Length: 383
 
 {
-  "pKey" : "719cce5f-685b-4c91-8f1e-a9845217ab95",
+  "pKey" : "941db672-d98c-42dd-8167-855f365718ff",
   "resourceIds" : "res",
   "clientId" : "cliendId",
   "clientSecret" : "secr3t",
@@ -1514,9 +1576,9 @@ Content-Length: 351
 </div>
 </div>
 <div class="sect2">
-<h3 id="_delete_an_client"><a class="anchor" href="#_delete_an_client"></a><a class="link" href="#_delete_an_client">Delete an Client</a></h3>
+<h3 id="_delete_a_client"><a class="anchor" href="#_delete_a_client"></a><a class="link" href="#_delete_a_client">Delete a Client</a></h3>
 <div class="paragraph">
-<p>To finally delete all <code>Client</code> data a <code>DELETE</code> request with the persistent key of the <code>Client</code> is required:</p>
+<p>To finally delete all <code>Client</code> data, a <code>DELETE</code> request with the persistent key of the <code>Client</code> is required:</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1538,7 +1600,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-12-05 22:53:03 UTC
+Last updated 2020-12-06 22:11:33 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

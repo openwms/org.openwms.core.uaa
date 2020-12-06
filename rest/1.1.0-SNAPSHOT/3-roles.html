@@ -485,12 +485,72 @@ Content-Length: 325
 </div>
 </div>
 </div>
+<div class="sect2">
+<h3 id="_find_all_roles">Find all Roles</h3>
+<div class="paragraph">
+<p>To find and retrieve an array of all existing <code>Roles</code> a role may call a <code>GET</code> request:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /roles HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and returns either an array of <code>Roles</code> or an empty array, but always a <code>200-OK</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 310
+
+[ {
+  "links" : [ ],
+  "pKey" : "1",
+  "name" : "ROLE_ADMIN",
+  "immutable" : true,
+  "description" : "Super user role",
+  "users" : [ ],
+  "grants" : [ ]
+}, {
+  "links" : [ ],
+  "pKey" : "2",
+  "name" : "ROLE_OPS",
+  "immutable" : true,
+  "description" : "Operator role",
+  "users" : [ ],
+  "grants" : [ ]
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_delete_a_role">Delete a Role</h3>
+<div class="paragraph">
+<p>To finally delete all <code>Role</code> data, a <code>DELETE</code> request with the persistent key of the <code>Role</code> is required:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /roles/1 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Role</code> has been deleted successfully the server responds:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-12-05 22:53:03 UTC
+Last updated 2020-12-06 22:11:33 UTC
 </div>
 </div>
 </body>
