@@ -542,6 +542,42 @@ Host: localhost:8080
 }</code></pre>
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pKey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The persistent key must be passed when modifying an existing instance</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The new Role name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A description text to update</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>immutable</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether the Role is immutable or not</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>If the server has correctly updated the <code>Role</code> the response contains the updated representation:</p>
 </div>
@@ -552,7 +588,7 @@ Content-Type: application/hal+json
 Content-Length: 142
 
 {
-  "pKey" : "652039f0-ba02-4f21-b01e-3053625a592e",
+  "pKey" : "aed90582-864d-42fa-a930-3382dbb30de9",
   "name" : "ROLE_SUPER",
   "immutable" : false,
   "description" : "Administrators role"
@@ -585,7 +621,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-12-07 19:13:36 UTC
+Last updated 2020-12-07 19:31:02 UTC
 </div>
 </div>
 </body>
