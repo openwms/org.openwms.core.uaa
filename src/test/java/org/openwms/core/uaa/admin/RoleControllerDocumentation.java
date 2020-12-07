@@ -168,7 +168,7 @@ class RoleControllerDocumentation {
                         requestFields(
                                 fieldWithPath("links[]").ignored(),
                                 fieldWithPath("pKey").description("The persistent key must be passed when modifying an existing instance"),
-                                fieldWithPath("name").description("The new Role name"),
+                                fieldWithPath("name").description("The name as an identifying attribute of the existing Role, cannot be changed"),
                                 fieldWithPath("description").description("A description text to update"),
                                 fieldWithPath("immutable").description("Whether the Role is immutable or not")
                         )
