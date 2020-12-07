@@ -94,8 +94,8 @@ public class RoleController extends AbstractWebController {
 
     @PutMapping(API_ROLES)
     public ResponseEntity&lt;RoleVO&gt; save(@RequestBody @Valid @NotNull RoleVO role) {
-<span class="pc bpc" id="L97" title="1 of 2 branches missed.">        if (role.getName() == null) {</span>
-<span class="nc" id="L98">            throw new HttpBusinessException(&quot;Role to save is a transient one&quot;, HttpStatus.NOT_ACCEPTABLE);</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">        if (role.getName() == null) {</span>
+<span class="fc" id="L98">            throw new HttpBusinessException(&quot;Role to save is a transient one&quot;, HttpStatus.NOT_ACCEPTABLE);</span>
         }
 <span class="fc" id="L100">        return ResponseEntity.ok(mapper.map(service.save(mapper.map(role, Role.class)), RoleVO.class));</span>
     }
