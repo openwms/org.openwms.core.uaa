@@ -1,6 +1,7 @@
 [[resources-client]]
 == Client
-A `Client` represents...
+A `Client` represents a OAuth2 respectively OpenID Connect client that acts as a resource consumer and tries to access a protected resource
+server. Mostly a `Client` is an application or a software service.
 
 === Client Index
 An overview of all possible operations on `Clients` can be found on the `Client` index page that is retrieved with a `GET` request:

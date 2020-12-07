@@ -1,6 +1,7 @@
 [[resources-role]]
 == Role
-A `Role` represents...
+An `User` could be assigned to multiple `Roles` and act on behalf of a `Role`. Additionally a `Role` assigns `Grants` to all the `Users`
+that are assigned to this `Role`. By doing so, a `Role` is also a group of `Grants` that can be assigned to multiple `Users`.
 
 === Role Index
 An overview of all possible operations on `Roles` can be found on the `Role` index page that is retrieved with a `GET` request:
