@@ -12,8 +12,8 @@ OpenWMS.org CORE: UAA,org.openwms.core.uaa.api,SecurityObjectVO,36,46,10,0,6,14,
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.api,ClientVO.Builder,0,65,0,0,0,25,0,13,0,13
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.api,UserVO,103,164,28,0,22,38,19,20,5,20
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,SystemUserAuthority,14,17,6,0,1,5,4,3,1,3
-OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,User,110,283,13,23,35,70,25,30,15,22
-OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,SecurityServiceImpl,16,58,3,3,3,13,3,5,0,5
+OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,User,107,286,13,23,34,71,25,30,15,22
+OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,SecurityServiceImpl,12,62,3,3,2,14,3,5,0,5
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,UserPassword,84,36,20,0,23,12,14,4,4,4
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,Email,86,31,12,0,24,6,15,4,9,4
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,UserDetails,49,28,2,2,20,7,14,5,12,5

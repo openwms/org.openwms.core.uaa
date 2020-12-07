@@ -55,7 +55,7 @@ import java.util.List;
     public List&lt;Grant&gt; mergeGrants(String moduleName, List&lt;Grant&gt; grants) {
 <span class="fc" id="L56">        Assert.notNull(moduleName, translator.translate(ExceptionCodes.MODULENAME_NOT_NULL));</span>
 <span class="pc bpc" id="L57" title="1 of 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
-<span class="nc" id="L58">            LOGGER.debug(&quot;Merging grants of module:&quot; + moduleName);</span>
+<span class="fc" id="L58">            LOGGER.debug(&quot;Merging grants of module:&quot; + moduleName);</span>
         }
 <span class="fc" id="L60">        List&lt;Grant&gt; persisted = securityObjectRepository.findAllOfModule(moduleName + &quot;%&quot;);</span>
 <span class="fc" id="L61">        List&lt;Grant&gt; result = new ArrayList&lt;&gt;(persisted);</span>
