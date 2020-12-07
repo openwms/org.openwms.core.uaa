@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="(1.1.0-SNAPSHOT-105)">
+<meta name="author" content="(1.1.0-SNAPSHOT-106)">
 <title>OpenWMS.org WMS: RESTful API (UAA)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org WMS: RESTful API (UAA)</h1>
 <div class="details">
-<span id="author" class="author">(1.1.0-SNAPSHOT-105)</span><br>
+<span id="author" class="author">(1.1.0-SNAPSHOT-106)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -860,12 +860,12 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/0c18b24c-35b9-4d61-a22c-159b3952cce8/
+Location: http://localhost:8080/users/1a35696a-5a6c-4721-a251-23ad165550fe/
 Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "0c18b24c-35b9-4d61-a22c-159b3952cce8",
+  "pKey" : "1a35696a-5a6c-4721-a251-23ad165550fe",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -937,7 +937,7 @@ resource:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/0c18b24c-35b9-4d61-a22c-159b3952cce8/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/1a35696a-5a6c-4721-a251-23ad165550fe/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -951,7 +951,7 @@ Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "0c18b24c-35b9-4d61-a22c-159b3952cce8",
+  "pKey" : "1a35696a-5a6c-4721-a251-23ad165550fe",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -974,7 +974,7 @@ Host: localhost:8080
 
 {
   "links" : [ ],
-  "pKey" : "0c18b24c-35b9-4d61-a22c-159b3952cce8",
+  "pKey" : "1a35696a-5a6c-4721-a251-23ad165550fe",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
@@ -992,7 +992,7 @@ Content-Type: application/hal+json
 Content-Length: 147
 
 {
-  "pKey" : "acc6f11a-5b67-410b-b146-98a84f22aee2",
+  "pKey" : "39026645-7702-4c6c-84af-f94d4e7a0a37",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
@@ -1025,7 +1025,7 @@ to access the endpoint.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDc0MDY1ODYsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjVjZmE2ZWU4LTkyYmQtNDc1OS1hMmZhLTc4MjgzZDA0MDk5ZSIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.F3Qy11zHZiPLYgH6lZ_nj9Bt9-x1ld35GqKtykBFR7o
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDc0MTUwMjksInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6Ijk5YTI1NTE0LWIyZWYtNGJjMC05Y2Y2LTJiNjAwMjRjMDM0NyIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.7UnmMVrY7ReVRi0ZHzIRbeQjN2jr5-Pt-y8I9jawqME
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1120,7 +1120,7 @@ X-Frame-Options: DENY
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /users/0c18b24c-35b9-4d61-a22c-159b3952cce8/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /users/1a35696a-5a6c-4721-a251-23ad165550fe/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1260,7 +1260,7 @@ Host: localhost:8080
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The new Role name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name as an identifying attribute of the existing Role, cannot be changed</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>description</code></p></td>
@@ -1284,7 +1284,7 @@ Content-Type: application/hal+json
 Content-Length: 142
 
 {
-  "pKey" : "b9f88b97-054c-46a1-ad34-9934a5423e9a",
+  "pKey" : "8c918bc7-41e2-4089-a44c-95046fde7af6",
   "name" : "ROLE_SUPER",
   "immutable" : false,
   "description" : "Administrators role"
@@ -1558,7 +1558,7 @@ Content-Type: application/hal+json
 Content-Length: 383
 
 {
-  "pKey" : "d46d9e5a-d2e5-458e-9430-81c64a5ee11a",
+  "pKey" : "80a0550a-96f1-43f7-94f4-7b7bd59c3991",
   "resourceIds" : "res",
   "clientId" : "cliendId",
   "clientSecret" : "secr3t",
@@ -1689,7 +1689,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-12-07 19:47:55 UTC
+Last updated 2020-12-07 22:08:51 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
