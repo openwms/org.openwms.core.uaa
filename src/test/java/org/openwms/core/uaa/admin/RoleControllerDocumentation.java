@@ -160,9 +160,9 @@ class RoleControllerDocumentation {
                         requestFields(
                                 fieldWithPath("links[]").ignored(),
                                 fieldWithPath("pKey").description("The persistent key must be passed when modifying an existing instance"),
-                                fieldWithPath("name").ignored(),
-                                fieldWithPath("description").ignored(),
-                                fieldWithPath("immutable").ignored()
+                                fieldWithPath("name").description("The new Role name"),
+                                fieldWithPath("description").description("A description text to update"),
+                                fieldWithPath("immutable").description("Whether the Role is immutable or not")
                         )
                 ))
                 .andExpect(status().isOk())

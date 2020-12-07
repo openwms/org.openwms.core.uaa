@@ -25,6 +25,8 @@ An existing `Role` instance can be modified by sending a `PUT` request with the 
 
 include::{generated}/role-save/http-request.adoc[]
 
+include::{generated}/role-save/request-fields.adoc[]
+
 If the server has correctly updated the `Role` the response contains the updated representation:
 
 include::{generated}/role-save/http-response.adoc[]
