@@ -33,7 +33,7 @@ import java.util.Set;
  * 
  * @author Heiko Scherrer
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RoleVO extends AbstractBase implements Serializable {
 
@@ -142,8 +142,8 @@ public class RoleVO extends AbstractBase implements Serializable {
         }
 
         public Builder pKey(String val) {
-<span class="nc" id="L145">            pKey = val;</span>
-<span class="nc" id="L146">            return this;</span>
+<span class="fc" id="L145">            pKey = val;</span>
+<span class="fc" id="L146">            return this;</span>
         }
 
         public Builder name(String val) {
