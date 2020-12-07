@@ -33,7 +33,7 @@ import java.util.Set;
  * 
  * @author Heiko Scherrer
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RoleVO extends AbstractBase implements Serializable {
 

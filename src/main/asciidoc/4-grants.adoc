@@ -1,6 +1,7 @@
 [[resources-grant]]
 == Grant
-A `Grant` represents...
+A `Grant` represents a permission to perform an action. A `Grant` can be assigned to a `Role` and is always tied to some kind of action that
+can be taken. It has a unique business key, that is used in API or UI to protect against unauthorized access.
 
 === Grant Index
 An overview of all possible operations on `Grants` can be found on the `Grant` index page that is retrieved with a `GET` request:

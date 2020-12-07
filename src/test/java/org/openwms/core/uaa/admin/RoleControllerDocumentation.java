@@ -30,6 +30,7 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
@@ -37,6 +38,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.HashSet;
 
 import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.openwms.core.uaa.api.UAAConstants.API_ROLES;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -44,6 +46,8 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -135,6 +139,38 @@ class RoleControllerDocumentation {
                 .andExpect(jsonPath("$.length()", greaterThan(0)))
                 .andExpect(status().isOk())
         ;
+    }
+
+    @Sql("classpath:test.sql")
+    @Test
+    void shall_save_role() throws Exception {
+        RoleVO vo = RoleVO.newBuilder()
+                .pKey("1")
+                .name("ROLE_SUPER")
+                .description("Administrators role")
+                .immutable(false)
+                .build();
+
+        MvcResult mvcResult = mockMvc.perform(
+                RestDocumentationRequestBuilders.put(API_ROLES)
+                        .content(objectMapper.writeValueAsString(vo))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(document("role-save",
+                        preprocessResponse(prettyPrint()),
+                        requestFields(
+                                fieldWithPath("links[]").ignored(),
+                                fieldWithPath("pKey").description("The persistent key must be passed when modifying an existing instance"),
+                                fieldWithPath("name").ignored(),
+                                fieldWithPath("description").ignored(),
+                                fieldWithPath("immutable").ignored()
+                        )
+                ))
+                .andExpect(status().isOk())
+                .andReturn();
+        RoleVO resp = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), RoleVO.class);
+        assertThat(resp.getName()).isEqualTo("ROLE_SUPER");
+        assertThat(resp.getDescription()).isEqualTo("Administrators role");
+        assertThat(resp.getImmutable()).isEqualTo(false);
     }
 
     @Sql("classpath:test.sql")
