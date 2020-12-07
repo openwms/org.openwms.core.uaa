@@ -151,6 +151,14 @@ class RoleControllerDocumentation {
                 .immutable(false)
                 .build();
 
+        mockMvc.perform(
+                RestDocumentationRequestBuilders.put(API_ROLES)
+                        .content(objectMapper.writeValueAsString(new RoleVO()))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(document("role-save-noname"))
+                .andExpect(status().isNotAcceptable())
+                .andReturn();
+
         MvcResult mvcResult = mockMvc.perform(
                 RestDocumentationRequestBuilders.put(API_ROLES)
                         .content(objectMapper.writeValueAsString(vo))

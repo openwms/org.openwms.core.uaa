@@ -21,7 +21,8 @@ and returns either an array of `Roles` or an empty array, but always a `200-OK`.
 include::{generated}/role-findAll/http-response.adoc[]
 
 === Modify an existing Role
-An existing `Role` instance can be modified by sending a `PUT` request with the `Role` representation as request body.
+An existing `Role` instance can be modified by sending a `PUT` request with the `Role` representation as request body. At least the name of
+the `Role`, as an identifying attribute must be set.
 
 include::{generated}/role-save/http-request.adoc[]
 
@@ -30,6 +31,10 @@ include::{generated}/role-save/request-fields.adoc[]
 If the server has correctly updated the `Role` the response contains the updated representation:
 
 include::{generated}/role-save/http-response.adoc[]
+
+If the name of the `Role` to update is missing, the server responds with an error:
+
+include::{generated}/role-save-noname/http-response.adoc[]
 
 === Delete a Role
 To finally delete all `Role` data, a `DELETE` request with the persistent key of the `Role` is required:
