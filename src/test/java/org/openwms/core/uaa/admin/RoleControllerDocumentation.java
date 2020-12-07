@@ -178,7 +178,7 @@ class RoleControllerDocumentation {
         RoleVO resp = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), RoleVO.class);
         assertThat(resp.getName()).isEqualTo("ROLE_SUPER");
         assertThat(resp.getDescription()).isEqualTo("Administrators role");
-        assertThat(resp.getImmutable()).isEqualTo(false);
+        assertThat(resp.getImmutable()).isFalse();
     }
 
     @Sql("classpath:test.sql")
