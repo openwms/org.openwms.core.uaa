@@ -32,6 +32,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Base64;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -40,13 +44,14 @@ import static org.springframework.http.HttpHeaders.LOCATION;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -98,8 +103,7 @@ class UserControllerDocumentation {
         ;
     }
 
-    @Test
-    void shall_create_user() throws Exception {
+    @Test void shall_create_user() throws Exception {
         UserVO vo = UserVO.newBuilder()
                 .username("admin2")
                 .email("admin@example.com")
@@ -160,7 +164,6 @@ class UserControllerDocumentation {
 
         String pKey = location.substring(location.substring(0, location.length()-1).lastIndexOf("/"));
 
-        /* FIXME [openwms]: 02.12.20
         // Add an image to the User
         String s = Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(this.getClass().getClassLoader().getResource("pic.png").toURI())));
         mockMvc.perform(
@@ -173,8 +176,7 @@ class UserControllerDocumentation {
 
         contentAsString = mockMvc.perform(get(location)).andReturn().getResponse().getContentAsString();
         UserVO u = objectMapper.readValue(contentAsString, UserVO.class);
-        assertThat(u.getUserDetails().getImage()).isEqualTo(s);
-*/
+//        assertThat(u.getUserDetails().getImage()).isEqualTo(s);
         // DELETE the User
         mockMvc.perform(
                 delete(API_USERS + pKey))
