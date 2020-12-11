@@ -20,7 +20,7 @@ import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
 import org.openwms.core.uaa.auth.Client;
 import org.openwms.core.uaa.auth.ClientService;
-import org.openwms.core.uaa.client.ClientMapper;
+import org.openwms.core.uaa.auth.ClientMapper;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;

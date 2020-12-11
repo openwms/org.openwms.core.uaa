@@ -19,7 +19,7 @@ import org.openwms.core.http.Index;
 import org.openwms.core.uaa.admin.GrantController;
 import org.openwms.core.uaa.admin.RoleController;
 import org.openwms.core.uaa.admin.UserController;
-import org.openwms.core.uaa.client.ClientController;
+import org.openwms.core.uaa.auth.ClientController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

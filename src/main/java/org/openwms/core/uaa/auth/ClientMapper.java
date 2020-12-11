@@ -13,13 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.core.uaa.client;
+package org.openwms.core.uaa.auth;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.openwms.core.uaa.api.ClientVO;
-import org.openwms.core.uaa.auth.Client;
 
 import java.util.List;
 
