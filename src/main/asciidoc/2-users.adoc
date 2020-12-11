@@ -22,6 +22,10 @@ If the `User` has been created successfully, the server returns the URI to the c
 
 include::{generated}/user-create/http-response.adoc[]
 
+If an `User` with the same name already exists the server returns an error:
+
+include::{generated}/user-create-exists/http-response.adoc[]
+
 === Find all Users
 To find and retrieve an array of all existing `Users` a client may call a `GET` request:
 

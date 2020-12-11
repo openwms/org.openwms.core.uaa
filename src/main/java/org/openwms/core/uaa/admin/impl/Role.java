@@ -66,7 +66,7 @@ public class Role extends SecurityObject implements Serializable {
     private Set<User> users = new HashSet<>();
 
     /**
-     * All {@link SecurityObject}s assigned to the R‡ole.
+     * All {@link SecurityObject}s assigned to the Role.
      */
     @ManyToMany(cascade = {CascadeType.REFRESH})
     @JoinTable(

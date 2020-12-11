@@ -126,6 +126,16 @@ class UserControllerDocumentation {
                 .andExpect(header().string(LOCATION, notNullValue()))
                 .andReturn();
 
+        mockMvc.perform(
+                RestDocumentationRequestBuilders.post(API_USERS)
+                        .content(objectMapper.writeValueAsString(vo))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(document("user-create-exists",
+                        preprocessResponse(prettyPrint())
+                ))
+                .andExpect(status().isConflict())
+                .andReturn();
+
         // FIND that newly created User
         String location = result.getResponse().getHeader(LOCATION);
         String contentAsString = mockMvc.perform(
