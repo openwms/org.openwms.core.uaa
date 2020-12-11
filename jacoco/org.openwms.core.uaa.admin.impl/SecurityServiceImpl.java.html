@@ -24,7 +24,6 @@ import org.openwms.core.exception.ExceptionCodes;
 import org.openwms.core.uaa.admin.SecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
@@ -36,27 +35,28 @@ import java.util.List;
  * @author Heiko Scherrer
  */
 @TxService
-<span class="fc" id="L39">class SecurityServiceImpl implements SecurityService {</span>
+class SecurityServiceImpl implements SecurityService {
 
-<span class="fc" id="L41">    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityServiceImpl.class);</span>
-    @Autowired
-    private SecurityObjectRepository securityObjectRepository;
-    @Autowired
-    private Translator translator;
+<span class="fc" id="L40">    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityServiceImpl.class);</span>
+    private final SecurityObjectRepository securityObjectRepository;
+    private final Translator translator;
+
+<span class="fc" id="L44">    SecurityServiceImpl(SecurityObjectRepository securityObjectRepository, Translator translator) {</span>
+<span class="fc" id="L45">        this.securityObjectRepository = securityObjectRepository;</span>
+<span class="fc" id="L46">        this.translator = translator;</span>
+<span class="fc" id="L47">    }</span>
 
     /**
      * {@inheritDoc}
      * &lt;p&gt;
-     * Triggers {@code UserChangedEvent} after completion.
+     * Fires {@code UserChangedEvent} after completion.
      */
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
     @Measured
     public List&lt;Grant&gt; mergeGrants(String moduleName, List&lt;Grant&gt; grants) {
-<span class="fc" id="L56">        Assert.notNull(moduleName, translator.translate(ExceptionCodes.MODULENAME_NOT_NULL));</span>
-<span class="pc bpc" id="L57" title="1 of 2 branches missed.">        if (LOGGER.isDebugEnabled()) {</span>
-<span class="fc" id="L58">            LOGGER.debug(&quot;Merging grants of module:&quot; + moduleName);</span>
-        }
+<span class="fc" id="L58">        Assert.notNull(moduleName, translator.translate(ExceptionCodes.MODULENAME_NOT_NULL));</span>
+<span class="fc" id="L59">        LOGGER.debug(&quot;Merging grants of module: [{}]&quot;, moduleName);</span>
 <span class="fc" id="L60">        List&lt;Grant&gt; persisted = securityObjectRepository.findAllOfModule(moduleName + &quot;%&quot;);</span>
 <span class="fc" id="L61">        List&lt;Grant&gt; result = new ArrayList&lt;&gt;(persisted);</span>
 <span class="fc" id="L62">        grants.forEach(g -&gt; {</span>
@@ -70,10 +70,13 @@ import java.util.List;
 <span class="fc" id="L70">        return result;</span>
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Measured
     public List&lt;Grant&gt; findAllGrants() {
-<span class="fc" id="L76">        return securityObjectRepository.findAllGrants();</span>
+<span class="fc" id="L79">        return securityObjectRepository.findAllGrants();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
