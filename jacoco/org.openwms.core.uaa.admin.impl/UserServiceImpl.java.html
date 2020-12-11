@@ -153,8 +153,8 @@ class UserServiceImpl implements UserService {
     @Measured
     public User create(@NotNull @Valid User user) {
 <span class="fc" id="L155">        Optional&lt;User&gt; optUser = repository.findByUsername(user.getUsername());</span>
-<span class="pc bpc" id="L156" title="1 of 2 branches missed.">        if (optUser.isPresent()) {</span>
-<span class="nc" id="L157">            throw new ResourceExistsException(&quot;User with username already exists&quot;);</span>
+<span class="fc bfc" id="L156" title="All 2 branches covered.">        if (optUser.isPresent()) {</span>
+<span class="fc" id="L157">            throw new ResourceExistsException(&quot;User with username already exists&quot;);</span>
         }
 <span class="fc" id="L159">        return repository.save(user);</span>
     }

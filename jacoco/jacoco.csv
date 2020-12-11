@@ -10,7 +10,7 @@ OpenWMS.org CORE: UAA,org.openwms.core.uaa.api,UserDetailsVO,152,27,22,0,23,10,1
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.api,ClientVO,169,142,32,0,16,53,18,27,2,27
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.api,SecurityObjectVO,36,46,10,0,6,14,7,8,2,8
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.api,ClientVO.Builder,0,65,0,0,0,25,0,13,0,13
-OpenWMS.org CORE: UAA,org.openwms.core.uaa.api,UserVO,103,164,28,0,22,38,19,20,5,20
+OpenWMS.org CORE: UAA,org.openwms.core.uaa.api,UserVO,99,168,28,0,20,40,18,21,4,21
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,SystemUserAuthority,14,17,6,0,1,5,4,3,1,3
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,User,107,286,13,23,34,71,25,30,15,22
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,SecurityServiceImpl,12,62,3,3,2,14,3,5,0,5
@@ -26,11 +26,11 @@ OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,Grant,5,52,3,7,2,19,2,8,0,
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,SecurityObjectAuthority,43,26,13,1,14,7,9,3,2,3
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,Role,14,165,6,6,5,44,5,16,0,15
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,RoleServiceImpl,0,52,0,0,0,10,0,6,0,6
-OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,UserServiceImpl,19,310,1,1,1,54,2,18,1,18
+OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,UserServiceImpl,14,315,0,2,0,55,1,19,1,18
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,User.PasswordComparator,9,0,0,0,2,0,2,0,2,0
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,SecurityContextUserServiceImpl,0,98,1,11,0,23,1,9,0,4
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin.impl,Role.Builder,0,33,0,0,0,10,0,4,0,4
-OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin,UserController,10,169,0,0,2,20,1,7,1,7
+OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin,UserController,0,179,0,0,0,22,0,8,0,8
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin,GrantController,0,40,0,0,0,7,0,3,0,3
 OpenWMS.org CORE: UAA,org.openwms.core.uaa.admin,RoleController,0,132,0,2,0,17,0,7,0,6
 OpenWMS.org CORE: UAA,org.openwms.core.search,ActionServiceImpl,2,24,0,0,1,6,1,4,1,4

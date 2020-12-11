@@ -98,8 +98,8 @@ public class UserController extends AbstractWebController {
 
     @PatchMapping(API_USERS + &quot;/{pKey}/details/image&quot;)
     public ResponseEntity&lt;Void&gt; saveImage(@RequestBody @NotNull String image, @PathVariable(&quot;pKey&quot;) @NotEmpty String pKey) {
-<span class="nc" id="L101">        service.uploadImageFile(pKey, image.getBytes(StandardCharsets.UTF_8));</span>
-<span class="nc" id="L102">        return ResponseEntity.ok().build();</span>
+<span class="fc" id="L101">        service.uploadImageFile(pKey, image.getBytes(StandardCharsets.UTF_8));</span>
+<span class="fc" id="L102">        return ResponseEntity.ok().build();</span>
     }
 
     @DeleteMapping(API_USERS + &quot;/{pKey}&quot;)

@@ -444,7 +444,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="resources-role">Role</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>A <code>Role</code> represents&#8230;&#8203;</p>
+<p>An <code>User</code> could be assigned to multiple <code>Roles</code> and act on behalf of a <code>Role</code>. Additionally a <code>Role</code> assigns <code>Grants</code> to all the <code>Users</code>
+that are assigned to this <code>Role</code>. By doing so, a <code>Role</code> is also a group of <code>Grants</code> that can be assigned to multiple <code>Users</code>.</p>
 </div>
 <div class="sect2">
 <h3 id="_role_index">Role Index</h3>
@@ -589,7 +590,7 @@ Content-Type: application/hal+json
 Content-Length: 142
 
 {
-  "pKey" : "dad50cb8-d96b-4be9-ab73-ce6decb3d6ba",
+  "pKey" : "506d57be-bef4-47fe-8009-6e3c3ac62125",
   "name" : "ROLE_SUPER",
   "immutable" : false,
   "description" : "Administrators role"
@@ -637,7 +638,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-12-07 22:18:25 UTC
+Last updated 2020-12-11 17:30:46 UTC
 </div>
 </div>
 </body>
