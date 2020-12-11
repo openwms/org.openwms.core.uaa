@@ -29,7 +29,7 @@ import java.util.Objects;
  *
  * @author Heiko Scherrer
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ClientVO extends AbstractBase implements Serializable {
 
@@ -179,27 +179,27 @@ public class ClientVO extends AbstractBase implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L182" title="All 2 branches missed.">        if (this == o) return true;</span>
-<span class="nc bnc" id="L183" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc bnc" id="L184" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
-<span class="nc" id="L185">        ClientVO clientVO = (ClientVO) o;</span>
-<span class="nc bnc" id="L186" title="All 4 branches missed.">        return accessTokenValidity == clientVO.accessTokenValidity &amp;&amp;</span>
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L183" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="pc bpc" id="L184" title="1 of 2 branches missed.">        if (!super.equals(o)) return false;</span>
+<span class="fc" id="L185">        ClientVO clientVO = (ClientVO) o;</span>
+<span class="pc bpc" id="L186" title="2 of 4 branches missed.">        return accessTokenValidity == clientVO.accessTokenValidity &amp;&amp;</span>
                 refreshTokenValidity == clientVO.refreshTokenValidity &amp;&amp;
-<span class="nc bnc" id="L188" title="All 2 branches missed.">                Objects.equals(pKey, clientVO.pKey) &amp;&amp;</span>
-<span class="nc bnc" id="L189" title="All 2 branches missed.">                Objects.equals(resourceIds, clientVO.resourceIds) &amp;&amp;</span>
-<span class="nc bnc" id="L190" title="All 2 branches missed.">                Objects.equals(clientId, clientVO.clientId) &amp;&amp;</span>
-<span class="nc bnc" id="L191" title="All 2 branches missed.">                Objects.equals(clientSecret, clientVO.clientSecret) &amp;&amp;</span>
-<span class="nc bnc" id="L192" title="All 2 branches missed.">                Objects.equals(scope, clientVO.scope) &amp;&amp;</span>
-<span class="nc bnc" id="L193" title="All 2 branches missed.">                Objects.equals(authorizedGrantTypes, clientVO.authorizedGrantTypes) &amp;&amp;</span>
-<span class="nc bnc" id="L194" title="All 2 branches missed.">                Objects.equals(webServerRedirectUri, clientVO.webServerRedirectUri) &amp;&amp;</span>
-<span class="nc bnc" id="L195" title="All 2 branches missed.">                Objects.equals(authorities, clientVO.authorities) &amp;&amp;</span>
-<span class="nc bnc" id="L196" title="All 2 branches missed.">                Objects.equals(additionalInformation, clientVO.additionalInformation) &amp;&amp;</span>
-<span class="nc bnc" id="L197" title="All 2 branches missed.">                Objects.equals(autoapprove, clientVO.autoapprove);</span>
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">                Objects.equals(pKey, clientVO.pKey) &amp;&amp;</span>
+<span class="pc bpc" id="L189" title="1 of 2 branches missed.">                Objects.equals(resourceIds, clientVO.resourceIds) &amp;&amp;</span>
+<span class="pc bpc" id="L190" title="1 of 2 branches missed.">                Objects.equals(clientId, clientVO.clientId) &amp;&amp;</span>
+<span class="pc bpc" id="L191" title="1 of 2 branches missed.">                Objects.equals(clientSecret, clientVO.clientSecret) &amp;&amp;</span>
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">                Objects.equals(scope, clientVO.scope) &amp;&amp;</span>
+<span class="pc bpc" id="L193" title="1 of 2 branches missed.">                Objects.equals(authorizedGrantTypes, clientVO.authorizedGrantTypes) &amp;&amp;</span>
+<span class="pc bpc" id="L194" title="1 of 2 branches missed.">                Objects.equals(webServerRedirectUri, clientVO.webServerRedirectUri) &amp;&amp;</span>
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">                Objects.equals(authorities, clientVO.authorities) &amp;&amp;</span>
+<span class="pc bpc" id="L196" title="1 of 2 branches missed.">                Objects.equals(additionalInformation, clientVO.additionalInformation) &amp;&amp;</span>
+<span class="pc bpc" id="L197" title="1 of 2 branches missed.">                Objects.equals(autoapprove, clientVO.autoapprove);</span>
     }
 
     @Override
     public int hashCode() {
-<span class="nc" id="L202">        return Objects.hash(super.hashCode(), pKey, resourceIds, clientId, clientSecret, scope, authorizedGrantTypes, webServerRedirectUri, authorities, accessTokenValidity, refreshTokenValidity, additionalInformation, autoapprove);</span>
+<span class="fc" id="L202">        return Objects.hash(super.hashCode(), pKey, resourceIds, clientId, clientSecret, scope, authorizedGrantTypes, webServerRedirectUri, authorities, accessTokenValidity, refreshTokenValidity, additionalInformation, autoapprove);</span>
     }
 
     public static final class Builder {

@@ -165,21 +165,21 @@ import java.util.Objects;
      */
     @Override
     public boolean equals(Object o) {
-<span class="nc bnc" id="L168" title="All 2 branches missed.">        if (this == o) return true;</span>
-<span class="nc bnc" id="L169" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
-<span class="nc bnc" id="L170" title="All 2 branches missed.">        if (!super.equals(o)) return false;</span>
-<span class="nc" id="L171">        Client client = (Client) o;</span>
-<span class="nc bnc" id="L172" title="All 4 branches missed.">        return accessTokenValidity == client.accessTokenValidity &amp;&amp;</span>
+<span class="pc bpc" id="L168" title="1 of 2 branches missed.">        if (this == o) return true;</span>
+<span class="pc bpc" id="L169" title="2 of 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="pc bpc" id="L170" title="1 of 2 branches missed.">        if (!super.equals(o)) return false;</span>
+<span class="fc" id="L171">        Client client = (Client) o;</span>
+<span class="pc bpc" id="L172" title="2 of 4 branches missed.">        return accessTokenValidity == client.accessTokenValidity &amp;&amp;</span>
                 refreshTokenValidity == client.refreshTokenValidity &amp;&amp;
-<span class="nc bnc" id="L174" title="All 2 branches missed.">                Objects.equals(resourceIds, client.resourceIds) &amp;&amp;</span>
-<span class="nc bnc" id="L175" title="All 2 branches missed.">                Objects.equals(clientId, client.clientId) &amp;&amp;</span>
-<span class="nc bnc" id="L176" title="All 2 branches missed.">                Objects.equals(clientSecret, client.clientSecret) &amp;&amp;</span>
-<span class="nc bnc" id="L177" title="All 2 branches missed.">                Objects.equals(scope, client.scope) &amp;&amp;</span>
-<span class="nc bnc" id="L178" title="All 2 branches missed.">                Objects.equals(authorizedGrantTypes, client.authorizedGrantTypes) &amp;&amp;</span>
-<span class="nc bnc" id="L179" title="All 2 branches missed.">                Objects.equals(webServerRedirectUri, client.webServerRedirectUri) &amp;&amp;</span>
-<span class="nc bnc" id="L180" title="All 2 branches missed.">                Objects.equals(authorities, client.authorities) &amp;&amp;</span>
-<span class="nc bnc" id="L181" title="All 2 branches missed.">                Objects.equals(additionalInformation, client.additionalInformation) &amp;&amp;</span>
-<span class="nc bnc" id="L182" title="All 2 branches missed.">                Objects.equals(autoapprove, client.autoapprove);</span>
+<span class="pc bpc" id="L174" title="1 of 2 branches missed.">                Objects.equals(resourceIds, client.resourceIds) &amp;&amp;</span>
+<span class="pc bpc" id="L175" title="1 of 2 branches missed.">                Objects.equals(clientId, client.clientId) &amp;&amp;</span>
+<span class="pc bpc" id="L176" title="1 of 2 branches missed.">                Objects.equals(clientSecret, client.clientSecret) &amp;&amp;</span>
+<span class="pc bpc" id="L177" title="1 of 2 branches missed.">                Objects.equals(scope, client.scope) &amp;&amp;</span>
+<span class="pc bpc" id="L178" title="1 of 2 branches missed.">                Objects.equals(authorizedGrantTypes, client.authorizedGrantTypes) &amp;&amp;</span>
+<span class="pc bpc" id="L179" title="1 of 2 branches missed.">                Objects.equals(webServerRedirectUri, client.webServerRedirectUri) &amp;&amp;</span>
+<span class="pc bpc" id="L180" title="1 of 2 branches missed.">                Objects.equals(authorities, client.authorities) &amp;&amp;</span>
+<span class="pc bpc" id="L181" title="1 of 2 branches missed.">                Objects.equals(additionalInformation, client.additionalInformation) &amp;&amp;</span>
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">                Objects.equals(autoapprove, client.autoapprove);</span>
     }
 
     /**
@@ -189,7 +189,7 @@ import java.util.Objects;
      */
     @Override
     public int hashCode() {
-<span class="nc" id="L192">        return Objects.hash(super.hashCode(), resourceIds, clientId, clientSecret, scope, authorizedGrantTypes, webServerRedirectUri, authorities, accessTokenValidity, refreshTokenValidity, additionalInformation, autoapprove);</span>
+<span class="fc" id="L192">        return Objects.hash(super.hashCode(), resourceIds, clientId, clientSecret, scope, authorizedGrantTypes, webServerRedirectUri, authorities, accessTokenValidity, refreshTokenValidity, additionalInformation, autoapprove);</span>
     }
 
     /**
@@ -199,7 +199,7 @@ import java.util.Objects;
      */
     @Override
     public String toString() {
-<span class="nc" id="L202">        return clientId;</span>
+<span class="fc" id="L202">        return clientId;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
