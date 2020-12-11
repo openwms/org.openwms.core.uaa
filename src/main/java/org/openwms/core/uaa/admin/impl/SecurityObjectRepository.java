@@ -27,12 +27,6 @@ import java.util.List;
  */
 interface SecurityObjectRepository extends JpaRepository<SecurityObject, Long> {
 
-    /**
-     * Find and return all {@link SecurityObject}s that belong to a given {@code Module}.
-     *
-     * @param moduleName The name of the {@code Module}
-     * @return a list of {@link SecurityObject}s. {@literal null} might be possible as well, see the particular implementation
-     */
     @Query("select g from Grant g where g.name like :moduleName")
     List<Grant> findAllOfModule(String moduleName);
 

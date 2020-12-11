@@ -24,7 +24,6 @@ import org.openwms.core.exception.ExceptionCodes;
 import org.openwms.core.uaa.admin.SecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
@@ -39,24 +38,25 @@ import java.util.List;
 class SecurityServiceImpl implements SecurityService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityServiceImpl.class);
-    @Autowired
-    private SecurityObjectRepository securityObjectRepository;
-    @Autowired
-    private Translator translator;
+    private final SecurityObjectRepository securityObjectRepository;
+    private final Translator translator;
+
+    SecurityServiceImpl(SecurityObjectRepository securityObjectRepository, Translator translator) {
+        this.securityObjectRepository = securityObjectRepository;
+        this.translator = translator;
+    }
 
     /**
      * {@inheritDoc}
      * <p>
-     * Triggers {@code UserChangedEvent} after completion.
+     * Fires {@code UserChangedEvent} after completion.
      */
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
     @Measured
     public List<Grant> mergeGrants(String moduleName, List<Grant> grants) {
         Assert.notNull(moduleName, translator.translate(ExceptionCodes.MODULENAME_NOT_NULL));
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Merging grants of module:" + moduleName);
-        }
+        LOGGER.debug("Merging grants of module: [{}]", moduleName);
         List<Grant> persisted = securityObjectRepository.findAllOfModule(moduleName + "%");
         List<Grant> result = new ArrayList<>(persisted);
         grants.forEach(g -> {
@@ -70,6 +70,9 @@ class SecurityServiceImpl implements SecurityService {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     @Measured
     public List<Grant> findAllGrants() {
