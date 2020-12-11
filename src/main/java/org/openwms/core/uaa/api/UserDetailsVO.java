@@ -62,21 +62,6 @@ public class UserDetailsVO implements Serializable {
     public UserDetailsVO() {
     }
 
-    private UserDetailsVO(Builder builder) {
-        image = builder.image;
-        description = builder.description;
-        comment = builder.comment;
-        phoneNo = builder.phoneNo;
-        im = builder.im;
-        office = builder.office;
-        department = builder.department;
-        gender = builder.gender;
-    }
-
-    public static Builder newBuilder() {
-        return new Builder();
-    }
-
     public String getImage() {
         return image;
     }
@@ -137,63 +122,5 @@ public class UserDetailsVO implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(image, description, comment, phoneNo, im, office, department, gender);
-    }
-
-    public static final class Builder {
-        private String image;
-        private String description;
-        private String comment;
-        private String phoneNo;
-        private String im;
-        private String office;
-        private String department;
-        private String gender;
-
-        private Builder() {
-        }
-
-        public Builder image(String val) {
-            image = val;
-            return this;
-        }
-
-        public Builder description(String val) {
-            description = val;
-            return this;
-        }
-
-        public Builder comment(String val) {
-            comment = val;
-            return this;
-        }
-
-        public Builder phoneNo(String val) {
-            phoneNo = val;
-            return this;
-        }
-
-        public Builder im(String val) {
-            im = val;
-            return this;
-        }
-
-        public Builder office(String val) {
-            office = val;
-            return this;
-        }
-
-        public Builder department(String val) {
-            department = val;
-            return this;
-        }
-
-        public Builder gender(String val) {
-            gender = val;
-            return this;
-        }
-
-        public UserDetailsVO build() {
-            return new UserDetailsVO(this);
-        }
     }
 }

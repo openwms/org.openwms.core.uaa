@@ -15,6 +15,7 @@
  */
 package org.openwms.core.uaa.api;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,7 +29,7 @@ import java.util.Objects;
  *
  * @author Heiko Scherrer
  */
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SecurityObjectVO implements Serializable {
 
@@ -38,6 +39,7 @@ public class SecurityObjectVO implements Serializable {
     @JsonProperty("description")
     private String description;
 
+    @JsonCreator
     public SecurityObjectVO() {
     }
 
