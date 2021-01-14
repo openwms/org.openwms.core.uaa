@@ -33,7 +33,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  *
  * @author Heiko Scherrer
  */
-//@Profile("!TEST")
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(

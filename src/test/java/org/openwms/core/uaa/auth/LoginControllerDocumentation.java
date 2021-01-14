@@ -20,13 +20,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.core.UAAApplicationTest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.restdocs.RestDocumentationContextProvider;
-import org.springframework.security.web.FilterChainProxy;
+import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
+import javax.servlet.Filter;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -49,8 +52,9 @@ class LoginControllerDocumentation {
     protected MockMvc mockMvc;
     @Autowired
     protected ObjectMapper objectMapper;
+    @Qualifier(AbstractSecurityWebApplicationInitializer.DEFAULT_FILTER_NAME)
     @Autowired
-    private FilterChainProxy springSecurityFilterChain;
+    private Filter springSecurityFilterChain;
     @Autowired
     private OAuthHelper helper;
 

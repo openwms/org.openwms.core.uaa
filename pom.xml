@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>18</version>
+        <version>19</version>
         <relativePath />
     </parent>
     <artifactId>org.openwms.core.uaa</artifactId>
@@ -63,14 +63,12 @@
     </ciManagement>
 
     <properties>
-        <ameba-lib.version>2.7-SNAPSHOT</ameba-lib.version>
+        <commons-configuration.version>1.10</commons-configuration.version>
         <core.version>1.9.0-SNAPSHOT</core.version>
-        <enforcer.skip>true</enforcer.skip> <!-- FIXME [openwms] 03.12.2020: Remove this when Spring Cloud is not on SNAPSHOT anymore -->
         <guava.version>30.0-jre</guava.version>
+        <HdrHistogram.version>2.1.12</HdrHistogram.version>
         <org.mapstruct.version>1.4.0.Beta1</org.mapstruct.version>
-        <servo-core.version>0.12.21</servo-core.version>
-        <spring-cloud-dependencies.version>2020.0.0-SNAPSHOT</spring-cloud-dependencies.version>
-        <spring-cloud-sleuth-dependencies.version>3.0.0-SNAPSHOT</spring-cloud-sleuth-dependencies.version>
+        <spring-cloud-dependencies.version>Hoxton.SR9</spring-cloud-dependencies.version>
     </properties>
 
     <reporting>
@@ -139,12 +137,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <layers>
-                        <configuration>${project.basedir}/src/layers.xml</configuration>
-                        <enabled>true</enabled>
-                    </layers>
-                </configuration>
                 <executions>
                     <execution>
                         <id>repackage</id>
@@ -157,6 +149,12 @@
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <layers>
+                        <configuration>${project.basedir}/src/layers.xml</configuration>
+                        <enabled>true</enabled>
+                    </layers>
+                </configuration>
             </plugin>
             <!--plugin>
                 <groupId>com.github.eirslett</groupId>
@@ -205,9 +203,16 @@
                 <version>${guava.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.netflix.servo</groupId>
-                <artifactId>servo-core</artifactId>
-                <version>${servo-core.version}</version>
+                <!-- com.netflix.eureka:eureka has an internal clash -->
+                <groupId>commons-configuration</groupId>
+                <artifactId>commons-configuration</artifactId>
+                <version>${commons-configuration.version}</version>
+            </dependency>
+            <dependency>
+                <!-- com.netflix.eureka:eureka has an internal clash -->
+                <groupId>org.hdrhistogram</groupId>
+                <artifactId>HdrHistogram</artifactId>
+                <version>${HdrHistogram.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mapstruct</groupId>
@@ -223,13 +228,6 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud-dependencies.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-sleuth-dependencies</artifactId>
-                <version>${spring-cloud-sleuth-dependencies.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -280,13 +278,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-            <exclusions>
-                <exclusion>
-                    <!-- Bites with Guava -->
-                    <groupId>com.google.code.findbugs</groupId>
-                    <artifactId>jsr305</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -298,8 +289,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
-            <optional>true</optional>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -319,26 +309,10 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-client</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.nimbusds</groupId>
-                    <artifactId>nimbus-jose-jwt</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>net.minidev</groupId>
-                    <artifactId>json-smart</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-jose</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.nimbusds</groupId>
-                    <artifactId>nimbus-jose-jwt</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- Observability: Monitoring -->
@@ -347,29 +321,6 @@
             <artifactId>micrometer-registry-prometheus</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
-        </dependency>
-
-        <!-- Fix Exclusions -->
-        <dependency>
-            <groupId>com.netflix.servo</groupId>
-            <artifactId>servo-core</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.nimbusds</groupId>
-            <artifactId>nimbus-jose-jwt</artifactId>
-            <version>8.18.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>net.minidev</groupId>
-                    <artifactId>json-smart</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>net.minidev</groupId>
-            <artifactId>json-smart</artifactId>
-            <version>2.3</version>
         </dependency>
 
         <!-- 3rd party dependencies -->
@@ -468,6 +419,17 @@
             </snapshots>
             <releases>
                 <enabled>false</enabled>
+            </releases>
+        </repository>
+        <repository>
+            <id>sonatype-nexus-staging</id>
+            <name>Staging Repository</name>
+            <url>https://oss.sonatype.org/content/groups/staging/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
             </releases>
         </repository>
         <repository>

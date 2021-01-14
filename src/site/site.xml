@@ -22,7 +22,7 @@
             <sourceLineNumbersEnabled>true</sourceLineNumbersEnabled>
             <gitHub>
                 <projectId>openwms/${project.artifactId}</projectId>
-                <ribbonOrientation>right</ribbonOrientation>
+                <ribbonOrientation>left</ribbonOrientation>
                 <ribbonColor>black</ribbonColor>
             </gitHub>
         </fluidoSkin>
