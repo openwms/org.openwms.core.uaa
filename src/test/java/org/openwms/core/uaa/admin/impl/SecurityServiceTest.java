@@ -39,7 +39,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -66,7 +65,7 @@ public class SecurityServiceTest extends AbstractMockitoTests {
      */
     @BeforeEach
     public void onBefore() {
-        when(messageSource.getMessage(anyString(), new Object[]{anyObject()}, any(Locale.class))).thenReturn("");
+        when(messageSource.getMessage(anyString(), new Object[]{any()}, any(Locale.class))).thenReturn("");
     }
 
     /**

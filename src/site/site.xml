@@ -36,7 +36,6 @@
             <item name="Javadoc" href="apidocs/index.html" />
             <item name="Database Schema" href="${project.version}/schemaspy/relationships.html" />
             <item name="Sonarcloud" href="https://sonarcloud.io/dashboard?id=org.openwms:${project.artifactId}" />
-            <item name="Jacoco" href="jacoco/index.html" />
         </menu>
         <menu name="Project" ref="reports" />
     </body>

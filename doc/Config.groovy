@@ -30,3 +30,13 @@ confluence.with {
     credentials = "${System.getenv('ATLASSIAN_USER')}:${System.getenv('ATLASSIAN_PASSWORD')}".bytes.encodeBase64().toString()
 //    extraPageContent = '<ac:structured-macro ac:name="warning"><ac:parameter ac:name="title" /><ac:rich-text-body>This is a generated page, do not edit!</ac:rich-text-body></ac:structured-macro>'
 }
+
+github = [:]
+github.with {
+    user = "${System.getenv('GITHUB_USER')}"
+    password = "${System.getenv('GITHUB_PASSWORD')}"
+    root = "https://api.github.com/"
+    organization = "openwms"
+    repository = "org.openwms.core.uaa"
+    resultsPerPage = 100
+}
