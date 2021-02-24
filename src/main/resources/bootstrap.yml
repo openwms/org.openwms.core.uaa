@@ -133,24 +133,6 @@ spring:
   profiles: HEROKU
   main:
     banner-mode: "OFF"
-  cloud:
-    config:
-      discovery:
-        enabled: true
-      enabled: true
-
-owms:
-  srv:
-    protocol: https
-    hostname: openwms-core-uaa.herokuapp.com
-
-eureka:
-  instance:
-    secure-port-enabled: true
-    non-secure-port-enabled: false
-    statusPageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/info
-    healthCheckUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/health
-    homePageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/
 
 ---
 spring:
