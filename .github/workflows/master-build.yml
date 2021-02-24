@@ -1,0 +1,44 @@
+name: 'master_build'
+on:
+  push:
+    branches: [ master ]
+
+env:
+  MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+
+jobs:
+  build_job:
+    runs-on: ubuntu-latest
+    name: Build & Test Microservice
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build
+        run: >
+          ./mvnw clean verify
+          -DsurefireArgs=-Dspring.profiles.active=TEST
+          -Dci.buildNumber=$GITHUB_RUN_NUMBER
+          -U -B $MAVEN_OPTS
+      - name: Build Image
+        run: ./scripts/docker_build
+      - name: Upload Image
+        run: ./scripts/docker_push
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: jars
+          path: |
+            target/openwms-core-uaa*.jar
