@@ -447,39 +447,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>The initial HTTP request to retrieve information about all available resources looks like the following. The Index page is a public
 available resource and does not need any authentication.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /index HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 1-index.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/get-index/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>The <code>Index</code> resource is returned in the response body with the response status of 200-OK. This main <code>Index</code> lists all primary resource
 entities to follow next.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 347
-
-{
-  "_links" : {
-    "user-index" : {
-      "href" : "http://localhost:8080/users/index"
-    },
-    "role-index" : {
-      "href" : "http://localhost:8080/roles/index"
-    },
-    "grant-index" : {
-      "href" : "http://localhost:8080/grants/index"
-    },
-    "client-index" : {
-      "href" : "http://localhost:8080/api/clients/index"
-    }
-  }
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 1-index.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/get-index/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>A client application only needs to know about the agreed link names and follow the corresponding <code>href</code> link to navigate to further
@@ -490,7 +466,7 @@ resources.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-12-11 19:26:42 UTC
+Last updated 2021-02-24 21:17:26 UTC
 </div>
 </div>
 </body>

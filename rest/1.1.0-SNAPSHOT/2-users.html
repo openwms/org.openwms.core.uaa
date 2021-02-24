@@ -452,44 +452,14 @@ created, modified and retrieved. An <code>User</code> is also allowed to authent
 <div class="paragraph">
 <p>An overview of all possible operations on <code>Users</code> can be found on the <code>User</code> index page that is retrieved with a <code>GET</code> request:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users/index HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/users-index/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>And the server responds with a <code>HAL+JSON</code> representation to further operations:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 506
-
-{
-  "_links" : {
-    "users-findall" : {
-      "href" : "http://localhost:8080/users"
-    },
-    "users-findbypkey" : {
-      "href" : "http://localhost:8080/users/pKey"
-    },
-    "users-create" : {
-      "href" : "http://localhost:8080/users"
-    },
-    "users-save" : {
-      "href" : "http://localhost:8080/users"
-    },
-    "users-saveimage" : {
-      "href" : "http://localhost:8080/users/pKey/details/image"
-    },
-    "users-delete" : {
-      "href" : "http://localhost:8080/users/pKey"
-    }
-  }
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/users-index/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -497,80 +467,21 @@ Content-Length: 506
 <div class="paragraph">
 <p>To create a new <code>User</code> instance, a <code>POST</code> request must be send to the server with the mandatory fields of the <code>User</code> in the request body</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /users HTTP/1.1
-Content-Type: application/json
-Content-Length: 77
-Host: localhost:8080
-
-{
-  "links" : [ ],
-  "username" : "admin2",
-  "email" : "admin@example.com"
-}</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-create/http-request.adoc[]
+Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-create/request-fields.adoc[]</p>
 </div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>username</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The unique name of the User in the system</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The email address used by the User, unique in the system</p></td>
-</tr>
-</tbody>
-</table>
 <div class="paragraph">
 <p>If the <code>User</code> has been created successfully, the server returns the URI to the created resource in the <code>Location</code> header:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/3ebfb837-f4b6-4359-9c05-aa2e5c6ac8b5/
-Content-Type: application/hal+json
-Content-Length: 144
-
-{
-  "pKey" : "3ebfb837-f4b6-4359-9c05-aa2e5c6ac8b5",
-  "username" : "admin2",
-  "externalUser" : false,
-  "locked" : false,
-  "enabled" : true
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-create/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If an <code>User</code> with the same name already exists the server returns an error:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 409 Conflict
-Content-Type: application/hal+json
-Content-Length: 112
-
-{
-  "message" : "User with username already exists",
-  "messageKey" : "already.exists",
-  "httpStatus" : "409"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-create-exists/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -578,54 +489,20 @@ Content-Length: 112
 <div class="paragraph">
 <p>To find and retrieve an array of all existing <code>Users</code> a client may call a <code>GET</code> request:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-findAll/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>and returns either an array of <code>Users</code>&#8230;&#8203;</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 539
-
-[ {
-  "links" : [ ],
-  "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405d",
-  "username" : "tester",
-  "externalUser" : false,
-  "lastPasswordChange" : "2020-06-22T19:02:47.33044Z",
-  "locked" : false,
-  "enabled" : true,
-  "expirationDate" : "2020-06-23T19:02:45.054756Z",
-  "fullname" : "Mister Jenkins",
-  "details" : {
-    "description" : "Just a test user",
-    "comment" : "testing only",
-    "phoneNo" : "001-1234-56789",
-    "im" : "Skype:testee",
-    "office" : "Off. 815",
-    "department" : "Dep. 1",
-    "gender" : "FEMALE"
-  }
-} ]</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-findAll/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>or an empty array, but always with a <code>200-OK</code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 3
-
-[ ]</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-findNone/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -634,29 +511,14 @@ Content-Length: 3
 <p>A newly created <code>User</code> can be retrieved by following the URI in the <code>Location</code> header of the response. This URI points to the created
 resource:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users/3ebfb837-f4b6-4359-9c05-aa2e5c6ac8b5/ HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-findByPkey/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If the resource exists the server responds with a <code>200-OK</code> and the <code>User</code> representation in the response body.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 144
-
-{
-  "pKey" : "3ebfb837-f4b6-4359-9c05-aa2e5c6ac8b5",
-  "username" : "admin2",
-  "externalUser" : false,
-  "locked" : false,
-  "enabled" : true
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-findByPkey/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -664,40 +526,14 @@ Content-Length: 144
 <div class="paragraph">
 <p>An existing <code>User</code> instance can be modified by sending a <code>PUT</code> request with the <code>User</code> representation as request body.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /users HTTP/1.1
-Content-Type: application/json
-Content-Length: 164
-Host: localhost:8080
-
-{
-  "links" : [ ],
-  "pKey" : "3ebfb837-f4b6-4359-9c05-aa2e5c6ac8b5",
-  "username" : "superuser",
-  "externalUser" : false,
-  "locked" : true,
-  "enabled" : false
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-save/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If the server has correctly updated the <code>User</code> the response is a:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 147
-
-{
-  "pKey" : "3ceb597e-c26f-4e7d-a8be-c055a4408bef",
-  "username" : "superuser",
-  "externalUser" : false,
-  "locked" : true,
-  "enabled" : false
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-save/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -705,23 +541,14 @@ Content-Length: 147
 <div class="paragraph">
 <p>To set the image of an existing <code>User</code> a client needs to send a <code>PATCH</code> request along the image in the <code>UserDetails</code>.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /users/3ebfb837-f4b6-4359-9c05-aa2e5c6ac8b5/details/image HTTP/1.1
-Content-Type: application/octet-stream
-Content-Length: 18572
-Host: localhost:8080
-
-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</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-saveimage/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If the server has correctly updated the <code>Users</code> image the response looks like:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-saveimage/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -730,115 +557,32 @@ iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAYAAAB5fY51AAAACXBIWXMAAC4jAAAuIwF4pT92AAAAG3RF
 <p>An endpoint exists to get the details of the current logged-in <code>User</code> from. An OAuth2 Access Token must be provided as Bearer token in order
 to access the endpoint.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDc3NTA4OTYsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjIxZmEwMTZmLTI0MDUtNDhmNy1hNDQ5LTViNzgxYjE3YTZlMCIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.FTywkEpYsKkvjN-3QzjCY5vpTDIIlY4VoE3xkdzUplg
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/oauth-findUserInfo/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If the access token is valid and the server granted access to the resource, a JSON object with the user details is returned.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 307
-X-Content-Type-Options: nosniff
-X-XSS-Protection: 1; mode=block
-Cache-Control: no-cache, no-store, max-age=0, must-revalidate
-Pragma: no-cache
-Expires: 0
-X-Frame-Options: DENY
-
-{
-  "sub" : "tester",
-  "gender" : "FEMALE",
-  "name" : "tester",
-  "phone_number" : "001-1234-56789",
-  "given_name" : "Mister Jenkins",
-  "family_name" : "Mister Jenkins",
-  "email" : "tester.tester@example.com",
-  "picture" : "http://localhost:8080/uaa/user/96baa849-dd19-4b19-8c5e-895d3b7f405d/image/"
-}</code></pre>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/oauth-findUserInfo/http-response.adoc[]</p>
 </div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/oauth-findUserInfo/response-fields.adoc[]</p>
 </div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sub</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Subject is the logged in end-user</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>gender</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The end-users gender</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the end-user</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>phone_number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Her phone number</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>given_name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The given name</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>family_name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Her family name</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>email</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Her primary email address</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>picture</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A link to a profile picture</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="sect2">
 <h3 id="_delete_an_user">Delete an User</h3>
 <div class="paragraph">
 <p>To finally delete all <code>User</code> data a <code>DELETE</code> request with the persistent key of the <code>User</code> is required:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /users/3ebfb837-f4b6-4359-9c05-aa2e5c6ac8b5/ HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-delete/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If the <code>User</code> is not assigned somewhere else (in <code>Roles</code>) and it has been deleted successfully the server responds:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 204 No Content</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-delete/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -846,7 +590,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-12-11 19:26:42 UTC
+Last updated 2021-02-24 21:17:26 UTC
 </div>
 </div>
 </body>
