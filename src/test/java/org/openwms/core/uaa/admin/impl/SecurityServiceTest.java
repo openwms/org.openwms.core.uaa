@@ -65,7 +65,7 @@ public class SecurityServiceTest extends AbstractMockitoTests {
      */
     @BeforeEach
     public void onBefore() {
-        when(messageSource.getMessage(anyString(), new Object[]{any()}, any(Locale.class))).thenReturn("");
+        when(messageSource.getMessage(anyString(), any(), any(Locale.class))).thenReturn("");
     }
 
     /**
