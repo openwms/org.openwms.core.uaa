@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2020 the original author or authors.
+ * Copyright 2005-2021 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,9 @@
  */
 package org.openwms.core.uaa.impl;
 
-import org.apache.commons.codec.binary.Base64;
-import org.dozer.DozerConverter;
+import com.github.dozermapper.core.DozerConverter;
+
+import java.util.Base64;
 
 /**
  * A Base64Converter.
@@ -37,7 +38,10 @@ public class Base64Converter extends DozerConverter<byte[], String> {
      */
     @Override
     public String convertTo(byte[] source, String destination) {
-        return Base64.encodeBase64String(source);
+        if (source == null) {
+            return null;
+        }
+        return Base64.getEncoder().encodeToString(source);
     }
 
     /**
@@ -45,6 +49,9 @@ public class Base64Converter extends DozerConverter<byte[], String> {
      */
     @Override
     public byte[] convertFrom(String source, byte[] destination) {
-        return Base64.decodeBase64(source);
+        if (source == null) {
+            return null;
+        }
+        return Base64.getDecoder().decode(source);
     }
 }
