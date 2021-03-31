@@ -452,14 +452,29 @@ can be taken. It has a unique business key, that is used in API or UI to protect
 <div class="paragraph">
 <p>An overview of all possible operations on <code>Grants</code> can be found on the <code>Grant</code> index page that is retrieved with a <code>GET</code> request:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grants-index/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /grants/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>And the server responds with a <code>HAL+JSON</code> representation to further operations:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grants-index/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 99
+
+{
+  "_links" : {
+    "grants-findall" : {
+      "href" : "http://localhost:8080/grants"
+    }
+  }
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -467,14 +482,35 @@ can be taken. It has a unique business key, that is used in API or UI to protect
 <div class="paragraph">
 <p>To retrieve all existing <code>Grants</code> from the server, a client simply needs to do a <code>GET</code> request to the <code>Grants</code> resource.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grants-findall/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /grants HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The server responds with a list representation of all <code>Grants</code> or an empty list:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grants-findall/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json
+Content-Length: 344
+
+[ {
+  "name" : "SEC_UAA_USER_LOOKUP",
+  "description" : "Permission to find Users"
+}, {
+  "name" : "SEC_UAA_USER_CREATE",
+  "description" : "Permission to create Users"
+}, {
+  "name" : "SEC_UAA_USER_MODIFY",
+  "description" : "Permission to modify Users"
+}, {
+  "name" : "SEC_UAA_USER_DELETE",
+  "description" : "Permission to delete Users"
+} ]</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -482,7 +518,7 @@ can be taken. It has a unique business key, that is used in API or UI to protect
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-02-25 23:01:12 UTC
+Last updated 2021-03-31 21:37:26 UTC
 </div>
 </div>
 </body>
