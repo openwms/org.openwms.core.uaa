@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.stream.Collectors;
@@ -17,9 +18,10 @@ import java.util.stream.Collectors;
  * @see org.springframework.security.core.GrantedAuthority
  * @see org.springframework.security.core.userdetails.UserDetails
  */
-public class UserWrapper implements UserDetails, UserHolder {
+public class UserWrapper implements UserDetails, UserHolder, Serializable {
 
-    private User user;
+    private static final long serialVersionUID = 1L;
+    private final User user;
     private Collection<GrantedAuthority> authorities = null;
 
     /**
@@ -27,6 +29,7 @@ public class UserWrapper implements UserDetails, UserHolder {
      *
      * @param user The User to wrap
      */
+    @SuppressWarnings("squid:S2201") // call to .size() in order to trigger lazy loading
     public UserWrapper(User user) {
         Assert.notNull(user, "Not allowed to create an UserWrapper with null argument");
         this.user = user;
