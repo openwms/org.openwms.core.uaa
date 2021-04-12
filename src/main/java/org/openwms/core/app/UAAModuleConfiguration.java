@@ -86,7 +86,7 @@ public class UAAModuleConfiguration {
     @Bean
     MessageSource messageSource() {
         NestedReloadableResourceBundleMessageSource nrrbm = new NestedReloadableResourceBundleMessageSource();
-        nrrbm.setBasename("classpath:i18n");
+        nrrbm.setBasename("classpath:/META-INF/i18n");
         nrrbm.setDefaultEncoding("UTF-8");
         nrrbm.setCommonMessages(new Properties());
         return nrrbm;
