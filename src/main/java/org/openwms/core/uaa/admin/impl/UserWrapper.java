@@ -33,7 +33,8 @@ public class UserWrapper implements UserDetails, UserHolder, Serializable {
     public UserWrapper(User user) {
         Assert.notNull(user, "Not allowed to create an UserWrapper with null argument");
         this.user = user;
-        this.user.getRoles().size();
+        this.user.getRoles().size(); // Postload roles
+        this.user.getGrants().size(); // Postload grants
     }
 
     /**
