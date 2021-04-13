@@ -31,7 +31,7 @@ redundant setup in different locations, on different cloud platforms with differ
 | endpoints | billed | SLA |
 | --------- | ------ | --- |
 | https://openwms-core-uaa.herokuapp.com | no | Heroku SLA for Europe region depends on AWS Europe region | 
-| https://openwms.org/uaa | no | no SLA |
+| http://uaa.butan092.startdedicated.de  | no | no SLA |
 
 # Build
 Build a runnable fat jar with execution of all unit and in-memory database integrations:
