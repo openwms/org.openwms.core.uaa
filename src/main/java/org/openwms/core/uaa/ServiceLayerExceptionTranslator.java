@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.core;
+package org.openwms.core.uaa;
 
 import org.ameba.aop.ServiceLayerAspect;
 import org.ameba.exception.ServiceLayerException;

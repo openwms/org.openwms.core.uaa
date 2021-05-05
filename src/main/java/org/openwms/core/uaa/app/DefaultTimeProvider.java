@@ -13,7 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.openwms.core.uaa.app;
+
+import org.openwms.core.uaa.TimeProvider;
+
 /**
- * This package contains all types belong to the functional CORE group.
+ * A DefaultTimeProvider.
+ *
+ * @author Heiko Scherrer
  */
-package org.openwms.core;
+public class DefaultTimeProvider implements TimeProvider {
+}

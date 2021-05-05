@@ -13,17 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.core.app;
+package org.openwms.core.uaa.configuration;
 
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 
 /**
- * A UAADistributedConfiguration.
+ * A ConfigurationServiceImpl.
  *
  * @author Heiko Scherrer
  */
-@Profile("!TEST")
-@EnableDiscoveryClient
-class UAADistributedConfiguration {
+@Service
+class ConfigurationServiceImpl implements ConfigurationService {
+
+    /**
+     * Save preferences of an {@code User}.
+     *
+     * @param preference The encapsulated preferences instance to save
+     * @return The stored instance
+     */
+    @Override
+    public UserPreference save(UserPreference preference) {
+        return null;
+    }
 }

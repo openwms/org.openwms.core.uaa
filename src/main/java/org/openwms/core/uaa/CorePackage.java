@@ -13,21 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.core.configuration;
+package org.openwms.core.uaa;
 
 /**
- * A ConfigurationService is a port to an external service that provides the ability to load and store context based preferences and
- * configuration parameters.
+ * A CorePackage.
  *
  * @author Heiko Scherrer
  */
-public interface ConfigurationService {
+public final class CorePackage {
 
-    /**
-     * Save preferences of an {@code User}.
-     *
-     * @param preference The encapsulated preferences instance to save
-     * @return The stored instance
-     */
-    UserPreference save(UserPreference preference);
+    private CorePackage() {}
 }

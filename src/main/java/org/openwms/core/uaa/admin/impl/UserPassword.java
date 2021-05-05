@@ -16,7 +16,7 @@
 package org.openwms.core.uaa.admin.impl;
 
 import org.ameba.integration.jpa.BaseEntity;
-import org.openwms.core.app.DefaultTimeProvider;
+import org.openwms.core.uaa.app.DefaultTimeProvider;
 import org.springframework.util.Assert;
 
 import javax.persistence.Column;

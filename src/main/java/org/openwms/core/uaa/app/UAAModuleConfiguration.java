@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.core.app;
+package org.openwms.core.uaa.app;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import org.ameba.annotation.EnableAspects;
@@ -36,10 +36,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
 import javax.servlet.Filter;
 import javax.validation.Validator;
-import java.util.Properties;
 
 /**
  * A UAAModuleConfiguration.
@@ -83,12 +84,20 @@ public class UAAModuleConfiguration {
     }
 
     public
+    @Bean LocaleResolver localeResolver() {
+        AcceptHeaderLocaleResolver slr = new AcceptHeaderLocaleResolver();
+        //slr.setDefaultLocale(Locale.GERMAN);
+        return slr;
+    }
+
+    public
     @Bean
     MessageSource messageSource() {
         NestedReloadableResourceBundleMessageSource nrrbm = new NestedReloadableResourceBundleMessageSource();
-        nrrbm.setBasename("classpath:/META-INF/i18n");
+        nrrbm.setBasename("classpath*:/META-INF/i18n");
         nrrbm.setDefaultEncoding("UTF-8");
-        nrrbm.setCommonMessages(new Properties());
+        //nrrbm.setCommonMessages(new Properties());
+        //nrrbm.setDefaultLocale(Locale.GERMAN);
         return nrrbm;
     }
 

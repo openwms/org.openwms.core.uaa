@@ -13,17 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.core.configuration;
-
-import org.springframework.stereotype.Service;
+package org.openwms.core.uaa.configuration;
 
 /**
- * A ConfigurationServiceImpl.
+ * A ConfigurationService is a port to an external service that provides the ability to load and store context based preferences and
+ * configuration parameters.
  *
  * @author Heiko Scherrer
  */
-@Service
-class ConfigurationServiceImpl implements ConfigurationService {
+public interface ConfigurationService {
 
     /**
      * Save preferences of an {@code User}.
@@ -31,8 +29,5 @@ class ConfigurationServiceImpl implements ConfigurationService {
      * @param preference The encapsulated preferences instance to save
      * @return The stored instance
      */
-    @Override
-    public UserPreference save(UserPreference preference) {
-        return null;
-    }
+    UserPreference save(UserPreference preference);
 }

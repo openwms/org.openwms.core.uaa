@@ -21,7 +21,7 @@
   <logger name="org.hibernate.SQL" level="OFF"/>
   <logger name="org.hibernate.type" level="OFF"/>
   <logger name="org.springframework" level="WARN"/>
-  <logger name="org.springframework.security" level="WARN"/>
+  <logger name="org.springframework.security" level="DEBUG"/>
   <logger name="org.openwms" level="DEBUG"/>
   <logger name="org.ameba" level="WARN"/>
 
@@ -42,7 +42,7 @@
     </logger>
     <logger name="CORE_INTEGRATION_MESSAGING" level="DEBUG"/>
 
-  <root level="INFO">
+  <root level="DEBUG">
     <appender-ref ref="STDOUT"/>
     <appender-ref ref="LOGFILE"/>
   </root>

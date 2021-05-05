@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.core.app;
+package org.openwms.core.uaa.app;
 
 import org.ameba.LoggingCategories;
 import org.slf4j.Logger;
@@ -90,6 +90,7 @@ class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {
 
     @Bean
     public TokenStore tokenStore() throws Exception {
+        //return new InMemoryTokenStore();
         return new JwtTokenStore(accessTokenConverter());
     }
 }

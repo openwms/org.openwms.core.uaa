@@ -22,8 +22,8 @@ import org.ameba.exception.ResourceExistsException;
 import org.ameba.exception.ServiceLayerException;
 import org.ameba.i18n.Translator;
 import org.openwms.core.annotation.FireAfterTransaction;
-import org.openwms.core.configuration.ConfigurationService;
-import org.openwms.core.configuration.UserPreference;
+import org.openwms.core.uaa.configuration.ConfigurationService;
+import org.openwms.core.uaa.configuration.UserPreference;
 import org.openwms.core.event.UserChangedEvent;
 import org.openwms.core.exception.ExceptionCodes;
 import org.openwms.core.exception.InvalidPasswordException;
@@ -48,6 +48,8 @@ import java.util.HashSet;
 import java.util.Optional;
 
 import static org.ameba.system.ValidationUtil.validate;
+import static org.openwms.core.exception.ExceptionCodes.USER_WITH_NAME_NOT_EXIST;
+import static org.openwms.core.exception.ExceptionCodes.USER_WITH_PKEY_NOT_EXIST;
 
 /**
  * An UserServiceImpl is a Spring managed transactional implementation of the {@link UserService}. Using Spring 2 annotation support
@@ -174,7 +176,11 @@ class UserServiceImpl implements UserService {
     @Override
     @Measured
     public @NotNull User findByPKey(@NotEmpty String pKey) {
-        return repository.findBypKey(pKey).orElseThrow(() -> new EntityNotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, pKey)));
+        return repository.findBypKey(pKey).orElseThrow(() -> new NotFoundException(
+                translator.translate(USER_WITH_PKEY_NOT_EXIST, pKey),
+                USER_WITH_PKEY_NOT_EXIST,
+                pKey
+        ));
     }
 
     /**
@@ -184,8 +190,11 @@ class UserServiceImpl implements UserService {
     @Measured
     public void remove(String username) {
         repository.delete(repository.findByUsername(username).orElseThrow(
-                () -> new EntityNotFoundException(translator.translate(ExceptionCodes.USER_NOT_EXIST, username)))
-        );
+                () -> new NotFoundException(
+                        translator.translate(USER_WITH_NAME_NOT_EXIST, username),
+                        USER_WITH_NAME_NOT_EXIST,
+                        username
+                )));
     }
     /**
      * {@inheritDoc}
@@ -205,7 +214,7 @@ class UserServiceImpl implements UserService {
     public void changeUserPassword(@NotNull UserPassword userPassword) {
         User entity = repository.findByUsername(userPassword.getUser().getUsername()).orElseThrow(
                 () -> new NotFoundException(
-                        translator.translate(ExceptionCodes.USER_NOT_EXIST, userPassword.getUser().getUsername()),
+                        translator.translate(ExceptionCodes.USER_NOT_EXIST),
                         ExceptionCodes.USER_NOT_EXIST
                 )
         );

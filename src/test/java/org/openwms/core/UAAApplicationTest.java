@@ -16,6 +16,7 @@
 package org.openwms.core;
 
 import org.ameba.test.categories.SpringTestSupport;
+import org.openwms.core.uaa.UAAStarter;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.lang.annotation.Documented;

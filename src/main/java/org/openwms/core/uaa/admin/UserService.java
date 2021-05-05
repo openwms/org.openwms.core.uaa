@@ -17,7 +17,7 @@ package org.openwms.core.uaa.admin;
 
 import org.ameba.integration.FindOperations;
 import org.ameba.integration.SaveOperations;
-import org.openwms.core.configuration.UserPreference;
+import org.openwms.core.uaa.configuration.UserPreference;
 import org.openwms.core.uaa.admin.impl.SystemUser;
 import org.openwms.core.uaa.admin.impl.User;
 import org.openwms.core.uaa.admin.impl.UserPassword;

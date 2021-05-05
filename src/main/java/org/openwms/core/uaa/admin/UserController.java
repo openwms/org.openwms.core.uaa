@@ -20,8 +20,10 @@ import org.ameba.mapping.BeanMapper;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.openwms.core.uaa.admin.impl.User;
+import org.openwms.core.uaa.api.SecurityObjectVO;
 import org.openwms.core.uaa.api.UserVO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -81,6 +83,13 @@ public class UserController extends AbstractWebController {
     @GetMapping(API_USERS + "/{pKey}")
     public ResponseEntity<UserVO> findUser(@PathVariable("pKey") @NotEmpty String pKey) {
         return ResponseEntity.ok(mapper.map(service.findByPKey(pKey), UserVO.class));
+    }
+
+    @Transactional(readOnly = true)
+    @GetMapping(API_USERS + "/{pKey}/grants")
+    public ResponseEntity<List<SecurityObjectVO>> findGrantsForUser(@PathVariable("pKey") @NotEmpty String pKey) {
+        User user = service.findByPKey(pKey);
+        return ResponseEntity.ok(mapper.map(user.getGrants(), SecurityObjectVO.class));
     }
 
     @PostMapping(API_USERS)

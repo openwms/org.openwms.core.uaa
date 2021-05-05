@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.core.app;
+package org.openwms.core.uaa.app;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -57,7 +57,7 @@ class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                 .requestMatchers()
-                    .antMatchers("/login", "/oauth/authorize", "/oauth/check_token", "/oauth/token_key")
+                    .antMatchers("/login", "/oauth/authorize", "/oauth/check_token", "/token_keys")
                 .and()
                 .authorizeRequests()
                     .anyRequest().authenticated()
