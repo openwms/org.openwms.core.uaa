@@ -487,6 +487,63 @@ Content-Length: 325
 </div>
 </div>
 <div class="sect2">
+<h3 id="_create_a_role">Create a Role</h3>
+<div class="paragraph">
+<p>To create a new <code>Role</code> instance, a <code>POST</code> request must be send to the server with the mandatory fields of the <code>Role</code> in the request body.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /roles HTTP/1.1
+Content-Type: application/json
+Content-Length: 252
+Host: localhost:8080
+
+{
+  "links" : [ ],
+  "name" : "ROLE_DEV",
+  "immutable" : true,
+  "description" : "Developers",
+  "users" : [ {
+    "links" : [ ],
+    "username" : "1"
+  } ],
+  "grants" : [ {
+    "name" : "UAA_USER_CREATE"
+  }, {
+    "name" : "UAA_USER_DELETE"
+  } ]
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-create/request-fields.adoc[]</p>
+</div>
+<div class="paragraph">
+<p>If the <code>Role</code> has been created successfully, the server returns the URI to the created resource in the <code>Location</code> header:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 152
+
+{
+  "pKey" : "79ebb137-3504-4da5-94be-aab39d16992a",
+  "name" : "ROLE_DEV",
+  "immutable" : true,
+  "description" : "Developers",
+  "grants" : [ { } ]
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If a <code>Role</code> with the same name already exists the server returns an error:</p>
+</div>
+<div class="paragraph">
+<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-create-exists/http-response.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
 <h3 id="_find_all_roles">Find all Roles</h3>
 <div class="paragraph">
 <p>To find and retrieve an array of all existing <code>Roles</code> a role may call a <code>GET</code> request:</p>
@@ -590,7 +647,7 @@ Content-Type: application/hal+json
 Content-Length: 142
 
 {
-  "pKey" : "e58d08e9-cce2-49d1-af21-7088d448705e",
+  "pKey" : "7e5701c7-2c3d-40ef-9020-cee69f4dc929",
   "name" : "ROLE_SUPER",
   "immutable" : false,
   "description" : "Administrators role"
@@ -638,7 +695,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-04-13 23:32:25 UTC
+Last updated 2021-06-21 22:16:11 UTC
 </div>
 </div>
 </body>

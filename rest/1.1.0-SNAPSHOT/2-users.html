@@ -543,12 +543,12 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/e9790a59-91a8-4628-bba9-6a9670b12f84/
+Location: http://localhost:8080/users/5e1ac776-c91b-4f64-8175-03defc24507a/
 Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "e9790a59-91a8-4628-bba9-6a9670b12f84",
+  "pKey" : "5e1ac776-c91b-4f64-8175-03defc24507a",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -622,9 +622,28 @@ Content-Length: 539
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 3
+Content-Length: 539
 
-[ ]</code></pre>
+[ {
+  "links" : [ ],
+  "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405d",
+  "username" : "tester",
+  "externalUser" : false,
+  "lastPasswordChange" : "2020-06-22T19:02:47.33044Z",
+  "locked" : false,
+  "enabled" : true,
+  "expirationDate" : "2020-06-23T19:02:45.054756Z",
+  "fullname" : "Mister Jenkins",
+  "details" : {
+    "description" : "Just a test user",
+    "comment" : "testing only",
+    "phoneNo" : "001-1234-56789",
+    "im" : "Skype:testee",
+    "office" : "Off. 815",
+    "department" : "Dep. 1",
+    "gender" : "FEMALE"
+  }
+} ]</code></pre>
 </div>
 </div>
 </div>
@@ -636,7 +655,7 @@ resource:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users/e9790a59-91a8-4628-bba9-6a9670b12f84/ HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users/5e1ac776-c91b-4f64-8175-03defc24507a/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -650,7 +669,7 @@ Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "e9790a59-91a8-4628-bba9-6a9670b12f84",
+  "pKey" : "5e1ac776-c91b-4f64-8175-03defc24507a",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -673,7 +692,7 @@ Host: localhost:8080
 
 {
   "links" : [ ],
-  "pKey" : "e9790a59-91a8-4628-bba9-6a9670b12f84",
+  "pKey" : "5e1ac776-c91b-4f64-8175-03defc24507a",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
@@ -691,7 +710,7 @@ Content-Type: application/hal+json
 Content-Length: 147
 
 {
-  "pKey" : "b008ad2f-b53a-4908-9f25-f9d330e4fcc8",
+  "pKey" : "d176825b-8315-484a-ae49-004416c8e508",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
@@ -707,7 +726,7 @@ Content-Length: 147
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /users/e9790a59-91a8-4628-bba9-6a9670b12f84/details/image HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /users/5e1ac776-c91b-4f64-8175-03defc24507a/details/image HTTP/1.1
 Content-Type: application/octet-stream
 Content-Length: 18572
 Host: localhost:8080
@@ -733,7 +752,7 @@ to access the endpoint.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MTgzOTMwNTIsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjUyYmI4MjQ0LTMyNjEtNGEwNS1hNzI0LTM4MmQyNzQxMmY3OCIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.5j_YtzgwBhyDW5f2C-BIgf5BdwD-ikL_3gnLLqMfl90
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQzNTAwNTcsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjJmMzZlNmRhLWVlOWItNDNlYi04MmZmLWJkNzUzNDIyOGY3MSIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.kStQqodYTA_rs9Xl1rZFnLHKj5NPBCOYlGtkNjducMw
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -828,7 +847,7 @@ X-Frame-Options: DENY
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /users/e9790a59-91a8-4628-bba9-6a9670b12f84/ HTTP/1.1
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /users/5e1ac776-c91b-4f64-8175-03defc24507a/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -846,7 +865,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-04-13 23:32:25 UTC
+Last updated 2021-06-21 22:16:11 UTC
 </div>
 </div>
 </body>
