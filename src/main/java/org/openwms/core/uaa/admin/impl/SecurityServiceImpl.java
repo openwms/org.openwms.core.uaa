@@ -17,6 +17,7 @@ package org.openwms.core.uaa.admin.impl;
 
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
+import org.ameba.exception.NotFoundException;
 import org.ameba.i18n.Translator;
 import org.openwms.core.annotation.FireAfterTransaction;
 import org.openwms.core.event.UserChangedEvent;
@@ -28,6 +29,9 @@ import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.lang.String.format;
 
 /**
  * A SecurityServiceImpl is a transactional Spring Service implementation.
@@ -39,10 +43,12 @@ class SecurityServiceImpl implements SecurityService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SecurityServiceImpl.class);
     private final SecurityObjectRepository securityObjectRepository;
+    private final UserRepository userRepository;
     private final Translator translator;
 
-    SecurityServiceImpl(SecurityObjectRepository securityObjectRepository, Translator translator) {
+    SecurityServiceImpl(SecurityObjectRepository securityObjectRepository, UserRepository userRepository, Translator translator) {
         this.securityObjectRepository = securityObjectRepository;
+        this.userRepository = userRepository;
         this.translator = translator;
     }
 
@@ -77,5 +83,15 @@ class SecurityServiceImpl implements SecurityService {
     @Measured
     public List<Grant> findAllGrants() {
         return securityObjectRepository.findAllGrants();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public List<SecurityObject> findAllFor(String user) {
+        User userInstance = userRepository.findByUsername(user).orElseThrow(() -> new NotFoundException(format("User with name [%s] does not exist", user)));
+        return userInstance.getGrants().stream().filter(g -> g instanceof Grant).collect(Collectors.toList());
     }
 }

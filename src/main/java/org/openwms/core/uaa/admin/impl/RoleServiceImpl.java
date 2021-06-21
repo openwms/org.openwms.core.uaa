@@ -22,6 +22,7 @@ import org.openwms.core.uaa.admin.RoleService;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -56,7 +57,7 @@ class RoleServiceImpl implements RoleService {
      */
     @Override
     @Measured
-    public Role save(Role role) {
+    public Role save(@NotNull Role role) {
         Optional<Role> roleOpt = repository.findByName(role.getName());
         return roleOpt.map(value -> repository.save(mapper.mapFromTo(role, value))).
                 orElseGet(() -> repository.save(role));

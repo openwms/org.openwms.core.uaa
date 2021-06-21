@@ -19,14 +19,17 @@ import org.ameba.http.MeasuredRestController;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
+import org.openwms.core.uaa.admin.impl.SecurityObject;
 import org.openwms.core.uaa.api.SecurityObjectVO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.ameba.Constants.HEADER_VALUE_X_TENANT;
 import static org.openwms.core.uaa.api.UAAConstants.API_GRANTS;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -60,5 +63,11 @@ public class GrantController extends AbstractWebController {
     @GetMapping(API_GRANTS)
     public ResponseEntity<List<SecurityObjectVO>> findAllGrants() {
         return ResponseEntity.ok(mapper.map(new ArrayList<>(service.findAllGrants()), SecurityObjectVO.class));
+    }
+
+    @GetMapping(path = API_GRANTS, headers = HEADER_VALUE_X_TENANT)
+    public ResponseEntity<List<SecurityObjectVO>> findAllForUser(@RequestHeader(HEADER_VALUE_X_TENANT) String user) {
+        List<SecurityObject> grants = service.findAllFor(user);
+        return ResponseEntity.ok(mapper.map(new ArrayList<>(grants), SecurityObjectVO.class));
     }
 }

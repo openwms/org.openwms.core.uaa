@@ -30,6 +30,9 @@ interface SecurityObjectRepository extends JpaRepository<SecurityObject, Long> {
     @Query("select g from Grant g where g.name like :moduleName")
     List<Grant> findAllOfModule(String moduleName);
 
+    @Query("select g from Grant g where g.name like :moduleName")
+    List<Grant> findAllForUser(String moduleName);
+
     @Query("select g from Grant g")
     List<Grant> findAllGrants();
 }

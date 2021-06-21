@@ -16,6 +16,7 @@
 package org.openwms.core.uaa.admin;
 
 import org.openwms.core.uaa.admin.impl.Grant;
+import org.openwms.core.uaa.admin.impl.SecurityObject;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -38,5 +39,18 @@ public interface SecurityService {
      */
     List<Grant> mergeGrants(@NotNull String moduleName, List<Grant> grants);
 
+    /**
+     * Find and return all existing {@link Grant}s.
+     *
+     * @return All existing {@link Grant}s
+     */
     List<Grant> findAllGrants();
+
+    /**
+     * Find and return all {@link Grant}s assigned to an {@code User}.
+     *
+     * @param user The User's name
+     * @return All Grants assigned to the User
+     */
+    List<SecurityObject> findAllFor(String user);
 }

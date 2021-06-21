@@ -39,7 +39,6 @@ public class RoleVO extends AbstractBase implements Serializable {
 
     /** The persistent key. */
     @JsonProperty("pKey")
-    @Null(groups = {ValidationGroups.Create.class})
     private String pKey;
     /** The unique Role name. */
     @JsonProperty("name")

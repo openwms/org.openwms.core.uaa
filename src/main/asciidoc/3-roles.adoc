@@ -12,6 +12,20 @@ And the server responds with a `HAL+JSON` representation to further operations:
 
 include::{generated}/roles-index/http-response.adoc[]
 
+=== Create a Role
+To create a new `Role` instance, a `POST` request must be send to the server with the mandatory fields of the `Role` in the request body.
+
+include::{generated}/role-create/http-request.adoc[]
+include::{generated}/role-create/request-fields.adoc[]
+
+If the `Role` has been created successfully, the server returns the URI to the created resource in the `Location` header:
+
+include::{generated}/role-create/http-response.adoc[]
+
+If a `Role` with the same name already exists the server returns an error:
+
+include::{generated}/role-create-exists/http-response.adoc[]
+
 === Find all Roles
 To find and retrieve an array of all existing `Roles` a role may call a `GET` request:
 
