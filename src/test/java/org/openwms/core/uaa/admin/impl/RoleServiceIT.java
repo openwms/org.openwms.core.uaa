@@ -23,18 +23,21 @@ package org.openwms.core.uaa.admin.impl;
 
 import org.ameba.app.BaseConfiguration;
 import org.ameba.exception.ResourceExistsException;
+import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
 import org.ameba.mapping.DozerMapperImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openwms.core.TestBase;
 import org.openwms.core.uaa.admin.RoleService;
+import org.openwms.core.uaa.admin.UserService;
 import org.openwms.core.uaa.api.RoleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
@@ -70,6 +73,10 @@ public class RoleServiceIT extends TestBase {
     private RoleService srv;
     @Autowired
     private TestEntityManager entityManager;
+    @MockBean
+    private UserService userService;
+    @MockBean
+    private Translator translator;
 
     @TestConfiguration
     @Import(BaseConfiguration.class)

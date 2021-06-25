@@ -120,7 +120,7 @@
             <a is-accessible="true">grants</a>
             <b is-accessible="true">grants</b>
         </field>
-        <field type="one-way"> <!-- avoid lazy fetching -->
+        <field>
             <a is-accessible="true">users</a>
             <b is-accessible="true">users</b>
         </field>

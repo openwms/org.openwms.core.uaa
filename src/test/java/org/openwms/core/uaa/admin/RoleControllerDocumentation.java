@@ -30,6 +30,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,6 +44,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -175,5 +177,69 @@ class RoleControllerDocumentation {
                 delete(API_ROLES + "/1"))
                 .andDo(document("role-delete",  preprocessResponse(prettyPrint())))
                 .andExpect(status().isNoContent());
+    }
+
+    @Sql("classpath:test.sql")
+    @Transactional
+    @Test
+    void shall_assign_user() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(
+                post(API_ROLES + "/1/users/96baa849-dd19-4b19-8c5e-895d3b7f405e"))
+                .andDo(document("role-assign-user", preprocessResponse(prettyPrint())))
+                .andExpect(status().isOk())
+                .andReturn();
+        RoleVO resp = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), RoleVO.class);
+        //assertThat(resp.getLinks().stream().filter(l -> l.getRel().value().equals("user"))).hasSize(2);
+    }
+
+    @Sql("classpath:test.sql")
+    @Test
+    void test_assign_unknown_user() throws Exception {
+        mockMvc.perform(
+                post(API_ROLES + "/1/users/UNKNOWN"))
+                .andDo(document("role-assign-unknown-user", preprocessResponse(prettyPrint())))
+                .andExpect(status().isNotFound())
+                .andReturn();
+    }
+
+    @Sql("classpath:test.sql")
+    @Test
+    void test_assign_unknown_role() throws Exception {
+        mockMvc.perform(
+                post(API_ROLES + "/UNKOWN/users/96baa849-dd19-4b19-8c5e-895d3b7f405d"))
+                .andDo(document("role-assign-unknown-role", preprocessResponse(prettyPrint())))
+                .andExpect(status().isNotFound())
+                .andReturn();
+    }
+
+    @Sql("classpath:test.sql")
+    @Transactional
+    @Test
+    void shall_unassign_user() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(
+                delete(API_ROLES + "/1/users/96baa849-dd19-4b19-8c5e-895d3b7f405d"))
+                .andDo(document("role-unassign-user", preprocessResponse(prettyPrint())))
+                .andExpect(status().isOk())
+                .andReturn();
+        RoleVO resp = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), RoleVO.class);
+        assertThat(resp.getLinks().stream().filter(l -> l.getRel().value().equals("user"))).isEmpty();
+    }
+
+    @Sql("classpath:test.sql")
+    @Test
+    void test_unassign_unknown_user() throws Exception {
+        mockMvc.perform(
+                delete(API_ROLES + "/1/users/UNKNOWN"))
+                .andDo(document("role-unassign-unknown-user", preprocessResponse(prettyPrint())))
+                .andExpect(status().isNotFound());
+    }
+
+    @Sql("classpath:test.sql")
+    @Test
+    void test_unassign_unknown_role() throws Exception {
+        mockMvc.perform(
+                delete(API_ROLES + "/UNKNOWN/users/96baa849-dd19-4b19-8c5e-895d3b7f405d"))
+                .andDo(document("role-unassign-unknown-role", preprocessResponse(prettyPrint())))
+                .andExpect(status().isNotFound());
     }
 }

@@ -18,10 +18,11 @@ package org.openwms.core.uaa.admin.impl;
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
-import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ResourceExistsException;
+import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.core.uaa.admin.RoleService;
+import org.openwms.core.uaa.admin.UserService;
 import org.openwms.core.uaa.api.RoleVO;
 import org.openwms.core.uaa.api.ValidationGroups;
 import org.slf4j.Logger;
@@ -32,9 +33,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Optional;
 
 import static java.lang.String.format;
+import static org.openwms.core.uaa.MessageCodes.ROLE_WITH_PKEY_NOT_EXIST;
 
 /**
  * A RoleServiceImpl is a Spring managed transactional service that deals with {@link Role}s.
@@ -47,11 +48,15 @@ class RoleServiceImpl implements RoleService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RoleServiceImpl.class);
     private final RoleRepository repository;
+    private final UserService userService;
     private final BeanMapper mapper;
+    private final Translator translator;
 
-    RoleServiceImpl(RoleRepository repository, BeanMapper mapper) {
+    RoleServiceImpl(RoleRepository repository, UserService userService, BeanMapper mapper, Translator translator) {
         this.repository = repository;
+        this.userService = userService;
         this.mapper = mapper;
+        this.translator = translator;
     }
 
     /**
@@ -61,6 +66,15 @@ class RoleServiceImpl implements RoleService {
     @Measured
     public List<RoleVO> findAll() {
         return mapper.map(repository.findAll(), RoleVO.class);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public RoleVO findByPKey(String pKey) {
+        return mapper.map(getRole(pKey), RoleVO.class);
     }
 
     /**
@@ -88,14 +102,17 @@ class RoleServiceImpl implements RoleService {
     @Measured
     @Validated(ValidationGroups.Modify.class)
     public RoleVO save(@NotEmpty String pKey, @NotNull(groups = ValidationGroups.Modify.class) @Valid RoleVO role) {
-        Optional<Role> roleOpt = repository.findBypKey(pKey);
-        if (roleOpt.isEmpty()) {
-            throw new NotFoundException(format("Role with pKey [%s] does not exist", pKey));
-        }
-        Role existingRole = roleOpt.get();
+        Role existingRole = getRole(pKey);
         existingRole.setName(role.getName());
         existingRole.setDescription(role.getDescription());
         return mapper.map(repository.save(existingRole), RoleVO.class);
+    }
+
+    private Role getRole(String pKey) {
+        return repository.findBypKey(pKey).orElseThrow(() -> new NotFoundException(
+                translator.translate(ROLE_WITH_PKEY_NOT_EXIST, pKey),
+                ROLE_WITH_PKEY_NOT_EXIST,
+                pKey));
     }
 
     /**
@@ -105,5 +122,31 @@ class RoleServiceImpl implements RoleService {
     @Measured
     public void delete(@NotEmpty String pKey) {
         repository.deleteByPKey(pKey);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public RoleVO assignUser(String pKey, String userPKey) {
+        Role role = getRole(pKey);
+        User user = userService.findByPKey(userPKey);
+        role.addUser(user);
+        role = repository.save(role);
+        return mapper.map(role, RoleVO.class);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public RoleVO unassignUser(String pKey, String userPKey) {
+        Role role = getRole(pKey);
+        User user = userService.findByPKey(userPKey);
+        role.removeUser(user);
+        role = repository.save(role);
+        return mapper.map(role, RoleVO.class);
     }
 }

@@ -22,7 +22,6 @@ import org.openwms.core.uaa.api.ValidationGroups;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -42,6 +41,15 @@ public interface RoleService {
      * @return All Roles or an empty collection type, never {@literal null}
      */
     List<RoleVO> findAll();
+
+    /**
+     * Find and return a {@code Role}.
+     *
+     * @param pKey The persistent key of the existing Role
+     * @return The instance
+     * @throws org.ameba.exception.NotFoundException If the Role does not exist
+     */
+    RoleVO findByPKey(String pKey);
 
     /**
      * Create a Role that does not exist so far.
@@ -68,4 +76,22 @@ public interface RoleService {
      * @param pKey The identifiable persistent key
      */
     void delete(@NotEmpty String pKey);
+
+    /**
+     * Assign an {@code User} to a {@code Role}.
+     *
+     * @param pKey The persistent key of the existing Role
+     * @param userPKey The persistent key of the existing User
+     * @return The updated Role instance
+     */
+    RoleVO assignUser(String pKey, String userPKey);
+
+    /**
+     * Unassign an assigned {@code User} from a {@code Role}.
+     *
+     * @param pKey The persistent key of the existing Role
+     * @param userPKey The persistent key of the existing User
+     * @return The updated Role instance
+     */
+    RoleVO unassignUser(String pKey, String userPKey);
 }

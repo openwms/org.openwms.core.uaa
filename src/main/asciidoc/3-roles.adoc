@@ -59,3 +59,31 @@ include::{generated}/role-delete/http-request.adoc[]
 If the `Role` has been deleted successfully the server responds:
 
 include::{generated}/role-delete/http-response.adoc[]
+
+=== Assign an User to a Role
+`Users` can be assigned to one or more `Roles`. To assign an existing `User` to an existing `Role` the client must send a `POST` request
+to the primary `Role` resource:
+
+include::{generated}/role-assign-user/http-request.adoc[]
+
+If the `User` has been assigned successfully, the server responds with `200-OK`:
+
+include::{generated}/role-assign-user/http-response.adoc[]
+
+If the `User` or the `Role` do not exist the server responds with an error:
+
+include::{generated}/role-assign-unknown-user/http-response.adoc[]
+
+=== Unassign an User from a Role
+Already assigned `Users` can be unassigned from a `Role`. Therefore the client sends a `DELETE` request on the secondary `User` resource of
+the primary `Role` resource. Note: This will not delete the `User` but delete the assignment between the `Role` and the `User`.
+
+include::{generated}/role-unassign-user/http-request.adoc[]
+
+If the `User` has been unassigned successfully, the server responds with `200-OK`:
+
+include::{generated}/role-unassign-user/http-response.adoc[]
+
+If the `User` or the `Role` do not exist the server responds with an error:
+
+include::{generated}/role-unassign-unknown-role/http-response.adoc[]
