@@ -31,9 +31,11 @@ import org.openwms.core.exception.ExceptionCodes;
 import org.openwms.core.exception.InvalidPasswordException;
 import org.openwms.core.uaa.admin.UserService;
 import org.openwms.core.uaa.api.ValidationGroups;
+import org.openwms.core.uaa.events.UserEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -75,11 +77,12 @@ class UserServiceImpl implements UserService {
     private final Translator translator;
     private final Validator validator;
     private final BeanMapper mapper;
+    private final ApplicationEventPublisher eventPublisher;
     private final String systemUsername;
     private final String systemPassword;
 
     UserServiceImpl(UserRepository repository, SecurityObjectRepository securityObjectDao, ConfigurationService confSrv,
-            PasswordEncoder enc, Translator translator, Validator validator, BeanMapper mapper, @Value("${owms.security.system.username}") String systemUsername,
+            PasswordEncoder enc, Translator translator, Validator validator, BeanMapper mapper, ApplicationEventPublisher eventPublisher, @Value("${owms.security.system.username}") String systemUsername,
             @Value("${owms.security.system.password}") String systemPassword) {
         this.repository = repository;
         this.securityObjectDao = securityObjectDao;
@@ -88,6 +91,7 @@ class UserServiceImpl implements UserService {
         this.translator = translator;
         this.validator = validator;
         this.mapper = mapper;
+        this.eventPublisher = eventPublisher;
         this.systemUsername = systemUsername;
         this.systemPassword = systemPassword;
     }
@@ -101,13 +105,10 @@ class UserServiceImpl implements UserService {
     @FireAfterTransaction(events = {UserChangedEvent.class})
     @Measured
     public void uploadImageFile(String pKey, byte[] image) {
-        User user = repository.findBypKey(pKey).orElseThrow(
-                () -> new NotFoundException(
-                        translator.translate(ExceptionCodes.ENTITY_NOT_EXIST, pKey),
-                        ExceptionCodes.ENTITY_NOT_EXIST)
-                );
+        User user = findByPKeyInternal(pKey);
         user.getUserDetails().setImage(image);
         repository.save(user);
+        eventPublisher.publishEvent(new UserEvent(user, UserEvent.EventType.MODIFIED));
     }
 
     /**
@@ -122,7 +123,9 @@ class UserServiceImpl implements UserService {
     public User save(User entity) {
         Assert.notNull(entity, ExceptionCodes.USER_SAVE_NOT_BE_NULL);
         validate(validator, entity, ValidationGroups.Modify.class);
-        return repository.save(entity);
+        User saved = repository.save(entity);
+        eventPublisher.publishEvent(new UserEvent(saved, UserEvent.EventType.MODIFIED));
+        return saved;
     }
 
     /**
@@ -165,7 +168,9 @@ class UserServiceImpl implements UserService {
                     USER_ALREADY_EXISTS,
                     user.getUsername());
         }
-        return repository.save(user);
+        User created = repository.save(user);
+        eventPublisher.publishEvent(new UserEvent(created, UserEvent.EventType.CREATED));
+        return created;
     }
 
     /**
@@ -183,6 +188,10 @@ class UserServiceImpl implements UserService {
     @Override
     @Measured
     public @NotNull User findByPKey(@NotEmpty String pKey) {
+        return findByPKeyInternal(pKey);
+    }
+
+    private User findByPKeyInternal(String pKey) {
         return repository.findBypKey(pKey).orElseThrow(() -> new NotFoundException(
                 translator.translate(USER_WITH_PKEY_NOT_EXIST, pKey),
                 USER_WITH_PKEY_NOT_EXIST,
@@ -196,12 +205,14 @@ class UserServiceImpl implements UserService {
     @Override
     @Measured
     public void remove(String username) {
-        repository.delete(repository.findByUsername(username).orElseThrow(
+        User user = repository.findByUsername(username).orElseThrow(
                 () -> new NotFoundException(
                         translator.translate(USER_WITH_NAME_NOT_EXIST, username),
                         USER_WITH_NAME_NOT_EXIST,
                         username
-                )));
+                ));
+        repository.delete(user);
+        eventPublisher.publishEvent(new UserEvent(user, UserEvent.EventType.DELETED));
     }
 
     /**
@@ -210,7 +221,9 @@ class UserServiceImpl implements UserService {
     @Override
     @Measured
     public void delete(String pKey) {
-        repository.deleteByPkey(pKey);
+        User user = findByPKeyInternal(pKey);
+        repository.delete(user);
+        eventPublisher.publishEvent(new UserEvent(user, UserEvent.EventType.DELETED));
     }
 
     /**
@@ -221,6 +234,7 @@ class UserServiceImpl implements UserService {
     public UserVO updatePassword(String pKey, CharSequence newPassword) throws InvalidPasswordException {
         User saved = findByPKey(pKey);
         saved.changePassword(enc.encode(newPassword), newPassword.toString(), enc);
+        eventPublisher.publishEvent(new UserEvent(saved, UserEvent.EventType.MODIFIED));
         return mapper.map(saved, UserVO.class);
     }
 
@@ -233,13 +247,15 @@ class UserServiceImpl implements UserService {
     public void changeUserPassword(@NotNull UserPassword userPassword) {
         User entity = repository.findByUsername(userPassword.getUser().getUsername()).orElseThrow(
                 () -> new NotFoundException(
-                        translator.translate(ExceptionCodes.USER_NOT_EXIST),
-                        ExceptionCodes.USER_NOT_EXIST
+                        translator.translate(USER_WITH_NAME_NOT_EXIST, userPassword.getUser().getUsername()),
+                        USER_WITH_NAME_NOT_EXIST,
+                        userPassword.getUser().getUsername()
                 )
         );
         try {
             entity.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);
             repository.save(entity);
+            eventPublisher.publishEvent(new UserEvent(entity, UserEvent.EventType.MODIFIED));
         } catch (InvalidPasswordException ipe) {
             LOGGER.error(ipe.getMessage());
             throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PW_INVALID, userPassword.getUser().getUsername()),

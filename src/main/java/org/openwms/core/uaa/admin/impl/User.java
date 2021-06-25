@@ -472,14 +472,26 @@ public class User extends ApplicationEntity implements Serializable {
         return true;
     }
 
-    /**
-     * Returns the business key.
-     *
-     * @return Username
-     */
     @Override
     public String toString() {
-        return getUsername();
+        return "User{" +
+                "username='" + username + '\'' +
+                ", extern=" + extern +
+                ", lastPasswordChange=" + lastPasswordChange +
+                ", locked=" + locked +
+                ", password='" + (password != null && !password.isEmpty() ? "*****" : "<NULL>") + '\'' +
+                ", persistedPassword='" + (persistedPassword != null && !persistedPassword.isEmpty() ? "*****" : "<NULL>") + '\'' +
+                ", enabled=" + enabled +
+                ", expirationDate=" + expirationDate +
+                ", fullname='" + fullname + '\'' +
+                ", emailAddresses=" + emailAddresses +
+                ", userDetails=" + userDetails +
+                '}';
+    }
+
+    public void wipePassword() {
+        this.password = null;
+        this.persistedPassword = null;
     }
 
     /**
