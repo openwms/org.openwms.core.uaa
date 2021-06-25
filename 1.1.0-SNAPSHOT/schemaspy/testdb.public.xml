@@ -65,7 +65,7 @@
             <column ascending="true" name="c_name"/>
          </index>
       </table>
-      <table name="cor_uaa_role_role" numRows="0" remarks="" schema="public" type="TABLE">
+      <table name="cor_uaa_role_role" numRows="4" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_role_id" nullable="false" remarks="" size="19" type="int8">
             <parent column="c_pk" foreignKey="fk_uaa_role_grant" implied="false" onDeleteCascade="false" table="cor_uaa_role"/>
          </column>
@@ -79,7 +79,7 @@
             <column ascending="true" name="c_grant_id"/>
          </index>
       </table>
-      <table name="cor_uaa_role_user" numRows="0" remarks="" schema="public" type="TABLE">
+      <table name="cor_uaa_role_user" numRows="1" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_role_id" nullable="false" remarks="" size="19" type="int8">
             <parent column="c_pk" foreignKey="fk_uaa_role_user" implied="false" onDeleteCascade="false" table="cor_uaa_role"/>
          </column>
@@ -93,7 +93,7 @@
             <column ascending="true" name="c_user_id"/>
          </index>
       </table>
-      <table name="cor_uaa_user" numRows="1" remarks="" schema="public" type="TABLE">
+      <table name="cor_uaa_user" numRows="2" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_type" nullable="false" remarks="" size="31" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="c_pk" nullable="false" remarks="" size="19" type="int8">
             <child column="c_user_id" foreignKey="fk_uaa_user_role" implied="false" onDeleteCascade="false" table="cor_uaa_role_user"/>

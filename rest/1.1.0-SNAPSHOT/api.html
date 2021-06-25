@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="(1.1.0-SNAPSHOT-16)">
+<meta name="author" content="(1.1.0-SNAPSHOT-18)">
 <title>OpenWMS.org WMS: RESTful API (UAA)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org WMS: RESTful API (UAA)</h1>
 <div class="details">
-<span id="author" class="author">(1.1.0-SNAPSHOT-16)</span><br>
+<span id="author" class="author">(1.1.0-SNAPSHOT-18)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -478,8 +478,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_role_index">Role Index</a></li>
 <li><a href="#_create_a_role">Create a Role</a></li>
 <li><a href="#_find_all_roles">Find all Roles</a></li>
+<li><a href="#_find_a_role_by_pkey">Find a Role by PKey</a></li>
 <li><a href="#_modify_an_existing_role">Modify an existing Role</a></li>
 <li><a href="#_delete_a_role">Delete a Role</a></li>
+<li><a href="#_assign_an_user_to_a_role">Assign an User to a Role</a></li>
+<li><a href="#_unassign_an_user_from_a_role">Unassign an User from a Role</a></li>
 </ul>
 </li>
 <li><a href="#resources-grant">Grant</a>
@@ -861,12 +864,12 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/93a51c31-53ab-41ab-94bc-fb732522ec57/
+Location: http://localhost:8080/users/ac318a3a-72b2-4b5f-90fa-2e165365131a/
 Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "93a51c31-53ab-41ab-94bc-fb732522ec57",
+  "pKey" : "ac318a3a-72b2-4b5f-90fa-2e165365131a",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -909,18 +912,37 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 539
+Content-Length: 1069
 
 [ {
   "links" : [ ],
   "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405d",
-  "username" : "tester",
+  "username" : "jenkins",
   "externalUser" : false,
   "lastPasswordChange" : "2020-06-22T19:02:47.33044Z",
   "locked" : false,
   "enabled" : true,
   "expirationDate" : "2020-06-23T19:02:45.054756Z",
   "fullname" : "Mister Jenkins",
+  "details" : {
+    "description" : "Just a test user",
+    "comment" : "testing only",
+    "phoneNo" : "001-1234-56789",
+    "im" : "Skype:testee",
+    "office" : "Off. 815",
+    "department" : "Dep. 1",
+    "gender" : "FEMALE"
+  }
+}, {
+  "links" : [ ],
+  "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405e",
+  "username" : "tester",
+  "externalUser" : false,
+  "lastPasswordChange" : "2020-06-22T19:02:47.33044Z",
+  "locked" : false,
+  "enabled" : true,
+  "expirationDate" : "2020-06-23T19:02:45.054756Z",
+  "fullname" : "Tester",
   "details" : {
     "description" : "Just a test user",
     "comment" : "testing only",
@@ -940,9 +962,47 @@ Content-Length: 539
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 3
+Content-Length: 1069
 
-[ ]</code></pre>
+[ {
+  "links" : [ ],
+  "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405d",
+  "username" : "jenkins",
+  "externalUser" : false,
+  "lastPasswordChange" : "2020-06-22T19:02:47.33044Z",
+  "locked" : false,
+  "enabled" : true,
+  "expirationDate" : "2020-06-23T19:02:45.054756Z",
+  "fullname" : "Mister Jenkins",
+  "details" : {
+    "description" : "Just a test user",
+    "comment" : "testing only",
+    "phoneNo" : "001-1234-56789",
+    "im" : "Skype:testee",
+    "office" : "Off. 815",
+    "department" : "Dep. 1",
+    "gender" : "FEMALE"
+  }
+}, {
+  "links" : [ ],
+  "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405e",
+  "username" : "tester",
+  "externalUser" : false,
+  "lastPasswordChange" : "2020-06-22T19:02:47.33044Z",
+  "locked" : false,
+  "enabled" : true,
+  "expirationDate" : "2020-06-23T19:02:45.054756Z",
+  "fullname" : "Tester",
+  "details" : {
+    "description" : "Just a test user",
+    "comment" : "testing only",
+    "phoneNo" : "001-1234-56789",
+    "im" : "Skype:testee",
+    "office" : "Off. 815",
+    "department" : "Dep. 1",
+    "gender" : "FEMALE"
+  }
+} ]</code></pre>
 </div>
 </div>
 </div>
@@ -954,7 +1014,7 @@ resource:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/93a51c31-53ab-41ab-94bc-fb732522ec57/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/ac318a3a-72b2-4b5f-90fa-2e165365131a/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -968,7 +1028,7 @@ Content-Type: application/hal+json
 Content-Length: 144
 
 {
-  "pKey" : "93a51c31-53ab-41ab-94bc-fb732522ec57",
+  "pKey" : "ac318a3a-72b2-4b5f-90fa-2e165365131a",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -991,7 +1051,7 @@ Host: localhost:8080
 
 {
   "links" : [ ],
-  "pKey" : "93a51c31-53ab-41ab-94bc-fb732522ec57",
+  "pKey" : "ac318a3a-72b2-4b5f-90fa-2e165365131a",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
@@ -1009,7 +1069,7 @@ Content-Type: application/hal+json
 Content-Length: 147
 
 {
-  "pKey" : "e64307f5-78a5-4965-a563-0c6707ac4a2c",
+  "pKey" : "d1e2a147-453a-459b-869f-1b5f3fcee094",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
@@ -1025,7 +1085,7 @@ Content-Length: 147
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /users/93a51c31-53ab-41ab-94bc-fb732522ec57/details/image HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PATCH /users/ac318a3a-72b2-4b5f-90fa-2e165365131a/details/image HTTP/1.1
 Content-Type: application/octet-stream
 Content-Length: 18572
 Host: localhost:8080
@@ -1051,7 +1111,7 @@ to access the endpoint.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQ2NjMyODUsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjZmMWI0MTBkLTgyMDYtNDQ2Ny04YzcwLWVkODAwZTU5YjlkNSIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.0c4XX1KTe8g1_GZ7KJcSixlWg9QsWDkV-g2eTh-I6is
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MjQ2OTA5MzYsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6ImQ2NmEyMmQ1LTdmOWMtNDM4OS04Y2M1LWQ3ZmNkODcxMDRjZSIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.lOXJvzVEimaV3GBbAj6CnDx_OOMHnlqrLkUQEiojk4A
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1062,7 +1122,7 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 307
+Content-Length: 291
 X-Content-Type-Options: nosniff
 X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
@@ -1075,10 +1135,10 @@ X-Frame-Options: DENY
   "gender" : "FEMALE",
   "name" : "tester",
   "phone_number" : "001-1234-56789",
-  "given_name" : "Mister Jenkins",
-  "family_name" : "Mister Jenkins",
+  "given_name" : "Tester",
+  "family_name" : "Tester",
   "email" : "tester.tester@example.com",
-  "picture" : "http://localhost:8080/uaa/user/96baa849-dd19-4b19-8c5e-895d3b7f405d/image/"
+  "picture" : "http://localhost:8080/uaa/user/96baa849-dd19-4b19-8c5e-895d3b7f405e/image/"
 }</code></pre>
 </div>
 </div>
@@ -1146,7 +1206,7 @@ X-Frame-Options: DENY
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /users/93a51c31-53ab-41ab-94bc-fb732522ec57/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /users/ac318a3a-72b2-4b5f-90fa-2e165365131a/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1186,12 +1246,21 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 330
+Content-Length: 806
 
 {
   "_links" : {
     "roles-findall" : {
       "href" : "http://localhost:8080/roles"
+    },
+    "roles-findbypkey" : {
+      "href" : "http://localhost:8080/roles/pKey"
+    },
+    "roles-findusersofrole" : {
+      "href" : "http://localhost:8080/roles/pKey/users"
+    },
+    "roles-findgrantsofrole" : {
+      "href" : "http://localhost:8080/roles/pKey/grants"
     },
     "roles-create" : {
       "href" : "http://localhost:8080/roles"
@@ -1201,6 +1270,12 @@ Content-Length: 330
     },
     "roles-delete" : {
       "href" : "http://localhost:8080/roles/pKey"
+    },
+    "roles-assignuser" : {
+      "href" : "http://localhost:8080/roles/pKey/users/userPKey"
+    },
+    "roles-unassignuser" : {
+      "href" : "http://localhost:8080/roles/pKey/users/userPKey"
     }
   }
 }</code></pre>
@@ -1264,12 +1339,20 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Location: http://localhost:8080/roles/13546c6c-3829-48a2-b80a-9ba4b4e116e8/
+Location: http://localhost:8080/roles/4a71c6c0-71f2-4dde-a42d-52e570f95839/
 Content-Type: application/hal+json
-Content-Length: 130
+Content-Length: 373
 
 {
-  "pKey" : "13546c6c-3829-48a2-b80a-9ba4b4e116e8",
+  "_links" : {
+    "users" : {
+      "href" : "http://localhost:8080/roles/4a71c6c0-71f2-4dde-a42d-52e570f95839/users"
+    },
+    "grants" : {
+      "href" : "http://localhost:8080/roles/4a71c6c0-71f2-4dde-a42d-52e570f95839/grants"
+    }
+  },
+  "pKey" : "4a71c6c0-71f2-4dde-a42d-52e570f95839",
   "name" : "ROLE_DEV",
   "immutable" : true,
   "description" : "Developers"
@@ -1311,21 +1394,92 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 240
+Content-Length: 558
 
 [ {
-  "links" : [ ],
+  "links" : [ {
+    "rel" : "users",
+    "href" : "http://localhost:8080/roles/1/users"
+  }, {
+    "rel" : "grants",
+    "href" : "http://localhost:8080/roles/1/grants"
+  } ],
   "pKey" : "1",
   "name" : "ROLE_ADMIN",
   "immutable" : true,
   "description" : "Super user role"
 }, {
-  "links" : [ ],
+  "links" : [ {
+    "rel" : "users",
+    "href" : "http://localhost:8080/roles/2/users"
+  }, {
+    "rel" : "grants",
+    "href" : "http://localhost:8080/roles/2/grants"
+  } ],
   "pKey" : "2",
   "name" : "ROLE_OPS",
   "immutable" : true,
   "description" : "Operator role"
 } ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_a_role_by_pkey"><a class="anchor" href="#_find_a_role_by_pkey"></a><a class="link" href="#_find_a_role_by_pkey">Find a Role by PKey</a></h3>
+<div class="paragraph">
+<p>Each <code>Role</code> has an unique ID the <em>pKey</em> or <em>persistent identifier</em>. To find and return a <code>Role</code> by the <code>pKey</code> a client must send a <code>GET</code>
+request to the <code>Role</code> resource:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /roles/1 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 1058
+
+{
+  "pKey" : "1",
+  "name" : "ROLE_ADMIN",
+  "immutable" : true,
+  "description" : "Super user role",
+  "users" : [ {
+    "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405d",
+    "username" : "jenkins",
+    "externalUser" : false,
+    "lastPasswordChange" : "2020-06-22T19:02:47.33044Z",
+    "locked" : false,
+    "enabled" : true,
+    "expirationDate" : "2020-06-23T19:02:45.054756Z",
+    "fullname" : "Mister Jenkins",
+    "details" : {
+      "description" : "Just a test user",
+      "comment" : "testing only",
+      "phoneNo" : "001-1234-56789",
+      "im" : "Skype:testee",
+      "office" : "Off. 815",
+      "department" : "Dep. 1",
+      "gender" : "FEMALE"
+    }
+  } ],
+  "grants" : [ {
+    "name" : "SEC_UAA_USER_CREATE",
+    "description" : "Permission to create Users"
+  }, {
+    "name" : "SEC_UAA_USER_DELETE",
+    "description" : "Permission to delete Users"
+  }, {
+    "name" : "SEC_UAA_USER_LOOKUP",
+    "description" : "Permission to find Users"
+  }, {
+    "name" : "SEC_UAA_USER_MODIFY",
+    "description" : "Permission to modify Users"
+  } ]
+}</code></pre>
 </div>
 </div>
 </div>
@@ -1394,9 +1548,17 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 106
+Content-Length: 279
 
 {
+  "_links" : {
+    "users" : {
+      "href" : "http://localhost:8080/roles/1/users"
+    },
+    "grants" : {
+      "href" : "http://localhost:8080/roles/1/grants"
+    }
+  },
   "pKey" : "1",
   "name" : "ROLE_SUPER",
   "immutable" : true,
@@ -1438,6 +1600,118 @@ Host: localhost:8080</code></pre>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 204 No Content</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_assign_an_user_to_a_role"><a class="anchor" href="#_assign_an_user_to_a_role"></a><a class="link" href="#_assign_an_user_to_a_role">Assign an User to a Role</a></h3>
+<div class="paragraph">
+<p><code>Users</code> can be assigned to one or more <code>Roles</code>. To assign an existing <code>User</code> to an existing <code>Role</code> the client must send a <code>POST</code> request
+to the primary <code>Role</code> resource:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /roles/1/users/96baa849-dd19-4b19-8c5e-895d3b7f405e HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>User</code> has been assigned successfully, the server responds with <code>200-OK</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 275
+
+{
+  "_links" : {
+    "users" : {
+      "href" : "http://localhost:8080/roles/1/users"
+    },
+    "grants" : {
+      "href" : "http://localhost:8080/roles/1/grants"
+    }
+  },
+  "pKey" : "1",
+  "name" : "ROLE_ADMIN",
+  "immutable" : true,
+  "description" : "Super user role"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>User</code> or the <code>Role</code> do not exist the server responds with an error:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 168
+
+{
+  "message" : "User with pKey UNKNOWN does not exist",
+  "messageKey" : "user.pkey.not.exist",
+  "obj" : [ "UNKNOWN" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_unassign_an_user_from_a_role"><a class="anchor" href="#_unassign_an_user_from_a_role"></a><a class="link" href="#_unassign_an_user_from_a_role">Unassign an User from a Role</a></h3>
+<div class="paragraph">
+<p>Already assigned <code>Users</code> can be unassigned from a <code>Role</code>. Therefore the client sends a <code>DELETE</code> request on the secondary <code>User</code> resource of
+the primary <code>Role</code> resource. Note: This will not delete the <code>User</code> but delete the assignment between the <code>Role</code> and the <code>User</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /roles/1/users/96baa849-dd19-4b19-8c5e-895d3b7f405d HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>User</code> has been unassigned successfully, the server responds with <code>200-OK</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 275
+
+{
+  "_links" : {
+    "users" : {
+      "href" : "http://localhost:8080/roles/1/users"
+    },
+    "grants" : {
+      "href" : "http://localhost:8080/roles/1/grants"
+    }
+  },
+  "pKey" : "1",
+  "name" : "ROLE_ADMIN",
+  "immutable" : true,
+  "description" : "Super user role"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>User</code> or the <code>Role</code> do not exist the server responds with an error:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 168
+
+{
+  "message" : "Role with pKey UNKNOWN does not exist",
+  "messageKey" : "role.pkey.not.exist",
+  "obj" : [ "UNKNOWN" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
 </div>
 </div>
 </div>
@@ -1673,7 +1947,7 @@ Content-Type: application/hal+json
 Content-Length: 383
 
 {
-  "pKey" : "62241846-9238-4932-a679-a0f8cfe64fd3",
+  "pKey" : "13643a4e-54b7-4ba3-befe-22371a68ef72",
   "resourceIds" : "res",
   "clientId" : "cliendId",
   "clientSecret" : "secr3t",
@@ -1804,7 +2078,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-06-25 13:15:55 UTC
+Last updated 2021-06-25 20:57:08 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
