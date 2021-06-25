@@ -119,11 +119,10 @@ public class UserController extends AbstractWebController {
             @PathVariable("pKey") @NotEmpty String pKey,
             @RequestBody @NotNull PasswordString password) {
         try {
-            UserVO result = service.updatePassword(pKey, password.asValue());
+            return ResponseEntity.ok(service.updatePassword(pKey, password.asValue()));
         } catch (InvalidPasswordException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping(API_USERS + "/{pKey}")
