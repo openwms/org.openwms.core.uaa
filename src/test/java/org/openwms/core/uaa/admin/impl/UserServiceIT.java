@@ -162,7 +162,7 @@ public class UserServiceIT extends TestBase {
             srv.changeUserPassword(new UserPassword(new User(UNKNOWN_USER), "password"));
             fail("Should throw an exception when calling with an unknown user");
         } catch (NotFoundException sre) {
-            if (!(sre.getMessageKey().equals(ExceptionCodes.USER_NOT_EXIST))) {
+            if (!(sre.getMessageKey().equals(ExceptionCodes.USER_WITH_NAME_NOT_EXIST))) {
                 fail("Should throw an NotFoundException when calling with an unknown user");
             }
             LOGGER.debug("OK: UserNotFoundException:" + sre.getMessage());
