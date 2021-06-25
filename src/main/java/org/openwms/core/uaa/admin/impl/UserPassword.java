@@ -112,6 +112,11 @@ public class UserPassword extends BaseEntity implements Serializable {
         return passwordChanged;
     }
 
+    @Override
+    public String toString() {
+        return "*******";
+    }
+
     /**
      * {@inheritDoc}
      * <p>
