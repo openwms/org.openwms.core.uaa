@@ -35,6 +35,15 @@ and returns either an array of `Roles` or an empty array, but always a `200-OK`.
 
 include::{generated}/role-findAll/http-response.adoc[]
 
+=== Find a Role by PKey
+Each `Role` has an unique ID the _pKey_ or _persistent identifier_. To find and return a `Role` by the `pKey` a client must send a `GET`
+request to the `Role` resource:
+
+include::{generated}/role-findByPKey/http-request.adoc[]
+
+include::{generated}/role-findByPKey/http-response.adoc[]
+
+
 === Modify an existing Role
 An existing `Role` instance can be modified by sending a `PUT` request with the `Role` representation as request body. At least the name of
 the `Role`, as an identifying attribute must be set.

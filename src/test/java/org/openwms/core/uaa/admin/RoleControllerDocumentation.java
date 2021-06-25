@@ -35,6 +35,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
 import static org.openwms.core.uaa.api.UAAConstants.API_ROLES;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -126,6 +127,15 @@ class RoleControllerDocumentation {
                 .andDo(document("role-findAll"))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()", greaterThan(0)))
+                .andExpect(status().isOk())
+        ;
+    }
+
+    @Sql("classpath:test.sql")
+    @Test void shall_find_role_by_pkey() throws Exception {
+        mockMvc.perform(get(API_ROLES + "/1"))
+                .andDo(document("role-findByPKey"))
+                .andExpect(jsonPath("$.name", is("ROLE_ADMIN")))
                 .andExpect(status().isOk())
         ;
     }

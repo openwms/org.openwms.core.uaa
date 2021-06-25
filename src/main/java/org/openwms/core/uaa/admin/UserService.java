@@ -17,6 +17,8 @@ package org.openwms.core.uaa.admin;
 
 import org.ameba.integration.FindOperations;
 import org.ameba.integration.SaveOperations;
+import org.openwms.core.exception.InvalidPasswordException;
+import org.openwms.core.uaa.api.UserVO;
 import org.openwms.core.uaa.configuration.UserPreference;
 import org.openwms.core.uaa.admin.impl.SystemUser;
 import org.openwms.core.uaa.admin.impl.User;
@@ -111,4 +113,12 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
      * @param pKey The identifiable persistent key
      */
     void delete(String pKey);
+
+    /**
+     *
+     * @param pKey
+     * @param newPassword
+     * @return
+     */
+    UserVO updatePassword(String pKey, CharSequence newPassword) throws InvalidPasswordException;
 }

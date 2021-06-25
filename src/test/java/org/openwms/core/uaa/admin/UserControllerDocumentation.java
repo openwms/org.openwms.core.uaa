@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.core.UAAApplicationTest;
+import org.openwms.core.uaa.api.PasswordString;
 import org.openwms.core.uaa.api.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -52,6 +53,7 @@ import static org.springframework.restdocs.operation.preprocess.Preprocessors.pr
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -100,6 +102,17 @@ class UserControllerDocumentation {
         mockMvc.perform(get(API_USERS))
                 .andDo(document("user-findNone"))
                 .andExpect(status().isOk())
+        ;
+    }
+
+    @Sql("classpath:test.sql")
+    @Test void shall_change_password() throws Exception {
+        PasswordString p = new PasswordString("pw");
+        mockMvc.perform(post(API_USERS + "/96baa849-dd19-4b19-8c5e-895d3b7f405d/password")
+                .content(objectMapper.writeValueAsString(p))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(document("user-changepassword"))
+                //.andExpect(status().isOk())
         ;
     }
 

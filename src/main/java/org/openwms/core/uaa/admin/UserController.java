@@ -17,11 +17,14 @@ package org.openwms.core.uaa.admin;
 
 import org.ameba.http.MeasuredRestController;
 import org.ameba.mapping.BeanMapper;
+import org.openwms.core.exception.InvalidPasswordException;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.openwms.core.uaa.admin.impl.User;
+import org.openwms.core.uaa.api.PasswordString;
 import org.openwms.core.uaa.api.SecurityObjectVO;
 import org.openwms.core.uaa.api.UserVO;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -109,6 +112,18 @@ public class UserController extends AbstractWebController {
     public ResponseEntity<Void> saveImage(@RequestBody @NotNull String image, @PathVariable("pKey") @NotEmpty String pKey) {
         service.uploadImageFile(pKey, image.getBytes(StandardCharsets.UTF_8));
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(API_USERS + "/{pKey}/password")
+    public ResponseEntity<UserVO> updatePassword(
+            @PathVariable("pKey") @NotEmpty String pKey,
+            @RequestBody @NotNull PasswordString password) {
+        try {
+            UserVO result = service.updatePassword(pKey, password.asValue());
+        } catch (InvalidPasswordException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping(API_USERS + "/{pKey}")

@@ -21,7 +21,9 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ResourceExistsException;
 import org.ameba.exception.ServiceLayerException;
 import org.ameba.i18n.Translator;
+import org.ameba.mapping.BeanMapper;
 import org.openwms.core.annotation.FireAfterTransaction;
+import org.openwms.core.uaa.api.UserVO;
 import org.openwms.core.uaa.configuration.ConfigurationService;
 import org.openwms.core.uaa.configuration.UserPreference;
 import org.openwms.core.event.UserChangedEvent;
@@ -71,11 +73,12 @@ class UserServiceImpl implements UserService {
     private final PasswordEncoder enc;
     private final Translator translator;
     private final Validator validator;
+    private final BeanMapper mapper;
     private final String systemUsername;
     private final String systemPassword;
 
     UserServiceImpl(UserRepository repository, SecurityObjectRepository securityObjectDao, ConfigurationService confSrv,
-            PasswordEncoder enc, Translator translator, Validator validator, @Value("${owms.security.system.username}") String systemUsername,
+            PasswordEncoder enc, Translator translator, Validator validator, BeanMapper mapper, @Value("${owms.security.system.username}") String systemUsername,
             @Value("${owms.security.system.password}") String systemPassword) {
         this.repository = repository;
         this.securityObjectDao = securityObjectDao;
@@ -83,6 +86,7 @@ class UserServiceImpl implements UserService {
         this.enc = enc;
         this.translator = translator;
         this.validator = validator;
+        this.mapper = mapper;
         this.systemUsername = systemUsername;
         this.systemPassword = systemPassword;
     }
@@ -196,6 +200,7 @@ class UserServiceImpl implements UserService {
                         username
                 )));
     }
+
     /**
      * {@inheritDoc}
      */
@@ -203,6 +208,17 @@ class UserServiceImpl implements UserService {
     @Measured
     public void delete(String pKey) {
         repository.deleteByPkey(pKey);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public UserVO updatePassword(String pKey, CharSequence newPassword) throws InvalidPasswordException {
+        User saved = findByPKey(pKey);
+        saved.changePassword(enc.encode(newPassword), newPassword.toString(), enc);
+        return mapper.map(saved, UserVO.class);
     }
 
     /**
