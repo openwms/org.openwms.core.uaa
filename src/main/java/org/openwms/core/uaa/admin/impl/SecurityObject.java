@@ -16,6 +16,7 @@
 package org.openwms.core.uaa.admin.impl;
 
 import org.ameba.integration.jpa.ApplicationEntity;
+import org.openwms.core.uaa.api.ValidationGroups;
 import org.openwms.core.values.CoreTypeDefinitions;
 import org.springframework.util.Assert;
 
@@ -26,6 +27,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -45,19 +47,17 @@ public class SecurityObject extends ApplicationEntity implements Serializable {
     /** Unique name of the {@code SecurityObject}. */
     @Column(name = "C_NAME", nullable = false)
     @OrderBy
+    @NotEmpty(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class})
     private String name;
 
-    /** Description of the {@code SecurityObject}. */
+    /** A descriptive text for the {@code SecurityObject}. */
     @Column(name = "C_DESCRIPTION", length = CoreTypeDefinitions.DESCRIPTION_LENGTH)
     private String description;
 
     /* ----------------------------- methods ------------------- */
 
-    /**
-     * Dear JPA...
-     */
-    protected SecurityObject() {
-    }
+    /** Dear JPA... */
+    protected SecurityObject() { }
 
     /**
      * Create a new {@code SecurityObject} with a name.
@@ -90,6 +90,10 @@ public class SecurityObject extends ApplicationEntity implements Serializable {
      */
     public String getName() {
         return name;
+    }
+
+    protected void setName(String name) {
+        this.name = name;
     }
 
     /**

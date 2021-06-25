@@ -21,15 +21,15 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
+import org.ameba.app.BaseConfiguration;
+import org.ameba.exception.ResourceExistsException;
 import org.ameba.mapping.BeanMapper;
 import org.ameba.mapping.DozerMapperImpl;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openwms.core.TestBase;
 import org.openwms.core.uaa.admin.RoleService;
+import org.openwms.core.uaa.api.RoleVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -38,15 +38,16 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 import javax.validation.ConstraintViolationException;
+import javax.validation.Validator;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.springframework.test.util.AssertionErrors.assertEquals;
-import static org.springframework.test.util.AssertionErrors.assertFalse;
-import static org.springframework.test.util.AssertionErrors.assertNotNull;
 
 /**
  * A RoleServiceIT.
@@ -61,6 +62,7 @@ import static org.springframework.test.util.AssertionErrors.assertNotNull;
                         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = RoleService.class)
                 }
 )
+@Sql("classpath:test.sql")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class RoleServiceIT extends TestBase {
 
@@ -70,75 +72,60 @@ public class RoleServiceIT extends TestBase {
     private TestEntityManager entityManager;
 
     @TestConfiguration
+    @Import(BaseConfiguration.class)
     public static class TestConfig {
         @Bean
         public BeanMapper beanMapper() {
             return new DozerMapperImpl("META-INF/dozer/bean-mappings.xml");
         }
-    }
-
-    /**
-     * Setting up some test data.
-     */
-    @BeforeEach
-    public void onBefore() {
-        entityManager.persist(new Role("ROLE_ADMIN"));
-        entityManager.persist(new Role("ROLE_USER"));
-        entityManager.flush();
-        entityManager.clear();
-    }
-
-    /**
-     * Test to call save with null argument.
-     */
-    @Disabled
-    public final void testSaveWithNull() {
-        assertThrows(ConstraintViolationException.class, () -> srv.save(null));
-    }
-
-    /**
-     * Test to save a transient role.
-     */
-    public final void testSaveTransient() {
-        Role role = null;
-        try {
-            role = srv.save(new Role("ROLE_ANONYMOUS"));
-        } catch (Exception e) {
-            fail("Exception thrown during saving a role");
+        @Bean
+        MethodValidationPostProcessor methodValidationPostProcessor(Validator validator) {
+            MethodValidationPostProcessor mvpp = new MethodValidationPostProcessor();
+            mvpp.setValidator(validator);
+            return mvpp;
         }
-        assertNotNull("Expected to return a role", role);
-        assertFalse("Expect the role as persisted", role.isNew());
     }
 
-    /**
-     * Test to save a detached role.
-     */
-    @Test
-    public final void testSaveDetached() {
-        Role role = findRole("ROLE_ADMIN");
-        Role roleSaved = null;
-        role.setDescription("Test description");
-        try {
-            roleSaved = srv.save(role);
-            entityManager.flush();
-        } catch (Exception e) {
-            fail("Exception thrown during saving a role");
-        }
-        assertNotNull("Expected to return a role", roleSaved);
-        assertFalse("Expect the role as persisted", roleSaved.isNew());
-        Assertions.assertEquals("Test description", roleSaved.getDescription(), "Expected that description was saved");
+    @Test void testCreateWithNull() {
+        assertThrows(ConstraintViolationException.class, () -> srv.create(null));
     }
 
-    /**
-     * Test findAll.
-     */
-    @Test
-    public final void testFindAll() {
-        assertEquals("2 Roles are expected", 2, srv.findAll().size());
+    @Test void testCreateWithoutNameMustFail() {
+        assertThrows(ConstraintViolationException.class, () -> srv.create(new RoleVO()));
     }
 
-    private Role findRole(String roleName) {
-        return (Role) entityManager.getEntityManager().createQuery("select r from Role r where r.name = :name").setParameter("name", roleName)
-                .getSingleResult();
+    @Test void testCreateExistingRoleMustFail() {
+        assertThrows(ResourceExistsException.class, () -> srv.create(RoleVO.newBuilder().name("ROLE_ADMIN").build()));
+    }
+
+    @Test void testCreateNewRole() {
+        RoleVO role = srv.create(RoleVO.newBuilder().name("ANONYMOUS").build());
+        assertThat(role).isNotNull();
+        assertThat(role.getName()).isEqualTo("ROLE_ANONYMOUS");
+    }
+
+    @Test void testCreateNewRoleWithoutPrefix() {
+        RoleVO role = srv.create(RoleVO.newBuilder().name("ANONYMOUS").build());
+        assertThat(role.getName()).isEqualTo("ROLE_ANONYMOUS");
+    }
+
+    @Test void testSaveWithNulls() {
+        assertThrows(ConstraintViolationException.class, () -> srv.save(null, null));
+        assertThrows(ConstraintViolationException.class, () -> srv.save("", null));
+    }
+
+    @Test void testSaveNotExistingRole() {
+        assertThrows(ConstraintViolationException.class, () -> srv.save("UNKNOWN", null));
+    }
+
+    @Test void testSaveExisingRole() {
+        RoleVO roleSaved = srv.save("1", RoleVO.newBuilder().name("test").description("Test description").build());
+        assertThat(roleSaved).isNotNull();
+        assertThat(roleSaved.getDescription()).isEqualTo("Test description");
+        assertThat(roleSaved.getName()).isEqualTo("ROLE_test");
+    }
+
+    @Test void testFindAll() {
+        assertThat(srv.findAll()).hasSize(2);
     }
 }

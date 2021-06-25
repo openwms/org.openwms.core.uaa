@@ -20,24 +20,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.core.UAAApplicationTest;
 import org.openwms.core.uaa.api.RoleVO;
-import org.openwms.core.uaa.api.SecurityObjectVO;
 import org.openwms.core.uaa.api.UAAConstants;
-import org.openwms.core.uaa.api.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.HashSet;
-
-import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.openwms.core.uaa.api.UAAConstants.API_ROLES;
@@ -57,8 +51,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author Heiko Scherrer
  */
-@Transactional
-@Rollback
 @UAAApplicationTest
 class RoleControllerDocumentation {
 
@@ -91,43 +83,38 @@ class RoleControllerDocumentation {
                 .name("ROLE_DEV")
                 .description("Developers")
                 .immutable(true)
-                .grants(new HashSet<>(asList(
-                        SecurityObjectVO.newBuilder()
-                                .name("UAA_USER_CREATE")
-                                .build(),
-                        SecurityObjectVO.newBuilder()
-                                .name("UAA_USER_DELETE")
-                                .build()
-                )))
-                .users(new HashSet<>(asList(
-                        UserVO.newBuilder()
-                                .username("1")
-                                .build()
-                )))
                 .build();
 
-        mockMvc.perform(
+        MvcResult mvcResult = mockMvc.perform(
                 RestDocumentationRequestBuilders.post(API_ROLES)
                         .content(objectMapper.writeValueAsString(vo))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(document("role-create",
-                        preprocessResponse(prettyPrint())/*,
+                        preprocessResponse(prettyPrint()),
                         requestFields(
                                 fieldWithPath("links[]").ignored(),
-                                fieldWithPath("clientId").description("The unique id of the client"),
-                                fieldWithPath("clientSecret").description("The clients secret used for authentication"),
-                                fieldWithPath("accessTokenValidity").description("Duration how long the access token is valid"),
-                                fieldWithPath("additionalInformation").description("Some additional descriptive text for the client"),
-                                fieldWithPath("authorities").description("A list of authorities"),
-                                fieldWithPath("authorizedGrantTypes").description("The OAuth2 grant types the client is allowed to use"),
-                                fieldWithPath("autoapprove").description("If user consent is required this is set to false"),
-                                fieldWithPath("refreshTokenValidity").description("Duration how long a refresh token is valid"),
-                                fieldWithPath("resourceIds").description("A list of resource ids"),
-                                fieldWithPath("scope").description("A list of scopes the client can ask for"),
-                                fieldWithPath("webServerRedirectUri").description("The OAuth2 redirect url")
-                        )*/
+                                fieldWithPath("name").description("Unique name of the Role"),
+                                fieldWithPath("immutable").description("Whether or not this Role is immutable. Immutable Roles can't be modified"),
+                                fieldWithPath("description").description("A descriptive text for the Role")
+                        )
                 ))
                 .andExpect(status().isOk())
+                .andReturn();
+        assertThat(mvcResult.getResponse().getHeader(HttpHeaders.LOCATION)).isNotBlank();
+
+        vo = RoleVO.newBuilder()
+                .name("ROLE_ADMIN")
+                .description("")
+                .immutable(true)
+                .build();
+        mvcResult = mockMvc.perform(
+                RestDocumentationRequestBuilders.post(API_ROLES)
+                        .content(objectMapper.writeValueAsString(vo))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(document("role-create-exists",
+                        preprocessResponse(prettyPrint())
+                ))
+                .andExpect(status().isConflict())
                 .andReturn();
     }
 
@@ -152,15 +139,15 @@ class RoleControllerDocumentation {
                 .build();
 
         mockMvc.perform(
-                RestDocumentationRequestBuilders.put(API_ROLES)
+                RestDocumentationRequestBuilders.put(API_ROLES + "/" + 1)
                         .content(objectMapper.writeValueAsString(new RoleVO()))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(document("role-save-noname"))
-                .andExpect(status().isNotAcceptable())
+                .andExpect(status().isBadRequest())
                 .andReturn();
 
         MvcResult mvcResult = mockMvc.perform(
-                RestDocumentationRequestBuilders.put(API_ROLES)
+                RestDocumentationRequestBuilders.put(API_ROLES + "/" + 1)
                         .content(objectMapper.writeValueAsString(vo))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(document("role-save",
@@ -178,7 +165,7 @@ class RoleControllerDocumentation {
         RoleVO resp = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), RoleVO.class);
         assertThat(resp.getName()).isEqualTo("ROLE_SUPER");
         assertThat(resp.getDescription()).isEqualTo("Administrators role");
-        assertThat(resp.getImmutable()).isFalse();
+        assertThat(resp.getImmutable()).isTrue();
     }
 
     @Sql("classpath:test.sql")

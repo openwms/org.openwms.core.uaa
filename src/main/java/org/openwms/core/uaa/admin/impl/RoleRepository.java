@@ -29,9 +29,11 @@ import java.util.Optional;
  */
 interface RoleRepository extends JpaRepository<Role, Long> {
 
+    Optional<Role> findBypKey(String pKey);
+
+    Optional<Role> findByName(String name);
+
     @Modifying
     @Query("delete from Role r where r.pKey = :pKey")
     void deleteByPKey(@Param("pKey") String pKey);
-
-    Optional<Role> findByName(String name);
 }

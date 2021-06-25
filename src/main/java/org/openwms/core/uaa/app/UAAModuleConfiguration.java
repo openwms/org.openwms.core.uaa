@@ -86,7 +86,6 @@ public class UAAModuleConfiguration {
     public
     @Bean LocaleResolver localeResolver() {
         AcceptHeaderLocaleResolver slr = new AcceptHeaderLocaleResolver();
-        //slr.setDefaultLocale(Locale.GERMAN);
         return slr;
     }
 
@@ -96,8 +95,6 @@ public class UAAModuleConfiguration {
         NestedReloadableResourceBundleMessageSource nrrbm = new NestedReloadableResourceBundleMessageSource();
         nrrbm.setBasename("classpath*:/META-INF/i18n");
         nrrbm.setDefaultEncoding("UTF-8");
-        //nrrbm.setCommonMessages(new Properties());
-        //nrrbm.setDefaultLocale(Locale.GERMAN);
         return nrrbm;
     }
 

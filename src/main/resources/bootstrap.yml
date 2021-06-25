@@ -29,6 +29,8 @@ spring:
     show-sql: false
   jackson:
     date-format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
+    deserialization:
+      ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT: true
   zipkin:
     sender:
       type: web

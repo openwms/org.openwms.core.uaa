@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.ameba.http.AbstractBase;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -35,33 +34,30 @@ import java.util.Set;
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RoleVO extends AbstractBase implements Serializable {
+public class RoleVO extends AbstractBase<RoleVO> implements Serializable {
 
     /** The persistent key. */
     @JsonProperty("pKey")
     private String pKey;
-    /** The unique Role name. */
+    /** Unique name of the Role. */
     @JsonProperty("name")
-    @NotEmpty(groups = {ValidationGroups.Create.class})
+    @NotEmpty(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class})
     private String name;
-    /** If the Role can be modified. */
+    /** Whether or not this Role is immutable. Immutable Roles can't be modified. */
     @JsonProperty("immutable")
     private Boolean immutable;
     /** A descriptive text for the Role. */
     @JsonProperty("description")
     private String description;
-    /** A collection of Users that are assigned to the Role. */
+    /** All Users assigned to the Role. */
     @JsonProperty("users")
-    @Null(groups = {ValidationGroups.Create.class})
     private Set<UserVO> users = new HashSet<>();
     /** A collection of Grants that are assigned to the Role. */
     @JsonProperty("grants")
-    @Null(groups = {ValidationGroups.Create.class})
     private Set<SecurityObjectVO> grants = new HashSet<>();
 
     @JsonCreator
-    public RoleVO() {
-    }
+    public RoleVO() { }
 
     private RoleVO(Builder builder) {
         pKey = builder.pKey;
@@ -127,6 +123,23 @@ public class RoleVO extends AbstractBase implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), pKey, name, immutable, description, users, grants);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public String toString() {
+        return "RoleVO{" +
+                "pKey='" + pKey + '\'' +
+                ", name='" + name + '\'' +
+                ", immutable=" + immutable +
+                ", description='" + description + '\'' +
+                ", users=" + users +
+                ", grants=" + grants +
+                '}';
     }
 
     public static final class Builder {

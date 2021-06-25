@@ -16,10 +16,14 @@
 package org.openwms.core.uaa.admin;
 
 import org.openwms.core.uaa.admin.impl.Role;
+import org.openwms.core.uaa.api.RoleVO;
+import org.openwms.core.uaa.api.ValidationGroups;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * A RoleService provides business functionality regarding the handling with {@link Role}s. The service deals directly with business
@@ -37,16 +41,26 @@ public interface RoleService {
      *
      * @return All Roles or an empty collection type, never {@literal null}
      */
-    Collection<Role> findAll();
+    List<RoleVO> findAll();
 
     /**
-     * Save a Role passed as argument {@literal role}. Is the {@literal role} instance already exists it's being updated. If it does not
-     * exist it will be created.
+     * Create a Role that does not exist so far.
      *
-     * @param role The Role to update or create
-     * @return The updated Role instance
+     * @param role The Role to be created
+     * @return The created Role instance
+     * @throws org.ameba.exception.ResourceExistsException If the {@code role} already exists
      */
-    Role save(@NotNull Role role);
+    RoleVO create(@NotNull(groups = ValidationGroups.Create.class) @Valid RoleVO role);
+
+    /**
+     * Update an existing Role.
+     *
+     * @param pKey The persistent key of the existing Role
+     * @param role The Role to update
+     * @return The updated instance
+     * @throws org.ameba.exception.NotFoundException If the {@code role} does not exist
+     */
+    RoleVO save(@NotEmpty String pKey, @NotNull(groups = ValidationGroups.Modify.class) @Valid RoleVO role);
 
     /**
      * Delete a {@link Role}.

@@ -46,14 +46,13 @@ public class Role extends SecurityObject implements Serializable {
 
     public static final String NOT_ALLOWED_TO_CREATE_A_ROLE_WITH_AN_EMPTY_NAME = "Not allowed to create a Role with an empty name";
     /**
-     * Whether or not this Role is immutable. Immutable Roles can't be modified.
-     */
+     * Whether or not this Role is immutable. Immutable Roles can't be modified. */
     @Column(name = "C_IMMUTABLE")
     private Boolean immutable = false;
 
     /* ------------------- collection mapping ------------------- */
     /**
-     * All {@link User}s assigned to this Role.
+     * All {@link User}s assigned to the Role.
      */
     @ManyToMany(cascade = {CascadeType.REFRESH})
     @JoinTable(
@@ -135,11 +134,8 @@ public class Role extends SecurityObject implements Serializable {
 
     /* ----------------------------- methods ------------------- */
 
-    /**
-     * Dear JPA...
-     */
-    Role() {
-    }
+    /** Dear JPA... */
+    protected Role() { }
 
     /**
      * Create a new Role with a name.
@@ -148,8 +144,15 @@ public class Role extends SecurityObject implements Serializable {
      * @throws IllegalArgumentException when name is {@literal null} or empty
      */
     public Role(String name) {
-        super(name);
         Assert.hasText(name, NOT_ALLOWED_TO_CREATE_A_ROLE_WITH_AN_EMPTY_NAME);
+        setName(normalizeName(name));
+    }
+
+    public String normalizeName(String name) {
+        if (name != null && !name.startsWith(ROLE_PREFIX)) {
+            return ROLE_PREFIX + name;
+        }
+        return name;
     }
 
     /**
@@ -160,8 +163,17 @@ public class Role extends SecurityObject implements Serializable {
      * @throws IllegalArgumentException when name is {@literal null} or empty
      */
     public Role(String name, String description) {
-        super(name, description);
         Assert.hasText(name, NOT_ALLOWED_TO_CREATE_A_ROLE_WITH_AN_EMPTY_NAME);
+        setName(normalizeName(name));
+        setDescription(description);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void setName(String name) {
+        super.setName(normalizeName(name));
     }
 
     /**
