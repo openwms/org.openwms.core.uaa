@@ -40,6 +40,8 @@ public class UserVO extends AbstractBase implements Serializable {
 
     /** The persistent key. */
     @JsonProperty("pKey")
+    @Null(groups = {ValidationGroups.Create.class})
+    @NotEmpty(groups = {ValidationGroups.Modify.class})
     private String pKey;
     /** The User's unique name. */
     @JsonProperty("username")

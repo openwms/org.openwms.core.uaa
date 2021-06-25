@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+                 version="2.2">
+
+    <entity class="org.openwms.core.uaa.admin.impl.User" name="User" access="FIELD">
+        <sequence-generator name="generator" sequence-name="uaa_user_seq" allocation-size="1" />
+    </entity>
+    <entity class="org.openwms.core.uaa.admin.impl.SecurityObject" name="SecurityObject" access="FIELD">
+        <sequence-generator name="generator" sequence-name="uaa_so_seq" allocation-size="1" />
+    </entity>
+    <entity class="org.openwms.core.uaa.admin.impl.Email" name="Email" access="FIELD">
+        <sequence-generator name="generator" sequence-name="uaa_email_seq" allocation-size="1" />
+    </entity>
+    <entity class="org.openwms.core.uaa.admin.impl.UserPassword" name="UserPassword" access="FIELD">
+        <sequence-generator name="generator" sequence-name="uaa_up_seq" allocation-size="1" />
+    </entity>
+</entity-mappings>

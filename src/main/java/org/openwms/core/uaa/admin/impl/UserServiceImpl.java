@@ -50,6 +50,7 @@ import java.util.HashSet;
 import java.util.Optional;
 
 import static org.ameba.system.ValidationUtil.validate;
+import static org.openwms.core.exception.ExceptionCodes.USER_ALREADY_EXISTS;
 import static org.openwms.core.exception.ExceptionCodes.USER_WITH_NAME_NOT_EXIST;
 import static org.openwms.core.exception.ExceptionCodes.USER_WITH_PKEY_NOT_EXIST;
 
@@ -160,7 +161,9 @@ class UserServiceImpl implements UserService {
     public User create(@NotNull @Valid User user) {
         Optional<User> optUser = repository.findByUsername(user.getUsername());
         if (optUser.isPresent()) {
-            throw new ResourceExistsException("User with username already exists");
+            throw new ResourceExistsException(translator.translate(USER_ALREADY_EXISTS, user.getUsername()),
+                    USER_ALREADY_EXISTS,
+                    user.getUsername());
         }
         return repository.save(user);
     }

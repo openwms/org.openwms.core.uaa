@@ -23,6 +23,8 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: create
+    mapping-resources:
+      - META-INF/uaa-orm.xml
     open-in-view: false
     properties:
       hibernate.dialect: org.hibernate.dialect.H2Dialect
@@ -34,6 +36,8 @@ spring:
   zipkin:
     sender:
       type: web
+  main:
+    allow-bean-definition-overriding: true
 
 feign:
   httpclient:
@@ -127,6 +131,8 @@ spring:
         enabled: true
       enabled: true
       fail-fast: true # true means retry
+      retry:
+        max-attempts: 120
     discovery:
       enabled: true
 

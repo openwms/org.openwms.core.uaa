@@ -24,9 +24,11 @@ import org.openwms.core.uaa.admin.impl.User;
 import org.openwms.core.uaa.api.PasswordString;
 import org.openwms.core.uaa.api.SecurityObjectVO;
 import org.openwms.core.uaa.api.UserVO;
+import org.openwms.core.uaa.api.ValidationGroups;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -96,7 +98,10 @@ public class UserController extends AbstractWebController {
     }
 
     @PostMapping(API_USERS)
-    public ResponseEntity<UserVO> create(@RequestBody @Valid @NotNull UserVO user, HttpServletRequest req) {
+    @Validated(ValidationGroups.Create.class)
+    public ResponseEntity<UserVO> create(
+            @RequestBody @Valid @NotNull UserVO user,
+            HttpServletRequest req) {
         User created = service.create(mapper.map(user, User.class));
         return ResponseEntity
                 .created(getLocationURIForCreatedResource(req, created.getPersistentKey()))
