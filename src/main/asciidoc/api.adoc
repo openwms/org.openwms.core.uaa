@@ -18,13 +18,12 @@ and further provided that each copy contains this Copyright Notice, whether dist
 
 [[overview]]
 = Overview
-This guide describes the RESTful API of the OpenWMS.org WMS UAA (User Authentication & Administration) module and its usage. Some general
+This guide describes the RESTful API of the OpenWMS.org UAA (User Authentication & Administration) module and its usage. Some general
 terms and definitions are explained and declared in the first part of the document whereas in the second part the usage of the API is shown
 in a more use-case-driven approach.
 
 [[resources-prg]]
 = Resources
-
 A description of all used API resources.
 
 include::0-preambel.adoc[]
