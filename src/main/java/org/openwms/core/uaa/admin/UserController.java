@@ -72,9 +72,11 @@ public class UserController extends AbstractWebController {
                 new Index(
                         linkTo(methodOn(UserController.class).findAllUsers()).withRel("users-findall"),
                         linkTo(methodOn(UserController.class).findUser("pKey")).withRel("users-findbypkey"),
+                        linkTo(methodOn(UserController.class).findGrantsForUser("pKey")).withRel("users-findgrants"),
                         linkTo(methodOn(UserController.class).create(new UserVO(), null)).withRel("users-create"),
                         linkTo(methodOn(UserController.class).save(new UserVO())).withRel("users-save"),
                         linkTo(methodOn(UserController.class).saveImage("", "pKey")).withRel("users-saveimage"),
+                        linkTo(methodOn(UserController.class).updatePassword("pKey", new PasswordString("newPassword"))).withRel("users-change-password"),
                         linkTo(methodOn(UserController.class).delete("pKey")).withRel("users-delete")
                 )
         );

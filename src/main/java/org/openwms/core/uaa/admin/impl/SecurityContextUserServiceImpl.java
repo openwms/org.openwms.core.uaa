@@ -17,8 +17,8 @@ package org.openwms.core.uaa.admin.impl;
 
 import net.sf.ehcache.Ehcache;
 import org.ameba.annotation.TxService;
-import org.openwms.core.event.UserChangedEvent;
 import org.openwms.core.uaa.admin.UserService;
+import org.openwms.core.uaa.events.UserEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
@@ -36,7 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author <a href="mailto:russelltina@users.sourceforge.net">Tina Russell</a>
  */
 @TxService
-class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationListener<UserChangedEvent> {
+class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationListener<UserEvent> {
 
     private final String systemUsername;
     private final UserService userService;
@@ -62,7 +62,7 @@ class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationL
      * {@inheritDoc}
      */
     @Override
-    public void onApplicationEvent(UserChangedEvent event) {
+    public void onApplicationEvent(UserEvent event) {
         if (cache != null) {
             cache.removeAll();
         }

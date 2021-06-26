@@ -25,8 +25,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.openwms.core.AbstractMockitoTests;
-import org.openwms.core.event.UserChangedEvent;
 import org.openwms.core.uaa.admin.UserService;
+import org.openwms.core.uaa.events.UserEvent;
 import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -61,12 +61,8 @@ class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
     @InjectMocks
     private SecurityContextUserServiceImpl srv;
 
-    /**
-     * Test method for {@link SecurityContextUserServiceImpl#onApplicationEvent(org.openwms.core.event.UserChangedEvent)}
-     * .
-     */
     @Test final void testOnApplicationEventWithCache() {
-        srv.onApplicationEvent(new UserChangedEvent(this));
+        srv.onApplicationEvent(new UserEvent(new User("test"), UserEvent.EventType.CREATED));
         verify(cache).removeAll();
     }
 
