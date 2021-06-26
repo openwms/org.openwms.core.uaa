@@ -30,9 +30,3 @@ jobs:
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Archive production artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: jars
-          path: |
-            target/openwms-core-uaa*.jar
