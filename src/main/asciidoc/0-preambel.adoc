@@ -6,7 +6,7 @@ representations. Therefore it's absolutely required the `Accept` header denotes 
 
 == Dates in JSON
 Date or datetime fields are not treated specially in JSON. Within the scope of this API a date or datetime field is always expected and
-rendered as JSON String in ISO8601 format with timezone information and milliseconds: `yyyy-MM-dd'T'HH:mm:ss.SSSTZD`.
+rendered as JSON String in ISO8601 format with timezone information and milliseconds: `yyyy-MM-dd'T'HH:mm:ssXXX`.
 
 == Embedded Entities
 For the sake of convenience some response entities may included embedded entities or even parts of it. A reference to the actual entity is

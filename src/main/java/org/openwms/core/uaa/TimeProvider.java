@@ -28,6 +28,11 @@ import java.util.Date;
  */
 public interface TimeProvider {
 
+    /** The format pattern for all date-time with milliseconds and timezone types. */
+    String DATE_TIME_MILLIS_WITH_TIMEZONE = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
+    /** The format pattern for all date-time with timezone types. */
+    String DATE_TIME_WITH_TIMEZONE = "yyyy-MM-dd'T'HH:mm:ssXXX";
+
     /**
      * Returns the current date and time considering the configured timezone.
      *

@@ -46,7 +46,6 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.preprocessResponse;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
@@ -190,10 +189,20 @@ class UserControllerDocumentation {
         // Add an image to the User
         String s = Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(this.getClass().getClassLoader().getResource("pic.png").toURI())));
         mockMvc.perform(
-                patch(API_USERS + "/" + pKey + "/details/image")
+                post(API_USERS + "/" + pKey + "/details/image")
                         .content(s)
                         .contentType(MediaType.APPLICATION_OCTET_STREAM_VALUE))
                 .andDo(document("user-saveimage", preprocessResponse(prettyPrint())))
+                .andExpect(status().isOk())
+        ;
+
+        // Update User password
+        PasswordString pw = new PasswordString("welcome");
+        mockMvc.perform(
+                post(API_USERS + "/" + pKey + "/password")
+                        .content(objectMapper.writeValueAsString(pw))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(document("user-change-password", preprocessResponse(prettyPrint())))
                 .andExpect(status().isOk())
         ;
 

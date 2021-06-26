@@ -30,14 +30,19 @@ spring:
       hibernate.dialect: org.hibernate.dialect.H2Dialect
     show-sql: false
   jackson:
-    date-format: yyyy-MM-dd'T'HH:mm:ss.SSSZ
+    date-format: "yyyy-MM-dd'T'HH:mm:ssXXX" # Only matches Dates no Instants!
     deserialization:
       ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT: true
+  main:
+    allow-bean-definition-overriding: true
+  mvc:
+    format:
+      date-time: "yyyy-MM-dd'T'HH:mm:ssXXX" # Must match the pattern how of @JsonFormat field annotation patterns
+      date: yyyy-MM-dd
+      time: HH:mm:ss
   zipkin:
     sender:
       type: web
-  main:
-    allow-bean-definition-overriding: true
 
 feign:
   httpclient:

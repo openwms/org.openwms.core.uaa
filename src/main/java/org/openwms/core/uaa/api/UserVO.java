@@ -16,6 +16,7 @@
 package org.openwms.core.uaa.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -27,6 +28,8 @@ import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.Objects;
+
+import static org.openwms.core.uaa.TimeProvider.DATE_TIME_WITH_TIMEZONE;
 
 
 /**
@@ -53,6 +56,7 @@ public class UserVO extends AbstractBase implements Serializable {
     /** When the password has been changed the last time. */
     @JsonProperty("lastPasswordChange")
     @Null(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class})
+    @JsonFormat(pattern = DATE_TIME_WITH_TIMEZONE)
     private ZonedDateTime lastPasswordChange;
     /** If the User is locked from login. */
     @JsonProperty("locked")
@@ -62,6 +66,7 @@ public class UserVO extends AbstractBase implements Serializable {
     private Boolean enabled;
     /** When the password expires. */
     @JsonProperty("expirationDate")
+    @JsonFormat(pattern = DATE_TIME_WITH_TIMEZONE)
     private ZonedDateTime expirationDate;
     /** The Users full name. */
     @JsonProperty("fullname")

@@ -115,7 +115,7 @@ public class UserController extends AbstractWebController {
         return ResponseEntity.ok(mapper.map(service.save(mapper.map(user, User.class)), UserVO.class));
     }
 
-    @PatchMapping(API_USERS + "/{pKey}/details/image")
+    @PostMapping(API_USERS + "/{pKey}/details/image")
     public ResponseEntity<Void> saveImage(@RequestBody @NotNull String image, @PathVariable("pKey") @NotEmpty String pKey) {
         service.uploadImageFile(pKey, image.getBytes(StandardCharsets.UTF_8));
         return ResponseEntity.ok().build();

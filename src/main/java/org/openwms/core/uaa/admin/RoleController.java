@@ -92,6 +92,7 @@ public class RoleController extends AbstractWebController {
             @PathVariable("pKey") String pKey
     ) {
         RoleVO result = service.findByPKey(pKey);
+        replaceUsers(result);
         return ResponseEntity.ok(result);
     }
 
