@@ -32,7 +32,7 @@
         <menu name="Documentation">
             <item name="Home" href="index.html" />
             <item name="REST API Documentation" href="rest/${project.version}/api.html" />
-            <item name="Configuration" href="rest/${project.version}/configuration.html" />
+            <item name="Configuration" href="configuration.html" />
             <item name="Confluence Wiki" href="https://openwms.atlassian.net/l/c/UeA16May" />
             <item name="Javadoc" href="apidocs/index.html" />
             <item name="Database Schema" href="${project.version}/schemaspy/relationships.html" />
