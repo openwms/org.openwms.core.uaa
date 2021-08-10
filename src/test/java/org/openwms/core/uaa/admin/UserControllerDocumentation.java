@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.core.UAAApplicationTest;
+import org.openwms.core.uaa.api.EmailVO;
 import org.openwms.core.uaa.api.PasswordString;
 import org.openwms.core.uaa.api.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Base64;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -118,7 +120,7 @@ class UserControllerDocumentation {
     @Test void shall_create_user() throws Exception {
         UserVO vo = UserVO.newBuilder()
                 .username("admin2")
-                .email("admin@example.com")
+                .emailAddresses(asList(new EmailVO("admin@example.com", true)))
                 .build();
 
         // CREATE a new User
@@ -131,7 +133,9 @@ class UserControllerDocumentation {
                         requestFields(
                                 fieldWithPath("links[]").ignored(),
                                 fieldWithPath("username").description("The unique name of the User in the system"),
-                                fieldWithPath("email").description("The email address used by the User, unique in the system")
+                                fieldWithPath("emailAddresses[]").description("The User's email addresses"),
+                                fieldWithPath("emailAddresses[].emailAddress").description("The actual email address"),
+                                fieldWithPath("emailAddresses[].primary").description("Whether this email address is the primary one used in the system. Each User can only have one primary email address")
                         )
                 ))
                 .andExpect(status().isCreated())
@@ -159,7 +163,10 @@ class UserControllerDocumentation {
                                 fieldWithPath("username").description("The unique name of the User in the system"),
                                 fieldWithPath("externalUser").description("If the User is authenticated by an external system"),
                                 fieldWithPath("locked").description("If the User is locked and has no permission to login"),
-                                fieldWithPath("enabled").description("If the User is enabled in general")
+                                fieldWithPath("enabled").description("If the User is enabled in general"),
+                                fieldWithPath("emailAddresses[]").description("The User's email addresses"),
+                                fieldWithPath("emailAddresses[].emailAddress").description("The actual email address"),
+                                fieldWithPath("emailAddresses[].primary").description("Whether this email address is the primary one used in the system. Each User can only have one primary email address")
                         )
                 ))
                 .andExpect(status().isOk())

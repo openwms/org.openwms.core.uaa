@@ -20,6 +20,19 @@
     </configuration>
 
     <mapping>
+        <class-a>org.openwms.core.uaa.admin.impl.Email</class-a>
+        <class-b>org.openwms.core.uaa.api.EmailVO</class-b>
+        <field>
+            <a is-accessible="true">emailAddress</a>
+            <b is-accessible="true">emailAddress</b>
+        </field>
+        <field>
+            <a is-accessible="true">primary</a>
+            <b is-accessible="true">primary</b>
+        </field>
+    </mapping>
+
+    <mapping>
         <class-a>org.openwms.core.uaa.admin.impl.User</class-a>
         <class-b>org.openwms.core.uaa.api.UserVO</class-b>
         <field>
@@ -53,6 +66,10 @@
         <field>
             <a is-accessible="true">fullname</a>
             <b is-accessible="true">fullname</b>
+        </field>
+        <field>
+            <a is-accessible="true">emailAddresses</a>
+            <b is-accessible="true">emailAddresses</b>
         </field>
         <field>
             <a is-accessible="true">userDetails</a>

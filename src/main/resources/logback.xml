@@ -17,11 +17,11 @@
   </appender-->
 
   <logger name="com.netflix.discovery" level="OFF"/>
-  <logger name="org.dozer" level="ERROR"/>
+  <logger name="com.github.dozer" level="ERROR"/>
   <logger name="org.hibernate.SQL" level="OFF"/>
   <logger name="org.hibernate.type" level="OFF"/>
   <logger name="org.springframework" level="WARN"/>
-  <logger name="org.springframework.security" level="DEBUG"/>
+  <logger name="org.springframework.security" level="WARN"/>
   <logger name="org.openwms" level="DEBUG"/>
   <logger name="org.ameba" level="WARN"/>
 
@@ -29,20 +29,20 @@
     <appender-ref ref="STDOUT"/>
     <appender-ref ref="LOGFILE"/>
   </logger>
-    <logger name="SERVICE_LAYER_EXCEPTION" level="ERROR" additivity="false">
-        <appender-ref ref="STDOUT"/>
-        <appender-ref ref="LOGFILE"/>
-    </logger>
-    <logger name="INTEGRATION_LAYER_EXCEPTION" level="ERROR" additivity="false">
-        <appender-ref ref="STDOUT"/>
-        <appender-ref ref="LOGFILE"/>
-    </logger>
-    <logger name="MEASURED" level="INFO">
-        <appender-ref ref="TSL"/>
-    </logger>
-    <logger name="CORE_INTEGRATION_MESSAGING" level="DEBUG"/>
+  <logger name="SERVICE_LAYER_EXCEPTION" level="ERROR" additivity="false">
+      <appender-ref ref="STDOUT"/>
+      <appender-ref ref="LOGFILE"/>
+  </logger>
+  <logger name="INTEGRATION_LAYER_EXCEPTION" level="ERROR" additivity="false">
+      <appender-ref ref="STDOUT"/>
+      <appender-ref ref="LOGFILE"/>
+  </logger>
+  <logger name="MEASURED" level="INFO">
+      <appender-ref ref="TSL"/>
+  </logger>
+  <logger name="CORE_INTEGRATION_MESSAGING" level="DEBUG"/>
 
-  <root level="DEBUG">
+  <root level="INFO">
     <appender-ref ref="STDOUT"/>
     <appender-ref ref="LOGFILE"/>
   </root>

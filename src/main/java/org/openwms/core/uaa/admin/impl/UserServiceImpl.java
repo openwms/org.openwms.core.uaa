@@ -168,6 +168,7 @@ class UserServiceImpl implements UserService {
                     USER_ALREADY_EXISTS,
                     user.getUsername());
         }
+        user.getEmailAddresses().forEach(e -> e.setUser(user));
         User created = repository.save(user);
         eventPublisher.publishEvent(new UserEvent(created, UserEvent.EventType.CREATED));
         return created;

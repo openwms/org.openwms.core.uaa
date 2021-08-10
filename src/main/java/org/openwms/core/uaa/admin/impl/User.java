@@ -484,9 +484,7 @@ public class User extends ApplicationEntity implements Serializable {
                 ", enabled=" + enabled +
                 ", expirationDate=" + expirationDate +
                 ", fullname='" + fullname + '\'' +
-                ", emailAddresses=" + emailAddresses +
                 ", userDetails=" + userDetails +
-                ", passwords=" + passwords +
                 '}';
     }
 

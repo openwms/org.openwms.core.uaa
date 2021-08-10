@@ -27,6 +27,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static org.openwms.core.uaa.TimeProvider.DATE_TIME_WITH_TIMEZONE;
@@ -75,10 +77,10 @@ public class UserVO extends AbstractBase implements Serializable {
     @JsonProperty("details")
     @Valid
     private UserDetailsVO userDetails;
-    /** The User's email address. */
-    @JsonProperty("email")
+    /** The User's email addresses. */
+    @JsonProperty("emailAddresses")
     @NotEmpty(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class})
-    private String email;
+    private List<EmailVO> emailAddresses = new ArrayList<>();
 
     @JsonCreator
     public UserVO() {
@@ -94,7 +96,7 @@ public class UserVO extends AbstractBase implements Serializable {
         expirationDate = builder.expirationDate;
         fullname = builder.fullname;
         userDetails = builder.userDetails;
-        email = builder.email;
+        emailAddresses = builder.emailAddresses;
     }
 
     public static Builder newBuilder() {
@@ -137,8 +139,12 @@ public class UserVO extends AbstractBase implements Serializable {
         return userDetails;
     }
 
-    public String getEmail() {
-        return email;
+    public List<EmailVO> getEmailAddresses() {
+        return emailAddresses;
+    }
+
+    public void setEmailAddresses(List<EmailVO> emailAddresses) {
+        this.emailAddresses = emailAddresses;
     }
 
     /**
@@ -161,7 +167,7 @@ public class UserVO extends AbstractBase implements Serializable {
                 Objects.equals(expirationDate, userVO.expirationDate) &&
                 Objects.equals(fullname, userVO.fullname) &&
                 Objects.equals(userDetails, userVO.userDetails) &&
-                Objects.equals(email, userVO.email);
+                Objects.equals(emailAddresses, userVO.emailAddresses);
     }
 
     /**
@@ -171,7 +177,7 @@ public class UserVO extends AbstractBase implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), pKey, username, extern, lastPasswordChange, locked, enabled, expirationDate, fullname, userDetails, email);
+        return Objects.hash(super.hashCode(), pKey, username, extern, lastPasswordChange, locked, enabled, expirationDate, fullname, userDetails, emailAddresses);
     }
 
     public void setpKey(java.lang.String pKey) {
@@ -210,10 +216,6 @@ public class UserVO extends AbstractBase implements Serializable {
         this.userDetails = userDetails;
     }
 
-    public void setEmail(java.lang.String email) {
-        this.email = email;
-    }
-
     public static final class Builder {
         private String pKey;
         private @NotEmpty(groups = ValidationGroups.Create.class) String username;
@@ -224,7 +226,7 @@ public class UserVO extends AbstractBase implements Serializable {
         private ZonedDateTime expirationDate;
         private String fullname;
         private @Valid UserDetailsVO userDetails;
-        private @NotEmpty(groups = ValidationGroups.Create.class) String email;
+        private @NotEmpty(groups = ValidationGroups.Create.class) List<EmailVO> emailAddresses;
 
         private Builder() {
         }
@@ -274,8 +276,8 @@ public class UserVO extends AbstractBase implements Serializable {
             return this;
         }
 
-        public Builder email(@NotEmpty(groups = ValidationGroups.Create.class) String val) {
-            email = val;
+        public Builder emailAddresses(@NotEmpty(groups = ValidationGroups.Create.class) List<EmailVO> val) {
+            emailAddresses = val;
             return this;
         }
 
