@@ -30,6 +30,10 @@
             <a is-accessible="true">primary</a>
             <b is-accessible="true">primary</b>
         </field>
+        <field>
+            <a is-accessible="true">fullname</a>
+            <b is-accessible="true">fullname</b>
+        </field>
     </mapping>
 
     <mapping>

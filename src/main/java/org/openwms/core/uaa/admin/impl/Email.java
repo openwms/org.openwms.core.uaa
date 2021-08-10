@@ -100,6 +100,11 @@ public class Email extends BaseEntity implements Serializable {
         return user;
     }
 
+    /**
+     * Set the user.
+     *
+     * @param user The user
+     */
     void setUser(User user) {
         this.user = user;
     }

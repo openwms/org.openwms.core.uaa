@@ -17,29 +17,39 @@ package org.openwms.core.uaa.api;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import javax.validation.constraints.NotEmpty;
+import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A EmailVO.
+ * A EmailVO represents an email.
  *
  * @author Heiko Scherrer
  */
 public class EmailVO implements Serializable {
 
+    /** The email address as String (not nullable). */
     @JsonProperty("emailAddress")
+    @NotEmpty
     private String emailAddress;
+    /** Whether this email address is the primary email used in the system. */
     @JsonProperty("primary")
     private Boolean primary;
+    /** The fullname of the {@code User}. */
+    @JsonProperty("fullname")
+    private String fullname;
 
-    public EmailVO() {
-    }
+    /*~-------------------- constructors --------------------*/
+    EmailVO() {}
 
-    public EmailVO(String emailAddress, Boolean primary) {
+    @ConstructorProperties({"emailAddress", "primary"})
+    public EmailVO(@NotEmpty String emailAddress, Boolean primary) {
         this.emailAddress = emailAddress;
         this.primary = primary;
     }
 
+    /*~-------------------- accessors --------------------*/
     public String getEmailAddress() {
         return emailAddress;
     }
@@ -56,16 +66,45 @@ public class EmailVO implements Serializable {
         this.primary = primary;
     }
 
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
+    }
+
+    /*~-------------------- methods --------------------*/
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof EmailVO)) return false;
         EmailVO emailVO = (EmailVO) o;
-        return Objects.equals(emailAddress, emailVO.emailAddress) && Objects.equals(primary, emailVO.primary);
+        return Objects.equals(emailAddress, emailVO.emailAddress) && Objects.equals(primary, emailVO.primary) && Objects.equals(fullname, emailVO.fullname);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
     @Override
     public int hashCode() {
-        return Objects.hash(emailAddress, primary);
+        return Objects.hash(emailAddress, primary, fullname);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Only emailAddress.
+     */
+    @Override
+    public String toString() {
+        return emailAddress;
     }
 }
