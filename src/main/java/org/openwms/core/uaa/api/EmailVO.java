@@ -15,6 +15,8 @@
  */
 package org.openwms.core.uaa.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import javax.validation.constraints.NotEmpty;
@@ -27,6 +29,8 @@ import java.util.Objects;
  *
  * @author Heiko Scherrer
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EmailVO implements Serializable {
 
     /** The email address as String (not nullable). */
