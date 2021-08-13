@@ -30,16 +30,16 @@ public class CustomJdbcClientDetailsService extends JdbcClientDetailsService {
             + "C_AUTHORIZED_GRANT_TYPES, C_WEB_SERVER_REDIRECT_URI, C_AUTHORITIES, C_ACCESS_TOKEN_VALIDITY, "
             + "C_REFRESH_TOKEN_VALIDITY, C_ADDITIONAL_INFORMATION, C_AUTOAPPROVE";
     private static final String CLIENT_FIELDS = "C_CLIENT_SECRET, " + CLIENT_FIELDS_FOR_UPDATE;
-    private static final String BASE_FIND_STATEMENT = "select C_CLIENT_ID, " + CLIENT_FIELDS + " from COR_UAA_CLIENT_DETAILS";
+    private static final String BASE_FIND_STATEMENT = "select C_CLIENT_ID, " + CLIENT_FIELDS + " from COR_UAA_CLIENT";
 
-    public static final String INSERT_SQL = "insert into COR_UAA_CLIENT_DETAILS (" + CLIENT_FIELDS
+    public static final String INSERT_SQL = "insert into COR_UAA_CLIENT (" + CLIENT_FIELDS
             + ", C_CLIENT_ID) values (?,?,?,?,?,?,?,?,?,?,?)";
-    public static final String DELETE_SQL = "delete from COR_UAA_CLIENT_DETAILS where C_CLIENT_ID = ?";
+    public static final String DELETE_SQL = "delete from COR_UAA_CLIENT where C_CLIENT_ID = ?";
     private static final String FIND_SQL = BASE_FIND_STATEMENT + " order by C_CLIENT_ID";
     private static final String SELECT_SQL = BASE_FIND_STATEMENT + " where C_CLIENT_ID = ?";
-    private static final String UPDATE_SQL = "update COR_UAA_CLIENT_DETAILS " + "set "
+    private static final String UPDATE_SQL = "update COR_UAA_CLIENT " + "set "
             + CLIENT_FIELDS_FOR_UPDATE.replace(", ", "=?, ") + "=? where C_CLIENT_ID = ?";
-    private static final String UPDATE_SECRET_SQL = "update COR_UAA_CLIENT_DETAILS set C_CLIENT_SECRET = ? where C_CLIENT_ID = ?";
+    private static final String UPDATE_SECRET_SQL = "update COR_UAA_CLIENT set C_CLIENT_SECRET = ? where C_CLIENT_ID = ?";
 
     public CustomJdbcClientDetailsService(DataSource dataSource) {
         super(dataSource);

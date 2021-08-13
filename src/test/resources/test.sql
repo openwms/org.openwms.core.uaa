@@ -1,7 +1,7 @@
 delete from cor_uaa_role_user;
 delete from cor_uaa_role_role;
 delete from cor_uaa_role;
-delete from cor_uaa_client_details;
+delete from cor_uaa_client;
 delete from cor_uaa_email;
 delete from cor_uaa_user;
 
@@ -10,7 +10,7 @@ insert into cor_uaa_user (c_type, c_pk, c_created, c_ol, c_pid, c_enabled, c_exp
 
 insert into cor_uaa_email (c_pk, c_created, c_ol, c_address, c_full_name, c_primary, c_username) values (2, '2020-06-22 19:02:47.425000', 0, 'tester.tester@example.com', null, 'true', 'tester');
 
-insert into cor_uaa_client_details (C_PK, C_PID, C_CREATED, C_OL, C_CLIENT_ID, C_CLIENT_SECRET, C_SCOPE, C_AUTHORIZED_GRANT_TYPES, C_WEB_SERVER_REDIRECT_URI, C_AUTHORITIES, C_ACCESS_TOKEN_VALIDITY,C_REFRESH_TOKEN_VALIDITY, C_ADDITIONAL_INFORMATION, C_AUTOAPPROVE) VALUES (1000, '1000', now(), 0, 'gateway', 'secret', 'gateway', 'password,authorization_code,refresh_token,implicit', 'http://localhost:8086/login/oauth2/code/gateway', null, 36000, 36000, null, true);
+insert into cor_uaa_client (C_PK, C_PID, C_CREATED, C_OL, C_CLIENT_ID, C_CLIENT_SECRET, C_SCOPE, C_AUTHORIZED_GRANT_TYPES, C_WEB_SERVER_REDIRECT_URI, C_AUTHORITIES, C_ACCESS_TOKEN_VALIDITY,C_REFRESH_TOKEN_VALIDITY, C_ADDITIONAL_INFORMATION, C_AUTOAPPROVE) VALUES (1000, '1000', now(), 0, 'gateway', 'secret', 'gateway', 'password,authorization_code,refresh_token,implicit', 'http://localhost:8086/login/oauth2/code/gateway', null, 36000, 36000, null, true);
 
 insert into cor_uaa_role (c_type, c_pk, c_created, c_ol, c_pid, c_description, c_name, c_immutable) VALUES ('ROLE', 1000, now(), 0, '1', 'Super user role', 'ROLE_ADMIN', true);
 insert into cor_uaa_role (c_type, c_pk, c_created, c_ol, c_pid, c_description, c_name, c_immutable) VALUES ('ROLE', 1001, now(), 0, '2', 'Operator role', 'ROLE_OPS', true);

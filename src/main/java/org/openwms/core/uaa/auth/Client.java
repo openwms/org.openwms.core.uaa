@@ -29,7 +29,7 @@ import java.util.Objects;
  * @author Heiko Scherrer
  */
 @Entity
-@Table(name = "COR_UAA_CLIENT_DETAILS")
+@Table(name = "COR_UAA_CLIENT")
 public class Client extends ApplicationEntity implements Serializable {
 
     @Column(name = "C_RESOURCE_IDS")
