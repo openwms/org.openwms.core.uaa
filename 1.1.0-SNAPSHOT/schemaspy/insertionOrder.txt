@@ -4,4 +4,4 @@ cor_uaa_email
 cor_uaa_user_password
 cor_uaa_role_role
 cor_uaa_role_user
-cor_uaa_client_details
+cor_uaa_client

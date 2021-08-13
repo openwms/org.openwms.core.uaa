@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="(1.1.0-SNAPSHOT-33)">
+<meta name="author" content="(1.1.0-SNAPSHOT-34)">
 <title>OpenWMS.org WMS: RESTful API (UAA)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org WMS: RESTful API (UAA)</h1>
 <div class="details">
-<span id="author" class="author">(1.1.0-SNAPSHOT-33)</span><br>
+<span id="author" class="author">(1.1.0-SNAPSHOT-34)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -884,12 +884,12 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/939cc388-435f-4e94-be1b-3ea6eee06f66/
+Location: http://localhost:8080/users/a360ec6c-0108-4761-a784-11f0405dfe03/
 Content-Type: application/hal+json
 Content-Length: 239
 
 {
-  "pKey" : "939cc388-435f-4e94-be1b-3ea6eee06f66",
+  "pKey" : "a360ec6c-0108-4761-a784-11f0405dfe03",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -1007,7 +1007,7 @@ resource:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/939cc388-435f-4e94-be1b-3ea6eee06f66/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/a360ec6c-0108-4761-a784-11f0405dfe03/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1021,7 +1021,7 @@ Content-Type: application/hal+json
 Content-Length: 239
 
 {
-  "pKey" : "939cc388-435f-4e94-be1b-3ea6eee06f66",
+  "pKey" : "a360ec6c-0108-4761-a784-11f0405dfe03",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -1048,7 +1048,7 @@ Host: localhost:8080
 
 {
   "links" : [ ],
-  "pKey" : "939cc388-435f-4e94-be1b-3ea6eee06f66",
+  "pKey" : "a360ec6c-0108-4761-a784-11f0405dfe03",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
@@ -1070,7 +1070,7 @@ Content-Type: application/hal+json
 Content-Length: 242
 
 {
-  "pKey" : "00775729-a912-4ffa-a7cb-95dbe9c4c2d8",
+  "pKey" : "95314d71-0130-4c79-8895-7b4b746abb6e",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
@@ -1090,7 +1090,7 @@ Content-Length: 242
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /users/939cc388-435f-4e94-be1b-3ea6eee06f66/password HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /users/a360ec6c-0108-4761-a784-11f0405dfe03/password HTTP/1.1
 Content-Type: application/json
 Content-Length: 28
 Host: localhost:8080
@@ -1110,10 +1110,10 @@ Content-Type: application/hal+json
 Content-Length: 25090
 
 {
-  "pKey" : "939cc388-435f-4e94-be1b-3ea6eee06f66",
+  "pKey" : "a360ec6c-0108-4761-a784-11f0405dfe03",
   "username" : "admin2",
   "externalUser" : false,
-  "lastPasswordChange" : "2021-08-12T15:11:29Z",
+  "lastPasswordChange" : "2021-08-13T19:50:54Z",
   "locked" : false,
   "enabled" : true,
   "details" : {
@@ -1134,7 +1134,7 @@ Content-Length: 25090
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /users/939cc388-435f-4e94-be1b-3ea6eee06f66/details/image HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /users/a360ec6c-0108-4761-a784-11f0405dfe03/details/image HTTP/1.1
 Content-Type: application/octet-stream
 Content-Length: 18572
 Host: localhost:8080
@@ -1160,7 +1160,7 @@ to access the endpoint.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Mjg4MTcxMDYsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjEyMGM5Mjk1LTRjMzgtNDQ2MS04Y2QwLWEzOTM4MjBjZjkzYyIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.dqNjYDPJ-FtoO7-EEqpk0fKDWmbFjUzZpf25od-VKZ8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Mjg5MjAyNzEsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6ImRhZGIzYjdkLTc1OGUtNGZiMy1iMmNjLWQ4NjFiYzk5NDFkYSIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.RUJ0eFt-5eZ5XnjAD3wcaKcuSvBWqM3XV_yqW2YI4Jg
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1255,7 +1255,7 @@ X-Frame-Options: DENY
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /users/939cc388-435f-4e94-be1b-3ea6eee06f66/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">DELETE /users/a360ec6c-0108-4761-a784-11f0405dfe03/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1388,20 +1388,20 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Location: http://localhost:8080/roles/477ec156-d664-4ba8-aee2-cc639733adc4/
+Location: http://localhost:8080/roles/45610696-7e44-4e5d-a6ca-b52abd56a989/
 Content-Type: application/hal+json
 Content-Length: 373
 
 {
   "_links" : {
     "users" : {
-      "href" : "http://localhost:8080/roles/477ec156-d664-4ba8-aee2-cc639733adc4/users"
+      "href" : "http://localhost:8080/roles/45610696-7e44-4e5d-a6ca-b52abd56a989/users"
     },
     "grants" : {
-      "href" : "http://localhost:8080/roles/477ec156-d664-4ba8-aee2-cc639733adc4/grants"
+      "href" : "http://localhost:8080/roles/45610696-7e44-4e5d-a6ca-b52abd56a989/grants"
     }
   },
-  "pKey" : "477ec156-d664-4ba8-aee2-cc639733adc4",
+  "pKey" : "45610696-7e44-4e5d-a6ca-b52abd56a989",
   "name" : "ROLE_DEV",
   "immutable" : true,
   "description" : "Developers"
@@ -1972,7 +1972,7 @@ Content-Type: application/hal+json
 Content-Length: 383
 
 {
-  "pKey" : "d4403195-bcc0-4ca2-96f8-4af822e8d25d",
+  "pKey" : "a2e4843d-6c94-49cd-875d-4fd8be910d0e",
   "resourceIds" : "res",
   "clientId" : "cliendId",
   "clientSecret" : "secr3t",
@@ -2103,7 +2103,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-08-12 15:03:16 UTC
+Last updated 2021-08-13 19:46:14 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">
