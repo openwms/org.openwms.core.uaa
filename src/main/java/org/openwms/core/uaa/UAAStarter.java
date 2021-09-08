@@ -94,7 +94,7 @@ public class UAAStarter {
                 ud.setPhoneNo("001-1234-56789");
                 user.setUserDetails(ud);
                 user.changePassword(encoder.encode("tester"), "tester", encoder);
-                service.create(user);
+                service.create(user, null);
             }
             Client client = new Client();
             client.setClientId("gateway");
