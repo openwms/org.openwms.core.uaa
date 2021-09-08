@@ -30,6 +30,7 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 import static org.openwms.core.uaa.TimeProvider.DATE_TIME_WITH_TIMEZONE;
 
@@ -81,6 +82,8 @@ public class UserVO extends AbstractBase implements Serializable {
     @JsonProperty("emailAddresses")
     @NotEmpty(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class})
     private List<EmailVO> emailAddresses = new ArrayList<>();
+    @JsonProperty("roleNames")
+    private List<String> roleNames;
 
     @JsonCreator
     public UserVO() {
@@ -97,6 +100,7 @@ public class UserVO extends AbstractBase implements Serializable {
         fullname = builder.fullname;
         userDetails = builder.userDetails;
         emailAddresses = builder.emailAddresses;
+        roleNames = builder.roleNames;
     }
 
     public static Builder newBuilder() {
@@ -147,6 +151,14 @@ public class UserVO extends AbstractBase implements Serializable {
         this.emailAddresses = emailAddresses;
     }
 
+    public List<String> getRoleNames() {
+        return roleNames;
+    }
+
+    public void setRoleNames(List<String> roleNames) {
+        this.roleNames = roleNames;
+    }
+
     /**
      * {@inheritDoc}
      *
@@ -155,19 +167,10 @@ public class UserVO extends AbstractBase implements Serializable {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof UserVO)) return false;
         if (!super.equals(o)) return false;
         UserVO userVO = (UserVO) o;
-        return Objects.equals(pKey, userVO.pKey) &&
-                Objects.equals(username, userVO.username) &&
-                Objects.equals(extern, userVO.extern) &&
-                Objects.equals(lastPasswordChange, userVO.lastPasswordChange) &&
-                Objects.equals(locked, userVO.locked) &&
-                Objects.equals(enabled, userVO.enabled) &&
-                Objects.equals(expirationDate, userVO.expirationDate) &&
-                Objects.equals(fullname, userVO.fullname) &&
-                Objects.equals(userDetails, userVO.userDetails) &&
-                Objects.equals(emailAddresses, userVO.emailAddresses);
+        return Objects.equals(pKey, userVO.pKey) && Objects.equals(username, userVO.username) && Objects.equals(extern, userVO.extern) && Objects.equals(lastPasswordChange, userVO.lastPasswordChange) && Objects.equals(locked, userVO.locked) && Objects.equals(enabled, userVO.enabled) && Objects.equals(expirationDate, userVO.expirationDate) && Objects.equals(fullname, userVO.fullname) && Objects.equals(userDetails, userVO.userDetails) && Objects.equals(emailAddresses, userVO.emailAddresses) && Objects.equals(roleNames, userVO.roleNames);
     }
 
     /**
@@ -177,7 +180,29 @@ public class UserVO extends AbstractBase implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), pKey, username, extern, lastPasswordChange, locked, enabled, expirationDate, fullname, userDetails, emailAddresses);
+        return Objects.hash(super.hashCode(), pKey, username, extern, lastPasswordChange, locked, enabled, expirationDate, fullname, userDetails, emailAddresses, roleNames);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", UserVO.class.getSimpleName() + "[", "]")
+                .add("pKey='" + pKey + "'")
+                .add("username='" + username + "'")
+                .add("extern=" + extern)
+                .add("lastPasswordChange=" + lastPasswordChange)
+                .add("locked=" + locked)
+                .add("enabled=" + enabled)
+                .add("expirationDate=" + expirationDate)
+                .add("fullname='" + fullname + "'")
+                .add("userDetails=" + userDetails)
+                .add("emailAddresses=" + emailAddresses)
+                .add("roleNames=" + roleNames)
+                .toString();
     }
 
     public void setpKey(java.lang.String pKey) {
@@ -227,6 +252,7 @@ public class UserVO extends AbstractBase implements Serializable {
         private String fullname;
         private @Valid UserDetailsVO userDetails;
         private @NotEmpty(groups = ValidationGroups.Create.class) List<EmailVO> emailAddresses;
+        private List<String> roleNames;
 
         private Builder() {
         }
@@ -278,6 +304,11 @@ public class UserVO extends AbstractBase implements Serializable {
 
         public Builder emailAddresses(@NotEmpty(groups = ValidationGroups.Create.class) List<EmailVO> val) {
             emailAddresses = val;
+            return this;
+        }
+
+        public Builder roleNames(List<String> val) {
+            roleNames = val;
             return this;
         }
 
