@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 
 /**
@@ -122,5 +123,24 @@ public class UserDetailsVO implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(image, description, comment, phoneNo, im, office, department, gender);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", UserDetailsVO.class.getSimpleName() + "[", "]")
+                .add("image='" + image + "'")
+                .add("description='" + description + "'")
+                .add("comment='" + comment + "'")
+                .add("phoneNo='" + phoneNo + "'")
+                .add("im='" + im + "'")
+                .add("office='" + office + "'")
+                .add("department='" + department + "'")
+                .add("gender='" + gender + "'")
+                .toString();
     }
 }
