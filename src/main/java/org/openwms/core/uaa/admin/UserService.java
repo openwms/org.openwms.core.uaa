@@ -45,6 +45,15 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
     void changeUserPassword(@NotNull UserPassword userPassword);
 
     /**
+     * Save or update an already existing {@link User}.
+     *
+     * @param user The instance to save
+     * @param roleNames A list of Role names to assign the User to
+     * @return The saved instance
+     */
+    User save(@NotNull User user, List<String> roleNames);
+
+    /**
      * Attach and save an {@code image} to an {@link User} with {@code id}.
      *
      * @param pKey The persistent key of the User

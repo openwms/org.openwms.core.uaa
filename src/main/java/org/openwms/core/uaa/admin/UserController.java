@@ -111,8 +111,9 @@ public class UserController extends AbstractWebController {
     }
 
     @PutMapping(API_USERS)
-    public ResponseEntity<UserVO> save(@RequestBody @Valid UserVO user) {
-        return ResponseEntity.ok(mapper.map(service.save(mapper.map(user, User.class)), UserVO.class));
+    public ResponseEntity<UserVO> save(@RequestBody @Valid UserVO vo) {
+        User user = mapper.map(vo, User.class);
+        return ResponseEntity.ok(mapper.map(service.save(user, vo.getRoleNames()), UserVO.class));
     }
 
     @PostMapping(API_USERS + "/{pKey}/details/image")

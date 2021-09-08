@@ -108,6 +108,24 @@ class UserServiceImpl implements UserService {
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
     @Measured
+    public User save(@NotNull User user, List<String> roleNames) {
+        validate(validator, user, ValidationGroups.Modify.class);
+        if (roleNames != null && !roleNames.isEmpty()) {
+            user.setRoles(roleService.findByNames(roleNames));
+        }
+        User saved = repository.save(user);
+        eventPublisher.publishEvent(new UserEvent(saved, UserEvent.EventType.MODIFIED));
+        return saved;
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws EntityNotFoundException when no User with {@code id} found
+     */
+    @Override
+    @FireAfterTransaction(events = {UserChangedEvent.class})
+    @Measured
     public void uploadImageFile(String pKey, byte[] image) {
         User user = findByPKeyInternal(pKey);
         user.getUserDetails().setImage(image);
