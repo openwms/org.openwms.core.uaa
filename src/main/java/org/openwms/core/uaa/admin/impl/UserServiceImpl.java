@@ -23,20 +23,21 @@ import org.ameba.exception.ServiceLayerException;
 import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.core.annotation.FireAfterTransaction;
-import org.openwms.core.uaa.admin.RoleService;
-import org.openwms.core.uaa.api.UserVO;
-import org.openwms.core.uaa.configuration.ConfigurationService;
-import org.openwms.core.uaa.configuration.UserPreference;
 import org.openwms.core.event.UserChangedEvent;
 import org.openwms.core.exception.ExceptionCodes;
 import org.openwms.core.exception.InvalidPasswordException;
+import org.openwms.core.uaa.admin.RoleService;
 import org.openwms.core.uaa.admin.UserService;
+import org.openwms.core.uaa.api.UserVO;
 import org.openwms.core.uaa.api.ValidationGroups;
+import org.openwms.core.uaa.configuration.ConfigurationService;
+import org.openwms.core.uaa.configuration.UserPreference;
 import org.openwms.core.uaa.events.UserEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -85,7 +86,7 @@ class UserServiceImpl implements UserService {
     private final String systemPassword;
 
     UserServiceImpl(UserRepository repository, SecurityObjectRepository securityObjectDao, ConfigurationService confSrv,
-            RoleService roleService, PasswordEncoder enc, Translator translator, Validator validator, BeanMapper mapper, ApplicationEventPublisher eventPublisher, @Value("${owms.security.system.username}") String systemUsername,
+            @Lazy RoleService roleService, PasswordEncoder enc, Translator translator, Validator validator, BeanMapper mapper, ApplicationEventPublisher eventPublisher, @Value("${owms.security.system.username}") String systemUsername,
             @Value("${owms.security.system.password}") String systemPassword) {
         this.repository = repository;
         this.securityObjectDao = securityObjectDao;
