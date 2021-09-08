@@ -23,6 +23,7 @@ import org.ameba.exception.ServiceLayerException;
 import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.core.annotation.FireAfterTransaction;
+import org.openwms.core.uaa.admin.RoleService;
 import org.openwms.core.uaa.api.UserVO;
 import org.openwms.core.uaa.configuration.ConfigurationService;
 import org.openwms.core.uaa.configuration.UserPreference;
@@ -49,6 +50,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
 import static org.ameba.system.ValidationUtil.validate;
@@ -73,6 +75,7 @@ class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final SecurityObjectRepository securityObjectDao;
     private final ConfigurationService confSrv;
+    private final RoleService roleService;
     private final PasswordEncoder enc;
     private final Translator translator;
     private final Validator validator;
@@ -82,11 +85,12 @@ class UserServiceImpl implements UserService {
     private final String systemPassword;
 
     UserServiceImpl(UserRepository repository, SecurityObjectRepository securityObjectDao, ConfigurationService confSrv,
-            PasswordEncoder enc, Translator translator, Validator validator, BeanMapper mapper, ApplicationEventPublisher eventPublisher, @Value("${owms.security.system.username}") String systemUsername,
+            RoleService roleService, PasswordEncoder enc, Translator translator, Validator validator, BeanMapper mapper, ApplicationEventPublisher eventPublisher, @Value("${owms.security.system.username}") String systemUsername,
             @Value("${owms.security.system.password}") String systemPassword) {
         this.repository = repository;
         this.securityObjectDao = securityObjectDao;
         this.confSrv = confSrv;
+        this.roleService = roleService;
         this.enc = enc;
         this.translator = translator;
         this.validator = validator;
@@ -161,7 +165,7 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @Measured
-    public User create(@NotNull @Valid User user) {
+    public User create(@NotNull @Valid User user, List<String> roleNames) {
         Optional<User> optUser = repository.findByUsername(user.getUsername());
         if (optUser.isPresent()) {
             throw new ResourceExistsException(translator.translate(USER_ALREADY_EXISTS, user.getUsername()),
@@ -169,6 +173,9 @@ class UserServiceImpl implements UserService {
                     user.getUsername());
         }
         user.getEmailAddresses().forEach(e -> e.setUser(user));
+        if (roleNames != null) {
+            user.setRoles(roleService.findByNames(roleNames));
+        }
         User created = repository.save(user);
         eventPublisher.publishEvent(new UserEvent(created, UserEvent.EventType.CREATED));
         return created;

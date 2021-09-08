@@ -31,7 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -102,9 +101,10 @@ public class UserController extends AbstractWebController {
     @PostMapping(API_USERS)
     @Validated(ValidationGroups.Create.class)
     public ResponseEntity<UserVO> create(
-            @RequestBody @Valid @NotNull UserVO user,
+            @RequestBody @Valid @NotNull UserVO vo,
             HttpServletRequest req) {
-        User created = service.create(mapper.map(user, User.class));
+        User user = mapper.map(vo, User.class);
+        User created = service.create(user, vo.getRoleNames());
         return ResponseEntity
                 .created(getLocationURIForCreatedResource(req, created.getPersistentKey()))
                 .body(mapper.map(created, UserVO.class));

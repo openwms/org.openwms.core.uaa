@@ -52,6 +52,14 @@ public interface RoleService {
     RoleVO findByPKey(String pKey);
 
     /**
+     * Find and return all existing {@link Role}s.
+     *
+     * @param roleNames A list with all the names
+     * @return A list with Roles, never {@literal null}
+     */
+    List<Role> findByNames(List<String> roleNames);
+
+    /**
      * Create a Role that does not exist so far.
      *
      * @param role The Role to be created

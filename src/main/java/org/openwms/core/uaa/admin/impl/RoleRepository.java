@@ -20,6 +20,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -32,6 +33,9 @@ interface RoleRepository extends JpaRepository<Role, Long> {
     Optional<Role> findBypKey(String pKey);
 
     Optional<Role> findByName(String name);
+
+    @Query("select r from Role r where r.name in :names")
+    List<Role> findByNames(List<String> names);
 
     @Modifying
     @Query("delete from Role r where r.pKey = :pKey")

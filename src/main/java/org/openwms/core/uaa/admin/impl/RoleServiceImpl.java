@@ -32,6 +32,7 @@ import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Collections;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -75,6 +76,16 @@ class RoleServiceImpl implements RoleService {
     @Measured
     public RoleVO findByPKey(String pKey) {
         return mapper.map(getRole(pKey), RoleVO.class);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public List<Role> findByNames(List<String> roleNames) {
+        List<Role> allRoles = repository.findByNames(roleNames);
+        return allRoles == null ? Collections.emptyList() : allRoles;
     }
 
     /**

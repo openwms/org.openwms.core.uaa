@@ -18,15 +18,16 @@ package org.openwms.core.uaa.admin;
 import org.ameba.integration.FindOperations;
 import org.ameba.integration.SaveOperations;
 import org.openwms.core.exception.InvalidPasswordException;
-import org.openwms.core.uaa.api.UserVO;
-import org.openwms.core.uaa.configuration.UserPreference;
 import org.openwms.core.uaa.admin.impl.SystemUser;
 import org.openwms.core.uaa.admin.impl.User;
 import org.openwms.core.uaa.admin.impl.UserPassword;
+import org.openwms.core.uaa.api.UserVO;
+import org.openwms.core.uaa.configuration.UserPreference;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -80,9 +81,10 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
      * Create a non-existing User.
      *
      * @param user The User instance to create
+     * @param roleNames A list of Role names to assign the User to
      * @return The created instance
      */
-    User create(@NotNull @Valid User user);
+    User create(@NotNull @Valid User user, List<String> roleNames);
 
     /**
      * Find and return an {@code User} instance.
