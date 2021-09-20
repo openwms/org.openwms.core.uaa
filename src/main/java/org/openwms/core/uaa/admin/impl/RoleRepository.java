@@ -35,7 +35,7 @@ interface RoleRepository extends JpaRepository<Role, Long> {
     Optional<Role> findByName(String name);
 
     @Query("select r from Role r where r.name in :names")
-    List<Role> findByNames(List<String> names);
+    List<Role> findByNames(@Param("names") List<String> names);
 
     @Modifying
     @Query("delete from Role r where r.pKey = :pKey")

@@ -98,6 +98,13 @@ public class UserController extends AbstractWebController {
         return ResponseEntity.ok(mapper.map(user.getGrants(), SecurityObjectVO.class));
     }
 
+    @Transactional(readOnly = true)
+    @GetMapping(API_USERS + "/{pKey}/roles")
+    public ResponseEntity<List<SecurityObjectVO>> findRolesForUser(@PathVariable("pKey") @NotEmpty String pKey) {
+        User user = service.findByPKey(pKey);
+        return ResponseEntity.ok(mapper.map(user.getRoles(), SecurityObjectVO.class));
+    }
+
     @PostMapping(API_USERS)
     @Validated(ValidationGroups.Create.class)
     public ResponseEntity<UserVO> create(
