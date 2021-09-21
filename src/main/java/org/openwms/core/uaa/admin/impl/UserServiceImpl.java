@@ -193,7 +193,10 @@ class UserServiceImpl implements UserService {
         }
         user.getEmailAddresses().forEach(e -> e.setUser(user));
         if (roleNames != null) {
-            user.setRoles(roleService.findByNames(roleNames));
+            List<Role> byNames = roleService.findByNames(roleNames);
+            byNames.forEach(role -> role.addUser(user));
+            user.setRoles(byNames);
+            LOGGER.debug("Assigned roles [{}] to User [{}]", byNames, user.getUsername());
         }
         User created = repository.save(user);
         eventPublisher.publishEvent(new UserEvent(created, UserEvent.EventType.CREATED));

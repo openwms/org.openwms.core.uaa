@@ -27,6 +27,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.StringJoiner;
 
 /**
  * Detailed information about an {@link User}.
@@ -219,5 +220,19 @@ public class UserDetails implements ImageProvider, Serializable {
      */
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", UserDetails.class.getSimpleName() + "[", "]")
+                .add("description='" + description + "'")
+                .add("comment='" + comment + "'")
+                .add("phoneNo='" + phoneNo + "'")
+                .add("im='" + im + "'")
+                .add("office='" + office + "'")
+                .add("department='" + department + "'")
+                .add("image=" + Arrays.toString(image))
+                .add("gender=" + gender)
+                .toString();
     }
 }
