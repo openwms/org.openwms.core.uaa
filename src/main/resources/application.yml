@@ -5,6 +5,9 @@ eureka:
 
 owms:
   security:
+    encoder:
+      bcrypt:
+        strength: 15
     useEncoder: false
     successUrl: "/"
     system:

@@ -34,6 +34,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.security.SecureRandom;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Optional;
@@ -48,10 +49,12 @@ import static java.util.Arrays.asList;
 @SpringBootApplication(scanBasePackageClasses = {UAAStarter.class, SolutionApp.class})
 public class UAAStarter {
 
+    private final SecureRandom secureRandom = new SecureRandom();
+
     @ConditionalOnExpression("'${owms.security.useEncoder}'=='true'")
     @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(15);
+    PasswordEncoder passwordEncoder(@Value("${owms.security.encoder.bcrypt.strength:15}") int strength) {
+        return new BCryptPasswordEncoder(strength, secureRandom);
     }
 
     @ConditionalOnExpression("'${owms.security.useEncoder}'=='false'")
