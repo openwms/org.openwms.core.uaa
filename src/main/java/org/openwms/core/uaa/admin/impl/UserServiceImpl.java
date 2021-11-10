@@ -24,7 +24,6 @@ import org.ameba.i18n.Translator;
 import org.ameba.mapping.BeanMapper;
 import org.openwms.core.annotation.FireAfterTransaction;
 import org.openwms.core.event.UserChangedEvent;
-import org.openwms.core.exception.ExceptionCodes;
 import org.openwms.core.exception.InvalidPasswordException;
 import org.openwms.core.uaa.admin.RoleService;
 import org.openwms.core.uaa.admin.UserService;
@@ -55,9 +54,12 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.ameba.system.ValidationUtil.validate;
-import static org.openwms.core.exception.ExceptionCodes.USER_ALREADY_EXISTS;
-import static org.openwms.core.exception.ExceptionCodes.USER_WITH_NAME_NOT_EXIST;
-import static org.openwms.core.exception.ExceptionCodes.USER_WITH_PKEY_NOT_EXIST;
+import static org.openwms.core.uaa.MessageCodes.USER_ALREADY_EXISTS;
+import static org.openwms.core.uaa.MessageCodes.USER_PW_INVALID;
+import static org.openwms.core.uaa.MessageCodes.USER_SAVE_NOT_BE_NULL;
+import static org.openwms.core.uaa.MessageCodes.USER_WITH_NAME_NOT_EXIST;
+import static org.openwms.core.uaa.MessageCodes.USER_WITH_PKEY_NOT_EXIST;
+import static org.openwms.core.uaa.MessageCodes.USER_WITH_PK_NOT_EXIST;
 
 /**
  * An UserServiceImpl is a Spring managed transactional implementation of the {@link UserService}. Using Spring 2 annotation support
@@ -144,7 +146,7 @@ class UserServiceImpl implements UserService {
     @Override
     @Measured
     public User save(User entity) {
-        Assert.notNull(entity, ExceptionCodes.USER_SAVE_NOT_BE_NULL);
+        Assert.notNull(entity, translator.translate(USER_SAVE_NOT_BE_NULL));
         validate(validator, entity, ValidationGroups.Modify.class);
         User saved = repository.save(entity);
         eventPublisher.publishEvent(new UserEvent(saved, UserEvent.EventType.MODIFIED));
@@ -235,12 +237,7 @@ class UserServiceImpl implements UserService {
     @Override
     @Measured
     public void remove(String username) {
-        User user = repository.findByUsername(username).orElseThrow(
-                () -> new NotFoundException(
-                        translator.translate(USER_WITH_NAME_NOT_EXIST, username),
-                        USER_WITH_NAME_NOT_EXIST,
-                        username
-                ));
+        User user = findInternal(username);
         repository.delete(user);
         eventPublisher.publishEvent(new UserEvent(user, UserEvent.EventType.DELETED));
     }
@@ -275,22 +272,26 @@ class UserServiceImpl implements UserService {
     @FireAfterTransaction(events = {UserChangedEvent.class})
     @Measured
     public void changeUserPassword(@NotNull UserPassword userPassword) {
-        User entity = repository.findByUsername(userPassword.getUser().getUsername()).orElseThrow(
-                () -> new NotFoundException(
-                        translator.translate(USER_WITH_NAME_NOT_EXIST, userPassword.getUser().getUsername()),
-                        USER_WITH_NAME_NOT_EXIST,
-                        userPassword.getUser().getUsername()
-                )
-        );
+        User entity = findInternal(userPassword.getUser().getUsername());
         try {
             entity.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);
             repository.save(entity);
             eventPublisher.publishEvent(new UserEvent(entity, UserEvent.EventType.MODIFIED));
         } catch (InvalidPasswordException ipe) {
             LOGGER.error(ipe.getMessage());
-            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PW_INVALID, userPassword.getUser().getUsername()),
-                    ExceptionCodes.USER_PW_INVALID);
+            throw new ServiceLayerException(translator.translate(USER_PW_INVALID, userPassword.getUser().getUsername()),
+                    USER_PW_INVALID);
         }
+    }
+
+    private User findInternal(String username) {
+        return repository.findByUsername(username).orElseThrow(
+                () -> new NotFoundException(
+                        translator.translate(USER_WITH_NAME_NOT_EXIST, username),
+                        USER_WITH_NAME_NOT_EXIST,
+                        username
+                )
+        );
     }
 
     /**
@@ -304,8 +305,8 @@ class UserServiceImpl implements UserService {
             user.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);
         } catch (InvalidPasswordException ipe) {
             LOGGER.error(ipe.getMessage());
-            throw new ServiceLayerException(translator.translate(ExceptionCodes.USER_PW_INVALID, userPassword.getPassword()),
-                    ExceptionCodes.USER_PW_INVALID);
+            throw new ServiceLayerException(translator.translate(USER_PW_INVALID, userPassword.getPassword()),
+                    USER_PW_INVALID);
         }
         Arrays.stream(prefs).forEach(confSrv::save);
         return save(user);
@@ -326,6 +327,8 @@ class UserServiceImpl implements UserService {
     @Override
     @Measured
     public User findById(Long pk) {
-        return repository.findById(pk).orElseThrow(() -> new NotFoundException(String.format("No User with pk %s found", pk)));
+        return repository.findById(pk).orElseThrow(() -> new NotFoundException(
+                translator, USER_WITH_PK_NOT_EXIST, new Long[]{pk}, pk
+        ));
     }
 }

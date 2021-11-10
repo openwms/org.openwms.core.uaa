@@ -21,7 +21,6 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.i18n.Translator;
 import org.openwms.core.annotation.FireAfterTransaction;
 import org.openwms.core.event.UserChangedEvent;
-import org.openwms.core.exception.ExceptionCodes;
 import org.openwms.core.uaa.admin.SecurityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +31,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
+import static org.openwms.core.uaa.MessageCodes.MODULENAME_NOT_NULL;
 
 /**
  * A SecurityServiceImpl is a transactional Spring Service implementation.
@@ -61,7 +61,7 @@ class SecurityServiceImpl implements SecurityService {
     @FireAfterTransaction(events = {UserChangedEvent.class})
     @Measured
     public List<Grant> mergeGrants(String moduleName, List<Grant> grants) {
-        Assert.notNull(moduleName, translator.translate(ExceptionCodes.MODULENAME_NOT_NULL));
+        Assert.notNull(moduleName, translator.translate(MODULENAME_NOT_NULL));
         LOGGER.debug("Merging grants of module: [{}]", moduleName);
         List<Grant> persisted = securityObjectRepository.findAllOfModule(moduleName + "%");
         List<Grant> result = new ArrayList<>(persisted);

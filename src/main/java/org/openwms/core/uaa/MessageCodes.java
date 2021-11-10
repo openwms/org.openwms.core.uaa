@@ -24,6 +24,22 @@ public final class MessageCodes {
 
     private MessageCodes() { }
 
+    /** Thrown if an User to persist already exists. */
+    public static final String USER_ALREADY_EXISTS = "user.already.exists";
+    /** Thrown if an User has been looked up but hasn't been found. */
+    public static final String USER_WITH_PKEY_NOT_EXIST = "user.pkey.not.exist";
+    /** Thrown if an User has been looked up but hasn't been found. */
+    public static final String USER_WITH_PK_NOT_EXIST = "user.pk.not.exist";
+    /** Thrown if an User has been looked up but hasn't been found. */
+    public static final String USER_WITH_NAME_NOT_EXIST = "user.name.not.exist";
+    /** Thrown if saving a User was requested with {@code null} argument. */
+    public static final String USER_SAVE_NOT_BE_NULL = "user.save.null.argument";
+    /** Thrown if changing a User's password was requested, but the new password does not match the defined password rules. */
+    public static final String USER_PW_INVALID = "user.password.invalid";
+
     /** Thrown if a Role has been looked up by persistent key but hasn't been found. */
     public static final String ROLE_WITH_PKEY_NOT_EXIST = "role.pkey.not.exist";
+
+    /** Thrown if a service method was called with expected modulename but that was {@code null}. */
+    public static final String MODULENAME_NOT_NULL = "module.modulename.null.argument";
 }
