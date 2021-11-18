@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="(1.1.0-SNAPSHOT-41)">
+<meta name="author" content="(1.1.0-SNAPSHOT-42)">
 <title>OpenWMS.org WMS: RESTful API (UAA)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org WMS: RESTful API (UAA)</h1>
 <div class="details">
-<span id="author" class="author">(1.1.0-SNAPSHOT-41)</span><br>
+<span id="author" class="author">(1.1.0-SNAPSHOT-42)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -644,7 +644,7 @@ format or has produced an error on server side, the API will decline the request
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">{
     "message": "LocationGroup with name [NOT_EXISTS] not found",
-    "messageKey": "COMMON.LOCATION_GROUP_NOT_FOUND",
+    "messageKey": "owms.common.common.lg.notFoundByName",
     "obj" : [ "NOT_EXISTS" ],
     "httpStatus" : "404",
     "class" : "String"
@@ -884,12 +884,12 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/3e5708db-853b-4b82-a29b-2c99de4805d5/
+Location: http://localhost:8080/users/4635b1d8-597b-475d-ae72-9fe1da8489f0/
 Content-Type: application/hal+json
 Content-Length: 239
 
 {
-  "pKey" : "3e5708db-853b-4b82-a29b-2c99de4805d5",
+  "pKey" : "4635b1d8-597b-475d-ae72-9fe1da8489f0",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -1050,7 +1050,7 @@ resource:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/3e5708db-853b-4b82-a29b-2c99de4805d5/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/4635b1d8-597b-475d-ae72-9fe1da8489f0/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1064,7 +1064,7 @@ Content-Type: application/hal+json
 Content-Length: 239
 
 {
-  "pKey" : "3e5708db-853b-4b82-a29b-2c99de4805d5",
+  "pKey" : "4635b1d8-597b-475d-ae72-9fe1da8489f0",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -1091,7 +1091,7 @@ Host: localhost:8080
 
 {
   "links" : [ ],
-  "pKey" : "3e5708db-853b-4b82-a29b-2c99de4805d5",
+  "pKey" : "4635b1d8-597b-475d-ae72-9fe1da8489f0",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
@@ -1113,7 +1113,7 @@ Content-Type: application/hal+json
 Content-Length: 242
 
 {
-  "pKey" : "63223fbc-40dd-4ec4-93a9-ed39d8bd3787",
+  "pKey" : "008afb75-b24a-4bce-b55e-0cf6c3a54662",
   "username" : "superuser",
   "externalUser" : false,
   "locked" : true,
@@ -1148,7 +1148,7 @@ Content-Length: 242
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /users/3e5708db-853b-4b82-a29b-2c99de4805d5/details/image HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /users/4635b1d8-597b-475d-ae72-9fe1da8489f0/details/image HTTP/1.1
 Content-Type: application/octet-stream
 Content-Length: 18572
 Host: localhost:8080
@@ -1181,7 +1181,7 @@ to access the endpoint.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzMzMzU2MzEsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6ImRhNDBhNzJiLTUxOTktNGMzMi1hMjY3LTU3ZTg5OWRjZjU2ZiIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.aA4DpLAjHPZ0wI2Bsgj_-vyVjFWxfIa1WL7IJs9uVeM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzcyNjUxNzUsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6ImY4MzllYjg0LTIyZjMtNDdlOC1hNDQ3LTA0YjI2ZjI4YjExZiIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.IMxpZSenGU6wd8BVyMN33Jak0S5wKkLJHP-hXJ4KDKs
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1404,20 +1404,20 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Location: http://localhost:8080/roles/c11e98c7-eb68-46e6-b891-64b464f8edc5/
+Location: http://localhost:8080/roles/184979dc-50ad-446d-8908-452573455b7c/
 Content-Type: application/hal+json
 Content-Length: 373
 
 {
   "_links" : {
     "users" : {
-      "href" : "http://localhost:8080/roles/c11e98c7-eb68-46e6-b891-64b464f8edc5/users"
+      "href" : "http://localhost:8080/roles/184979dc-50ad-446d-8908-452573455b7c/users"
     },
     "grants" : {
-      "href" : "http://localhost:8080/roles/c11e98c7-eb68-46e6-b891-64b464f8edc5/grants"
+      "href" : "http://localhost:8080/roles/184979dc-50ad-446d-8908-452573455b7c/grants"
     }
   },
-  "pKey" : "c11e98c7-eb68-46e6-b891-64b464f8edc5",
+  "pKey" : "184979dc-50ad-446d-8908-452573455b7c",
   "name" : "ROLE_DEV",
   "immutable" : true,
   "description" : "Developers"
@@ -1668,10 +1668,10 @@ Content-Length: 275
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 168
+Content-Length: 166
 
 {
-  "message" : "User with pKey UNKNOWN does not exist",
+  "message" : "User with ID UNKNOWN does not exist",
   "messageKey" : "user.pkey.not.exist",
   "obj" : [ "UNKNOWN" ],
   "httpStatus" : "404",
@@ -1724,10 +1724,10 @@ Content-Length: 275
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 168
+Content-Length: 166
 
 {
-  "message" : "Role with pKey UNKNOWN does not exist",
+  "message" : "Role with ID UNKNOWN does not exist",
   "messageKey" : "role.pkey.not.exist",
   "obj" : [ "UNKNOWN" ],
   "httpStatus" : "404",
@@ -1988,7 +1988,7 @@ Content-Type: application/hal+json
 Content-Length: 383
 
 {
-  "pKey" : "6c0d1d9b-8438-44fe-bf5b-fc6b12c2df09",
+  "pKey" : "2303f664-35df-4ae2-9bb1-a45f9e87acbe",
   "resourceIds" : "res",
   "clientId" : "cliendId",
   "clientSecret" : "secr3t",
@@ -2119,7 +2119,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-10-03 22:07:08 UTC
+Last updated 2021-11-18 09:48:19 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

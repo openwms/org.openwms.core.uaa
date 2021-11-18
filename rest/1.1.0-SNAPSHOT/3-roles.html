@@ -558,20 +558,20 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Location: http://localhost:8080/roles/c11e98c7-eb68-46e6-b891-64b464f8edc5/
+Location: http://localhost:8080/roles/184979dc-50ad-446d-8908-452573455b7c/
 Content-Type: application/hal+json
 Content-Length: 373
 
 {
   "_links" : {
     "users" : {
-      "href" : "http://localhost:8080/roles/c11e98c7-eb68-46e6-b891-64b464f8edc5/users"
+      "href" : "http://localhost:8080/roles/184979dc-50ad-446d-8908-452573455b7c/users"
     },
     "grants" : {
-      "href" : "http://localhost:8080/roles/c11e98c7-eb68-46e6-b891-64b464f8edc5/grants"
+      "href" : "http://localhost:8080/roles/184979dc-50ad-446d-8908-452573455b7c/grants"
     }
   },
-  "pKey" : "c11e98c7-eb68-46e6-b891-64b464f8edc5",
+  "pKey" : "184979dc-50ad-446d-8908-452573455b7c",
   "name" : "ROLE_DEV",
   "immutable" : true,
   "description" : "Developers"
@@ -822,10 +822,10 @@ Content-Length: 275
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 168
+Content-Length: 166
 
 {
-  "message" : "User with pKey UNKNOWN does not exist",
+  "message" : "User with ID UNKNOWN does not exist",
   "messageKey" : "user.pkey.not.exist",
   "obj" : [ "UNKNOWN" ],
   "httpStatus" : "404",
@@ -878,10 +878,10 @@ Content-Length: 275
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 168
+Content-Length: 166
 
 {
-  "message" : "Role with pKey UNKNOWN does not exist",
+  "message" : "Role with ID UNKNOWN does not exist",
   "messageKey" : "role.pkey.not.exist",
   "obj" : [ "UNKNOWN" ],
   "httpStatus" : "404",
@@ -915,7 +915,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-10-03 22:07:08 UTC
+Last updated 2021-11-18 09:48:19 UTC
 </div>
 </div>
 </body>
