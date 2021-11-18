@@ -28,11 +28,11 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openwms.core.TestBase;
+import org.openwms.core.uaa.MessageCodes;
+import org.openwms.core.uaa.admin.UserService;
 import org.openwms.core.uaa.app.UAAModuleConfiguration;
 import org.openwms.core.uaa.configuration.ConfigurationService;
 import org.openwms.core.uaa.configuration.UserPreference;
-import org.openwms.core.exception.ExceptionCodes;
-import org.openwms.core.uaa.admin.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,7 +162,7 @@ public class UserServiceIT extends TestBase {
             srv.changeUserPassword(new UserPassword(new User(UNKNOWN_USER), "password"));
             fail("Should throw an exception when calling with an unknown user");
         } catch (NotFoundException sre) {
-            if (!(sre.getMessageKey().equals(ExceptionCodes.USER_WITH_NAME_NOT_EXIST))) {
+            if (!(sre.getMessageKey().equals(MessageCodes.USER_WITH_NAME_NOT_EXIST))) {
                 fail("Should throw an NotFoundException when calling with an unknown user");
             }
             LOGGER.debug("OK: UserNotFoundException:" + sre.getMessage());
@@ -180,7 +180,7 @@ public class UserServiceIT extends TestBase {
             srv.changeUserPassword(new UserPassword(new User(KNOWN_USER), "password"));
             fail("Should throw an exception when calling with an invalid password");
         } catch (ServiceLayerException sre) {
-            if (!(sre.getMessageKey().equals(ExceptionCodes.USER_PW_INVALID))) {
+            if (!(sre.getMessageKey().equals(MessageCodes.USER_PW_INVALID))) {
                 fail("Should throw a nested InvalidPasswordException when calling with an invalid password");
             }
             LOGGER.debug("OK: InvalidPasswordException:" + sre.getMessage());
@@ -241,7 +241,7 @@ public class UserServiceIT extends TestBase {
             u = srv.saveUserProfile(u, new UserPassword(user, "password"));
             fail("Expected to catch an ServiceLayerException when the password is invalid");
         } catch (ServiceLayerException sre) {
-            if (!(sre.getMessageKey().equals(ExceptionCodes.USER_PW_INVALID))) {
+            if (!(sre.getMessageKey().equals(MessageCodes.USER_PW_INVALID))) {
                 fail("Expected to catch an InvalidPasswordException when the password is invalid");
             }
         }
