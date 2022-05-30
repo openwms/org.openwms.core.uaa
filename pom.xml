@@ -117,16 +117,26 @@
                             <version>${org.mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
+                    <showWarnings>true</showWarnings>
                     <compilerArgs>
-                        <compilerArg>
+                        <arg>
+                            --enable-preview
+                        </arg>
+                        <arg>
                             -Amapstruct.defaultComponentModel=spring
-                        </compilerArg>
-                        <compilerArg>
+                        </arg>
+                        <arg>
                             -Amapstruct.suppressGeneratorTimestamp=true
-                        </compilerArg>
-                        <compilerArg>
+                        </arg>
+                        <arg>
                             -Amapstruct.suppressGeneratorVersionInfoComment=true
-                        </compilerArg>
+                        </arg>
+                        <arg>
+                            -Amapstruct.defaultInjectionStrategy=constructor
+                        </arg>
+                        <arg>
+                            -Amapstruct.verbose=true
+                        </arg>
                     </compilerArgs>
                 </configuration>
             </plugin>
