@@ -65,6 +65,7 @@ public class GrantController extends AbstractWebController {
         return ResponseEntity.ok(mapper.map(new ArrayList<>(service.findAllGrants()), SecurityObjectVO.class));
     }
 
+    // TODO [openwms]: 17.06.22 Change header to IDENTITY
     @GetMapping(path = API_GRANTS, headers = HEADER_VALUE_X_TENANT)
     public ResponseEntity<List<SecurityObjectVO>> findAllForUser(@RequestHeader(HEADER_VALUE_X_TENANT) String user) {
         List<SecurityObject> grants = service.findAllFor(user);
