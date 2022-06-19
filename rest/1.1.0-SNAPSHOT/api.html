@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="(1.1.0-SNAPSHOT-42)">
+<meta name="author" content="(1.1.0-SNAPSHOT-46)">
 <title>OpenWMS.org WMS: RESTful API (UAA)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,7 +442,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org WMS: RESTful API (UAA)</h1>
 <div class="details">
-<span id="author" class="author">(1.1.0-SNAPSHOT-42)</span><br>
+<span id="author" class="author">(1.1.0-SNAPSHOT-46)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -884,14 +884,13 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/4635b1d8-597b-475d-ae72-9fe1da8489f0/
+Location: http://localhost:8080/users/f9aa812f-52cf-4fc8-8246-008fecb965db/
 Content-Type: application/hal+json
-Content-Length: 239
+Content-Length: 213
 
 {
-  "pKey" : "4635b1d8-597b-475d-ae72-9fe1da8489f0",
+  "pKey" : "f9aa812f-52cf-4fc8-8246-008fecb965db",
   "username" : "admin2",
-  "externalUser" : false,
   "locked" : false,
   "enabled" : true,
   "emailAddresses" : [ {
@@ -938,47 +937,29 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 1172
+Content-Length: 690
 
 [ {
   "links" : [ ],
   "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405d",
   "username" : "jenkins",
-  "externalUser" : false,
   "lastPasswordChange" : "2020-06-22T19:02:47Z",
   "locked" : false,
   "enabled" : true,
   "expirationDate" : "2020-06-23T19:02:45Z",
   "fullname" : "Mister Jenkins",
-  "details" : {
-    "description" : "Just a test user",
-    "comment" : "testing only",
-    "phoneNo" : "001-1234-56789",
-    "im" : "Skype:testee",
-    "office" : "Off. 815",
-    "department" : "Dep. 1",
-    "gender" : "FEMALE"
-  },
+  "details" : { },
   "emailAddresses" : [ ]
 }, {
   "links" : [ ],
   "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405e",
   "username" : "tester",
-  "externalUser" : false,
   "lastPasswordChange" : "2020-06-22T19:02:47Z",
   "locked" : false,
   "enabled" : true,
   "expirationDate" : "2020-06-23T19:02:45Z",
   "fullname" : "Tester",
-  "details" : {
-    "description" : "Just a test user",
-    "comment" : "testing only",
-    "phoneNo" : "001-1234-56789",
-    "im" : "Skype:testee",
-    "office" : "Off. 815",
-    "department" : "Dep. 1",
-    "gender" : "FEMALE"
-  },
+  "details" : { },
   "emailAddresses" : [ {
     "emailAddress" : "tester.tester@example.com",
     "primary" : true
@@ -993,47 +974,29 @@ Content-Length: 1172
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 1172
+Content-Length: 690
 
 [ {
   "links" : [ ],
   "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405d",
   "username" : "jenkins",
-  "externalUser" : false,
   "lastPasswordChange" : "2020-06-22T19:02:47Z",
   "locked" : false,
   "enabled" : true,
   "expirationDate" : "2020-06-23T19:02:45Z",
   "fullname" : "Mister Jenkins",
-  "details" : {
-    "description" : "Just a test user",
-    "comment" : "testing only",
-    "phoneNo" : "001-1234-56789",
-    "im" : "Skype:testee",
-    "office" : "Off. 815",
-    "department" : "Dep. 1",
-    "gender" : "FEMALE"
-  },
+  "details" : { },
   "emailAddresses" : [ ]
 }, {
   "links" : [ ],
   "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405e",
   "username" : "tester",
-  "externalUser" : false,
   "lastPasswordChange" : "2020-06-22T19:02:47Z",
   "locked" : false,
   "enabled" : true,
   "expirationDate" : "2020-06-23T19:02:45Z",
   "fullname" : "Tester",
-  "details" : {
-    "description" : "Just a test user",
-    "comment" : "testing only",
-    "phoneNo" : "001-1234-56789",
-    "im" : "Skype:testee",
-    "office" : "Off. 815",
-    "department" : "Dep. 1",
-    "gender" : "FEMALE"
-  },
+  "details" : { },
   "emailAddresses" : [ {
     "emailAddress" : "tester.tester@example.com",
     "primary" : true
@@ -1050,7 +1013,7 @@ resource:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/4635b1d8-597b-475d-ae72-9fe1da8489f0/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /users/f9aa812f-52cf-4fc8-8246-008fecb965db/ HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1061,12 +1024,11 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 239
+Content-Length: 213
 
 {
-  "pKey" : "4635b1d8-597b-475d-ae72-9fe1da8489f0",
+  "pKey" : "f9aa812f-52cf-4fc8-8246-008fecb965db",
   "username" : "admin2",
-  "externalUser" : false,
   "locked" : false,
   "enabled" : true,
   "emailAddresses" : [ {
@@ -1086,14 +1048,13 @@ Content-Length: 239
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">PUT /users HTTP/1.1
 Content-Type: application/json
-Content-Length: 259
+Content-Length: 233
 Host: localhost:8080
 
 {
   "links" : [ ],
-  "pKey" : "4635b1d8-597b-475d-ae72-9fe1da8489f0",
+  "pKey" : "f9aa812f-52cf-4fc8-8246-008fecb965db",
   "username" : "superuser",
-  "externalUser" : false,
   "locked" : true,
   "enabled" : false,
   "emailAddresses" : [ {
@@ -1110,12 +1071,11 @@ Host: localhost:8080
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 242
+Content-Length: 216
 
 {
-  "pKey" : "008afb75-b24a-4bce-b55e-0cf6c3a54662",
+  "pKey" : "f130390b-305a-49a2-afe2-d29d41b3c128",
   "username" : "superuser",
-  "externalUser" : false,
   "locked" : true,
   "enabled" : false,
   "emailAddresses" : [ {
@@ -1148,7 +1108,7 @@ Content-Length: 242
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /users/4635b1d8-597b-475d-ae72-9fe1da8489f0/details/image HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">POST /users/f9aa812f-52cf-4fc8-8246-008fecb965db/details/image HTTP/1.1
 Content-Type: application/octet-stream
 Content-Length: 18572
 Host: localhost:8080
@@ -1181,7 +1141,7 @@ to access the endpoint.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">GET /oauth/userinfo HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MzcyNjUxNzUsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6ImY4MzllYjg0LTIyZjMtNDdlOC1hNDQ3LTA0YjI2ZjI4YjExZiIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19.IMxpZSenGU6wd8BVyMN33Jak0S5wKkLJHP-hXJ4KDKs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTU2NzYwODcsInVzZXJfbmFtZSI6InRlc3RlciIsImp0aSI6IjIxZTg4ZmQ0LWQ3NjctNDI2Ny1iNzYzLTZlYzFlOTRlNzkxYyIsImNsaWVudF9pZCI6ImdhdGV3YXkiLCJzY29wZSI6WyJnYXRld2F5Il19._6XZFcCjUFmkegqGSTSSrnW6u0YvSnqC65z74tw1R_I
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1404,22 +1364,22 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
-Location: http://localhost:8080/roles/184979dc-50ad-446d-8908-452573455b7c/
+Location: http://localhost:8080/roles/396d8795-b175-4e5f-b333-57e986daa475/
 Content-Type: application/hal+json
-Content-Length: 373
+Content-Length: 374
 
 {
   "_links" : {
     "users" : {
-      "href" : "http://localhost:8080/roles/184979dc-50ad-446d-8908-452573455b7c/users"
+      "href" : "http://localhost:8080/roles/396d8795-b175-4e5f-b333-57e986daa475/users"
     },
     "grants" : {
-      "href" : "http://localhost:8080/roles/184979dc-50ad-446d-8908-452573455b7c/grants"
+      "href" : "http://localhost:8080/roles/396d8795-b175-4e5f-b333-57e986daa475/grants"
     }
   },
-  "pKey" : "184979dc-50ad-446d-8908-452573455b7c",
+  "pKey" : "396d8795-b175-4e5f-b333-57e986daa475",
   "name" : "ROLE_DEV",
-  "immutable" : true,
+  "immutable" : false,
   "description" : "Developers"
 }</code></pre>
 </div>
@@ -1813,18 +1773,22 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code data-lang="http" class="language-http hljs">HTTP/1.1 200 OK
 Content-Type: application/json
-Content-Length: 344
+Content-Length: 408
 
 [ {
+  "pKey" : "3",
   "name" : "SEC_UAA_USER_LOOKUP",
   "description" : "Permission to find Users"
 }, {
+  "pKey" : "4",
   "name" : "SEC_UAA_USER_CREATE",
   "description" : "Permission to create Users"
 }, {
+  "pKey" : "5",
   "name" : "SEC_UAA_USER_MODIFY",
   "description" : "Permission to modify Users"
 }, {
+  "pKey" : "6",
   "name" : "SEC_UAA_USER_DELETE",
   "description" : "Permission to delete Users"
 } ]</code></pre>
@@ -1988,7 +1952,7 @@ Content-Type: application/hal+json
 Content-Length: 383
 
 {
-  "pKey" : "2303f664-35df-4ae2-9bb1-a45f9e87acbe",
+  "pKey" : "7cde6344-2f25-4557-a03b-fe488df657cb",
   "resourceIds" : "res",
   "clientId" : "cliendId",
   "clientSecret" : "secr3t",
@@ -2119,7 +2083,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2021-11-18 09:48:19 UTC
+Last updated 2022-06-19 11:59:07 UTC
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/github.min.css">

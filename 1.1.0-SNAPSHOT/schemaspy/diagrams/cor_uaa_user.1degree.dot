@@ -1,4 +1,4 @@
-// dot 2.43.0 on Linux 5.11.0-1021-azure
+// dot 2.43.0 on Linux 5.13.0-1029-azure
 // SchemaSpy rev Unknown
 digraph "oneDegreeRelationshipsDiagram" {
   graph [
@@ -28,6 +28,8 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">cor_uaa_email</TD></TR>
       <TR><TD PORT="c_pk" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD></TR>
       <TR><TD PORT="c_created" COLSPAN="3" ALIGN="LEFT">c_created</TD></TR>
+      <TR><TD PORT="c_created_by" COLSPAN="3" ALIGN="LEFT">c_created_by</TD></TR>
+      <TR><TD PORT="c_updated_by" COLSPAN="3" ALIGN="LEFT">c_updated_by</TD></TR>
       <TR><TD PORT="c_updated" COLSPAN="3" ALIGN="LEFT">c_updated</TD></TR>
       <TR><TD PORT="c_ol" COLSPAN="3" ALIGN="LEFT">c_ol</TD></TR>
       <TR><TD PORT="c_address" COLSPAN="3" BGCOLOR="#f4f7da" ALIGN="LEFT">c_address</TD></TR>
@@ -57,9 +59,11 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD PORT="c_type" COLSPAN="2" ALIGN="LEFT">c_type</TD><TD PORT="c_type.type" ALIGN="LEFT">varchar[31]</TD></TR>
       <TR><TD PORT="c_pk" COLSPAN="2" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD><TD PORT="c_pk.type" ALIGN="LEFT">int8[19]</TD></TR>
       <TR><TD PORT="c_created" COLSPAN="2" ALIGN="LEFT">c_created</TD><TD PORT="c_created.type" ALIGN="LEFT">timestamp[29,6]</TD></TR>
+      <TR><TD PORT="c_created_by" COLSPAN="2" ALIGN="LEFT">c_created_by</TD><TD PORT="c_created_by.type" ALIGN="LEFT">varchar[255]</TD></TR>
+      <TR><TD PORT="c_updated_by" COLSPAN="2" ALIGN="LEFT">c_updated_by</TD><TD PORT="c_updated_by.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_updated" COLSPAN="2" ALIGN="LEFT">c_updated</TD><TD PORT="c_updated.type" ALIGN="LEFT">timestamp[29,6]</TD></TR>
       <TR><TD PORT="c_ol" COLSPAN="2" ALIGN="LEFT">c_ol</TD><TD PORT="c_ol.type" ALIGN="LEFT">int8[19]</TD></TR>
-      <TR><TD PORT="c_pid" COLSPAN="2" ALIGN="LEFT">c_pid</TD><TD PORT="c_pid.type" ALIGN="LEFT">varchar[255]</TD></TR>
+      <TR><TD PORT="c_pid" COLSPAN="2" BGCOLOR="#f4f7da" ALIGN="LEFT">c_pid</TD><TD PORT="c_pid.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_enabled" COLSPAN="2" ALIGN="LEFT">c_enabled</TD><TD PORT="c_enabled.type" ALIGN="LEFT">bool[1]</TD></TR>
       <TR><TD PORT="c_expiration_date" COLSPAN="2" ALIGN="LEFT">c_expiration_date</TD><TD PORT="c_expiration_date.type" ALIGN="LEFT">timestamp[29,6]</TD></TR>
       <TR><TD PORT="c_extern" COLSPAN="2" ALIGN="LEFT">c_extern</TD><TD PORT="c_extern.type" ALIGN="LEFT">bool[1]</TD></TR>
@@ -87,6 +91,8 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">cor_uaa_user_password</TD></TR>
       <TR><TD PORT="c_pk" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">c_pk</TD></TR>
       <TR><TD PORT="c_created" COLSPAN="3" ALIGN="LEFT">c_created</TD></TR>
+      <TR><TD PORT="c_created_by" COLSPAN="3" ALIGN="LEFT">c_created_by</TD></TR>
+      <TR><TD PORT="c_updated_by" COLSPAN="3" ALIGN="LEFT">c_updated_by</TD></TR>
       <TR><TD PORT="c_updated" COLSPAN="3" ALIGN="LEFT">c_updated</TD></TR>
       <TR><TD PORT="c_ol" COLSPAN="3" ALIGN="LEFT">c_ol</TD></TR>
       <TR><TD PORT="c_password" COLSPAN="3" ALIGN="LEFT">c_password</TD></TR>

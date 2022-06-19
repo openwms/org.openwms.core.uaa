@@ -7,4 +7,3 @@ org.openwms.core.uaa.auth
 org.openwms.core.uaa.auth.impl
 org.openwms.core.uaa.configuration
 org.openwms.core.uaa.events
-org.openwms.core.uaa.impl
