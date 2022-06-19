@@ -21,16 +21,19 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
+import org.ameba.app.BaseConfiguration;
+import org.ameba.app.ValidationConfiguration;
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ServiceLayerException;
+import org.ameba.i18n.Translator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openwms.core.TestBase;
 import org.openwms.core.uaa.MessageCodes;
+import org.openwms.core.uaa.admin.UserMapper;
 import org.openwms.core.uaa.admin.UserService;
-import org.openwms.core.uaa.app.UAAModuleConfiguration;
 import org.openwms.core.uaa.configuration.ConfigurationService;
 import org.openwms.core.uaa.configuration.UserPreference;
 import org.slf4j.Logger;
@@ -39,14 +42,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 import javax.persistence.NoResultException;
 import javax.validation.ConstraintViolationException;
+import javax.validation.Validator;
 import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -72,7 +80,7 @@ import static org.springframework.test.util.AssertionErrors.assertTrue;
 )
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 @Rollback
-@Import(UAAModuleConfiguration.class)
+@Import(ValidationConfiguration.class)
 public class UserServiceIT extends TestBase {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceIT.class);
@@ -83,6 +91,23 @@ public class UserServiceIT extends TestBase {
     private UserService srv;
     @Autowired
     private TestEntityManager entityManager;
+    @MockBean
+    private Translator translator;
+
+    @TestConfiguration
+    @Import(BaseConfiguration.class)
+    public static class TestConfig {
+        @Bean
+        public UserMapper beanMapper() {
+            return new UserMapperImpl();
+        }
+        @Bean
+        MethodValidationPostProcessor methodValidationPostProcessor(Validator validator) {
+            MethodValidationPostProcessor mvpp = new MethodValidationPostProcessor();
+            mvpp.setValidator(validator);
+            return mvpp;
+        }
+    }
 
     /**
      * Setting up some test users.

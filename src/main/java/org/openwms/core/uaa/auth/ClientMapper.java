@@ -27,7 +27,7 @@ import java.util.List;
  *
  * @author Heiko Scherrer
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", implementationPackage = "org.openwms.core.uaa.auth.impl")
 public interface ClientMapper {
 
     List<ClientVO> clientsToClientVos(List<Client> clients);

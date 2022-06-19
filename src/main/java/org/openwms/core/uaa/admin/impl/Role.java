@@ -15,6 +15,7 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
+import org.ameba.annotation.Default;
 import org.springframework.util.Assert;
 
 import javax.persistence.CascadeType;
@@ -143,6 +144,7 @@ public class Role extends SecurityObject implements Serializable {
      * @param name The name of the Role
      * @throws IllegalArgumentException when name is {@literal null} or empty
      */
+    @Default
     public Role(String name) {
         Assert.hasText(name, NOT_ALLOWED_TO_CREATE_A_ROLE_WITH_AN_EMPTY_NAME);
         setName(normalizeName(name));
@@ -166,6 +168,11 @@ public class Role extends SecurityObject implements Serializable {
         Assert.hasText(name, NOT_ALLOWED_TO_CREATE_A_ROLE_WITH_AN_EMPTY_NAME);
         setName(normalizeName(name));
         setDescription(description);
+    }
+
+    @Override
+    public void setPersistentKey(String pKey) {
+        super.setPersistentKey(pKey);
     }
 
     /**

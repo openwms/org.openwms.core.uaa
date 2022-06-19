@@ -15,6 +15,7 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
+import org.ameba.annotation.Default;
 import org.ameba.integration.jpa.BaseEntity;
 import org.springframework.util.Assert;
 
@@ -61,8 +62,8 @@ public class Email extends BaseEntity implements Serializable {
     /**
      * Dear JPA...
      */
-    protected Email() {
-    }
+    @Default
+    Email() {}
 
     /**
      * Create a new {@code Email}.
@@ -105,7 +106,7 @@ public class Email extends BaseEntity implements Serializable {
      *
      * @param user The user
      */
-    void setUser(User user) {
+    public void setUser(User user) {
         this.user = user;
     }
 

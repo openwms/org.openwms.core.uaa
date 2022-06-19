@@ -16,7 +16,6 @@
 package org.openwms.core.uaa.admin;
 
 import org.ameba.http.MeasuredRestController;
-import org.ameba.mapping.BeanMapper;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.openwms.core.uaa.admin.impl.SecurityObject;
@@ -43,9 +42,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class GrantController extends AbstractWebController {
 
     private final SecurityService service;
-    private final BeanMapper mapper;
+    private final SecurityObjectMapper mapper;
 
-    public GrantController(SecurityService service, BeanMapper mapper) {
+    public GrantController(SecurityService service, SecurityObjectMapper mapper) {
         this.service = service;
         this.mapper = mapper;
     }
@@ -62,13 +61,13 @@ public class GrantController extends AbstractWebController {
     @Transactional(readOnly = true)
     @GetMapping(API_GRANTS)
     public ResponseEntity<List<SecurityObjectVO>> findAllGrants() {
-        return ResponseEntity.ok(mapper.map(new ArrayList<>(service.findAllGrants()), SecurityObjectVO.class));
+        return ResponseEntity.ok(mapper.convertToVO(new ArrayList<>(service.findAllGrants())));
     }
 
     // TODO [openwms]: 17.06.22 Change header to IDENTITY
     @GetMapping(path = API_GRANTS, headers = HEADER_VALUE_X_TENANT)
     public ResponseEntity<List<SecurityObjectVO>> findAllForUser(@RequestHeader(HEADER_VALUE_X_TENANT) String user) {
         List<SecurityObject> grants = service.findAllFor(user);
-        return ResponseEntity.ok(mapper.map(new ArrayList<>(grants), SecurityObjectVO.class));
+        return ResponseEntity.ok(mapper.convertToVO(new ArrayList<>(grants)));
     }
 }

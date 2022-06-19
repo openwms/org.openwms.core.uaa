@@ -15,6 +15,7 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
+import org.ameba.annotation.Default;
 import org.ameba.integration.jpa.ApplicationEntity;
 import org.openwms.core.uaa.api.ValidationGroups;
 import org.openwms.core.values.CoreTypeDefinitions;
@@ -65,6 +66,7 @@ public class SecurityObject extends ApplicationEntity implements Serializable {
      * @param name The name of the {@code SecurityObject}
      * @throws IllegalArgumentException if name is {@literal null} or an empty String
      */
+    @Default
     public SecurityObject(String name) {
         Assert.hasText(name, "A name of a SecurityObject must not be null");
         this.name = name;
@@ -81,6 +83,11 @@ public class SecurityObject extends ApplicationEntity implements Serializable {
         Assert.hasText(name, "A name of a SecurityObject must not be null");
         this.name = name;
         this.description = description;
+    }
+
+    @Override
+    public void setPersistentKey(String pKey) {
+        super.setPersistentKey(pKey);
     }
 
     /**

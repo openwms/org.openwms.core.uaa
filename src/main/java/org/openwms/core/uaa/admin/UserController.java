@@ -16,12 +16,11 @@
 package org.openwms.core.uaa.admin;
 
 import org.ameba.http.MeasuredRestController;
-import org.ameba.mapping.BeanMapper;
 import org.openwms.core.exception.InvalidPasswordException;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
-import org.openwms.core.uaa.admin.impl.User;
 import org.openwms.core.uaa.api.PasswordString;
+import org.openwms.core.uaa.api.RoleVO;
 import org.openwms.core.uaa.api.SecurityObjectVO;
 import org.openwms.core.uaa.api.UserVO;
 import org.openwms.core.uaa.api.ValidationGroups;
@@ -58,11 +57,15 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class UserController extends AbstractWebController {
 
     private final UserService service;
-    private final BeanMapper mapper;
+    private final UserMapper userMapper;
+    private final RoleMapper roleMapper;
+    private final SecurityObjectMapper securityObjectMapper;
 
-    public UserController(UserService service, BeanMapper mapper) {
+    public UserController(UserService service, UserMapper userMapper, RoleMapper roleMapper, SecurityObjectMapper securityObjectMapper) {
         this.service = service;
-        this.mapper = mapper;
+        this.userMapper = userMapper;
+        this.roleMapper = roleMapper;
+        this.securityObjectMapper = securityObjectMapper;
     }
 
     @GetMapping(API_USERS + "/index")
@@ -83,26 +86,26 @@ public class UserController extends AbstractWebController {
 
     @GetMapping(API_USERS)
     public ResponseEntity<List<UserVO>> findAllUsers() {
-        return ResponseEntity.ok(mapper.map(new ArrayList<>(service.findAll()), UserVO.class));
+        return ResponseEntity.ok(userMapper.convertToVO(new ArrayList<>(service.findAll())));
     }
 
     @GetMapping(API_USERS + "/{pKey}")
     public ResponseEntity<UserVO> findUser(@PathVariable("pKey") @NotEmpty String pKey) {
-        return ResponseEntity.ok(mapper.map(service.findByPKey(pKey), UserVO.class));
+        return ResponseEntity.ok(userMapper.convertToVO(service.findByPKey(pKey)));
     }
 
     @Transactional(readOnly = true)
     @GetMapping(API_USERS + "/{pKey}/grants")
     public ResponseEntity<List<SecurityObjectVO>> findGrantsForUser(@PathVariable("pKey") @NotEmpty String pKey) {
-        User user = service.findByPKey(pKey);
-        return ResponseEntity.ok(mapper.map(user.getGrants(), SecurityObjectVO.class));
+        var user = service.findByPKey(pKey);
+        return ResponseEntity.ok(securityObjectMapper.convertToVO(user.getGrants()));
     }
 
     @Transactional(readOnly = true)
     @GetMapping(API_USERS + "/{pKey}/roles")
-    public ResponseEntity<List<SecurityObjectVO>> findRolesForUser(@PathVariable("pKey") @NotEmpty String pKey) {
-        User user = service.findByPKey(pKey);
-        return ResponseEntity.ok(mapper.map(user.getRoles(), SecurityObjectVO.class));
+    public ResponseEntity<List<RoleVO>> findRolesForUser(@PathVariable("pKey") @NotEmpty String pKey) {
+        var user = service.findByPKey(pKey);
+        return ResponseEntity.ok(roleMapper.convertToVO(user.getRoles()));
     }
 
     @PostMapping(API_USERS)
@@ -110,17 +113,17 @@ public class UserController extends AbstractWebController {
     public ResponseEntity<UserVO> create(
             @RequestBody @Valid @NotNull UserVO vo,
             HttpServletRequest req) {
-        User user = mapper.map(vo, User.class);
-        User created = service.create(user, vo.getRoleNames());
+        var user = userMapper.convertFrom(vo);
+        var created = service.create(user, vo.getRoleNames());
         return ResponseEntity
                 .created(getLocationURIForCreatedResource(req, created.getPersistentKey()))
-                .body(mapper.map(created, UserVO.class));
+                .body(userMapper.convertToVO(created));
     }
 
     @PutMapping(API_USERS)
     public ResponseEntity<UserVO> save(@RequestBody @Valid UserVO vo) {
-        User user = mapper.map(vo, User.class);
-        return ResponseEntity.ok(mapper.map(service.save(user, vo.getRoleNames()), UserVO.class));
+        var user = userMapper.convertFrom(vo);
+        return ResponseEntity.ok(userMapper.convertToVO(service.save(user, vo.getRoleNames())));
     }
 
     @PostMapping(API_USERS + "/{pKey}/details/image")

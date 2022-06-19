@@ -21,11 +21,11 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ResourceExistsException;
 import org.ameba.exception.ServiceLayerException;
 import org.ameba.i18n.Translator;
-import org.ameba.mapping.BeanMapper;
 import org.openwms.core.annotation.FireAfterTransaction;
 import org.openwms.core.event.UserChangedEvent;
 import org.openwms.core.exception.InvalidPasswordException;
 import org.openwms.core.uaa.admin.RoleService;
+import org.openwms.core.uaa.admin.UserMapper;
 import org.openwms.core.uaa.admin.UserService;
 import org.openwms.core.uaa.api.UserVO;
 import org.openwms.core.uaa.api.ValidationGroups;
@@ -82,13 +82,14 @@ class UserServiceImpl implements UserService {
     private final PasswordEncoder enc;
     private final Translator translator;
     private final Validator validator;
-    private final BeanMapper mapper;
+    private final UserMapper userMapper;
     private final ApplicationEventPublisher eventPublisher;
     private final String systemUsername;
     private final String systemPassword;
 
     UserServiceImpl(UserRepository repository, SecurityObjectRepository securityObjectDao, ConfigurationService confSrv,
-            @Lazy RoleService roleService, PasswordEncoder enc, Translator translator, Validator validator, BeanMapper mapper, ApplicationEventPublisher eventPublisher, @Value("${owms.security.system.username}") String systemUsername,
+            @Lazy RoleService roleService, PasswordEncoder enc, Translator translator, Validator validator, UserMapper userMapper,
+            ApplicationEventPublisher eventPublisher, @Value("${owms.security.system.username}") String systemUsername,
             @Value("${owms.security.system.password}") String systemPassword) {
         this.repository = repository;
         this.securityObjectDao = securityObjectDao;
@@ -97,7 +98,7 @@ class UserServiceImpl implements UserService {
         this.enc = enc;
         this.translator = translator;
         this.validator = validator;
-        this.mapper = mapper;
+        this.userMapper = userMapper;
         this.eventPublisher = eventPublisher;
         this.systemUsername = systemUsername;
         this.systemPassword = systemPassword;
@@ -259,10 +260,10 @@ class UserServiceImpl implements UserService {
     @Override
     @Measured
     public UserVO updatePassword(String pKey, CharSequence newPassword) throws InvalidPasswordException {
-        User saved = findByPKey(pKey);
+        var saved = findByPKey(pKey);
         saved.changePassword(enc.encode(newPassword), newPassword.toString(), enc);
         eventPublisher.publishEvent(new UserEvent(saved, UserEvent.EventType.MODIFIED));
-        return mapper.map(saved, UserVO.class);
+        return userMapper.convertToVO(saved);
     }
 
     /**

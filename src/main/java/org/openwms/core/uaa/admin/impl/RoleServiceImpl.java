@@ -20,7 +20,7 @@ import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ResourceExistsException;
 import org.ameba.i18n.Translator;
-import org.ameba.mapping.BeanMapper;
+import org.openwms.core.uaa.admin.RoleMapper;
 import org.openwms.core.uaa.admin.RoleService;
 import org.openwms.core.uaa.admin.UserService;
 import org.openwms.core.uaa.api.RoleVO;
@@ -50,10 +50,10 @@ class RoleServiceImpl implements RoleService {
     private static final Logger LOGGER = LoggerFactory.getLogger(RoleServiceImpl.class);
     private final RoleRepository repository;
     private final UserService userService;
-    private final BeanMapper mapper;
+    private final RoleMapper mapper;
     private final Translator translator;
 
-    RoleServiceImpl(RoleRepository repository, UserService userService, BeanMapper mapper, Translator translator) {
+    RoleServiceImpl(RoleRepository repository, UserService userService, RoleMapper mapper, Translator translator) {
         this.repository = repository;
         this.userService = userService;
         this.mapper = mapper;
@@ -66,7 +66,7 @@ class RoleServiceImpl implements RoleService {
     @Override
     @Measured
     public List<RoleVO> findAll() {
-        return mapper.map(repository.findAll(), RoleVO.class);
+        return mapper.convertToVO(repository.findAll());
     }
 
     /**
@@ -75,7 +75,7 @@ class RoleServiceImpl implements RoleService {
     @Override
     @Measured
     public RoleVO findByPKey(String pKey) {
-        return mapper.map(getRole(pKey), RoleVO.class);
+        return mapper.convertToVO(getRole(pKey));
     }
 
     /**
@@ -84,7 +84,7 @@ class RoleServiceImpl implements RoleService {
     @Override
     @Measured
     public List<Role> findByNames(List<String> roleNames) {
-        List<Role> allRoles = repository.findByNames(roleNames);
+        var allRoles = repository.findByNames(roleNames);
         return allRoles == null ? Collections.emptyList() : allRoles;
     }
 
@@ -95,15 +95,14 @@ class RoleServiceImpl implements RoleService {
     @Measured
     @Validated(ValidationGroups.Create.class)
     public RoleVO create(@NotNull(groups = ValidationGroups.Create.class) @Valid RoleVO role) {
-        Role newRole = new Role();
-        mapper.mapFromTo(role, newRole);
+        var newRole = mapper.convertFrom(role);
         newRole.setName(role.getName());
         if (repository.findByName(newRole.getName()).isPresent()) {
             throw new ResourceExistsException(format("Role with name [%s] already exists", role.getName()));
         }
         newRole = repository.save(newRole);
         LOGGER.debug("Created Role [{}]", newRole);
-        return mapper.map(newRole, RoleVO.class);
+        return mapper.convertToVO(newRole);
     }
 
     /**
@@ -113,10 +112,10 @@ class RoleServiceImpl implements RoleService {
     @Measured
     @Validated(ValidationGroups.Modify.class)
     public RoleVO save(@NotEmpty String pKey, @NotNull(groups = ValidationGroups.Modify.class) @Valid RoleVO role) {
-        Role existingRole = getRole(pKey);
+        var existingRole = getRole(pKey);
         existingRole.setName(role.getName());
         existingRole.setDescription(role.getDescription());
-        return mapper.map(repository.save(existingRole), RoleVO.class);
+        return mapper.convertToVO(repository.save(existingRole));
     }
 
     private Role getRole(String pKey) {
@@ -141,11 +140,11 @@ class RoleServiceImpl implements RoleService {
     @Override
     @Measured
     public RoleVO assignUser(String pKey, String userPKey) {
-        Role role = getRole(pKey);
-        User user = userService.findByPKey(userPKey);
+        var role = getRole(pKey);
+        var user = userService.findByPKey(userPKey);
         role.addUser(user);
         role = repository.save(role);
-        return mapper.map(role, RoleVO.class);
+        return mapper.convertToVO(role);
     }
 
     /**
@@ -154,10 +153,10 @@ class RoleServiceImpl implements RoleService {
     @Override
     @Measured
     public RoleVO unassignUser(String pKey, String userPKey) {
-        Role role = getRole(pKey);
-        User user = userService.findByPKey(userPKey);
+        var role = getRole(pKey);
+        var user = userService.findByPKey(userPKey);
         role.removeUser(user);
         role = repository.save(role);
-        return mapper.map(role, RoleVO.class);
+        return mapper.convertToVO(role);
     }
 }

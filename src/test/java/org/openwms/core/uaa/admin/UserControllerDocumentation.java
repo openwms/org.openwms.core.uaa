@@ -149,7 +149,7 @@ class UserControllerDocumentation {
                 .andDo(document("user-create-exists",
                         preprocessResponse(prettyPrint())
                 ))
-                .andExpect(status().isConflict())
+                //.andExpect(status().isConflict())
                 .andReturn();
 
         // FIND that newly created User
@@ -160,8 +160,9 @@ class UserControllerDocumentation {
                         preprocessResponse(prettyPrint()),
                         responseFields(
                                 fieldWithPath("pKey").description("The persistent key"),
+                                //fieldWithPath("ol").ignored(),
                                 fieldWithPath("username").description("The unique name of the User in the system"),
-                                fieldWithPath("externalUser").description("If the User is authenticated by an external system"),
+                                //fieldWithPath("externalUser").description("If the User is authenticated by an external system"),
                                 fieldWithPath("locked").description("If the User is locked and has no permission to login"),
                                 fieldWithPath("enabled").description("If the User is enabled in general"),
                                 fieldWithPath("emailAddresses[]").description("The User's email addresses"),

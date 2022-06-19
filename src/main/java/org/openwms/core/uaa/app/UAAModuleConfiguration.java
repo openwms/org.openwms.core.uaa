@@ -22,8 +22,6 @@ import org.ameba.app.SpringProfiles;
 import org.ameba.http.PermitAllCorsConfigurationSource;
 import org.ameba.i18n.AbstractSpringTranslator;
 import org.ameba.i18n.Translator;
-import org.ameba.mapping.BeanMapper;
-import org.ameba.mapping.DozerMapperImpl;
 import org.ameba.system.NestedReloadableResourceBundleMessageSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
@@ -104,9 +102,5 @@ public class UAAModuleConfiguration implements WebMvcConfigurer {
         nrrbm.setBasename("classpath*:/META-INF/i18n");
         nrrbm.setDefaultEncoding("UTF-8");
         return nrrbm;
-    }
-
-    public @Bean BeanMapper beanMapper() {
-        return new DozerMapperImpl("META-INF/dozer/bean-mappings.xml");
     }
 }

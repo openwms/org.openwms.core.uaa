@@ -22,13 +22,13 @@
 package org.openwms.core.uaa.admin.impl;
 
 import org.ameba.app.BaseConfiguration;
+import org.ameba.app.ValidationConfiguration;
 import org.ameba.exception.ResourceExistsException;
 import org.ameba.i18n.Translator;
-import org.ameba.mapping.BeanMapper;
-import org.ameba.mapping.DozerMapperImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openwms.core.TestBase;
+import org.openwms.core.uaa.admin.RoleMapper;
 import org.openwms.core.uaa.admin.RoleService;
 import org.openwms.core.uaa.admin.UserService;
 import org.openwms.core.uaa.api.RoleVO;
@@ -67,6 +67,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 )
 @Sql("classpath:test.sql")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(ValidationConfiguration.class)
 public class RoleServiceIT extends TestBase {
 
     @Autowired
@@ -82,8 +83,8 @@ public class RoleServiceIT extends TestBase {
     @Import(BaseConfiguration.class)
     public static class TestConfig {
         @Bean
-        public BeanMapper beanMapper() {
-            return new DozerMapperImpl("META-INF/dozer/bean-mappings.xml");
+        public RoleMapper beanMapper() {
+            return new RoleMapperImpl();
         }
         @Bean
         MethodValidationPostProcessor methodValidationPostProcessor(Validator validator) {

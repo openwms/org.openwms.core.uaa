@@ -33,6 +33,9 @@ import java.util.Objects;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SecurityObjectVO implements Serializable {
 
+    /** The persistent key. */
+    @JsonProperty("pKey")
+    private String pKey;
     @JsonProperty("name")
     @NotEmpty
     private String name;
@@ -43,13 +46,12 @@ public class SecurityObjectVO implements Serializable {
     public SecurityObjectVO() {
     }
 
-    private SecurityObjectVO(Builder builder) {
-        setName(builder.name);
-        setDescription(builder.description);
+    public String getpKey() {
+        return pKey;
     }
 
-    public static Builder newBuilder() {
-        return new Builder();
+    public void setpKey(String pKey) {
+        this.pKey = pKey;
     }
 
     public String getName() {
@@ -100,27 +102,5 @@ public class SecurityObjectVO implements Serializable {
     @Override
     public String toString() {
         return name;
-    }
-
-    public static final class Builder {
-        private @NotEmpty String name;
-        private String description;
-
-        private Builder() {
-        }
-
-        public Builder name(@NotEmpty String val) {
-            name = val;
-            return this;
-        }
-
-        public Builder description(String val) {
-            description = val;
-            return this;
-        }
-
-        public SecurityObjectVO build() {
-            return new SecurityObjectVO(this);
-        }
     }
 }

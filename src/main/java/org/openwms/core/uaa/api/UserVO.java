@@ -42,7 +42,7 @@ import static org.openwms.core.uaa.TimeProvider.DATE_TIME_WITH_TIMEZONE;
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UserVO extends AbstractBase implements Serializable {
+public class UserVO extends AbstractBase<UserVO> implements Serializable {
 
     /** The persistent key. */
     @JsonProperty("pKey")

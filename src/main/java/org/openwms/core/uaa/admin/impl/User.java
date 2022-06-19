@@ -159,6 +159,11 @@ public class User extends ApplicationEntity implements Serializable {
         password = persistedPassword;
     }
 
+    @Override
+    public void setPersistentKey(String pKey) {
+        super.setPersistentKey(pKey);
+    }
+
     /**
      * Return the unique username of the User.
      *
