@@ -64,7 +64,7 @@
 
     <properties>
         <commons-configuration.version>1.10</commons-configuration.version>
-        <core.version>1.9.0-SNAPSHOT</core.version>
+        <core.version>1.9.0</core.version>
         <guava.version>30.0-jre</guava.version>
         <HdrHistogram.version>2.1.12</HdrHistogram.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
