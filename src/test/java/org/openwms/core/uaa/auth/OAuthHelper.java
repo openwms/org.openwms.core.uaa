@@ -15,24 +15,9 @@
  */
 package org.openwms.core.uaa.auth;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.ClientDetails;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.OAuth2Request;
-import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
-
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * A OAuthHelper.
@@ -46,17 +31,20 @@ class OAuthHelper {
     public RequestPostProcessor bearerToken(final String clientid) {
         return mockRequest -> {
             OAuth2AccessToken token = createAccessToken(clientid);
-            mockRequest.addHeader("Authorization", "Bearer " + token.getValue());
+            //mockRequest.addHeader("Authorization", "Bearer " + token.getValue());
             return mockRequest;
         };
     }
-
+/*
     @Autowired
     ClientDetailsService clientDetailsService;
     @Autowired
     AuthorizationServerTokenServices tokenservice;
 
+
+ */
     OAuth2AccessToken createAccessToken(final String clientId) {
+        /*
         // Look up authorities, resourceIds and scopes based on clientId
         ClientDetails client = clientDetailsService.loadClientByClientId(clientId);
         Collection<GrantedAuthority> authorities = client.getAuthorities();
@@ -79,4 +67,7 @@ class OAuthHelper {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userPrincipal, null, authorities);
         OAuth2Authentication auth = new OAuth2Authentication(oAuth2Request, authenticationToken);
         return tokenservice.createAccessToken(auth);
+
+         */
+        return null;
     }}
