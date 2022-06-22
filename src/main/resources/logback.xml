@@ -1,52 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false" scan="false" scanPeriod="30 seconds">
 
-  <property name="LOG_TEMP" value="/tmp/owms" />
-  <property name="MODULE_NAME" value="CORE-UAA" />
+    <property name="LOG_TEMP" value="/tmp/owms" />
+    <property name="MODULE_NAME" value="CORE-UAA" />
 
-  <include resource="logback-appenders.xml" />
-  <include resource="logback-loggers.xml" />
+    <include resource="logback-appenders.xml" />
+    <include resource="logback-loggers.xml" />
 
-  <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+    <appender name="ELK" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>elk:5000</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
 
-  <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
 
-  <!--appender name="SYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">
-    <syslogHost>openwms.mooo.com</syslogHost>
-    <facility>SYSLOG</facility>
-    <port>10514</port>
-    <suffixPattern>${SERVICE_NAME} ${Tenant} ${MODULE_NAME} %d{YYYY-MM-dd HH:mm:ss.SSS} %X{X-RequestID} %-5level [${PID:- }/%tid] - [%-40.40logger{39}]${mdcPattern} : %msg%n</suffixPattern>
-  </appender-->
+    <logger name="com.netflix.discovery" level="OFF"/>
+    <logger name="org.ameba" level="WARN"/>
+    <logger name="org.hibernate.boot.internal.InFlightMetadataCollectorImpl" level="ERROR"/>
+    <logger name="org.hibernate.SQL" level="OFF"/>
+    <logger name="org.hibernate.SQL_SLOW" level="OFF"/>
+    <logger name="org.hibernate.type" level="OFF"/>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.springframework.security" level="DEBUG"/>
+    <logger name="org.openwms" level="DEBUG"/>
 
-  <logger name="com.netflix.discovery" level="OFF"/>
-  <logger name="org.hibernate.SQL" level="OFF"/>
-  <logger name="org.hibernate.type" level="OFF"/>
-  <logger name="org.springframework" level="WARN"/>
-  <logger name="org.springframework.security" level="WARN"/>
-  <logger name="org.openwms" level="DEBUG"/>
-  <logger name="org.ameba" level="WARN"/>
+    <logger name="CORE_INTEGRATION_MESSAGING" level="INFO"/>
 
+    <springProfile name="PROD">
+        <logger name="PRESENTATION_LAYER_EXCEPTION" level="ERROR"/>
+        <logger name="SERVICE_LAYER_EXCEPTION" level="ERROR"/>
+        <logger name="INTEGRATION_LAYER_EXCEPTION" level="ERROR"/>
+        <logger name="CALLCONTEXT" level="OFF"/>
+        <logger name="MEASURED" level="INFO"/>
+        <root level="INFO">
+            <appender-ref ref="ELK"/>
+        </root>
+    </springProfile>
+    <springProfile name="!PROD">
   <logger name="PRESENTATION_LAYER_EXCEPTION" level="ERROR" additivity="false">
     <appender-ref ref="STDOUT"/>
+        <appender-ref ref="EXCFILE"/>
     <appender-ref ref="LOGFILE"/>
   </logger>
   <logger name="SERVICE_LAYER_EXCEPTION" level="ERROR" additivity="false">
       <appender-ref ref="STDOUT"/>
+        <appender-ref ref="EXCFILE"/>
       <appender-ref ref="LOGFILE"/>
   </logger>
   <logger name="INTEGRATION_LAYER_EXCEPTION" level="ERROR" additivity="false">
       <appender-ref ref="STDOUT"/>
+        <appender-ref ref="EXCFILE"/>
       <appender-ref ref="LOGFILE"/>
   </logger>
+        <logger name="CALLCONTEXT" level="DEBUG"/>
   <logger name="MEASURED" level="INFO">
       <appender-ref ref="STDOUT"/>
       <appender-ref ref="TSL"/>
   </logger>
-  <logger name="CORE_INTEGRATION_MESSAGING" level="DEBUG"/>
-
   <root level="INFO">
     <appender-ref ref="STDOUT"/>
     <appender-ref ref="LOGFILE"/>
   </root>
-
+    </springProfile>
 </configuration>
