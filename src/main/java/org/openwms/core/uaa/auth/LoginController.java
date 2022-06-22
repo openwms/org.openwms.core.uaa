@@ -15,25 +15,12 @@
  */
 package org.openwms.core.uaa.auth;
 
-import com.nimbusds.oauth2.sdk.id.Subject;
-import com.nimbusds.openid.connect.sdk.claims.Gender;
-import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import org.ameba.http.MeasuredRestController;
 import org.openwms.core.http.AbstractWebController;
-import org.openwms.core.uaa.admin.impl.Email;
-import org.openwms.core.uaa.admin.impl.User;
-import org.openwms.core.uaa.admin.impl.UserWrapper;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
-import java.security.Principal;
-import java.util.Optional;
 
 /**
  * A LoginController.
@@ -53,7 +40,7 @@ public class LoginController extends AbstractWebController {
     public ResponseEntity<Void> loginGet() {
         return ResponseEntity.ok().build();
     }
-
+/*
     //@Secured("ROLE_USER")
     //@PreAuthorize("isAnonymous()")
     @GetMapping(value = "/oauth/userinfo", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -80,6 +67,8 @@ public class LoginController extends AbstractWebController {
             return userInfo.toJSONObject().toJSONString();
         }
     }
+
+ */
 
     @PostMapping("/login")
     public ResponseEntity<Void> login() {
