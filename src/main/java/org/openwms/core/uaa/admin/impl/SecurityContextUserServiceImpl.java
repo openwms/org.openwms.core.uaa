@@ -79,7 +79,7 @@ class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationL
         UserDetails ud = userCache == null ? null : userCache.getUserFromCache(username);
         if (null == ud) {
             if (systemUsername.equals(username)) {
-                User user = userService.createSystemUser();
+                var user = userService.createSystemUser();
                 ud = new SystemUserWrapper(user);
                 ((SystemUserWrapper) ud).setPassword(enc.encode(user.getPassword()));
             } else {

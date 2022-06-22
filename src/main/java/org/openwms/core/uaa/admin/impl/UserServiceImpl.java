@@ -175,8 +175,8 @@ class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Measured
     public SystemUser createSystemUser() {
-        SystemUser sys = new SystemUser(systemUsername, systemPassword);
-        Role role = new Role.Builder(SystemUser.SYSTEM_ROLE_NAME).withDescription("SuperUsers Role").asImmutable().build();
+        var sys = new SystemUser(systemUsername, systemPassword);
+        var role = new Role.Builder(SystemUser.SYSTEM_ROLE_NAME).withDescription("SuperUsers Role").asImmutable().build();
         role.setGrants(new HashSet<>(securityObjectDao.findAll()));
         sys.addRole(role);
         return sys;
