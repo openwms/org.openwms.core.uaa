@@ -16,17 +16,9 @@
 package org.openwms.core.uaa.app;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
  * A UAASecurityConfiguration.
@@ -40,11 +32,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
         prePostEnabled = true,
         jsr250Enabled = true
 )
-class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
+class UAASecurityConfiguration /*extends WebSecurityConfigurerAdapter*/ {
 
     @Value("${owms.security.successUrl}")
     private String successUrl;
 
+/*
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -81,4 +74,6 @@ class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+ */
 }
