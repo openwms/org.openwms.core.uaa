@@ -3,7 +3,9 @@ delete from cor_uaa_role_user;
 delete from cor_uaa_role;
 delete from cor_uaa_user;
 
-insert into cor_uaa_client (c_pk, c_created, c_updated, c_ol, c_pid, c_access_token_validity, c_additional_information, c_authorities, c_authorized_grant_types, c_autoapprove, c_client_id, c_client_secret, c_refresh_token_validity, c_resource_ids, c_scope, c_web_server_redirect_uri) values (1, now(), now(), 0, '328e9a72-9f9e-4eef-86f4-917fb1f04b53', 3600, null, null, 'password,authorization_code,client_credentials,implicit', 'true', 'gateway', 'secret', 3600, null, 'gateway', 'http://localhost:8086/login/oauth2/code/gateway');
+insert into cor_uaa_client (c_pk, c_created, c_ol, c_pid, c_authorized_grant_types, c_client_id, c_client_secret, c_scopes, c_web_server_redirect_uris, c_authentication_methods) values (1, now(), 0, '328e9a72-9f9e-4eef-86f4-917fb1f04b53', 'PASSWORD,REFRESH_TOKEN,AUTHORIZATION_CODE,CLIENT_CREDENTIALS','gateway', 'secret', 'openid,role.create,role.assign', 'http://localhost:8086/login/oauth2/code/gateway,http://localhost:8110/uaa/roles,http://localhost:8110/uaa/login/oauth2/code/gateway-oidc','CLIENT_SECRET_BASIC');
+
+insert into core_uaa_client_setting (C_CLIENT_PK,C_KEY,C_VALUE) values (1,'require-authorization-consent','false');
 
 -- Users
 -- Password: tester
@@ -20,7 +22,7 @@ insert into cor_uaa_role (c_name, c_type, c_description, c_immutable, c_pk, c_cr
 insert into cor_uaa_role (c_name, c_type, c_description, c_immutable, c_pk, c_created, c_ol, c_pid) values ('ROLE_Useradministration', 'ROLE', 'Administration of Users', true, 6, now(), 0, '6');
 insert into cor_uaa_role (c_name, c_type, c_description, c_immutable, c_pk, c_created, c_ol, c_pid) values ('ROLE_Administrator', 'ROLE', 'Systemadministrator and Superuser', true, 7, now(), 0, '7');
 
--- Rechte
+-- Grants
 insert into cor_uaa_role (c_name, c_type, c_description, c_immutable, c_pk, c_created, c_ol, c_pid) values ('role.create', 'GRANT', 'Create role', false, 20, now(), 0, '20');
 insert into cor_uaa_role (c_name, c_type, c_description, c_immutable, c_pk, c_created, c_ol, c_pid) values ('role.assign', 'GRANT', 'Assign role', false, 21, now(), 0, '21');
 
@@ -87,8 +89,6 @@ insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (7, 27);
 insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (7, 28);
 insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (7, 29);
 insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (7, 30);
-insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (7, 31);
-insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (7, 33);
 
 -- User - Role assignments
 insert into cor_uaa_role_user (c_role_id, c_user_id) VALUES (7, 2); -- Heiko

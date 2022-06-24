@@ -35,4 +35,6 @@ interface ClientRepository extends JpaRepository<Client, Long> {
     void deleteByPKey(@Param("pKey") String pKey);
 
     Optional<Client> findBypKey(String persistentKey);
+
+    Optional<Client> findByClientId(String clientId);
 }

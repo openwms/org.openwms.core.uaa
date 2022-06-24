@@ -15,13 +15,17 @@
  */
 package org.openwms.core.uaa.api;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.ameba.http.AbstractBase;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.time.Instant;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -31,55 +35,36 @@ import java.util.Objects;
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ClientVO extends AbstractBase implements Serializable {
+public class ClientVO extends AbstractBase<ClientVO> implements Serializable {
 
     @JsonProperty("pKey")
     private String pKey;
-    @JsonProperty("resourceIds")
-    private String resourceIds;
-    @NotEmpty
+    @NotBlank
     @JsonProperty("clientId")
     private String clientId;
+    @JsonProperty("clientIdIssuedAt")
+    private Instant clientIdIssuedAt;
     @JsonProperty("clientSecret")
     private String clientSecret;
-    @JsonProperty("scope")
-    private String scope;
+    @JsonProperty("clientSecretExpiresAt")
+    private Instant clientSecretExpiresAt;
+    @JsonProperty("clientName")
+    private String clientName;
+    @JsonProperty("scopes")
+    private List<String> scopes;
+    @JsonProperty("clientAuthenticationMethods")
+    private List<String> clientAuthenticationMethods;
     @JsonProperty("authorizedGrantTypes")
-    private String authorizedGrantTypes;
-    @JsonProperty("webServerRedirectUri")
-    private String webServerRedirectUri;
-    @JsonProperty("authorities")
-    private String authorities;
-    @JsonProperty("accessTokenValidity")
-    private int accessTokenValidity;
-    @JsonProperty("refreshTokenValidity")
-    private int refreshTokenValidity;
-    @JsonProperty("additionalInformation")
-    private String additionalInformation;
-    @JsonProperty("autoapprove")
-    private String autoapprove;
+    private List<String> authorizedGrantTypes;
+    @JsonProperty("webServerRedirectUris")
+    private List<String> webServerRedirectUris;
+    @JsonProperty("clientSettings")
+    private Map<String, String> clientSettings;
+    @JsonProperty("tokenSettings")
+    private Map<String, String> tokenSettings;
 
-    public ClientVO() {
-    }
-
-    private ClientVO(Builder builder) {
-        setpKey(builder.pKey);
-        setResourceIds(builder.resourceIds);
-        setClientId(builder.clientId);
-        setClientSecret(builder.clientSecret);
-        setScope(builder.scope);
-        setAuthorizedGrantTypes(builder.authorizedGrantTypes);
-        setWebServerRedirectUri(builder.webServerRedirectUri);
-        setAuthorities(builder.authorities);
-        setAccessTokenValidity(builder.accessTokenValidity);
-        setRefreshTokenValidity(builder.refreshTokenValidity);
-        setAdditionalInformation(builder.additionalInformation);
-        setAutoapprove(builder.autoapprove);
-    }
-
-    public static Builder newBuilder() {
-        return new Builder();
-    }
+    @JsonCreator
+    public ClientVO() {}
 
     public String getpKey() {
         return pKey;
@@ -87,14 +72,6 @@ public class ClientVO extends AbstractBase implements Serializable {
 
     public void setpKey(String pKey) {
         this.pKey = pKey;
-    }
-
-    public String getResourceIds() {
-        return resourceIds;
-    }
-
-    public void setResourceIds(String resourceIds) {
-        this.resourceIds = resourceIds;
     }
 
     public String getClientId() {
@@ -105,6 +82,14 @@ public class ClientVO extends AbstractBase implements Serializable {
         this.clientId = clientId;
     }
 
+    public Instant getClientIdIssuedAt() {
+        return clientIdIssuedAt;
+    }
+
+    public void setClientIdIssuedAt(Instant clientIdIssuedAt) {
+        this.clientIdIssuedAt = clientIdIssuedAt;
+    }
+
     public String getClientSecret() {
         return clientSecret;
     }
@@ -113,174 +98,181 @@ public class ClientVO extends AbstractBase implements Serializable {
         this.clientSecret = clientSecret;
     }
 
-    public String getScope() {
-        return scope;
+    public Instant getClientSecretExpiresAt() {
+        return clientSecretExpiresAt;
     }
 
-    public void setScope(String scope) {
-        this.scope = scope;
+    public void setClientSecretExpiresAt(Instant clientSecretExpiresAt) {
+        this.clientSecretExpiresAt = clientSecretExpiresAt;
     }
 
-    public String getAuthorizedGrantTypes() {
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+
+    public List<String> getScopes() {
+        return scopes;
+    }
+
+    public void setScopes(List<String> scopes) {
+        this.scopes = scopes;
+    }
+
+    public List<String> getClientAuthenticationMethods() {
+        return clientAuthenticationMethods;
+    }
+
+    public void setClientAuthenticationMethods(List<String> clientAuthenticationMethods) {
+        this.clientAuthenticationMethods = clientAuthenticationMethods;
+    }
+
+    public List<String> getAuthorizedGrantTypes() {
         return authorizedGrantTypes;
     }
 
-    public void setAuthorizedGrantTypes(String authorizedGrantTypes) {
+    public void setAuthorizedGrantTypes(List<String> authorizedGrantTypes) {
         this.authorizedGrantTypes = authorizedGrantTypes;
     }
 
-    public String getWebServerRedirectUri() {
-        return webServerRedirectUri;
+    public List<String> getWebServerRedirectUris() {
+        return webServerRedirectUris;
     }
 
-    public void setWebServerRedirectUri(String webServerRedirectUri) {
-        this.webServerRedirectUri = webServerRedirectUri;
+    public void setWebServerRedirectUris(List<String> webServerRedirectUris) {
+        this.webServerRedirectUris = webServerRedirectUris;
     }
 
-    public String getAuthorities() {
-        return authorities;
+    public Map<String, String> getClientSettings() {
+        return clientSettings;
     }
 
-    public void setAuthorities(String authorities) {
-        this.authorities = authorities;
+    public void setClientSettings(Map<String, String> clientSettings) {
+        this.clientSettings = clientSettings;
     }
 
-    public int getAccessTokenValidity() {
-        return accessTokenValidity;
+    public Map<String, String> getTokenSettings() {
+        return tokenSettings;
     }
 
-    public void setAccessTokenValidity(int accessTokenValidity) {
-        this.accessTokenValidity = accessTokenValidity;
-    }
-
-    public int getRefreshTokenValidity() {
-        return refreshTokenValidity;
-    }
-
-    public void setRefreshTokenValidity(int refreshTokenValidity) {
-        this.refreshTokenValidity = refreshTokenValidity;
-    }
-
-    public String getAdditionalInformation() {
-        return additionalInformation;
-    }
-
-    public void setAdditionalInformation(String additionalInformation) {
-        this.additionalInformation = additionalInformation;
-    }
-
-    public String getAutoapprove() {
-        return autoapprove;
-    }
-
-    public void setAutoapprove(String autoapprove) {
-        this.autoapprove = autoapprove;
+    public void setTokenSettings(Map<String, String> tokenSettings) {
+        this.tokenSettings = tokenSettings;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof ClientVO)) return false;
         if (!super.equals(o)) return false;
         ClientVO clientVO = (ClientVO) o;
-        return accessTokenValidity == clientVO.accessTokenValidity &&
-                refreshTokenValidity == clientVO.refreshTokenValidity &&
-                Objects.equals(pKey, clientVO.pKey) &&
-                Objects.equals(resourceIds, clientVO.resourceIds) &&
-                Objects.equals(clientId, clientVO.clientId) &&
-                Objects.equals(clientSecret, clientVO.clientSecret) &&
-                Objects.equals(scope, clientVO.scope) &&
-                Objects.equals(authorizedGrantTypes, clientVO.authorizedGrantTypes) &&
-                Objects.equals(webServerRedirectUri, clientVO.webServerRedirectUri) &&
-                Objects.equals(authorities, clientVO.authorities) &&
-                Objects.equals(additionalInformation, clientVO.additionalInformation) &&
-                Objects.equals(autoapprove, clientVO.autoapprove);
+        return Objects.equals(pKey, clientVO.pKey) && Objects.equals(clientId, clientVO.clientId) && Objects.equals(clientIdIssuedAt, clientVO.clientIdIssuedAt) && Objects.equals(clientSecret, clientVO.clientSecret) && Objects.equals(clientSecretExpiresAt, clientVO.clientSecretExpiresAt) && Objects.equals(clientName, clientVO.clientName) && Objects.equals(scopes, clientVO.scopes) && Objects.equals(clientAuthenticationMethods, clientVO.clientAuthenticationMethods) && Objects.equals(authorizedGrantTypes, clientVO.authorizedGrantTypes) && Objects.equals(webServerRedirectUris, clientVO.webServerRedirectUris) && Objects.equals(clientSettings, clientVO.clientSettings) && Objects.equals(tokenSettings, clientVO.tokenSettings);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), pKey, resourceIds, clientId, clientSecret, scope, authorizedGrantTypes, webServerRedirectUri, authorities, accessTokenValidity, refreshTokenValidity, additionalInformation, autoapprove);
+        return Objects.hash(super.hashCode(), pKey, clientId, clientIdIssuedAt, clientSecret, clientSecretExpiresAt, clientName, scopes, clientAuthenticationMethods, authorizedGrantTypes, webServerRedirectUris, clientSettings, tokenSettings);
     }
+
 
     public static final class Builder {
         private String pKey;
-        private String resourceIds;
-        private @NotEmpty String clientId;
+        private String clientId;
+        private Instant clientIdIssuedAt;
         private String clientSecret;
-        private String scope;
-        private String authorizedGrantTypes;
-        private String webServerRedirectUri;
-        private String authorities;
-        private int accessTokenValidity;
-        private int refreshTokenValidity;
-        private String additionalInformation;
-        private String autoapprove;
+        private Instant clientSecretExpiresAt;
+        private String clientName;
+        private List<String> scopes;
+        private List<String> clientAuthenticationMethods;
+        private List<String> authorizedGrantTypes;
+        private List<String> webServerRedirectUris;
+        private Map<String, String> clientSettings;
+        private Map<String, String> tokenSettings;
 
         private Builder() {
         }
 
-        public Builder pKey(String val) {
-            pKey = val;
+        public static Builder aClientVO() {
+            return new Builder();
+        }
+
+        public Builder pKey(String pKey) {
+            this.pKey = pKey;
             return this;
         }
 
-        public Builder resourceIds(String val) {
-            resourceIds = val;
+        public Builder clientId(String clientId) {
+            this.clientId = clientId;
             return this;
         }
 
-        public Builder clientId(@NotEmpty String val) {
-            clientId = val;
+        public Builder clientIdIssuedAt(Instant clientIdIssuedAt) {
+            this.clientIdIssuedAt = clientIdIssuedAt;
             return this;
         }
 
-        public Builder clientSecret(String val) {
-            clientSecret = val;
+        public Builder clientSecret(String clientSecret) {
+            this.clientSecret = clientSecret;
             return this;
         }
 
-        public Builder scope(String val) {
-            scope = val;
+        public Builder clientSecretExpiresAt(Instant clientSecretExpiresAt) {
+            this.clientSecretExpiresAt = clientSecretExpiresAt;
             return this;
         }
 
-        public Builder authorizedGrantTypes(String val) {
-            authorizedGrantTypes = val;
+        public Builder clientName(String clientName) {
+            this.clientName = clientName;
             return this;
         }
 
-        public Builder webServerRedirectUri(String val) {
-            webServerRedirectUri = val;
+        public Builder scopes(List<String> scopes) {
+            this.scopes = scopes;
             return this;
         }
 
-        public Builder authorities(String val) {
-            authorities = val;
+        public Builder clientAuthenticationMethods(List<String> clientAuthenticationMethods) {
+            this.clientAuthenticationMethods = clientAuthenticationMethods;
             return this;
         }
 
-        public Builder accessTokenValidity(int val) {
-            accessTokenValidity = val;
+        public Builder authorizedGrantTypes(List<String> authorizedGrantTypes) {
+            this.authorizedGrantTypes = authorizedGrantTypes;
             return this;
         }
 
-        public Builder refreshTokenValidity(int val) {
-            refreshTokenValidity = val;
+        public Builder webServerRedirectUris(List<String> webServerRedirectUris) {
+            this.webServerRedirectUris = webServerRedirectUris;
             return this;
         }
 
-        public Builder additionalInformation(String val) {
-            additionalInformation = val;
+        public Builder clientSettings(Map<String, String> clientSettings) {
+            this.clientSettings = clientSettings;
             return this;
         }
 
-        public Builder autoapprove(String val) {
-            autoapprove = val;
+        public Builder tokenSettings(Map<String, String> tokenSettings) {
+            this.tokenSettings = tokenSettings;
             return this;
         }
 
         public ClientVO build() {
-            return new ClientVO(this);
+            ClientVO clientVO = new ClientVO();
+            clientVO.setClientId(clientId);
+            clientVO.setClientIdIssuedAt(clientIdIssuedAt);
+            clientVO.setClientSecret(clientSecret);
+            clientVO.setClientSecretExpiresAt(clientSecretExpiresAt);
+            clientVO.setClientName(clientName);
+            clientVO.setScopes(scopes);
+            clientVO.setClientAuthenticationMethods(clientAuthenticationMethods);
+            clientVO.setAuthorizedGrantTypes(authorizedGrantTypes);
+            clientVO.setWebServerRedirectUris(webServerRedirectUris);
+            clientVO.setClientSettings(clientSettings);
+            clientVO.setTokenSettings(tokenSettings);
+            clientVO.pKey = this.pKey;
+            return clientVO;
         }
     }
 }

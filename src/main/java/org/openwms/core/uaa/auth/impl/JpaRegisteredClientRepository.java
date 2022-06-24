@@ -30,6 +30,7 @@ import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2A
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -122,10 +123,14 @@ class JpaRegisteredClientRepository implements RegisteredClientRepository {
                 .scopes((scopes) -> scopes.addAll(clientScopes));
 
         Map<String, String> clientSettingsMap = client.getClientSettings();
-        builder.clientSettings(ClientSettings.withSettings(toObjectMap(clientSettingsMap)).build());
+        if (clientSettingsMap != null && !clientSettingsMap.isEmpty()) {
+            builder.clientSettings(ClientSettings.withSettings(toObjectMap(clientSettingsMap)).build());
+        }
 
         Map<String, String> tokenSettingsMap = client.getTokenSettings();
-        builder.tokenSettings(TokenSettings.withSettings(toObjectMap(tokenSettingsMap)).build());
+        if (tokenSettingsMap != null && !tokenSettingsMap.isEmpty()) {
+            builder.tokenSettings(TokenSettings.withSettings(toObjectMap(tokenSettingsMap)).build());
+        }
 
         return builder.build();
     }
@@ -148,10 +153,14 @@ class JpaRegisteredClientRepository implements RegisteredClientRepository {
     }
 
     private Map<String, Object> toObjectMap(Map<String, String> data) {
+        if (data == null || data.isEmpty()) {
+            return new HashMap<>();
+        }
         try {
-            String str = this.objectMapper.writeValueAsString(data);
-            return this.objectMapper.readValue(str, new TypeReference<>() {
-            });
+            Map<String, String> input = new HashMap<>(data);
+            String str = this.objectMapper.writeValueAsString(input);
+            var result = this.objectMapper.readValue(str, new TypeReference<Map<String, Object>>() {});
+            return result;
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex.getMessage(), ex);
         }
