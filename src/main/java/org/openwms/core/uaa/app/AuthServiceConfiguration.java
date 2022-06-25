@@ -120,10 +120,10 @@ class AuthServiceConfiguration {
 
         var endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
         http
-                .requestMatcher(endpointsMatcher)
-                .authorizeRequests(authorizeRequests ->
-                        authorizeRequests.anyRequest().authenticated()
-                )
+//                .requestMatcher(endpointsMatcher)
+//                .authorizeRequests(authorizeRequests ->
+//                        authorizeRequests.anyRequest().authenticated()
+//                )
                 .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
                 .exceptionHandling(exceptions ->
                         exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/uaa/oauth2/login"))
