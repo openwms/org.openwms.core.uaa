@@ -3,7 +3,7 @@ delete from cor_uaa_role_user;
 delete from cor_uaa_role;
 delete from cor_uaa_user;
 
-insert into cor_uaa_client (c_pk, c_created, c_ol, c_pid, c_authorized_grant_types, c_client_id, c_client_secret, c_scopes, c_web_server_redirect_uris, c_authentication_methods) values (1, now(), 0, '328e9a72-9f9e-4eef-86f4-917fb1f04b53', 'PASSWORD,REFRESH_TOKEN,AUTHORIZATION_CODE,CLIENT_CREDENTIALS','gateway', 'secret', 'openid,role.create,role.assign', 'http://localhost:8086/login/oauth2/code/gateway,http://localhost:8110/uaa/roles,http://localhost:8110/uaa/login/oauth2/code/gateway-oidc','CLIENT_SECRET_BASIC');
+insert into cor_uaa_client (c_pk, c_created, c_ol, c_pid, c_authorized_grant_types, c_client_id, c_client_secret, c_scopes, c_web_server_redirect_uris, c_authentication_methods) values (1, now(), 0, '328e9a72-9f9e-4eef-86f4-917fb1f04b53', 'PASSWORD,REFRESH_TOKEN,AUTHORIZATION_CODE,CLIENT_CREDENTIALS','gateway', 'secret', 'openid,role.create,role.assign', 'http://127.0.0.1:8110/login/oauth2/code/gateway','CLIENT_SECRET_BASIC');
 
 insert into core_uaa_client_setting (C_CLIENT_PK,C_KEY,C_VALUE) values (1,'require-authorization-consent','false');
 
