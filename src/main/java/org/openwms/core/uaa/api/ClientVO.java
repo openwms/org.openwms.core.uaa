@@ -25,7 +25,6 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -59,9 +58,9 @@ public class ClientVO extends AbstractBase<ClientVO> implements Serializable {
     @JsonProperty("webServerRedirectUris")
     private List<String> webServerRedirectUris;
     @JsonProperty("clientSettings")
-    private Map<String, String> clientSettings;
+    private String clientSettings;
     @JsonProperty("tokenSettings")
-    private Map<String, String> tokenSettings;
+    private String tokenSettings;
 
     @JsonCreator
     public ClientVO() {}
@@ -146,19 +145,19 @@ public class ClientVO extends AbstractBase<ClientVO> implements Serializable {
         this.webServerRedirectUris = webServerRedirectUris;
     }
 
-    public Map<String, String> getClientSettings() {
+    public String getClientSettings() {
         return clientSettings;
     }
 
-    public void setClientSettings(Map<String, String> clientSettings) {
+    public void setClientSettings(String clientSettings) {
         this.clientSettings = clientSettings;
     }
 
-    public Map<String, String> getTokenSettings() {
+    public String getTokenSettings() {
         return tokenSettings;
     }
 
-    public void setTokenSettings(Map<String, String> tokenSettings) {
+    public void setTokenSettings(String tokenSettings) {
         this.tokenSettings = tokenSettings;
     }
 
@@ -188,8 +187,8 @@ public class ClientVO extends AbstractBase<ClientVO> implements Serializable {
         private List<String> clientAuthenticationMethods;
         private List<String> authorizedGrantTypes;
         private List<String> webServerRedirectUris;
-        private Map<String, String> clientSettings;
-        private Map<String, String> tokenSettings;
+        private String clientSettings;
+        private String tokenSettings;
 
         private Builder() {
         }
@@ -248,12 +247,12 @@ public class ClientVO extends AbstractBase<ClientVO> implements Serializable {
             return this;
         }
 
-        public Builder clientSettings(Map<String, String> clientSettings) {
+        public Builder clientSettings(String clientSettings) {
             this.clientSettings = clientSettings;
             return this;
         }
 
-        public Builder tokenSettings(Map<String, String> tokenSettings) {
+        public Builder tokenSettings(String tokenSettings) {
             this.tokenSettings = tokenSettings;
             return this;
         }

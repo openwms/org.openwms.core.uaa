@@ -27,7 +27,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -193,12 +192,15 @@ public class Role extends SecurityObject implements Serializable {
     }
 
     /**
-     * Return an unmodifiable Set of all {@link User}s assigned to the Role.
+     * Return a Set of all {@link User}s assigned to the Role.
      *
      * @return A Set of all {@link User}s assigned to the Role
      */
     public Set<User> getUsers() {
-        return Collections.unmodifiableSet(users);
+        if (users == null) {
+            return new HashSet<>();
+        }
+        return new HashSet<>(users);
     }
 
     /**
@@ -236,7 +238,7 @@ public class Role extends SecurityObject implements Serializable {
     }
 
     /**
-     * Return an unmodifiable Set of all {@link SecurityObject}s belonging to the Role.
+     * Return a Set of all {@link SecurityObject}s belonging to the Role.
      *
      * @return A Set of all {@link SecurityObject}s belonging to this Role
      */
@@ -244,7 +246,7 @@ public class Role extends SecurityObject implements Serializable {
         if (grants == null) {
             grants = new HashSet<>();
         }
-        return Collections.unmodifiableSet(grants);
+        return new HashSet<>(grants);
     }
 
     /**

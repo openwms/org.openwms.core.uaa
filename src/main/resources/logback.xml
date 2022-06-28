@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false" scan="false" scanPeriod="30 seconds">
 
-    <property name="LOG_TEMP" value="/tmp/owms" />
-    <property name="MODULE_NAME" value="CORE-UAA" />
+    <property name="LOG_TEMP" value="/tmp/owms"/>
+    <property name="MODULE_NAME" value="CORE-UAA"/>
 
-    <include resource="logback-appenders.xml" />
-    <include resource="logback-loggers.xml" />
+    <include resource="logback-appenders.xml"/>
+    <include resource="logback-loggers.xml"/>
 
     <appender name="ELK" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>elk:5000</destination>
@@ -36,30 +36,31 @@
             <appender-ref ref="ELK"/>
         </root>
     </springProfile>
+
     <springProfile name="!PROD">
-  <logger name="PRESENTATION_LAYER_EXCEPTION" level="ERROR" additivity="false">
-    <appender-ref ref="STDOUT"/>
-        <appender-ref ref="EXCFILE"/>
-    <appender-ref ref="LOGFILE"/>
-  </logger>
-  <logger name="SERVICE_LAYER_EXCEPTION" level="ERROR" additivity="false">
-      <appender-ref ref="STDOUT"/>
-        <appender-ref ref="EXCFILE"/>
-      <appender-ref ref="LOGFILE"/>
-  </logger>
-  <logger name="INTEGRATION_LAYER_EXCEPTION" level="ERROR" additivity="false">
-      <appender-ref ref="STDOUT"/>
-        <appender-ref ref="EXCFILE"/>
-      <appender-ref ref="LOGFILE"/>
-  </logger>
+        <logger name="PRESENTATION_LAYER_EXCEPTION" level="ERROR" additivity="false">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="EXCFILE"/>
+            <appender-ref ref="LOGFILE"/>
+        </logger>
+        <logger name="SERVICE_LAYER_EXCEPTION" level="ERROR" additivity="false">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="EXCFILE"/>
+            <appender-ref ref="LOGFILE"/>
+        </logger>
+        <logger name="INTEGRATION_LAYER_EXCEPTION" level="ERROR" additivity="false">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="EXCFILE"/>
+            <appender-ref ref="LOGFILE"/>
+        </logger>
         <logger name="CALLCONTEXT" level="DEBUG"/>
-  <logger name="MEASURED" level="INFO">
-      <appender-ref ref="STDOUT"/>
-      <appender-ref ref="TSL"/>
-  </logger>
-  <root level="INFO">
-    <appender-ref ref="STDOUT"/>
-    <appender-ref ref="LOGFILE"/>
-  </root>
+        <logger name="MEASURED" level="INFO">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="TSL"/>
+        </logger>
+        <root level="INFO">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="LOGFILE"/>
+        </root>
     </springProfile>
 </configuration>

@@ -18,25 +18,16 @@ package org.openwms.core.uaa.auth;
 import org.ameba.integration.jpa.ApplicationEntity;
 import org.ameba.integration.jpa.StringListConverter;
 
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.Convert;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapKeyColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-
-import static javax.persistence.FetchType.EAGER;
 
 /**
  * A Client is the representation of an OAuth2 Client.
@@ -92,29 +83,15 @@ public class Client extends ApplicationEntity implements Serializable {
     @Size(max = StringListConverter.STRING_LIST_LENGTH)
     private List<String> webServerRedirectUris;
 
-    /** All other client settings stored as a map. */
-    @ElementCollection(fetch = EAGER)
-    @CollectionTable(name = "CORE_UAA_CLIENT_SETTING",
-            joinColumns = {
-                    @JoinColumn(name = "C_CLIENT_PK", referencedColumnName = "C_PK")
-            },
-            foreignKey = @ForeignKey(name = "FK_CLIENT_SETTING_CLIENT")
-    )
-    @MapKeyColumn(name = "C_KEY")
-    @Column(name = "C_VALUE")
-    private Map<String, String> clientSettings = new HashMap<>();
+    /** All other client settings. */
+    @Column(name = "C_CLIENT_SETTINGS", length = 2048)
+    @Size(max = 2048)
+    private String clientSettings;
 
-    /** All other token settings stored as a map. */
-    @ElementCollection(fetch = EAGER)
-    @CollectionTable(name = "CORE_UAA_TOKEN_SETTING",
-            joinColumns = {
-                    @JoinColumn(name = "C_CLIENT_PK", referencedColumnName = "C_PK")
-            },
-            foreignKey = @ForeignKey(name = "FK_CLIENT_TOKEN_CLIENT")
-    )
-    @MapKeyColumn(name = "C_KEY")
-    @Column(name = "C_VALUE")
-    private Map<String, String> tokenSettings = new HashMap<>();
+    /** All other token settings. */
+    @Column(name = "C_TOKEN_SETTINGS", length = 2048)
+    @Size(max = 2048)
+    private String tokenSettings;
 
     @Override
     public void setPersistentKey(String pKey) {
@@ -203,19 +180,19 @@ public class Client extends ApplicationEntity implements Serializable {
         this.webServerRedirectUris = webServerRedirectUris;
     }
 
-    public Map<String, String> getClientSettings() {
+    public String getClientSettings() {
         return clientSettings;
     }
 
-    public void setClientSettings(Map<String, String> clientSettings) {
+    public void setClientSettings(String clientSettings) {
         this.clientSettings = clientSettings;
     }
 
-    public Map<String, String> getTokenSettings() {
+    public String getTokenSettings() {
         return tokenSettings;
     }
 
-    public void setTokenSettings(Map<String, String> tokenSettings) {
+    public void setTokenSettings(String tokenSettings) {
         this.tokenSettings = tokenSettings;
     }
 
