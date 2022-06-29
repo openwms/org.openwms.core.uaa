@@ -16,8 +16,8 @@
 package org.openwms.core.uaa.admin.impl;
 
 import org.ameba.integration.jpa.ApplicationEntity;
-import org.openwms.core.uaa.app.DefaultTimeProvider;
 import org.openwms.core.exception.InvalidPasswordException;
+import org.openwms.core.uaa.app.DefaultTimeProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -57,6 +57,7 @@ import java.util.Set;
  * @see UserPassword
  * @see Role
  */
+@JacksonAware
 @Entity
 @Table(name = "COR_UAA_USER", uniqueConstraints = @UniqueConstraint(name = "UC_UAA_USER_NAME", columnNames = {"C_USERNAME"}))
 @Inheritance
@@ -340,7 +341,7 @@ public class User extends ApplicationEntity implements Serializable {
     }
 
     /**
-     * Flatten {@link Role}s and {@link Grant}s and return an unmodifiable list of all {@link Grant}s assigned to this User.
+     * Flatten {@link Role}s and {@link Grant}s and return a List of all {@link Grant}s assigned to this User.
      *
      * @return A list of all {@link Grant}s
      */
@@ -349,7 +350,7 @@ public class User extends ApplicationEntity implements Serializable {
         for (Role role : getRoles()) {
             grants.addAll(role.getGrants());
         }
-        return Collections.unmodifiableList(grants);
+        return new ArrayList<>(grants);
     }
 
     /**
@@ -496,6 +497,11 @@ public class User extends ApplicationEntity implements Serializable {
     public void wipePassword() {
         this.password = null;
         this.persistedPassword = null;
+    }
+
+    public void clear() {
+        this.roles = new ArrayList<>();
+        this.passwords = new ArrayList<>();
     }
 
     /**

@@ -29,6 +29,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.stream.Collectors;
+
+import static java.time.ZonedDateTime.now;
+import static java.util.Arrays.asList;
+
 /**
  * A SecurityContextUserServiceImpl extends Spring {@link UserDetailsService} to
  * read {@code User}s and {@code Role}s from the persistent storage and wraps them into security objects.
@@ -80,12 +85,30 @@ class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationL
         if (null == ud) {
             if (systemUsername.equals(username)) {
                 var user = userService.createSystemUser();
-                ud = new SystemUserWrapper(user);
-                ((SystemUserWrapper) ud).setPassword(enc.encode(user.getPassword()));
+                ud = new SecureUser(
+                        systemUsername,
+                        enc.encode(user.getPassword()),
+                        true,
+                        true,
+                        true,
+                        true,
+                        asList(new SecurityObjectAuthority(SystemUser.SYSTEM_ROLE_NAME))
+                );
+                //ud = new SystemUserWrapper(user);
+                //((SystemUserWrapper) ud).setPassword(enc.encode(user.getPassword()));
             } else {
-                ud = new UserWrapper(
-                        userService.findByUsername(username)
-                                .orElseThrow(() -> new UsernameNotFoundException(String.format("User with username [%s] not found", username))));
+                var user = userService
+                        .findByUsername(username)
+                        .orElseThrow(() -> new UsernameNotFoundException(String.format("User with username [%s] not found", username)));
+                ud = new SecureUser(
+                        username,
+                        user.getPassword(),
+                        user.getExpirationDate() == null || user.getExpirationDate().isAfter(now()),
+                        !user.isLocked(),
+                        true,
+                        user.isEnabled(),
+                        user.getGrants().stream().map(SecurityObjectAuthority::new).collect(Collectors.toList())
+                        );
             }
             if (userCache != null) {
                 userCache.putUserInCache(ud);

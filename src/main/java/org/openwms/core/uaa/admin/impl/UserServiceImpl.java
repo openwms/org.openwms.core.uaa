@@ -212,7 +212,13 @@ class UserServiceImpl implements UserService {
     @Override
     @Measured
     public Optional<User> findByUsername(@NotEmpty String username) {
-        return repository.findByUsername(username);
+        Optional<User> res = repository.findByUsername(username);
+        if (res.isEmpty()) {
+            return Optional.empty();
+        }
+        var user = res.get();
+        user.clear();
+        return res;
     }
 
     /**

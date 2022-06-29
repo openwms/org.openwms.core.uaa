@@ -15,9 +15,11 @@
  */
 package org.openwms.core.uaa.auth.impl;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.openwms.core.uaa.admin.impl.UserWrapper;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -33,7 +35,8 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2AuthorizationServerJackson2Module;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -43,6 +46,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+@Transactional
+@Service
 public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService {
 	private final AuthorizationRepository authorizationRepository;
 	private final RegisteredClientRepository registeredClientRepository;
@@ -57,7 +62,9 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
 		ClassLoader classLoader = JpaOAuth2AuthorizationService.class.getClassLoader();
 		List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
 		this.objectMapper.registerModules(securityModules);
+		this.objectMapper.registerModules(new JavaTimeModule());
 		this.objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
+		objectMapper.addMixIn(UserWrapper.class, JwtAuthenticationTokenMixin.class);
 	}
 
 	@Override

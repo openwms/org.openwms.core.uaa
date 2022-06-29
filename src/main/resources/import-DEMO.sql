@@ -3,7 +3,7 @@ delete from cor_uaa_role_user;
 delete from cor_uaa_role;
 delete from cor_uaa_user;
 
-insert into cor_uaa_client (c_pk, c_created, c_ol, c_pid, c_authorized_grant_types, c_client_id, c_client_secret, c_scopes, c_web_server_redirect_uris, c_authentication_methods, c_client_settings) values (1, now(), 0, '328e9a72-9f9e-4eef-86f4-917fb1f04b53', 'password,refresh_token,authorization_code,client_credentials','gateway', 'secret', 'openid', 'http://127.0.0.1:8110/authorized','client_secret_basic', '{"@class":"java.util.HashMap","settings.client.require-authorization-consent":true,"settings.client.require-proof-key":false}');
+insert into cor_uaa_client (c_pk, c_created, c_ol, c_pid, c_authorized_grant_types, c_client_id, c_client_secret, c_scopes, c_web_server_redirect_uris, c_authentication_methods, c_client_settings) values (1, now(), 0, '328e9a72-9f9e-4eef-86f4-917fb1f04b53', 'password,refresh_token,authorization_code,client_credentials','gateway', 'secret', 'openid,picking.view', 'http://127.0.0.1:8110/authorized','client_secret_basic', '{"@class":"java.util.HashMap","settings.client.require-authorization-consent":false,"settings.client.require-proof-key":false}');
 
 -- Users
 -- Password: tester $2a$15$k67lgzS8AaDOT9oKjY88qO1D9zpPY.AU.VSgIZ1fKgIaWjPVA55aC

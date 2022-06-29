@@ -17,7 +17,6 @@ package org.openwms.core.uaa.app;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import org.ameba.LoggingCategories;
@@ -31,10 +30,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationConsentService;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
@@ -42,13 +44,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 import javax.sql.DataSource;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
-import java.util.UUID;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
  * A AuthServiceConfiguration.
@@ -70,12 +65,16 @@ class AuthServiceConfiguration {
     @Autowired
     private DataSource dataSource;
 
-    @Bean
+//    @Bean
     public OAuth2AuthorizationService authorizationService(AuthorizationRepository authorizationRepository,
             RegisteredClientRepository registeredClientRepository) {
         return new JpaOAuth2AuthorizationService(authorizationRepository, registeredClientRepository);
     }
 
+//    @Bean
+    public OAuth2AuthorizationConsentService authorizationConsentService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
+        return new JdbcOAuth2AuthorizationConsentService(jdbcTemplate, registeredClientRepository);
+    }
     /*
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -104,11 +103,23 @@ class AuthServiceConfiguration {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
+        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+        // @formatter:off
+        http
+                .exceptionHandling(exceptions ->
+                        exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+                );
+        // @formatter:on
+        return http.build();
+    }
+/*
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
 
         // Customize the user consent page
         var authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<HttpSecurity>();
         //authorizationServerConfigurer;
-
         authorizationServerConfigurer
                 .tokenIntrospectionEndpoint(tokenIntrospectionEndpoint ->
                         withDefaults()
@@ -118,20 +129,29 @@ class AuthServiceConfiguration {
                 )
         ;
 
+        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+
         var endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
         http
 //                .requestMatcher(endpointsMatcher)
 //                .authorizeRequests(authorizeRequests ->
 //                        authorizeRequests.anyRequest().authenticated()
 //                )
-                .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
+                //.csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
                 .exceptionHandling(exceptions ->
-                        exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/uaa/oauth2/login"))
+                        exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
                 )
                 .apply(authorizationServerConfigurer);
         return http.build();
-    }
+    }*/
 
+    @Bean
+    public JWKSource<SecurityContext> jwkSource() {
+        RSAKey rsaKey = Jwks.generateRsa();
+        JWKSet jwkSet = new JWKSet(rsaKey);
+        return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
+    }
+/*
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
         KeyPair keyPair = generateRsaKey();
@@ -157,7 +177,7 @@ class AuthServiceConfiguration {
         }
         return keyPair;
     }
-
+*/
     /*
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {

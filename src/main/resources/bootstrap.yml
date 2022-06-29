@@ -50,8 +50,8 @@ owms:
 
 server:
   port: ${PORT:8110}
-  servlet:
-    context-path: /uaa
+#  servlet:
+#    context-path: /uaa
 
 eureka:
   client:
@@ -232,7 +232,7 @@ spring:
           use_jdbc_metadata_defaults: false
         default_schema: public
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
   main:
     banner-mode: "off"
   zipkin:

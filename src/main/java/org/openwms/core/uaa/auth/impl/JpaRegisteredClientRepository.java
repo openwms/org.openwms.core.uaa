@@ -18,6 +18,8 @@ package org.openwms.core.uaa.auth.impl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.openwms.core.uaa.admin.impl.UserWrapper;
 import org.openwms.core.uaa.auth.Client;
 import org.springframework.security.jackson2.SecurityJackson2Modules;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -52,7 +54,9 @@ class JpaRegisteredClientRepository implements RegisteredClientRepository {
         ClassLoader classLoader = JpaRegisteredClientRepository.class.getClassLoader();
         List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
         this.objectMapper.registerModules(securityModules);
+        this.objectMapper.registerModules(new JavaTimeModule());
         this.objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
+        objectMapper.addMixIn(UserWrapper.class, JwtAuthenticationTokenMixin.class);
     }
 
     @Override
@@ -122,14 +126,12 @@ class JpaRegisteredClientRepository implements RegisteredClientRepository {
                 .redirectUris((uris) -> uris.addAll(redirectUris))
                 .scopes((scopes) -> scopes.addAll(clientScopes));
 
-        Map<String, String> clientSettingsMap = client.getClientSettings();
-        if (clientSettingsMap != null && !clientSettingsMap.isEmpty()) {
-            builder.clientSettings(ClientSettings.withSettings(toObjectMap(clientSettingsMap)).build());
+        if (client.getClientSettings() != null) {
+            builder.clientSettings(ClientSettings.withSettings(stringToMap(client.getClientSettings())).build());
         }
 
-        Map<String, String> tokenSettingsMap = client.getTokenSettings();
-        if (tokenSettingsMap != null && !tokenSettingsMap.isEmpty()) {
-            builder.tokenSettings(TokenSettings.withSettings(toObjectMap(tokenSettingsMap)).build());
+        if (client.getTokenSettings() != null) {
+            builder.tokenSettings(TokenSettings.withSettings(stringToMap(client.getTokenSettings())).build());
         }
 
         return builder.build();
@@ -147,33 +149,27 @@ class JpaRegisteredClientRepository implements RegisteredClientRepository {
         entity.setAuthorizedGrantTypes(registeredClient.getAuthorizationGrantTypes().stream().map(AuthorizationGrantType::getValue).collect(Collectors.toList()));
         entity.setWebServerRedirectUris(new ArrayList<>(registeredClient.getRedirectUris()));
         entity.setScopes(new ArrayList<>(registeredClient.getScopes()));
-        entity.setClientSettings(toStringMap(registeredClient.getClientSettings().getSettings()));
-        entity.setTokenSettings(toStringMap(registeredClient.getTokenSettings().getSettings()));
+        entity.setClientSettings(mapToString(registeredClient.getClientSettings().getSettings()));
+        entity.setTokenSettings(mapToString(registeredClient.getTokenSettings().getSettings()));
         return entity;
     }
 
-    private Map<String, Object> toObjectMap(Map<String, String> data) {
+    private Map<String, Object> stringToMap(String data) {
         if (data == null || data.isEmpty()) {
             return new HashMap<>();
         }
         try {
-            Map<String, String> input = new HashMap<>(data);
-            String str = this.objectMapper.writeValueAsString(input);
-            var result = this.objectMapper.readValue(str, new TypeReference<Map<String, Object>>() {});
-            return result;
+            return this.objectMapper.readValue(data, new TypeReference<Map<String, Object>>() {});
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex.getMessage(), ex);
         }
     }
 
-    private Map<String, String> toStringMap(Map<String, Object> data) {
+    private String mapToString(Map<String, Object> data) {
         try {
-            String str = this.objectMapper.writeValueAsString(data);
-            return this.objectMapper.readValue(str, new TypeReference<>() {
-            });
+            return this.objectMapper.writeValueAsString(data);
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex.getMessage(), ex);
         }
     }
-
 }

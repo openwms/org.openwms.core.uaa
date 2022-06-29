@@ -16,9 +16,13 @@
 package org.openwms.core.uaa.app;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
  * A UAASecurityConfiguration.
@@ -27,15 +31,27 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-        securedEnabled = true,
-        prePostEnabled = true,
-        jsr250Enabled = true
-)
+//@EnableGlobalMethodSecurity(
+//        securedEnabled = true,
+//        prePostEnabled = true,
+//        jsr250Enabled = true
+//)
 class UAASecurityConfiguration /*extends WebSecurityConfigurerAdapter*/ {
 
     @Value("${owms.security.successUrl}")
     private String successUrl;
+    @Bean
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests(authorizeRequests ->
+                        authorizeRequests.anyRequest().authenticated()
+                )
+//                .oauth2ResourceServer().jwt()
+                .formLogin(withDefaults())
+//                .formLogin().failureForwardUrl("/uaa/error").loginPage("/login")
+                ;
+        return http.build();
+    }
 
 /*
     @Override
