@@ -94,8 +94,6 @@ class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationL
                         true,
                         asList(new SecurityObjectAuthority(SystemUser.SYSTEM_ROLE_NAME))
                 );
-                //ud = new SystemUserWrapper(user);
-                //((SystemUserWrapper) ud).setPassword(enc.encode(user.getPassword()));
             } else {
                 var user = userService
                         .findByUsername(username)

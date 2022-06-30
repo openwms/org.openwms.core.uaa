@@ -15,8 +15,8 @@
  */
 package org.openwms.core.uaa.auth.impl;
 
-import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.openwms.core.uaa.admin.impl.UserWrapper;
@@ -35,8 +35,6 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.jackson2.OAuth2AuthorizationServerJackson2Module;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -46,9 +44,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-@Transactional
-@Service
 public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService {
+
 	private final AuthorizationRepository authorizationRepository;
 	private final RegisteredClientRepository registeredClientRepository;
 	private final ObjectMapper objectMapper = new ObjectMapper();

@@ -20,30 +20,26 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import org.ameba.LoggingCategories;
+import org.openwms.core.uaa.auth.impl.AuthorizationConsentRepository;
 import org.openwms.core.uaa.auth.impl.AuthorizationRepository;
+import org.openwms.core.uaa.auth.impl.JpaOAuth2AuthorizationConsentService;
 import org.openwms.core.uaa.auth.impl.JpaOAuth2AuthorizationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationConsentService;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-
-import javax.sql.DataSource;
 
 /**
  * A AuthServiceConfiguration.
@@ -54,26 +50,19 @@ import javax.sql.DataSource;
 class AuthServiceConfiguration {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoggingCategories.BOOT);
-    @Autowired
-    private PasswordEncoder encoder;
-    @Autowired
-    private UserDetailsService userDetailsService;
-//    @Autowired
-//    private AuthenticationManager authenticationManagerBean;
-    @Value("${owms.security.useEncoder}")
-    private boolean useEncoder;
-    @Autowired
-    private DataSource dataSource;
 
-//    @Bean
-    public OAuth2AuthorizationService authorizationService(AuthorizationRepository authorizationRepository,
+    @Bean
+    public OAuth2AuthorizationService authorizationService(
+            AuthorizationRepository authorizationRepository,
             RegisteredClientRepository registeredClientRepository) {
         return new JpaOAuth2AuthorizationService(authorizationRepository, registeredClientRepository);
     }
 
-//    @Bean
-    public OAuth2AuthorizationConsentService authorizationConsentService(JdbcTemplate jdbcTemplate, RegisteredClientRepository registeredClientRepository) {
-        return new JdbcOAuth2AuthorizationConsentService(jdbcTemplate, registeredClientRepository);
+    @Bean
+    public OAuth2AuthorizationConsentService authorizationConsentService(
+            AuthorizationConsentRepository authorizationConsentRepository,
+            RegisteredClientRepository registeredClientRepository) {
+        return new JpaOAuth2AuthorizationConsentService(authorizationConsentRepository, registeredClientRepository);
     }
     /*
     @Override
@@ -96,20 +85,18 @@ class AuthServiceConfiguration {
      */
 
     @Bean
-    public ProviderSettings providerSettings() {
-        return ProviderSettings.builder().issuer("http://localhost:8110").build();
+    public ProviderSettings providerSettings(@Value("${owms.security.provider.issuerUrl}") String issuerUrl) {
+        return ProviderSettings.builder().issuer(issuerUrl).build();
     }
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-        // @formatter:off
         http
                 .exceptionHandling(exceptions ->
                         exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
                 );
-        // @formatter:on
         return http.build();
     }
 /*
@@ -144,6 +131,11 @@ class AuthServiceConfiguration {
                 .apply(authorizationServerConfigurer);
         return http.build();
     }*/
+
+    @Bean
+    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
+        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
+    }
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() {
