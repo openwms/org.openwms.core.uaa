@@ -5,7 +5,8 @@ delete from cor_uaa_user;
 
 -- Clients
 -- Password: secret
-insert into cor_uaa_client (c_pk, c_created, c_ol, c_pid, c_authorized_grant_types, c_client_id, c_client_secret, c_scopes, c_web_server_redirect_uris, c_authentication_methods, c_client_settings) values (1, now(), 0, '328e9a72-9f9e-4eef-86f4-917fb1f04b53', 'password,refresh_token,authorization_code,client_credentials','gateway', '{bcrypt}$2a$04$BANYAa3Bb9F7MAJokoaHjemzcLMbwQ35YKrnL7MZr7o7k141lCRGu', 'openid,picking.view', 'http://127.0.0.1:8110/authorized','client_secret_basic', '{"@class":"java.util.HashMap","settings.client.require-authorization-consent":false,"settings.client.require-proof-key":false}');
+-- Scope 'id_token' must be given in order to query the OIDC UserInfo endpoint
+insert into cor_uaa_client (c_pk, c_created, c_ol, c_pid, c_authorized_grant_types, c_client_id, c_client_secret, c_scopes, c_web_server_redirect_uris, c_authentication_methods, c_client_settings) values (1, now(), 0, '328e9a72-9f9e-4eef-86f4-917fb1f04b53', 'password,refresh_token,authorization_code,client_credentials','gateway', '{bcrypt}$2a$04$BANYAa3Bb9F7MAJokoaHjemzcLMbwQ35YKrnL7MZr7o7k141lCRGu', 'openid,id_token,picking.view', 'http://127.0.0.1:8110/authorized','client_secret_basic', '{"@class":"java.util.HashMap","settings.client.require-authorization-consent":false,"settings.client.require-proof-key":false}');
 
 -- Users
 -- Password: tester

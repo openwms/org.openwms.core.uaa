@@ -544,18 +544,14 @@ public class User extends ApplicationEntity implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof User)) {
+        if (!(obj instanceof User other)) {
             return false;
         }
-        User other = (User) obj;
         if (username == null) {
-            if (other.username != null) {
-                return false;
-            }
-        } else if (!username.equals(other.username)) {
-            return false;
+            return other.username == null;
+        } else {
+            return username.equals(other.username);
         }
-        return true;
     }
 
     @Override
@@ -574,22 +570,18 @@ public class User extends ApplicationEntity implements Serializable {
                 '}';
     }
 
+    /**
+     * Set the {@code password} and {@code persistedPassword} to {@literal null}.
+     */
     public void wipePassword() {
         this.password = null;
         this.persistedPassword = null;
-    }
-
-    public void clear() {
-        this.roles = new ArrayList<>();
-        this.passwords = new ArrayList<>();
     }
 
     /**
      * A PasswordComparator sorts UserPassword by date ascending.
      *
      * @author Heiko Scherrer
-     * @version $Revision$
-     * @since 0.2
      */
     static class PasswordComparator implements Comparator<UserPassword>, Serializable {
 

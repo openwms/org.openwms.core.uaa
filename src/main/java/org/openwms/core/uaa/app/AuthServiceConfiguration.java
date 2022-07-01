@@ -24,6 +24,7 @@ import org.openwms.core.uaa.auth.impl.AuthorizationConsentRepository;
 import org.openwms.core.uaa.auth.impl.AuthorizationRepository;
 import org.openwms.core.uaa.auth.impl.JpaOAuth2AuthorizationConsentService;
 import org.openwms.core.uaa.auth.impl.JpaOAuth2AuthorizationService;
+import org.openwms.core.uaa.auth.userinfo.UserInfoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,6 +34,8 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
@@ -91,14 +94,29 @@ class AuthServiceConfiguration {
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
-        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-        http
-                .exceptionHandling(exceptions ->
-                        exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http, UserInfoMapper userInfoMapper) throws Exception {
+        var authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<HttpSecurity>();
+        var endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
+
+        authorizationServerConfigurer
+                .oidc((oidc) -> oidc
+                        .userInfoEndpoint((ui) -> ui.userInfoMapper(userInfoMapper))
                 );
+
+        http
+                .requestMatcher(endpointsMatcher)
+                .authorizeRequests((authorize) -> authorize
+                        .anyRequest().authenticated()
+                )
+                .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                .exceptionHandling((exceptions) -> exceptions
+                        .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+                )
+                .apply(authorizationServerConfigurer);
         return http.build();
     }
+
 /*
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -132,6 +150,7 @@ class AuthServiceConfiguration {
         return http.build();
     }*/
 
+    // A JwtDecoder @Bean is REQUIRED for the OpenID Connect 1.0 UserInfo endpoint.
     @Bean
     public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
         return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
