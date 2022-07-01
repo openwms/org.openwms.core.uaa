@@ -16,32 +16,19 @@
 package org.openwms.core.uaa.admin;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.openwms.core.uaa.admin.impl.SecurityObject;
 import org.openwms.core.uaa.admin.impl.UserDetails;
-import org.openwms.core.uaa.api.SecurityObjectVO;
 import org.openwms.core.uaa.api.UserDetailsVO;
 
 import javax.validation.Valid;
 import java.util.Base64;
-import java.util.List;
 
 /**
- * A SecurityObjectMapper.
+ * A UserDetailsMapper.
  *
  * @author Heiko Scherrer
  */
 @Mapper(implementationPackage = "org.openwms.core.uaa.admin.impl")
-public interface SecurityObjectMapper {
-
-    List<String> convertToStrings(List<SecurityObject> eo);
-    default String convertToString(SecurityObject eo) {
-        return eo.getName();
-    }
-
-    @Mapping(source = "persistentKey", target = "pKey")
-    SecurityObjectVO convertToVO(SecurityObject eo);
-    List<SecurityObjectVO> convertToVO(List<SecurityObject> eo);
+public interface UserDetailsMapper {
 
     @Valid UserDetailsVO map(UserDetails eo);
 

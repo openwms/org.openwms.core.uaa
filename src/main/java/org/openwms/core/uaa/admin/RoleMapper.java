@@ -19,12 +19,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.openwms.core.uaa.admin.impl.Role;
-import org.openwms.core.uaa.admin.impl.UserDetails;
 import org.openwms.core.uaa.api.RoleVO;
-import org.openwms.core.uaa.api.UserDetailsVO;
 
-import javax.validation.Valid;
-import java.util.Base64;
 import java.util.List;
 
 /**
@@ -32,8 +28,13 @@ import java.util.List;
  *
  * @author Heiko Scherrer
  */
-@Mapper(implementationPackage = "org.openwms.core.uaa.admin.impl")
+@Mapper(implementationPackage = "org.openwms.core.uaa.admin.impl", uses = UserDetailsMapper.class)
 public interface RoleMapper {
+
+    List<String> convertToStrings(List<Role> eo);
+    default String convertToString(Role eo) {
+        return eo.getName();
+    }
 
     @Mapping(source = "persistentKey", target = "pKey")
     RoleVO convertToVO(Role eo);
@@ -44,13 +45,4 @@ public interface RoleMapper {
     @Mapping(source = "users", target = "users", nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     @Mapping(source = "grants", target = "grants", nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     Role convertFrom(RoleVO vo);
-
-    @Valid UserDetailsVO map(UserDetails eo);
-
-    default byte[] map(java.lang.String source) {
-        if (source == null) {
-            return null;
-        }
-        return Base64.getDecoder().decode(source);
-    }
 }
