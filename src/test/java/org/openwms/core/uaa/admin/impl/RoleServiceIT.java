@@ -84,11 +84,11 @@ public class RoleServiceIT extends TestBase {
     public static class TestConfig {
         @Bean
         public RoleMapper beanMapper() {
-            return new RoleMapperImpl();
+            return new RoleMapperImpl(new UserDetailsMapperImpl());
         }
         @Bean
         MethodValidationPostProcessor methodValidationPostProcessor(Validator validator) {
-            MethodValidationPostProcessor mvpp = new MethodValidationPostProcessor();
+            var mvpp = new MethodValidationPostProcessor();
             mvpp.setValidator(validator);
             return mvpp;
         }
@@ -107,13 +107,13 @@ public class RoleServiceIT extends TestBase {
     }
 
     @Test void testCreateNewRole() {
-        RoleVO role = srv.create(RoleVO.newBuilder().name("ANONYMOUS").build());
+        var role = srv.create(RoleVO.newBuilder().name("ANONYMOUS").build());
         assertThat(role).isNotNull();
         assertThat(role.getName()).isEqualTo("ROLE_ANONYMOUS");
     }
 
     @Test void testCreateNewRoleWithoutPrefix() {
-        RoleVO role = srv.create(RoleVO.newBuilder().name("ANONYMOUS").build());
+        var role = srv.create(RoleVO.newBuilder().name("ANONYMOUS").build());
         assertThat(role.getName()).isEqualTo("ROLE_ANONYMOUS");
     }
 
@@ -127,7 +127,7 @@ public class RoleServiceIT extends TestBase {
     }
 
     @Test void testSaveExisingRole() {
-        RoleVO roleSaved = srv.save("1", RoleVO.newBuilder().name("test").description("Test description").build());
+        var roleSaved = srv.save("1", RoleVO.newBuilder().name("test").description("Test description").build());
         assertThat(roleSaved).isNotNull();
         assertThat(roleSaved.getDescription()).isEqualTo("Test description");
         assertThat(roleSaved.getName()).isEqualTo("ROLE_test");
