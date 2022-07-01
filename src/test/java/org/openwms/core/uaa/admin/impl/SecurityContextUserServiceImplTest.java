@@ -89,18 +89,17 @@ class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
      */
     @Test final void testLoadUserByUsernameSystemUser() {
         SystemUser su = new SystemUser(SystemUser.SYSTEM_USERNAME, SystemUser.SYSTEM_USERNAME);
-        SystemUserWrapper suw = new SystemUserWrapper(su);
 
         when(userCache.getUserFromCache(SystemUser.SYSTEM_USERNAME)).thenReturn(null);
         when(userService.createSystemUser()).thenReturn(su);
         when(encoder.encode(SystemUser.SYSTEM_USERNAME)).thenReturn(SystemUser.SYSTEM_USERNAME);
-        UserDetails cachedUser = srv.loadUserByUsername(SystemUser.SYSTEM_USERNAME);
+        var cachedUser = srv.loadUserByUsername(SystemUser.SYSTEM_USERNAME);
 
         verify(userService).createSystemUser();
 
-        assertTrue(cachedUser instanceof UserWrapper);
-        verify(userCache).putUserInCache(((UserWrapper) cachedUser));
-        assertTrue(((UserWrapper) cachedUser).getUser() instanceof SystemUser);
+        assertTrue(cachedUser instanceof SecureUser);
+        verify(userCache).putUserInCache((cachedUser));
+        assertTrue(cachedUser.getUsername().equalsIgnoreCase(SystemUser.SYSTEM_USERNAME));
     }
 
     /**
@@ -110,7 +109,7 @@ class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
      */
     @Test final void testLoadUserByUsernameNotCached() {
         when(userCache.getUserFromCache("NOT_CACHED_USER")).thenReturn(null);
-        when(userService.findByUsername("NOT_CACHED_USER")).thenReturn(Optional.of(new User("NOT_CACHED_USER")));
+        when(userService.findByUsername("NOT_CACHED_USER")).thenReturn(Optional.of(new User("NOT_CACHED_USER", "password")));
 
         UserDetails cachedUser;
         cachedUser = srv.loadUserByUsername("NOT_CACHED_USER");
@@ -118,9 +117,9 @@ class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
         verify(userService, never()).createSystemUser();
         verify(userService).findByUsername("NOT_CACHED_USER");
 
-        assertTrue(cachedUser instanceof UserWrapper);
-        verify(userCache).putUserInCache(((UserWrapper) cachedUser));
-        assertFalse(((UserWrapper) cachedUser).getUser() instanceof SystemUser);
+        assertTrue(cachedUser instanceof SecureUser);
+        verify(userCache).putUserInCache((cachedUser));
+        assertFalse((cachedUser).getUsername().equalsIgnoreCase(SystemUser.SYSTEM_USERNAME));
     }
 
     /**

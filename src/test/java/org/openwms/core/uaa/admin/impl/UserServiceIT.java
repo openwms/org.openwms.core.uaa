@@ -48,6 +48,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
@@ -75,7 +77,8 @@ import static org.springframework.test.util.AssertionErrors.assertTrue;
         showSql = false,
         includeFilters = {
                 @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = UserService.class),
-                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = ConfigurationService.class)
+                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = ConfigurationService.class),
+                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = PasswordEncoder.class)
         }
 )
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
@@ -106,6 +109,10 @@ public class UserServiceIT extends TestBase {
             MethodValidationPostProcessor mvpp = new MethodValidationPostProcessor();
             mvpp.setValidator(validator);
             return mvpp;
+        }
+        @Bean
+        PasswordEncoder passwordEncoder() {
+            return NoOpPasswordEncoder.getInstance();
         }
     }
 

@@ -107,18 +107,18 @@ class ClientControllerDocumentation {
                 .andDo(document("client-create",
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("links[]").ignored(),
+//                                fieldWithPath("links[]").ignored(),
                                 fieldWithPath("clientId").description("The unique id of the client"),
                                 fieldWithPath("clientSecret").description("The clients secret used for authentication"),
-                                fieldWithPath("accessTokenValidity").description("Duration how long the access token is valid"),
-                                fieldWithPath("additionalInformation").description("Some additional descriptive text for the client"),
-                                fieldWithPath("authorities").description("A list of authorities"),
-                                fieldWithPath("authorizedGrantTypes").description("The OAuth2 grant types the client is allowed to use"),
-                                fieldWithPath("autoapprove").description("If user consent is required this is set to false"),
-                                fieldWithPath("refreshTokenValidity").description("Duration how long a refresh token is valid"),
-                                fieldWithPath("resourceIds").description("A list of resource ids"),
-                                fieldWithPath("scope").description("A list of scopes the client can ask for"),
-                                fieldWithPath("webServerRedirectUri").description("The OAuth2 redirect url")
+//                                fieldWithPath("accessTokenValidity").description("Duration how long the access token is valid"),
+                                fieldWithPath("scopes").description("A list of scopes the client requests authorization for"),
+                                fieldWithPath("webServerRedirectUris").description("The OAuth2 redirect url"),
+//                                fieldWithPath("additionalInformation").description("Some additional descriptive text for the client"),
+//                                fieldWithPath("authorities").description("A list of authorities"),
+                                fieldWithPath("authorizedGrantTypes").description("The OAuth2 grant types the client is allowed to use")
+//                                fieldWithPath("autoapprove").description("If user consent is required this is set to false"),
+//                                fieldWithPath("refreshTokenValidity").description("Duration how long a refresh token is valid"),
+//                               fieldWithPath("resourceIds").description("A list of resource ids")
                         )
                 ))
                 .andExpect(status().isOk())
