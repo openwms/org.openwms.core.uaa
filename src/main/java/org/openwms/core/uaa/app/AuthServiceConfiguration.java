@@ -19,14 +19,11 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import org.ameba.LoggingCategories;
 import org.openwms.core.uaa.auth.impl.AuthorizationConsentRepository;
 import org.openwms.core.uaa.auth.impl.AuthorizationRepository;
 import org.openwms.core.uaa.auth.impl.JpaOAuth2AuthorizationConsentService;
 import org.openwms.core.uaa.auth.impl.JpaOAuth2AuthorizationService;
 import org.openwms.core.uaa.auth.userinfo.UserInfoMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,8 +48,6 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
  */
 @Configuration(proxyBeanMethods = false)
 class AuthServiceConfiguration {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoggingCategories.BOOT);
 
     @Bean
     public OAuth2AuthorizationService authorizationService(
