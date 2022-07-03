@@ -330,6 +330,17 @@
             <artifactId>spring-security-oauth2-authorization-server</artifactId>
             <version>0.3.1</version>
         </dependency>
+        <dependency>
+            <!-- Enables protection of own resources -->
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-resource-server</artifactId>
+        </dependency>
+        <dependency>
+            <!-- Support for decoding and verifying JWTs -->
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-jose</artifactId>
+        </dependency>
+
         <!-- Observability: Monitoring -->
         <dependency>
             <groupId>io.micrometer</groupId>
