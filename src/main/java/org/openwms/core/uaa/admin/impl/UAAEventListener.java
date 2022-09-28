@@ -33,7 +33,7 @@ class UAAEventListener {
 
     @TransactionalEventListener
     public void onPickOrderPositionSplitEvent(UserEvent event) {
-        User user = event.getSource();
+        var user = event.getSource();
         user.wipePassword();
         LOGGER.info("UAA UserEvent: [{}] : [{}]", event.getType(), user);
     }

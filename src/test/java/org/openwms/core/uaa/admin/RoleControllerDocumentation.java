@@ -28,7 +28,6 @@ import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
@@ -82,13 +81,13 @@ class RoleControllerDocumentation {
     @Sql("classpath:test.sql")
     @Test
     void shall_create_role() throws Exception {
-        RoleVO vo = RoleVO.newBuilder()
+        var vo = RoleVO.newBuilder()
                 .name("ROLE_DEV")
                 .description("Developers")
                 .immutable(true)
                 .build();
 
-        MvcResult mvcResult = mockMvc.perform(
+        var mvcResult = mockMvc.perform(
                 RestDocumentationRequestBuilders.post(API_ROLES)
                         .content(objectMapper.writeValueAsString(vo))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -96,6 +95,7 @@ class RoleControllerDocumentation {
                         preprocessResponse(prettyPrint()),
                         requestFields(
                                 fieldWithPath("links[]").ignored(),
+                                fieldWithPath("@class").ignored(),
                                 fieldWithPath("name").description("Unique name of the Role"),
                                 fieldWithPath("immutable").description("Whether or not this Role is immutable. Immutable Roles can't be modified"),
                                 fieldWithPath("description").description("A descriptive text for the Role")
@@ -110,7 +110,7 @@ class RoleControllerDocumentation {
                 .description("")
                 .immutable(true)
                 .build();
-        mvcResult = mockMvc.perform(
+        mockMvc.perform(
                 RestDocumentationRequestBuilders.post(API_ROLES)
                         .content(objectMapper.writeValueAsString(vo))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -143,7 +143,7 @@ class RoleControllerDocumentation {
     @Sql("classpath:test.sql")
     @Test
     void shall_save_role() throws Exception {
-        RoleVO vo = RoleVO.newBuilder()
+        var vo = RoleVO.newBuilder()
                 .pKey("1")
                 .name("ROLE_SUPER")
                 .description("Administrators role")
@@ -158,7 +158,7 @@ class RoleControllerDocumentation {
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
-        MvcResult mvcResult = mockMvc.perform(
+        var mvcResult = mockMvc.perform(
                 RestDocumentationRequestBuilders.put(API_ROLES + "/" + 1)
                         .content(objectMapper.writeValueAsString(vo))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -166,6 +166,7 @@ class RoleControllerDocumentation {
                         preprocessResponse(prettyPrint()),
                         requestFields(
                                 fieldWithPath("links[]").ignored(),
+                                fieldWithPath("@class").ignored(),
                                 fieldWithPath("pKey").description("The persistent key must be passed when modifying an existing instance"),
                                 fieldWithPath("name").description("The name as an identifying attribute of the existing Role, cannot be changed"),
                                 fieldWithPath("description").description("A description text to update"),
@@ -174,7 +175,7 @@ class RoleControllerDocumentation {
                 ))
                 .andExpect(status().isOk())
                 .andReturn();
-        RoleVO resp = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), RoleVO.class);
+        var resp = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), RoleVO.class);
         assertThat(resp.getName()).isEqualTo("ROLE_SUPER");
         assertThat(resp.getDescription()).isEqualTo("Administrators role");
         assertThat(resp.getImmutable()).isTrue();
@@ -193,12 +194,12 @@ class RoleControllerDocumentation {
     @Transactional
     @Test
     void shall_assign_user() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(
+        var mvcResult = mockMvc.perform(
                 post(API_ROLES + "/1/users/96baa849-dd19-4b19-8c5e-895d3b7f405e"))
                 .andDo(document("role-assign-user", preprocessResponse(prettyPrint())))
                 .andExpect(status().isOk())
                 .andReturn();
-        RoleVO resp = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), RoleVO.class);
+        var resp = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), RoleVO.class);
         //assertThat(resp.getLinks().stream().filter(l -> l.getRel().value().equals("user"))).hasSize(2);
     }
 
@@ -226,12 +227,12 @@ class RoleControllerDocumentation {
     @Transactional
     @Test
     void shall_unassign_user() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(
+        var mvcResult = mockMvc.perform(
                 delete(API_ROLES + "/1/users/96baa849-dd19-4b19-8c5e-895d3b7f405d"))
                 .andDo(document("role-unassign-user", preprocessResponse(prettyPrint())))
                 .andExpect(status().isOk())
                 .andReturn();
-        RoleVO resp = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), RoleVO.class);
+        var resp = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), RoleVO.class);
         assertThat(resp.getLinks().stream().filter(l -> l.getRel().value().equals("user"))).isEmpty();
     }
 

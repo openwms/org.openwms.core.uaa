@@ -18,12 +18,14 @@ package org.openwms.core.uaa.auth.impl;
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
+import org.openwms.core.uaa.api.ValidationGroups;
 import org.openwms.core.uaa.auth.Client;
-import org.openwms.core.uaa.auth.ClientService;
 import org.openwms.core.uaa.auth.ClientMapper;
+import org.openwms.core.uaa.auth.ClientService;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -51,7 +53,8 @@ class ClientServiceImpl implements ClientService {
      */
     @Override
     @Measured
-    public Client create(@NotNull Client client) {
+    @Validated(ValidationGroups.Create.class)
+    public @NotNull Client create(@NotNull(groups = ValidationGroups.Create.class) @Valid Client client) {
         return clientRepository.save(client);
     }
 
@@ -60,10 +63,15 @@ class ClientServiceImpl implements ClientService {
      */
     @Override
     @Measured
-    public Client save(@NotNull Client client) {
-        Client saved = clientRepository.findBypKey(client.getPersistentKey()).orElseThrow(() -> new NotFoundException(format("No Client with PKey [%s] exists", client.getPersistentKey())));
+    @Validated(ValidationGroups.Modify.class)
+    public @NotNull Client save(@NotNull(groups = ValidationGroups.Modify.class) @Valid Client client) {
+        var saved = findInternal(client.getPersistentKey());
         mapper.copy(client, saved);
         return clientRepository.save(saved);
+    }
+
+    private Client findInternal(String pKey) {
+        return clientRepository.findBypKey(pKey).orElseThrow(() -> new NotFoundException(format("No Client with PKey [%s] exists", pKey)));
     }
 
     /**
@@ -71,7 +79,7 @@ class ClientServiceImpl implements ClientService {
      */
     @Override
     @Measured
-    public void delete(@NotEmpty String pKey) {
+    public void delete(@NotBlank String pKey) {
         clientRepository.deleteByPKey(pKey);
     }
 
@@ -80,7 +88,16 @@ class ClientServiceImpl implements ClientService {
      */
     @Override
     @Measured
-    public List<Client> findAll() {
+    public @NotNull Client findByPKey(@NotBlank String pKey) {
+        return findInternal(pKey);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Measured
+    public @NotNull List<Client> findAll() {
         return clientRepository.findAll();
     }
 }

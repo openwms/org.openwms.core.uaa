@@ -22,10 +22,11 @@ import org.openwms.core.uaa.admin.impl.SystemUser;
 import org.openwms.core.uaa.admin.impl.User;
 import org.openwms.core.uaa.admin.impl.UserPassword;
 import org.openwms.core.uaa.api.UserVO;
+import org.openwms.core.uaa.api.ValidationGroups;
 import org.openwms.core.uaa.configuration.UserPreference;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
@@ -51,7 +52,7 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
      * @param roleNames A list of Role names to assign the User to
      * @return The saved instance
      */
-    User save(@NotNull User user, List<String> roleNames);
+    @NotNull User save(@NotNull(groups = ValidationGroups.Modify.class) @Valid User user, List<String> roleNames);
 
     /**
      * Attach and save an {@code image} to an {@link User} with {@code id}.
@@ -59,7 +60,7 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
      * @param pKey The persistent key of the User
      * @param image Image to be stored
      */
-    void uploadImageFile(String pKey, byte[] image);
+    void uploadImageFile(@NotBlank String pKey, @NotNull byte[] image);
 
     /**
      * Return a transient {@link User} entity object, serving as a template.
@@ -67,7 +68,7 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
      * @param username Username of the User
      * @return An empty User template
      */
-    User getTemplate(String username);
+    @NotNull User getTemplate(@NotBlank String username);
 
     /**
      * Save changes on an {@link User} and additionally save the User's password and preferences.
@@ -77,14 +78,17 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
      * @param prefs An array of UserPreference objects
      * @return The saved User instance
      */
-    User saveUserProfile(@NotNull User user, @NotNull UserPassword userPassword, UserPreference... prefs);
+    @NotNull User saveUserProfile(
+            @NotNull(groups = ValidationGroups.Modify.class) @Valid User user,
+            @NotNull UserPassword userPassword,
+            UserPreference... prefs);
 
     /**
      * Create and return the {@link SystemUser} without persisting this user.
      *
      * @return the SystemUser instance
      */
-    SystemUser createSystemUser();
+    @NotNull SystemUser createSystemUser();
 
     /**
      * Create a non-existing User.
@@ -93,7 +97,7 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
      * @param roleNames A list of Role names to assign the User to
      * @return The created instance
      */
-    User create(@NotNull @Valid User user, List<String> roleNames);
+    @NotNull User create(@NotNull(groups = ValidationGroups.Create.class) @Valid User user, List<String> roleNames);
 
     /**
      * Find and return an {@code User} instance.
@@ -101,7 +105,7 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
      * @param username The unique name of the User to search for
      * @return The instance
      */
-    Optional<User> findByUsername(@NotEmpty String username);
+    @NotNull Optional<User> findByUsername(@NotBlank String username);
 
     /**
      * Find and return an {@code User} instance.
@@ -109,21 +113,21 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
      * @param pKey The persistent identifier of the User to search for
      * @return The instance
      */
-    @NotNull User findByPKey(@NotEmpty String pKey);
+    @NotNull User findByPKey(@NotBlank String pKey);
 
     /**
      * Delete an {@link User}.
      *
      * @param username The User's unique name
      */
-    void remove(String username);
+    void remove(@NotBlank String username);
 
     /**
      * Delete an {@link User}.
      *
      * @param pKey The identifiable persistent key
      */
-    void delete(String pKey);
+    void delete(@NotBlank String pKey);
 
     /**
      *
@@ -131,5 +135,5 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
      * @param newPassword
      * @return
      */
-    UserVO updatePassword(String pKey, CharSequence newPassword) throws InvalidPasswordException;
+    @NotNull UserVO updatePassword(@NotBlank String pKey, @NotNull CharSequence newPassword) throws InvalidPasswordException;
 }

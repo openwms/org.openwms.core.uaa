@@ -44,6 +44,9 @@ import static org.openwms.core.uaa.TimeProvider.DATE_TIME_WITH_TIMEZONE;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserVO extends AbstractBase<UserVO> implements Serializable {
 
+    /** HTTP media type representation. */
+    public static final String MEDIA_TYPE = "application/vnd.openwms.uaa.user-v1+json";
+
     /** The persistent key. */
     @JsonProperty("pKey")
     @Null(groups = {ValidationGroups.Create.class})

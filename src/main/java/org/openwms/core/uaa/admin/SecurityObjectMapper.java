@@ -17,8 +17,10 @@ package org.openwms.core.uaa.admin;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.openwms.core.uaa.admin.impl.Grant;
 import org.openwms.core.uaa.admin.impl.SecurityObject;
 import org.openwms.core.uaa.admin.impl.UserDetails;
+import org.openwms.core.uaa.api.GrantVO;
 import org.openwms.core.uaa.api.SecurityObjectVO;
 import org.openwms.core.uaa.api.UserDetailsVO;
 
@@ -34,6 +36,14 @@ import java.util.List;
 @Mapper(implementationPackage = "org.openwms.core.uaa.admin.impl")
 public interface SecurityObjectMapper {
 
+    @Mapping(source = "pKey", target = "persistentKey")
+    Grant convertToEO(GrantVO vo);
+
+    @Mapping(source = "persistentKey", target = "pKey")
+    GrantVO convertToVO(Grant eo);
+
+    List<GrantVO> convertToGrantVOs(List<Grant> eo);
+
     @Mapping(source = "persistentKey", target = "pKey")
     SecurityObjectVO convertToVO(SecurityObject eo);
 
@@ -43,7 +53,7 @@ public interface SecurityObjectMapper {
 
     default byte[] map(String source) {
         if (source == null) {
-            return null;
+            return new byte[0];
         }
         return Base64.getDecoder().decode(source);
     }

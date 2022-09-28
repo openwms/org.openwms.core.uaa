@@ -19,9 +19,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.core.UAAApplicationTest;
+import org.openwms.core.uaa.api.GrantVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.jdbc.Sql;
@@ -73,7 +73,7 @@ class GrantControllerDocumentation {
         mockMvc
                 .perform(get(API_GRANTS))
                 .andExpect(status().isOk())
-                .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(header().string(HttpHeaders.CONTENT_TYPE, GrantVO.MEDIA_TYPE))
                 .andExpect(jsonPath("$.length()", is(4)))
                 .andExpect(jsonPath("$[0].name").exists())
                 .andExpect(jsonPath("$[0].description").exists())

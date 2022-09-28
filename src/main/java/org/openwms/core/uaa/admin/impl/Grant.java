@@ -96,14 +96,9 @@ public class Grant extends SecurityObject implements Serializable {
         if (!(obj instanceof Grant)) {
             return false;
         }
-        Grant other = (Grant) obj;
+        var other = (Grant) obj;
         if (this.getName() == null) {
-            if (other.getName() != null) {
-                return false;
-            }
-        } else if (!this.getName().equals(other.getName())) {
-            return false;
-        }
-        return true;
+            return other.getName() == null;
+        } else return this.getName().equals(other.getName());
     }
 }

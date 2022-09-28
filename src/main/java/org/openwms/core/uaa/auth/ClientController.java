@@ -19,6 +19,8 @@ import org.ameba.http.MeasuredRestController;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.openwms.core.uaa.api.ClientVO;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -54,34 +56,72 @@ public class ClientController extends AbstractWebController {
 
     @GetMapping(API_CLIENTS + "/index")
     public ResponseEntity<Index> index() {
+
         return ResponseEntity.ok(
                 new Index(
                         linkTo(methodOn(ClientController.class).findAll()).withRel("clients-findall"),
+                        linkTo(methodOn(ClientController.class).findByPKey("{pKey}")).withRel("clients-findbypkey"),
                         linkTo(methodOn(ClientController.class).create(new ClientVO())).withRel("clients-create"),
                         linkTo(methodOn(ClientController.class).save(new ClientVO())).withRel("clients-save"),
-                        linkTo(methodOn(ClientController.class).delete("pKey")).withRel("clients-delete")
+                        linkTo(methodOn(ClientController.class).delete("{pKey}")).withRel("clients-delete")
                 )
         );
     }
 
+    @GetMapping(API_CLIENTS + "/{pKey}")
+    public ResponseEntity<ClientVO> findByPKey(@PathVariable("pKey") String pKey) {
+
+        var eo = clientService.findByPKey(pKey);
+        var result = mapper.to(eo);
+        addSelfLink(result);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header(HttpHeaders.CONTENT_TYPE, ClientVO.MEDIA_TYPE)
+                .body(result);
+    }
+
     @GetMapping(API_CLIENTS)
     public ResponseEntity<List<ClientVO>> findAll() {
-        return ResponseEntity.ok(mapper.clientsToClientVos(clientService.findAll()));
+
+        var eos = clientService.findAll();
+        var result = mapper.clientsToClientVos(eos);
+        result.forEach(this::addSelfLink);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header(HttpHeaders.CONTENT_TYPE, ClientVO.MEDIA_TYPE)
+                .body(result);
     }
 
     @PostMapping(API_CLIENTS)
     public ResponseEntity<ClientVO> create(@RequestBody @Valid ClientVO client) {
-        return ResponseEntity.ok(mapper.to(clientService.create(mapper.from(client))));
+
+        var eo = clientService.create(mapper.from(client));
+        var result = mapper.to(eo);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header(HttpHeaders.CONTENT_TYPE, ClientVO.MEDIA_TYPE)
+                .body(result);
     }
 
     @PutMapping(API_CLIENTS)
     public ResponseEntity<ClientVO> save(@RequestBody @Valid ClientVO client) {
-        return ResponseEntity.ok(mapper.to(clientService.save(mapper.from(client))));
+
+        var eo = clientService.save(mapper.from(client));
+        var result = mapper.to(eo);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header(HttpHeaders.CONTENT_TYPE, ClientVO.MEDIA_TYPE)
+                .body(result);
     }
 
     @DeleteMapping(API_CLIENTS + "/{pKey}")
     public ResponseEntity<Void> delete(@PathVariable("pKey") String pKey) {
+
         clientService.delete(pKey);
         return ResponseEntity.noContent().build();
+    }
+
+    private void addSelfLink(ClientVO result) {
+        result.add(linkTo(methodOn(ClientController.class).findByPKey(result.getpKey())).withRel("client-findbypkey"));
     }
 }

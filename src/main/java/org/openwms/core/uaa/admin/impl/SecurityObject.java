@@ -150,7 +150,7 @@ public class SecurityObject extends ApplicationEntity implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        SecurityObject other = (SecurityObject) obj;
+        var other = (SecurityObject) obj;
         if (name == null) {
             if (other.name != null) {
                 return false;

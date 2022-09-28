@@ -16,6 +16,7 @@
 package org.openwms.core.uaa.admin.impl;
 
 import net.sf.ehcache.Ehcache;
+import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.openwms.core.uaa.admin.UserService;
 import org.openwms.core.uaa.events.UserEvent;
@@ -75,11 +76,12 @@ class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationL
      **/
     @Transactional(readOnly = true)
     @Override
+    @Measured
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDetails ud = userCache == null ? null : userCache.getUserFromCache(username);
+        var ud = userCache == null ? null : userCache.getUserFromCache(username);
         if (null == ud) {
             if (systemUsername.equals(username)) {
-                User user = userService.createSystemUser();
+                var user = userService.createSystemUser();
                 ud = new SystemUserWrapper(user);
                 ((SystemUserWrapper) ud).setPassword(enc.encode(user.getPassword()));
             } else {

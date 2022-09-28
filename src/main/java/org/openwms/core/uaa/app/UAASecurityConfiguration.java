@@ -49,7 +49,7 @@ class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration().applyPermitDefaultValues();
+        var config = new CorsConfiguration().applyPermitDefaultValues();
         source.registerCorsConfiguration("/**", config);
 
         http

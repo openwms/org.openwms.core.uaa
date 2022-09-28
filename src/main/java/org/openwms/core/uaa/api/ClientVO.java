@@ -31,7 +31,10 @@ import java.util.Objects;
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ClientVO extends AbstractBase implements Serializable {
+public class ClientVO extends AbstractBase<ClientVO> implements Serializable {
+
+    /** HTTP media type representation. */
+    public static final String MEDIA_TYPE = "application/vnd.openwms.uaa.client-v1+json";
 
     @JsonProperty("pKey")
     private String pKey;

@@ -16,19 +16,19 @@
 package org.openwms.core.uaa.admin;
 
 import org.openwms.core.uaa.admin.impl.Grant;
-import org.openwms.core.uaa.admin.impl.SecurityObject;
+import org.openwms.core.uaa.api.ValidationGroups;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
- * A SecurityService defines functionality to handle {@code SecurityObject}s, especially {@code Grant}s.
+ * A GrantService defines functionality to handle {@code GrantService}s.
  *
  * @author Heiko Scherrer
- * @version 0.2
- * @since 0.1
  */
-public interface SecurityService {
+public interface GrantService {
 
     /**
      * Merge a list of persisted, detached or transient {@link Grant}s of a particular {@code Module}.
@@ -37,14 +37,23 @@ public interface SecurityService {
      * @param grants The list of {@link Grant}s to merge
      * @return All existing {@link Grant}s
      */
-    List<Grant> mergeGrants(@NotNull String moduleName, List<Grant> grants);
+    @NotNull List<Grant> mergeGrants(@NotBlank String moduleName, @NotNull List<Grant> grants);
+
+    /**
+     * Find and return a {@code Grant}.
+     *
+     * @param pKey The persistent key of the existing Grant
+     * @return The instance
+     * @throws org.ameba.exception.NotFoundException If the Grant does not exist
+     */
+    @NotNull Grant findByPKey(@NotBlank String pKey);
 
     /**
      * Find and return all existing {@link Grant}s.
      *
      * @return All existing {@link Grant}s
      */
-    List<Grant> findAllGrants();
+    @NotNull List<Grant> findAllGrants();
 
     /**
      * Find and return all {@link Grant}s assigned to an {@code User}.
@@ -52,5 +61,13 @@ public interface SecurityService {
      * @param user The User's name
      * @return All Grants assigned to the User
      */
-    List<SecurityObject> findAllFor(String user);
+    @NotNull List<Grant> findAllFor(@NotBlank String user);
+
+    /**
+     * Create a new {@link Grant}.
+     *
+     * @param grant The mandatory Grant
+     * @return The created Grant instance
+     */
+    @NotNull Grant create(@NotNull(groups = ValidationGroups.Create.class) @Valid Grant grant);
 }

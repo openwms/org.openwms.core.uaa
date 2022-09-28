@@ -268,7 +268,7 @@ public class User extends ApplicationEntity implements Serializable {
      * @param rawPassword The password to verify
      */
     protected void validateAgainstPasswordHistory(String rawPassword, PasswordEncoder encoder) throws InvalidPasswordException {
-        for (UserPassword up : passwords) {
+        for (var up : passwords) {
             if (encoder.matches(rawPassword, up.getPassword())) {
                 throw new InvalidPasswordException("Password does not match the defined rules");
             }
@@ -284,11 +284,11 @@ public class User extends ApplicationEntity implements Serializable {
         }
         passwords.add(new UserPassword(this, oldPassword));
         if (passwords.size() > NUMBER_STORED_PASSWORDS) {
-            Collections.sort(passwords, new PasswordComparator());
+            passwords.sort(new PasswordComparator());
             if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug("Remove the old password from the history: [{}]", (passwords.get(passwords.size() - 1)));
             }
-            UserPassword pw = passwords.get(passwords.size() - 1);
+            var pw = passwords.get(passwords.size() - 1);
             pw.setUser(null);
             passwords.remove(pw);
         }
@@ -345,8 +345,8 @@ public class User extends ApplicationEntity implements Serializable {
      * @return A list of all {@link Grant}s
      */
     public List<SecurityObject> getGrants() {
-        List<SecurityObject> grants = new ArrayList<>();
-        for (Role role : getRoles()) {
+        var grants = new ArrayList<SecurityObject>();
+        for (var role : getRoles()) {
             grants.addAll(role.getGrants());
         }
         return Collections.unmodifiableList(grants);
@@ -466,7 +466,7 @@ public class User extends ApplicationEntity implements Serializable {
         if (!(obj instanceof User)) {
             return false;
         }
-        User other = (User) obj;
+        var other = (User) obj;
         if (username == null) {
             if (other.username != null) {
                 return false;

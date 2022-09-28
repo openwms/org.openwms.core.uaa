@@ -29,7 +29,6 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
@@ -108,7 +107,7 @@ class UserControllerDocumentation {
 
     @Sql("classpath:test.sql")
     @Test void shall_change_password() throws Exception {
-        PasswordString p = new PasswordString("pw");
+        var p = new PasswordString("pw");
         mockMvc.perform(post(API_USERS + "/96baa849-dd19-4b19-8c5e-895d3b7f405d/password")
                 .content(objectMapper.writeValueAsString(p))
                 .contentType(MediaType.APPLICATION_JSON))
@@ -118,13 +117,13 @@ class UserControllerDocumentation {
     }
 
     @Test void shall_create_user() throws Exception {
-        UserVO vo = UserVO.newBuilder()
+        var vo = UserVO.newBuilder()
                 .username("admin2")
                 .emailAddresses(asList(new EmailVO("admin@example.com", true)))
                 .build();
 
         // CREATE a new User
-        MvcResult result = mockMvc.perform(
+        var result = mockMvc.perform(
                 RestDocumentationRequestBuilders.post(API_USERS)
                         .content(objectMapper.writeValueAsString(vo))
                         .contentType(MediaType.APPLICATION_JSON))
@@ -153,14 +152,14 @@ class UserControllerDocumentation {
                 .andReturn();
 
         // FIND that newly created User
-        String location = result.getResponse().getHeader(LOCATION);
-        String contentAsString = mockMvc.perform(
+        var location = result.getResponse().getHeader(LOCATION);
+        var contentAsString = mockMvc.perform(
                 get(location))
                 .andDo(document("user-findByPkey",
                         preprocessResponse(prettyPrint()),
                         responseFields(
                                 fieldWithPath("pKey").description("The persistent key"),
-                                //fieldWithPath("ol").ignored(),
+                                fieldWithPath("links[].*").ignored(),
                                 fieldWithPath("username").description("The unique name of the User in the system"),
                                 //fieldWithPath("externalUser").description("If the User is authenticated by an external system"),
                                 fieldWithPath("locked").description("If the User is locked and has no permission to login"),
@@ -172,7 +171,7 @@ class UserControllerDocumentation {
                 ))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
-        UserVO userVO = objectMapper.readValue(contentAsString, UserVO.class);
+        var userVO = objectMapper.readValue(contentAsString, UserVO.class);
 
         // MODIFY and SAVE the User
         userVO.setUsername("superuser");
@@ -192,10 +191,10 @@ class UserControllerDocumentation {
         userVO = objectMapper.readValue(contentAsString, UserVO.class);
         assertThat(userVO.getUsername()).isEqualTo("superuser");
 
-        String pKey = location.substring(location.substring(0, location.length()-1).lastIndexOf("/"));
+        var pKey = location.substring(location.substring(0, location.length()-1).lastIndexOf("/"));
 
         // Add an image to the User
-        String s = Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(this.getClass().getClassLoader().getResource("pic.png").toURI())));
+        var s = Base64.getEncoder().encodeToString(Files.readAllBytes(Paths.get(this.getClass().getClassLoader().getResource("pic.png").toURI())));
         mockMvc.perform(
                 post(API_USERS + "/" + pKey + "/details/image")
                         .content(s)
@@ -205,7 +204,7 @@ class UserControllerDocumentation {
         ;
 
         // Update User password
-        PasswordString pw = new PasswordString("welcome");
+        var pw = new PasswordString("welcome");
         mockMvc.perform(
                 post(API_USERS + "/" + pKey + "/password")
                         .content(objectMapper.writeValueAsString(pw))
@@ -215,7 +214,7 @@ class UserControllerDocumentation {
         ;
 
         contentAsString = mockMvc.perform(get(location)).andReturn().getResponse().getContentAsString();
-        UserVO u = objectMapper.readValue(contentAsString, UserVO.class);
+        var u = objectMapper.readValue(contentAsString, UserVO.class);
 //        assertThat(u.getUserDetails().getImage()).isEqualTo(s);
         // DELETE the User
         mockMvc.perform(

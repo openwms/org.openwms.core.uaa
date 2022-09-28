@@ -38,6 +38,7 @@ class IndexController {
     @GetMapping("/index")
     public ResponseEntity<Index> getIndex() {
         return ResponseEntity.ok(
+
                 new Index(
                         linkTo(methodOn(UserController.class).index()).withRel("user-index"),
                         linkTo(methodOn(RoleController.class).index()).withRel("role-index"),

@@ -18,7 +18,7 @@ package org.openwms.core.uaa.api;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -29,17 +29,24 @@ import java.util.Set;
  * 
  * @author Heiko Scherrer
  */
-public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
+public class GrantVO extends SecurityObjectVO<GrantVO> implements Serializable {
 
     /** HTTP media type representation. */
-    public static final String MEDIA_TYPE = "application/vnd.openwms.uaa.role-v1+json";
+    public static final String MEDIA_TYPE = "application/vnd.openwms.uaa.grant-v1+json";
 
     /** The persistent key. */
     @JsonProperty("pKey")
     private String pKey;
+    /** Unique name of the Role. */
+    @JsonProperty("name")
+    @NotEmpty(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class})
+    private String name;
     /** Whether or not this Role is immutable. Immutable Roles can't be modified. */
     @JsonProperty("immutable")
     private Boolean immutable;
+    /** A descriptive text for the Role. */
+    @JsonProperty("description")
+    private String description;
     /** All Users assigned to the Role. */
     @JsonProperty("users")
     private Set<UserVO> users = new HashSet<>();
@@ -48,11 +55,13 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
     private Set<SecurityObjectVO> grants = new HashSet<>();
 
     @JsonCreator
-    public RoleVO() { }
+    public GrantVO() { }
 
-    private RoleVO(Builder builder) {
+    private GrantVO(Builder builder) {
         pKey = builder.pKey;
+        name = builder.name;
         immutable = builder.immutable;
+        description = builder.description;
         users = builder.users;
         grants = builder.grants;
     }
@@ -65,8 +74,16 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
         return pKey;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public Boolean getImmutable() {
         return immutable;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public Set<UserVO> getUsers() {
@@ -87,9 +104,11 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        RoleVO roleVO = (RoleVO) o;
+        GrantVO roleVO = (GrantVO) o;
         return Objects.equals(pKey, roleVO.pKey) &&
+                Objects.equals(name, roleVO.name) &&
                 Objects.equals(immutable, roleVO.immutable) &&
+                Objects.equals(description, roleVO.description) &&
                 Objects.equals(users, roleVO.users) &&
                 Objects.equals(grants, roleVO.grants);
     }
@@ -101,7 +120,7 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), pKey, immutable, users, grants);
+        return Objects.hash(super.hashCode(), pKey, name, immutable, description, users, grants);
     }
 
     /**
@@ -113,7 +132,9 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
     public String toString() {
         return "RoleVO{" +
                 "pKey='" + pKey + '\'' +
+                ", name='" + name + '\'' +
                 ", immutable=" + immutable +
+                ", description='" + description + '\'' +
                 ", users=" + users +
                 ", grants=" + grants +
                 '}';
@@ -121,58 +142,47 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
 
     public static final class Builder {
         private String pKey;
+        private String name;
         private Boolean immutable;
+        private String description;
         private Set<UserVO> users;
         private Set<SecurityObjectVO> grants;
-        private @NotBlank(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class}) String name;
-        private String description;
 
         private Builder() {
         }
 
-        public static Builder aRoleVO() {
-            return new Builder();
-        }
-
-        public Builder pKey(String pKey) {
-            this.pKey = pKey;
+        public Builder pKey(String val) {
+            pKey = val;
             return this;
         }
 
-        public Builder immutable(Boolean immutable) {
-            this.immutable = immutable;
+        public Builder name(String val) {
+            name = val;
             return this;
         }
 
-        public Builder users(Set<UserVO> users) {
-            this.users = users;
+        public Builder immutable(Boolean val) {
+            immutable = val;
             return this;
         }
 
-        public Builder grants(Set<SecurityObjectVO> grants) {
-            this.grants = grants;
+        public Builder description(String val) {
+            description = val;
             return this;
         }
 
-        public Builder name(String name) {
-            this.name = name;
+        public Builder users(Set<UserVO> val) {
+            users = val;
             return this;
         }
 
-        public Builder description(String description) {
-            this.description = description;
+        public Builder grants(Set<SecurityObjectVO> val) {
+            grants = val;
             return this;
         }
 
-        public RoleVO build() {
-            RoleVO roleVO = new RoleVO();
-            roleVO.setName(name);
-            roleVO.setDescription(description);
-            roleVO.immutable = this.immutable;
-            roleVO.users = this.users;
-            roleVO.pKey = this.pKey;
-            roleVO.grants = this.grants;
-            return roleVO;
+        public GrantVO build() {
+            return new GrantVO(this);
         }
     }
 }
