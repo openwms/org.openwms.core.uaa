@@ -20,7 +20,9 @@ import org.junit.jupiter.api.Test;
 import java.util.HashSet;
 import java.util.Set;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.openwms.core.uaa.api.ClientVO.Builder.aClientVO;
 
 /**
  * A ClientVOTest.
@@ -31,31 +33,19 @@ class ClientVOTest {
 
     @Test
     void testEquality() {
-        ClientVO original = ClientVO.newBuilder()
+        var original = aClientVO()
                 .clientId("cliendId")
                 .clientSecret("secr3t")
-                .accessTokenValidity(9999)
-                .additionalInformation("info")
-                .authorities("auth")
-                .authorizedGrantTypes("implicit")
-                .autoapprove("false")
-                .refreshTokenValidity(8888)
-                .resourceIds("res")
-                .scope("client")
-                .webServerRedirectUri("url")
+                .authorizedGrantTypes(asList("implicit"))
+                .scopes(asList("client"))
+                .webServerRedirectUris(asList("url"))
                 .build();
-        ClientVO same = ClientVO.newBuilder()
+        var same = aClientVO()
                 .clientId("cliendId")
                 .clientSecret("secr3t")
-                .accessTokenValidity(9999)
-                .additionalInformation("info")
-                .authorities("auth")
-                .authorizedGrantTypes("implicit")
-                .autoapprove("false")
-                .refreshTokenValidity(8888)
-                .resourceIds("res")
-                .scope("client")
-                .webServerRedirectUri("url")
+                .authorizedGrantTypes(asList("implicit"))
+                .scopes(asList("client"))
+                .webServerRedirectUris(asList("url"))
                 .build();
 
         assertThat(original).isEqualTo(same);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2021 the original author or authors.
+ * Copyright 2005-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,25 +15,17 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionalEventListener;
+import com.fasterxml.jackson.annotation.JacksonAnnotation;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
- * A UAAEventListener.
+ * A JacksonAware.
  *
  * @author Heiko Scherrer
  */
-@Component
-class UAAEventListener {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(UAAEventListener.class);
-
-    @TransactionalEventListener
-    public void onPickOrderPositionSplitEvent(UserEvent event) {
-        User user = event.getSource();
-        user.wipePassword();
-        LOGGER.info("UAA UserEvent: [{}] : [{}]", event.getType(), user);
-    }
+@JacksonAnnotation
+@Retention(RetentionPolicy.RUNTIME)
+public @interface JacksonAware {
 }

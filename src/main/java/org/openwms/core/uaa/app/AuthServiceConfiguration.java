@@ -15,48 +15,54 @@
  */
 package org.openwms.core.uaa.app;
 
-import org.ameba.LoggingCategories;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
+import org.openwms.core.uaa.auth.impl.AuthorizationConsentRepository;
+import org.openwms.core.uaa.auth.impl.AuthorizationRepository;
+import org.openwms.core.uaa.auth.impl.JpaOAuth2AuthorizationConsentService;
+import org.openwms.core.uaa.auth.impl.JpaOAuth2AuthorizationService;
+import org.openwms.core.uaa.auth.userinfo.UserInfoMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-
-import javax.sql.DataSource;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 /**
  * A AuthServiceConfiguration.
  *
  * @author Heiko Scherrer
  */
-@Configuration
-@EnableAuthorizationServer
-class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {
+@Configuration(proxyBeanMethods = false)
+class AuthServiceConfiguration {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LoggingCategories.BOOT);
-    @Autowired
-    private PasswordEncoder encoder;
-    @Autowired
-    private UserDetailsService userDetailsService;
-    @Autowired
-    private AuthenticationManager authenticationManagerBean;
-    @Value("${owms.security.useEncoder}")
-    private boolean useEncoder;
-    @Autowired
-    private DataSource dataSource;
+    @Bean
+    public OAuth2AuthorizationService authorizationService(
+            AuthorizationRepository authorizationRepository,
+            RegisteredClientRepository registeredClientRepository) {
+        return new JpaOAuth2AuthorizationService(authorizationRepository, registeredClientRepository);
+    }
 
+    @Bean
+    public OAuth2AuthorizationConsentService authorizationConsentService(
+            AuthorizationConsentRepository authorizationConsentRepository,
+            RegisteredClientRepository registeredClientRepository) {
+        return new JpaOAuth2AuthorizationConsentService(authorizationConsentRepository, registeredClientRepository);
+    }
+    /*
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         CustomJdbcClientDetailsService clientDetailsService = new CustomJdbcClientDetailsService(dataSource);
@@ -74,7 +80,111 @@ class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {
                 .accessTokenConverter(accessTokenConverter())
         ;
     }
+     */
 
+    @Bean
+    public ProviderSettings providerSettings(@Value("${owms.security.provider.issuerUrl}") String issuerUrl) {
+        return ProviderSettings.builder().issuer(issuerUrl).build();
+    }
+
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http, UserInfoMapper userInfoMapper) throws Exception {
+        var authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<HttpSecurity>();
+        var endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
+
+        authorizationServerConfigurer
+                .oidc((oidc) -> oidc
+                        .userInfoEndpoint((ui) -> ui.userInfoMapper(userInfoMapper))
+                );
+
+        http
+                .requestMatcher(endpointsMatcher)
+                .authorizeRequests((authorize) -> authorize
+                        .anyRequest().authenticated()
+                )
+                .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                .exceptionHandling((exceptions) -> exceptions
+                        .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+                )
+                .apply(authorizationServerConfigurer);
+        return http.build();
+    }
+
+/*
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
+
+        // Customize the user consent page
+        var authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<HttpSecurity>();
+        //authorizationServerConfigurer;
+        authorizationServerConfigurer
+                .tokenIntrospectionEndpoint(tokenIntrospectionEndpoint ->
+                        withDefaults()
+                )
+                .authorizationEndpoint(authorizationEndpoint ->
+                        withDefaults()
+                )
+        ;
+
+        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
+
+        var endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
+        http
+//                .requestMatcher(endpointsMatcher)
+//                .authorizeRequests(authorizeRequests ->
+//                        authorizeRequests.anyRequest().authenticated()
+//                )
+                //.csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher))
+                .exceptionHandling(exceptions ->
+                        exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+                )
+                .apply(authorizationServerConfigurer);
+        return http.build();
+    }*/
+
+    // A JwtDecoder @Bean is REQUIRED for the OpenID Connect 1.0 UserInfo endpoint.
+    @Bean
+    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
+        return OAuth2AuthorizationServerConfiguration.jwtDecoder(jwkSource);
+    }
+
+    @Bean
+    public JWKSource<SecurityContext> jwkSource() {
+        RSAKey rsaKey = Jwks.generateRsa();
+        JWKSet jwkSet = new JWKSet(rsaKey);
+        return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
+    }
+/*
+    @Bean
+    public JWKSource<SecurityContext> jwkSource() {
+        KeyPair keyPair = generateRsaKey();
+        RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
+        RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+        RSAKey rsaKey = new RSAKey.Builder(publicKey)
+                .privateKey(privateKey)
+                .keyID(UUID.randomUUID().toString())
+                .build();
+        JWKSet jwkSet = new JWKSet(rsaKey);
+        return new ImmutableJWKSet<>(jwkSet);
+    }
+
+    private static KeyPair generateRsaKey() {
+        KeyPair keyPair;
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            keyPairGenerator.initialize(2048);
+            keyPair = keyPairGenerator.generateKeyPair();
+        }
+        catch (Exception ex) {
+            throw new IllegalStateException(ex);
+        }
+        return keyPair;
+    }
+*/
+    /*
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security.passwordEncoder(encoder);
@@ -90,7 +200,7 @@ class AuthServiceConfiguration extends AuthorizationServerConfigurerAdapter {
 
     @Bean
     public TokenStore tokenStore() throws Exception {
-        //return new InMemoryTokenStore();
         return new JwtTokenStore(accessTokenConverter());
     }
+     */
 }

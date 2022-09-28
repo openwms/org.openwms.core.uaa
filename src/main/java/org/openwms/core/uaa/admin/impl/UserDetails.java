@@ -28,6 +28,7 @@ import javax.persistence.Lob;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.StringJoiner;
+import java.util.function.Consumer;
 
 /**
  * Detailed information about an {@link User}.
@@ -74,7 +75,9 @@ public class UserDetails implements ImageProvider, Serializable {
         /** Male. */
         MALE,
         /** Female. */
-        FEMALE
+        FEMALE,
+        /** Genderless. */
+        GENDERLESS
     }
 
     /**
@@ -95,6 +98,18 @@ public class UserDetails implements ImageProvider, Serializable {
         this.phoneNo = phoneNo;
     }
 
+    /**
+     * Supply {@code phoneNo} to the consumer {@code c} if present.
+     *
+     * @param c The consumer
+     * @return This instance
+     */
+    public UserDetails supplyPhoneNo(Consumer<String> c) {
+        if (phoneNo != null && !phoneNo.isEmpty()) {
+            c.accept(phoneNo);
+        }
+        return this;
+    }
     /**
      * Return the description text of the {@link User}.
      *
@@ -150,6 +165,19 @@ public class UserDetails implements ImageProvider, Serializable {
     }
 
     /**
+     * Supply {@code office} to the consumer {@code c} if present.
+     *
+     * @param c The consumer
+     * @return This instance
+     */
+    public UserDetails supplyOffice(Consumer<String> c) {
+        if (office != null && !office.isEmpty()) {
+            c.accept(office);
+        }
+        return this;
+    }
+
+    /**
      * Return the IM account name of the {@link User}.
      *
      * @return The current IM account name
@@ -168,6 +196,19 @@ public class UserDetails implements ImageProvider, Serializable {
     }
 
     /**
+     * Supply {@code im} to the consumer {@code c} if present.
+     *
+     * @param c The consumer
+     * @return This instance
+     */
+    public UserDetails supplyIm(Consumer<String> c) {
+        if (im != null && !im.isEmpty()) {
+            c.accept(im);
+        }
+        return this;
+    }
+
+    /**
      * Return the current department of the {@link User}.
      *
      * @return The current department
@@ -183,6 +224,19 @@ public class UserDetails implements ImageProvider, Serializable {
      */
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    /**
+     * Supply {@code department} to the consumer {@code c} if present.
+     *
+     * @param c The consumer
+     * @return This instance
+     */
+    public UserDetails supplyDepartment(Consumer<String> c) {
+        if (department != null && !department.isEmpty()) {
+            c.accept(department);
+        }
+        return this;
     }
 
     /**
@@ -205,6 +259,19 @@ public class UserDetails implements ImageProvider, Serializable {
     }
 
     /**
+     * Supply {@code image} to the consumer {@code c} if present.
+     *
+     * @param c The consumer
+     * @return This instance
+     */
+    public UserDetails supplyImage(Consumer<byte[]> c) {
+        if (image != null) {
+            c.accept(image);
+        }
+        return this;
+    }
+
+    /**
      * Return the {@link User}'s gender.
      *
      * @return The {@link User}'s gender
@@ -220,6 +287,19 @@ public class UserDetails implements ImageProvider, Serializable {
      */
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    /**
+     * Supply {@code gender} to the consumer {@code c} if present.
+     *
+     * @param c The consumer
+     * @return This instance
+     */
+    public UserDetails supplyGender(Consumer<Gender> c) {
+        if (gender != null) {
+            c.accept(gender);
+        }
+        return this;
     }
 
     @Override

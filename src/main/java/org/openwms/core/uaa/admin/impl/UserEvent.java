@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.core.uaa.events;
+package org.openwms.core.uaa.admin.impl;
 
 import org.openwms.core.event.RootApplicationEvent;
-import org.openwms.core.uaa.admin.impl.User;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;

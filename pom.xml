@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>19.1</version>
+        <version>21</version>
         <relativePath />
     </parent>
     <artifactId>org.openwms.core.uaa</artifactId>
@@ -64,11 +66,11 @@
 
     <properties>
         <commons-configuration.version>1.10</commons-configuration.version>
-        <core.version>1.9.0</core.version>
+        <core.version>2.0.0-SNAPSHOT</core.version>
         <guava.version>30.0-jre</guava.version>
-        <HdrHistogram.version>2.1.12</HdrHistogram.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
-        <spring-cloud-dependencies.version>Hoxton.SR10</spring-cloud-dependencies.version>
+        <servo-core.version>0.12.21</servo-core.version>
+        <spring-cloud-dependencies.version>2021.0.3</spring-cloud-dependencies.version>
     </properties>
 
     <reporting>
@@ -119,6 +121,9 @@
                     </annotationProcessorPaths>
                     <showWarnings>true</showWarnings>
                     <compilerArgs>
+                        <arg>
+                            --enable-preview
+                        </arg>
                         <arg>
                             -Amapstruct.defaultComponentModel=spring
                         </arg>
@@ -204,26 +209,21 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.openwms</groupId>
-                <artifactId>org.openwms.core.util</artifactId>
-                <version>${core.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <!-- Clash in org.springframework.cloud:spring-cloud-starter-netflix-eureka-client -->
+                <groupId>com.netflix.servo</groupId>
+                <artifactId>servo-core</artifactId>
+                <version>${servo-core.version}</version>
             </dependency>
             <dependency>
                 <!-- com.netflix.eureka:eureka has an internal clash -->
                 <groupId>commons-configuration</groupId>
                 <artifactId>commons-configuration</artifactId>
                 <version>${commons-configuration.version}</version>
-            </dependency>
-            <dependency>
-                <!-- com.netflix.eureka:eureka has an internal clash -->
-                <groupId>org.hdrhistogram</groupId>
-                <artifactId>HdrHistogram</artifactId>
-                <version>${HdrHistogram.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.mapstruct</groupId>
@@ -234,6 +234,11 @@
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct-processor</artifactId>
                 <version>${org.mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openwms</groupId>
+                <artifactId>org.openwms.core.util</artifactId>
+                <version>${core.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -272,6 +277,10 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
@@ -281,6 +290,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -306,18 +319,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-zipkin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-oauth2</artifactId>
-            <exclusions>
-                <exclusion>
-                    <!-- Take the one from spring-cloud-starter-config -->
-                    <groupId>org.bouncycastle</groupId>
-                    <artifactId>bcpkix-jdk15on</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -325,9 +327,16 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-client</artifactId>
+            <artifactId>spring-security-oauth2-authorization-server</artifactId>
+            <version>0.3.1</version>
         </dependency>
         <dependency>
+            <!-- Enables protection of own resources -->
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-resource-server</artifactId>
+        </dependency>
+        <dependency>
+            <!-- Support for decoding and verifying JWTs -->
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-jose</artifactId>
         </dependency>
@@ -351,6 +360,10 @@
             <artifactId>jackson-datatype-jdk8</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+        <dependency>
             <!-- Need to upgrade Guava from version 11 because of CVE -->
             <!-- Required by eureka-client -->
             <groupId>com.google.guava</groupId>
@@ -359,7 +372,6 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>runtime</scope>
         </dependency>
         <dependency>
             <!-- Required to use PATCH -->
@@ -403,21 +415,6 @@
             <groupId>io.interface21</groupId>
             <artifactId>ameba-lib</artifactId>
             <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-core</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -485,6 +482,14 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>sonatype-nexus-snapshots</id>
+            <name>Snapshot Repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
         </pluginRepository>
     </pluginRepositories>
 </project>

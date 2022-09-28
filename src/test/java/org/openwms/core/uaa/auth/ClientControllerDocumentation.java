@@ -32,8 +32,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.openwms.core.uaa.api.ClientVO.Builder.aClientVO;
 import static org.openwms.core.uaa.api.UAAConstants.API_CLIENTS;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -90,18 +92,12 @@ class ClientControllerDocumentation {
 
     @Test
     void shall_create_client() throws Exception {
-        ClientVO vo = ClientVO.newBuilder()
+        var vo = aClientVO()
                 .clientId("cliendId")
                 .clientSecret("secr3t")
-                .accessTokenValidity(9999)
-                .additionalInformation("info")
-                .authorities("auth")
-                .authorizedGrantTypes("implicit")
-                .autoapprove("false")
-                .refreshTokenValidity(8888)
-                .resourceIds("res")
-                .scope("client")
-                .webServerRedirectUri("url")
+                .authorizedGrantTypes(asList("implicit"))
+                .scopes(asList("client"))
+                .webServerRedirectUris(asList("url"))
                 .build();
 
         mockMvc.perform(
@@ -111,18 +107,11 @@ class ClientControllerDocumentation {
                 .andDo(document("client-create",
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("links[]").ignored(),
                                 fieldWithPath("clientId").description("The unique id of the client"),
                                 fieldWithPath("clientSecret").description("The clients secret used for authentication"),
-                                fieldWithPath("accessTokenValidity").description("Duration how long the access token is valid"),
-                                fieldWithPath("additionalInformation").description("Some additional descriptive text for the client"),
-                                fieldWithPath("authorities").description("A list of authorities"),
-                                fieldWithPath("authorizedGrantTypes").description("The OAuth2 grant types the client is allowed to use"),
-                                fieldWithPath("autoapprove").description("If user consent is required this is set to false"),
-                                fieldWithPath("refreshTokenValidity").description("Duration how long a refresh token is valid"),
-                                fieldWithPath("resourceIds").description("A list of resource ids"),
-                                fieldWithPath("scope").description("A list of scopes the client can ask for"),
-                                fieldWithPath("webServerRedirectUri").description("The OAuth2 redirect url")
+                                fieldWithPath("scopes").description("A list of scopes the client requests authorization for"),
+                                fieldWithPath("webServerRedirectUris").description("The OAuth2 redirect url"),
+                                fieldWithPath("authorizedGrantTypes").description("The OAuth2 grant types the client is allowed to use")
                         )
                 ))
                 .andExpect(status().isOk())
@@ -132,19 +121,13 @@ class ClientControllerDocumentation {
     @Sql("classpath:test.sql")
     @Test
     void shall_save_client() throws Exception {
-        ClientVO vo = ClientVO.newBuilder()
+        var vo = aClientVO()
                 .pKey("1000")
                 .clientId("cliendId")
                 .clientSecret("secr3t")
-                .accessTokenValidity(9999)
-                .additionalInformation("info")
-                .authorities("auth")
-                .authorizedGrantTypes("implicit")
-                .autoapprove("false")
-                .refreshTokenValidity(8888)
-                .resourceIds("res")
-                .scope("client")
-                .webServerRedirectUri("url")
+                .authorizedGrantTypes(asList("implicit"))
+                .scopes(asList("client"))
+                .webServerRedirectUris(asList("url"))
                 .build();
 
         MvcResult mvcResult = mockMvc.perform(
@@ -174,15 +157,9 @@ class ClientControllerDocumentation {
         ClientVO resp = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), ClientVO.class);
         assertThat(resp.getClientId()).isEqualTo("cliendId");
         assertThat(resp.getClientSecret()).isEqualTo("secr3t");
-        assertThat(resp.getAccessTokenValidity()).isEqualTo(9999);
-        assertThat(resp.getAdditionalInformation()).isEqualTo("info");
-        assertThat(resp.getAuthorities()).isEqualTo("auth");
-        assertThat(resp.getAuthorizedGrantTypes()).isEqualTo("implicit");
-        assertThat(resp.getAutoapprove()).isEqualTo("false");
-        assertThat(resp.getRefreshTokenValidity()).isEqualTo(8888);
-        assertThat(resp.getResourceIds()).isEqualTo("res");
-        assertThat(resp.getScope()).isEqualTo("client");
-        assertThat(resp.getWebServerRedirectUri()).isEqualTo("url");
+        assertThat(resp.getAuthorizedGrantTypes()).contains("implicit");
+        assertThat(resp.getScopes()).contains("client");
+        assertThat(resp.getWebServerRedirectUris()).contains("url");
     }
 
     @Sql("classpath:test.sql")

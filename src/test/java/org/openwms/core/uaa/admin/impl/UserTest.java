@@ -23,7 +23,7 @@ package org.openwms.core.uaa.admin.impl;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.openwms.core.exception.InvalidPasswordException;
+import org.openwms.core.uaa.admin.InvalidPasswordException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

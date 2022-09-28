@@ -18,15 +18,20 @@ package org.openwms.core.uaa.app;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+import java.util.HashMap;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 /**
  * A UAASecurityConfiguration.
@@ -35,16 +40,41 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-        securedEnabled = true,
-        prePostEnabled = true,
-        jsr250Enabled = true
-)
-class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
+//@EnableGlobalMethodSecurity(
+//        securedEnabled = true,
+//        prePostEnabled = true,
+//        jsr250Enabled = true
+//)
+class UAASecurityConfiguration /*extends WebSecurityConfigurerAdapter*/ {
 
     @Value("${owms.security.successUrl}")
     private String successUrl;
 
+    @Bean
+    PasswordEncoder nopPasswordEncoder(@Value("${owms.security.encoder.bcrypt.strength:15}") int strength) {
+        var encoders = new HashMap<String, PasswordEncoder>();
+        encoders.put("bcrypt", new BCryptPasswordEncoder(strength));
+        encoders.put("noop", NoOpPasswordEncoder.getInstance());
+        encoders.put("pbkdf2", new Pbkdf2PasswordEncoder());
+        encoders.put("scrypt", new SCryptPasswordEncoder());
+        return new DelegatingPasswordEncoder("bcrypt", encoders);
+    }
+
+    @Bean
+    @Order(2)
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests(authorizeRequests ->
+                        authorizeRequests.anyRequest().authenticated()
+                )
+//                .oauth2ResourceServer().jwt()
+                .formLogin(withDefaults())
+//                .formLogin().failureForwardUrl("/uaa/error").loginPage("/login")
+                ;
+        return http.build();
+    }
+
+/*
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -81,4 +111,6 @@ class UAASecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+ */
 }

@@ -46,6 +46,6 @@ class ServiceLayerExceptionTranslator extends ServiceLayerAspect {
         if (ex instanceof ServiceLayerException) {
             return Optional.of(ex);
         }
-        return Optional.of(new ServiceLayerException(ex.getMessage()));
+        return Optional.of(new ServiceLayerException(ex.getMessage(), ex));
     }
 }

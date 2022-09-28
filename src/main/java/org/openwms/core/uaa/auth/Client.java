@@ -16,11 +16,17 @@
 package org.openwms.core.uaa.auth;
 
 import org.ameba.integration.jpa.ApplicationEntity;
+import org.ameba.integration.jpa.StringListConverter;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -32,28 +38,60 @@ import java.util.Objects;
 @Table(name = "COR_UAA_CLIENT")
 public class Client extends ApplicationEntity implements Serializable {
 
-    @Column(name = "C_RESOURCE_IDS")
-    private String resourceIds;
+    /** Client Id, <a target="_blank" href="https://tools.ietf.org/html/rfc6749">RFC 6749</a>. */
     @Column(name = "C_CLIENT_ID", nullable = false)
+    @NotBlank
     private String clientId;
+
+    /** Client Id, <a target="_blank" href="https://tools.ietf.org/html/rfc6749">RFC 6749</a>. */
+    @Column(name = "C_CLIENT_ID_ISSUED_AT")
+    private Instant clientIdIssuedAt;
+
+    /** Client Secret, <a target="_blank" href="https://tools.ietf.org/html/rfc6749">RFC 6749</a>. */
     @Column(name = "C_CLIENT_SECRET")
     private String clientSecret;
-    @Column(name = "C_SCOPE")
-    private String scope;
-    @Column(name = "C_AUTHORIZED_GRANT_TYPES")
-    private String authorizedGrantTypes;
-    @Column(name = "C_WEB_SERVER_REDIRECT_URI")
-    private String webServerRedirectUri;
-    @Column(name = "C_AUTHORITIES")
-    private String authorities;
-    @Column(name = "C_ACCESS_TOKEN_VALIDITY")
-    private int accessTokenValidity;
-    @Column(name = "C_REFRESH_TOKEN_VALIDITY")
-    private int refreshTokenValidity;
-    @Column(name = "C_ADDITIONAL_INFORMATION")
-    private String additionalInformation;
-    @Column(name = "C_AUTOAPPROVE")
-    private String autoapprove;
+
+    /** Client Id, <a target="_blank" href="https://tools.ietf.org/html/rfc6749">RFC 6749</a>. */
+    @Column(name = "C_CLIENT_SECRET_EXPIRES_AT")
+    private Instant clientSecretExpiresAt;
+
+    /** Client Id, <a target="_blank" href="https://tools.ietf.org/html/rfc6749">RFC 6749</a>. */
+    @Column(name = "C_CLIENT_NAME")
+    private String clientName;
+
+    /** Scopes, <a target="_blank" href="https://tools.ietf.org/html/rfc6749">RFC 6749</a>. */
+    @Convert(converter = StringListConverter.class)
+    @Column(name = "C_SCOPES", length = 1024)
+    @Size(max = 1024)
+    private List<String> scopes;
+
+    /** Client Id, <a target="_blank" href="https://tools.ietf.org/html/rfc6749">RFC 6749</a>. */
+    @Convert(converter = StringListConverter.class)
+    @Column(name = "C_AUTHENTICATION_METHODS", length = 1024)
+    @Size(max = 1024)
+    private List<String> clientAuthenticationMethods;
+
+    /** Client Id, <a target="_blank" href="https://tools.ietf.org/html/rfc6749">RFC 6749</a>. */
+    @Convert(converter = StringListConverter.class)
+    @Column(name = "C_AUTHORIZED_GRANT_TYPES", length = 1024)
+    @Size(max = 1024)
+    private List<String> authorizedGrantTypes;
+
+    /** Redirect URIs, <a target="_blank" href="https://tools.ietf.org/html/rfc6749">RFC 6749</a>. */
+    @Convert(converter = StringListConverter.class)
+    @Column(name = "C_WEB_SERVER_REDIRECT_URIS", length = StringListConverter.STRING_LIST_LENGTH)
+    @Size(max = StringListConverter.STRING_LIST_LENGTH)
+    private List<String> webServerRedirectUris;
+
+    /** All other client settings. */
+    @Column(name = "C_CLIENT_SETTINGS", length = 2048)
+    @Size(max = 2048)
+    private String clientSettings;
+
+    /** All other token settings. */
+    @Column(name = "C_TOKEN_SETTINGS", length = 2048)
+    @Size(max = 2048)
+    private String tokenSettings;
 
     @Override
     public void setPersistentKey(String pKey) {
@@ -70,20 +108,20 @@ public class Client extends ApplicationEntity implements Serializable {
         super.setOl(ol);
     }
 
-    public String getResourceIds() {
-        return resourceIds;
-    }
-
-    public void setResourceIds(String resourceIds) {
-        this.resourceIds = resourceIds;
-    }
-
     public String getClientId() {
         return clientId;
     }
 
     public void setClientId(String clientId) {
         this.clientId = clientId;
+    }
+
+    public Instant getClientIdIssuedAt() {
+        return clientIdIssuedAt;
+    }
+
+    public void setClientIdIssuedAt(Instant clientIdIssuedAt) {
+        this.clientIdIssuedAt = clientIdIssuedAt;
     }
 
     public String getClientSecret() {
@@ -94,102 +132,92 @@ public class Client extends ApplicationEntity implements Serializable {
         this.clientSecret = clientSecret;
     }
 
-    public String getScope() {
-        return scope;
+    public Instant getClientSecretExpiresAt() {
+        return clientSecretExpiresAt;
     }
 
-    public void setScope(String scope) {
-        this.scope = scope;
+    public void setClientSecretExpiresAt(Instant clientSecretExpiresAt) {
+        this.clientSecretExpiresAt = clientSecretExpiresAt;
     }
 
-    public String getAuthorizedGrantTypes() {
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+
+    public List<String> getScopes() {
+        return scopes;
+    }
+
+    public void setScopes(List<String> scopes) {
+        this.scopes = scopes;
+    }
+
+    public List<String> getClientAuthenticationMethods() {
+        return clientAuthenticationMethods;
+    }
+
+    public void setClientAuthenticationMethods(List<String> clientAuthenticationMethods) {
+        this.clientAuthenticationMethods = clientAuthenticationMethods;
+    }
+
+    public List<String> getAuthorizedGrantTypes() {
         return authorizedGrantTypes;
     }
 
-    public void setAuthorizedGrantTypes(String authorizedGrantTypes) {
+    public void setAuthorizedGrantTypes(List<String> authorizedGrantTypes) {
         this.authorizedGrantTypes = authorizedGrantTypes;
     }
 
-    public String getWebServerRedirectUri() {
-        return webServerRedirectUri;
+    public List<String> getWebServerRedirectUris() {
+        return webServerRedirectUris;
     }
 
-    public void setWebServerRedirectUri(String webServerRedirectUri) {
-        this.webServerRedirectUri = webServerRedirectUri;
+    public void setWebServerRedirectUris(List<String> webServerRedirectUris) {
+        this.webServerRedirectUris = webServerRedirectUris;
     }
 
-    public String getAuthorities() {
-        return authorities;
+    public String getClientSettings() {
+        return clientSettings;
     }
 
-    public void setAuthorities(String authorities) {
-        this.authorities = authorities;
+    public void setClientSettings(String clientSettings) {
+        this.clientSettings = clientSettings;
     }
 
-    public int getAccessTokenValidity() {
-        return accessTokenValidity;
+    public String getTokenSettings() {
+        return tokenSettings;
     }
 
-    public void setAccessTokenValidity(int accessTokenValidity) {
-        this.accessTokenValidity = accessTokenValidity;
-    }
-
-    public int getRefreshTokenValidity() {
-        return refreshTokenValidity;
-    }
-
-    public void setRefreshTokenValidity(int refreshTokenValidity) {
-        this.refreshTokenValidity = refreshTokenValidity;
-    }
-
-    public String getAdditionalInformation() {
-        return additionalInformation;
-    }
-
-    public void setAdditionalInformation(String additionalInformation) {
-        this.additionalInformation = additionalInformation;
-    }
-
-    public String getAutoapprove() {
-        return autoapprove;
-    }
-
-    public void setAutoapprove(String autoapprove) {
-        this.autoapprove = autoapprove;
+    public void setTokenSettings(String tokenSettings) {
+        this.tokenSettings = tokenSettings;
     }
 
     /**
      * {@inheritDoc}
      *
-     * Use all fields.
+     * All fields.
      */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Client)) return false;
         if (!super.equals(o)) return false;
         Client client = (Client) o;
-        return accessTokenValidity == client.accessTokenValidity &&
-                refreshTokenValidity == client.refreshTokenValidity &&
-                Objects.equals(resourceIds, client.resourceIds) &&
-                Objects.equals(clientId, client.clientId) &&
-                Objects.equals(clientSecret, client.clientSecret) &&
-                Objects.equals(scope, client.scope) &&
-                Objects.equals(authorizedGrantTypes, client.authorizedGrantTypes) &&
-                Objects.equals(webServerRedirectUri, client.webServerRedirectUri) &&
-                Objects.equals(authorities, client.authorities) &&
-                Objects.equals(additionalInformation, client.additionalInformation) &&
-                Objects.equals(autoapprove, client.autoapprove);
+        return Objects.equals(clientId, client.clientId) && Objects.equals(clientIdIssuedAt, client.clientIdIssuedAt) && Objects.equals(clientSecret, client.clientSecret) && Objects.equals(clientSecretExpiresAt, client.clientSecretExpiresAt) && Objects.equals(clientName, client.clientName) && Objects.equals(scopes, client.scopes) && Objects.equals(clientAuthenticationMethods, client.clientAuthenticationMethods) && Objects.equals(authorizedGrantTypes, client.authorizedGrantTypes) && Objects.equals(webServerRedirectUris, client.webServerRedirectUris) && Objects.equals(clientSettings, client.clientSettings) && Objects.equals(tokenSettings, client.tokenSettings);
     }
 
     /**
      * {@inheritDoc}
      *
-     * Use all fields.
+     * All fields.
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), resourceIds, clientId, clientSecret, scope, authorizedGrantTypes, webServerRedirectUri, authorities, accessTokenValidity, refreshTokenValidity, additionalInformation, autoapprove);
+        return Objects.hash(super.hashCode(), clientId, clientIdIssuedAt, clientSecret, clientSecretExpiresAt, clientName, scopes, clientAuthenticationMethods, authorizedGrantTypes, webServerRedirectUris, clientSettings, tokenSettings);
     }
 
     /**

@@ -16,7 +16,6 @@
 package org.openwms.core.uaa.admin;
 
 import org.ameba.http.MeasuredRestController;
-import org.openwms.core.exception.InvalidPasswordException;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.openwms.core.uaa.api.PasswordString;

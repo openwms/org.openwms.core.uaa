@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2020 the original author or authors.
+ * Copyright 2005-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,26 +15,13 @@
  */
 package org.openwms.core.uaa.auth.impl;
 
-import org.openwms.core.uaa.auth.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-/**
- * A ClientRepository.
- *
- * @author Heiko Scherrer
- */
-interface ClientRepository extends JpaRepository<Client, Long> {
+public interface AuthorizationConsentRepository extends JpaRepository<AuthorizationConsent, AuthorizationConsent.AuthorizationConsentId> {
 
-    @Modifying
-    @Query("delete from Client c where c.pKey = :pKey")
-    void deleteByPKey(@Param("pKey") String pKey);
-
-    Optional<Client> findBypKey(String persistentKey);
-
-    Optional<Client> findByClientId(String clientId);
+	Optional<AuthorizationConsent> findByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName);
+	void deleteByRegisteredClientIdAndPrincipalName(String registeredClientId, String principalName);
 }

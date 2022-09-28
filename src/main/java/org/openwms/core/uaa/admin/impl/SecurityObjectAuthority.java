@@ -27,7 +27,7 @@ import java.io.Serializable;
  */
 class SecurityObjectAuthority implements GrantedAuthority, Serializable {
 
-    private final SecurityObject sObj;
+    private final String sObj;
 
     /**
      * Create a new SecurityObjectAuthority.
@@ -36,7 +36,11 @@ class SecurityObjectAuthority implements GrantedAuthority, Serializable {
      *            A {@link SecurityObject} to use as authority carrier.
      */
     public SecurityObjectAuthority(SecurityObject securityObject) {
-        sObj = securityObject;
+        sObj = securityObject.getName();
+    }
+
+    public SecurityObjectAuthority(String sObj) {
+        this.sObj = sObj;
     }
 
     /**
@@ -46,7 +50,7 @@ class SecurityObjectAuthority implements GrantedAuthority, Serializable {
      */
     @Override
     public String getAuthority() {
-        return sObj.getName();
+        return sObj;
     }
 
     /**

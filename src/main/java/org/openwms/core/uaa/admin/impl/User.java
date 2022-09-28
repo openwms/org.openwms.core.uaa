@@ -16,8 +16,8 @@
 package org.openwms.core.uaa.admin.impl;
 
 import org.ameba.integration.jpa.ApplicationEntity;
+import org.openwms.core.uaa.admin.InvalidPasswordException;
 import org.openwms.core.uaa.app.DefaultTimeProvider;
-import org.openwms.core.exception.InvalidPasswordException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,7 +44,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 
 /**
  * An User represents a human user of the system. Typically an User is assigned to one or more {@code Roles} to define security constraints.
@@ -57,6 +59,7 @@ import java.util.Set;
  * @see UserPassword
  * @see Role
  */
+@JacksonAware
 @Entity
 @Table(name = "COR_UAA_USER", uniqueConstraints = @UniqueConstraint(name = "UC_UAA_USER_NAME", columnNames = {"C_USERNAME"}))
 @Inheritance
@@ -210,6 +213,19 @@ public class User extends ApplicationEntity implements Serializable {
     }
 
     /**
+     * Supply {@code lastPasswordChange} to the consumer {@code c} if present.
+     *
+     * @param c The consumer
+     * @return This instance
+     */
+    public User supplyLastPasswordChange(Consumer<ZonedDateTime> c) {
+        if (lastPasswordChange != null) {
+            c.accept(lastPasswordChange);
+        }
+        return this;
+    }
+
+    /**
      * Check if the User is locked.
      *
      * @return {@literal true} if locked, otherwise {@literal false}
@@ -340,7 +356,20 @@ public class User extends ApplicationEntity implements Serializable {
     }
 
     /**
-     * Flatten {@link Role}s and {@link Grant}s and return an unmodifiable list of all {@link Grant}s assigned to this User.
+     * Supply {@code roles} to the consumer {@code c} if present.
+     *
+     * @param c The consumer
+     * @return This instance
+     */
+    public User supplyRoles(Consumer<List<Role>> c) {
+        if (roles != null && !roles.isEmpty()) {
+            c.accept(roles);
+        }
+        return this;
+    }
+
+    /**
+     * Flatten {@link Role}s and {@link Grant}s and return a List of all {@link Grant}s assigned to this User.
      *
      * @return A list of all {@link Grant}s
      */
@@ -349,7 +378,21 @@ public class User extends ApplicationEntity implements Serializable {
         for (Role role : getRoles()) {
             grants.addAll(role.getGrants());
         }
-        return Collections.unmodifiableList(grants);
+        return new ArrayList<>(grants);
+    }
+
+    /**
+     * Supply {@code grants} to the consumer {@code c} if present.
+     *
+     * @param c The consumer
+     * @return This instance
+     */
+    public User supplyGrants(Consumer<List<SecurityObject>> c) {
+        var grants = getGrants();
+        if (grants != null && !grants.isEmpty()) {
+            c.accept(grants);
+        }
+        return this;
     }
 
     /**
@@ -389,12 +432,37 @@ public class User extends ApplicationEntity implements Serializable {
         this.fullname = fullname;
     }
 
+    public User setFullname(Consumer<String> c) {
+        if (fullname != null && !fullname.isEmpty()) {
+            c.accept(fullname);
+        }
+        return this;
+    }
+
     public Set<Email> getEmailAddresses() {
         return emailAddresses;
     }
 
     public void setEmailAddresses(Set<Email> emailAddresses) {
         this.emailAddresses = emailAddresses;
+    }
+
+    public Optional<Email> getPrimaryEmailAddress() {
+        if (emailAddresses == null) {
+            return Optional.empty();
+        }
+        return emailAddresses.stream().filter(Email::isPrimary).findFirst();
+    }
+
+    /**
+     * Supply the primary {@code email} to the consumer {@code c} if present.
+     *
+     * @param c The consumer
+     * @return This instance
+     */
+    public User supplyPrimaryEmailAddress(Consumer<Email> c) {
+        getPrimaryEmailAddress().ifPresent(c);
+        return this;
     }
 
     /**
@@ -416,6 +484,19 @@ public class User extends ApplicationEntity implements Serializable {
             userDetails = new UserDetails();
         }
         return userDetails;
+    }
+
+    /**
+     * Supply {@code userDetails} to the consumer {@code c} if present.
+     *
+     * @param c The consumer
+     * @return This instance
+     */
+    public User supplyUserDetails(Consumer<UserDetails> c) {
+        if (userDetails != null) {
+            c.accept(userDetails);
+        }
+        return this;
     }
 
     /**
@@ -463,18 +544,14 @@ public class User extends ApplicationEntity implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof User)) {
+        if (!(obj instanceof User other)) {
             return false;
         }
-        User other = (User) obj;
         if (username == null) {
-            if (other.username != null) {
-                return false;
-            }
-        } else if (!username.equals(other.username)) {
-            return false;
+            return other.username == null;
+        } else {
+            return username.equals(other.username);
         }
-        return true;
     }
 
     @Override
@@ -493,6 +570,9 @@ public class User extends ApplicationEntity implements Serializable {
                 '}';
     }
 
+    /**
+     * Set the {@code password} and {@code persistedPassword} to {@literal null}.
+     */
     public void wipePassword() {
         this.password = null;
         this.persistedPassword = null;
@@ -502,8 +582,6 @@ public class User extends ApplicationEntity implements Serializable {
      * A PasswordComparator sorts UserPassword by date ascending.
      *
      * @author Heiko Scherrer
-     * @version $Revision$
-     * @since 0.2
      */
     static class PasswordComparator implements Comparator<UserPassword>, Serializable {
 

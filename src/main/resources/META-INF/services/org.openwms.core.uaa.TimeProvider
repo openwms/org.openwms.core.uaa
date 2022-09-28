@@ -1,1 +1,1 @@
-org.openwms.wms.shipping.app.DefaultTimeProvider
+org.openwms.core.uaa.app.DefaultTimeProvider

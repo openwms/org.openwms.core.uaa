@@ -3,13 +3,16 @@ delete from cor_uaa_role_user;
 delete from cor_uaa_role;
 delete from cor_uaa_user;
 
-insert into cor_uaa_client (c_pk, c_created, c_updated, c_ol, c_pid, c_access_token_validity, c_additional_information, c_authorities, c_authorized_grant_types, c_autoapprove, c_client_id, c_client_secret, c_refresh_token_validity, c_resource_ids, c_scope, c_web_server_redirect_uri) values (1, now(), now(), 0, '328e9a72-9f9e-4eef-86f4-917fb1f04b53', 3600, null, null, 'password,authorization_code,client_credentials,implicit', 'true', 'gateway', 'secret', 3600, null, 'gateway', 'http://localhost:8086/login/oauth2/code/gateway');
+-- Clients
+-- Password: secret
+-- Scope 'id_token' must be given in order to query the OIDC UserInfo endpoint
+insert into cor_uaa_client (c_pk, c_created, c_ol, c_pid, c_authorized_grant_types, c_client_id, c_client_secret, c_scopes, c_web_server_redirect_uris, c_authentication_methods, c_client_settings) values (1, now(), 0, '328e9a72-9f9e-4eef-86f4-917fb1f04b53', 'password,refresh_token,authorization_code,client_credentials','gateway', '{bcrypt}$2a$04$BANYAa3Bb9F7MAJokoaHjemzcLMbwQ35YKrnL7MZr7o7k141lCRGu', 'openid,id_token,picking.view', 'http://127.0.0.1:8110/authorized','client_secret_basic', '{"@class":"java.util.HashMap","settings.client.require-authorization-consent":false,"settings.client.require-proof-key":false}');
 
 -- Users
 -- Password: tester
-insert into cor_uaa_user (c_type, c_pk, c_created, c_ol, c_pid, c_enabled, c_expiration_date, c_extern, c_fullname, c_last_password_change, c_locked, c_password, c_comment, c_department, c_description, c_gender, c_im, c_image, c_office, c_phone_no, c_username) values ('STANDARD', 1, now(), 0, 'bb5efb8e-ad2a-427b-9f4c-83ec6e6c0e90', 'true', null, 'false', 'Testuser', now(), 'false', '$2a$15$k67lgzS8AaDOT9oKjY88qO1D9zpPY.AU.VSgIZ1fKgIaWjPVA55aC', 'Tester', 'Dep. 1', 'Just a test user', 'FEMALE', 'Skype:testee', null, 'Off. 815', '001-1234-56789', 'tester');
+insert into cor_uaa_user (c_type, c_pk, c_created, c_ol, c_pid, c_enabled, c_expiration_date, c_extern, c_fullname, c_last_password_change, c_locked, c_password, c_comment, c_department, c_description, c_gender, c_im, c_image, c_office, c_phone_no, c_username) values ('STANDARD', 1, now(), 0, 'bb5efb8e-ad2a-427b-9f4c-83ec6e6c0e90', 'true', null, 'false', 'Testuser', now(), 'false', '{bcrypt}$2a$15$k67lgzS8AaDOT9oKjY88qO1D9zpPY.AU.VSgIZ1fKgIaWjPVA55aC', 'Tester', 'Dep. 1', 'Just a test user', 'FEMALE', 'Skype:testee', null, 'Off. 815', '001-1234-56789', 'tester');
 -- Password: mbinder
-insert into cor_uaa_user (c_type, c_pk, c_created, c_ol, c_pid, c_enabled, c_expiration_date, c_extern, c_fullname, c_last_password_change, c_locked, c_password, c_comment, c_department, c_description, c_gender, c_im, c_image, c_office, c_phone_no, c_username) values ('STANDARD', 2, now(), 0, 'bb5efb8e-ad2a-427b-9f4c-83ec6e6c0e91', 'true', null, 'false', 'Heiko Scherrer', now(), 'false', '$2a$15$tXDkt7o/LSc1X51VklK6lOEvXt8RPFW/uN5mdchifE28tnUhXVkEC', 'Private account', 'Dep. 1', '', 'MALE', 'Skype:openwms', null, 'Off. 815', '001-1234-56789', 'hscherrer');
+insert into cor_uaa_user (c_type, c_pk, c_created, c_ol, c_pid, c_enabled, c_expiration_date, c_extern, c_fullname, c_last_password_change, c_locked, c_password, c_comment, c_department, c_description, c_gender, c_im, c_image, c_office, c_phone_no, c_username) values ('STANDARD', 2, now(), 0, 'bb5efb8e-ad2a-427b-9f4c-83ec6e6c0e91', 'true', null, 'false', 'Heiko Scherrer', now(), 'false', '{bcrypt}$2a$15$tXDkt7o/LSc1X51VklK6lOEvXt8RPFW/uN5mdchifE28tnUhXVkEC', 'Private account', 'Dep. 1', '', 'MALE', 'Skype:openwms', null, 'Off. 815', '001-1234-56789', 'hscherrer');
 
 -- Roles
 insert into cor_uaa_role (c_name, c_type, c_description, c_immutable, c_pk, c_created, c_ol, c_pid) values ('ROLE_Picking', 'ROLE', 'The Pickers role', true, 1, now(), 0, '1');
@@ -20,7 +23,7 @@ insert into cor_uaa_role (c_name, c_type, c_description, c_immutable, c_pk, c_cr
 insert into cor_uaa_role (c_name, c_type, c_description, c_immutable, c_pk, c_created, c_ol, c_pid) values ('ROLE_Useradministration', 'ROLE', 'Administration of Users', true, 6, now(), 0, '6');
 insert into cor_uaa_role (c_name, c_type, c_description, c_immutable, c_pk, c_created, c_ol, c_pid) values ('ROLE_Administrator', 'ROLE', 'Systemadministrator and Superuser', true, 7, now(), 0, '7');
 
--- Rechte
+-- Grants
 insert into cor_uaa_role (c_name, c_type, c_description, c_immutable, c_pk, c_created, c_ol, c_pid) values ('role.create', 'GRANT', 'Create role', false, 20, now(), 0, '20');
 insert into cor_uaa_role (c_name, c_type, c_description, c_immutable, c_pk, c_created, c_ol, c_pid) values ('role.assign', 'GRANT', 'Assign role', false, 21, now(), 0, '21');
 
@@ -38,11 +41,14 @@ insert into cor_uaa_role (c_name, c_type, c_description, c_immutable, c_pk, c_cr
 insert into cor_uaa_role (c_name, c_type, c_description, c_immutable, c_pk, c_created, c_ol, c_pid) values ('picking.view', 'GRANT', 'View pick orders', false, 29, now(), 0, '29');
 insert into cor_uaa_role (c_name, c_type, c_description, c_immutable, c_pk, c_created, c_ol, c_pid) values ('shipping.view', 'GRANT', 'View shipping orders', false, 30, now(), 0, '30');
 
+insert into cor_uaa_role (c_name, c_type, c_description, c_immutable, c_pk, c_created, c_ol, c_pid) values ('openid', 'GRANT', 'OpenID Connect', false, 31, now(), 0, '31');
+
 -- Grant - Role assignments
 -- Picking
-insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (1, 29);
-insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (1, 30);
-insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (1, 23);
+--insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (1, 29);
+--insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (1, 30);
+--insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (1, 23);
+insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (1, 31);
 
 -- Receiving
 insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (2, 28);
@@ -87,8 +93,6 @@ insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (7, 27);
 insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (7, 28);
 insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (7, 29);
 insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (7, 30);
-insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (7, 31);
-insert into cor_uaa_role_role (c_role_id, c_grant_id) VALUES (7, 33);
 
 -- User - Role assignments
 insert into cor_uaa_role_user (c_role_id, c_user_id) VALUES (7, 2); -- Heiko

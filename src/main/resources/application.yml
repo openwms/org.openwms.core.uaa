@@ -7,8 +7,9 @@ owms:
   security:
     encoder:
       bcrypt:
-        strength: 15
-    useEncoder: false
+        strength: 4
+    provider:
+      issuerUrl: http://localhost:8110
     successUrl: "/"
     system:
       username: openwms

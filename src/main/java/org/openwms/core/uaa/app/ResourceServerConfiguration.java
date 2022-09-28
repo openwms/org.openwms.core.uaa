@@ -15,12 +15,9 @@
  */
 package org.openwms.core.uaa.app;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * A ResourceServerConfiguration.
@@ -28,12 +25,26 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
  * @author Heiko Scherrer
  */
 @Configuration
-@EnableResourceServer
-class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
+//@EnableResourceServer
+class ResourceServerConfiguration/* extends ResourceServerConfigurerAdapter*/ {
 
-    @Value("${owms.security.successUrl}")
-    private String successUrl;
+//    @Bean
+//    @Order(2)
+    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http)
+            throws Exception {
+        http
+                .authorizeHttpRequests((authorize) -> authorize
+                        .anyRequest().authenticated()
+                )
+                // Form login handles the redirect to the login page from the
+                // authorization server filter chain
+                //.formLogin(Customizer.withDefaults())
+                .oauth2ResourceServer().jwt()
+        ;
+        return http.build();
+    }
 
+    /*
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.sessionManagement()
@@ -47,4 +58,6 @@ class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
                 .formLogin().defaultSuccessUrl(successUrl)
         ;
     }
+
+     */
 }

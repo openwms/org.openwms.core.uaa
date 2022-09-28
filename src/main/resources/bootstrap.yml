@@ -1,20 +1,11 @@
 spring:
   application:
     name: core-uaa
-  cloud:
-    config:
-      discovery:
-        enabled: false
-        service-id: openwms-config
-      enabled: false
-      fail-fast: true # true means retry
-      retry:
-        max-attempts: 120
-    discovery:
-      enabled: false
-  config:
-    location: classpath:application.yml
   security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8110
     user:
       name: user
       password: sa
@@ -27,7 +18,8 @@ spring:
       - META-INF/uaa-orm.xml
     open-in-view: false
     properties:
-      hibernate.dialect: org.hibernate.dialect.H2Dialect
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
     show-sql: false
   jackson:
     date-format: "yyyy-MM-dd'T'HH:mm:ssXXX" # Only matches Dates no Instants!
@@ -62,8 +54,8 @@ owms:
 
 server:
   port: ${PORT:8110}
-  servlet:
-    context-path: /uaa
+#  servlet:
+#    context-path: /uaa
 
 eureka:
   client:
@@ -75,12 +67,30 @@ eureka:
     secure-port-enabled: false
     non-secure-port-enabled: true
     metadata-map:
+      config-protocol: http # The protocol used to access the config server
       username: ${spring.security.user.name}
       password: ${spring.security.user.password}
       protocol: ${owms.srv.protocol}
       zone: ${owms.eureka.zone}
-      config-protocol: http # The protocol used to access the config server
     prefer-ip-address: true
+    # Request a lease with a validity of 5 seconds. If until then the
+    # lease has not been renewed, it expires and the Eureka server can evict it.
+    # Default: 90s
+    lease-expiration-duration-in-seconds: 5
+
+    # The cadence of lease renewal, i.e. how often a heartbeat is sent to Eureka server.
+    # In this case every 2 seconds. Use this only for development / debugging. In production use the ...
+    # Default: 30s
+    lease-renewal-interval-in-seconds:    2
+
+info:
+  scm-url: "@scm.url@"
+  build-url: "@ciManagement.url@"
+
+logging:
+  file:
+    name: BOOT-CORE-UAA.log
+    path: "/tmp/owms"
 
 management:
   endpoints:
@@ -101,17 +111,30 @@ management:
         enabled: true
   info:
     git:
-      mode: full
-
-logging:
-  file:
-    name: BOOT-CORE-UAA.log
-    path: "/tmp/owms"
+      mode: simple
 
 ---
 spring:
-  profiles: DEMO
+  config:
+    activate:
+      on-profile: DEMO
+  cloud:
+    bootstrap:
+      enabled: false
+    bus:
+      enabled: false
+    config:
+      discovery:
+        enabled: false
+      enabled: false
+      fail-fast: false # true means retry
+      retry:
+        max-attempts: 120
+    discovery:
+      enabled: false
   jpa:
+    hibernate:
+      ddl-auto: create
     properties:
       hibernate:
         hbm2ddl:
@@ -119,7 +142,9 @@ spring:
 
 ---
 spring:
-  profiles: DEV
+  config:
+    activate:
+      on-profile: DEV
   data:
     jpa:
       repositories:
@@ -129,46 +154,46 @@ spring:
 
 ---
 spring:
-  profiles: DISTRIBUTED
-  cloud:
-    config:
-      discovery:
-        enabled: true
-      enabled: true
-      fail-fast: true # true means retry
-      retry:
-        max-attempts: 120
-    discovery:
-      enabled: true
-
----
-spring:
-  profiles: HEROKU
+  config:
+    activate:
+      on-profile: HEROKU
   main:
     banner-mode: "OFF"
 
----
-spring:
-  profiles: K8S
-  rabbitmq:
-    host: owms-broker
 owms:
-  eureka:
-    url: http://user:sa@owms-services:8761
   srv:
-    hostname: owms-core-uaa
+    protocol: https
+    hostname: openwms-core-uaa.herokuapp.com
+
+eureka:
+  instance:
+    secure-port-enabled: true
+    non-secure-port-enabled: false
+    statusPageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/info
+    healthCheckUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/health
+    homePageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/
 
 ---
 spring:
-  profiles: TEST
+  config:
+    activate:
+      on-profile: TEST
   cloud:
+    bootstrap:
+      enabled: false
+    bus:
+      enabled: false
     config:
       discovery:
         enabled: false
       enabled: false
-      fail-fast: false
+      fail-fast: false # true means retry
+      retry:
+        max-attempts: 120
     discovery:
       enabled: false
+  jpa:
+    show-sql: false
   main:
     banner-mode: "off"
   zipkin:
@@ -176,12 +201,31 @@ spring:
     discovery-client-enabled: false
     sender:
       type: rabbit
-  jpa:
-    show-sql: false
 
 ---
 spring:
-  profiles: TESTPG
+  config:
+    activate:
+      on-profile: TESTPG
+  cloud:
+    bootstrap:
+      enabled: false
+    bus:
+      enabled: false
+    config:
+      discovery:
+        enabled: false
+      enabled: false
+      fail-fast: false # true means retry
+      retry:
+        max-attempts: 120
+    discovery:
+      enabled: false
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql:testdb
+    username: KARL
+    password: KARL
   jpa:
     database: postgresql
     generate-ddl: true
@@ -192,9 +236,11 @@ spring:
           use_jdbc_metadata_defaults: false
         default_schema: public
     hibernate:
-      ddl-auto: update
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql:testdb
-    username: KARL
-    password: KARL
+      ddl-auto: create
+  main:
+    banner-mode: "off"
+  zipkin:
+    enabled: false
+    discovery-client-enabled: false
+    sender:
+      type: rabbit

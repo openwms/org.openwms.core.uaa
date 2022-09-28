@@ -16,16 +16,8 @@
 package org.openwms.core.uaa;
 
 import org.ameba.app.SolutionApp;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.security.SecureRandom;
 
 /**
  * An UAAStarter.
@@ -34,20 +26,6 @@ import java.security.SecureRandom;
  */
 @SpringBootApplication(scanBasePackageClasses = {UAAStarter.class, SolutionApp.class})
 public class UAAStarter {
-
-    private final SecureRandom secureRandom = new SecureRandom();
-
-    @ConditionalOnExpression("'${owms.security.useEncoder}'=='true'")
-    @Bean
-    PasswordEncoder passwordEncoder(@Value("${owms.security.encoder.bcrypt.strength:15}") int strength) {
-        return new BCryptPasswordEncoder(strength, secureRandom);
-    }
-
-    @ConditionalOnExpression("'${owms.security.useEncoder}'=='false'")
-    @Bean
-    PasswordEncoder nopPasswordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }
 
     /**
      * Boot up!

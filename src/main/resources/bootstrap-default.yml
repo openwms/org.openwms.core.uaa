@@ -1,0 +1,15 @@
+spring:
+  cloud:
+    bootstrap:
+      enabled: false
+    bus:
+      enabled: false
+    config:
+      discovery:
+        enabled: false
+      enabled: false
+      fail-fast: false # true means retry
+      retry:
+        max-attempts: 120
+    discovery:
+      enabled: false
