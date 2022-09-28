@@ -74,6 +74,10 @@ jobs:
           -Pcoverage -B $MAVEN_OPTS
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      - uses: AdoptOpenJDK/install-jdk@v1
+        with:
+          version: '11'
+          architecture: x64
       - name: Confluence Update
         run: |
           ./scripts/toolsetup
