@@ -160,53 +160,9 @@
  <td class='comment detail'></td>
 </tr>
 <tr class='even'>
- <td class='detail'>c_access_token_validity</td>
- <td class='detail'>int4</td>
- <td class='detail' align='right'>10</td>
- <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
- <td class='detail' align='center'></td>
- <td class='detail' align='right'>null</td>
- <td class='detail'></td>
- <td class='detail'> </td>
- <td class='comment detail'></td>
-</tr>
-<tr class='odd'>
- <td class='detail'>c_additional_information</td>
- <td class='detail'>varchar</td>
- <td class='detail' align='right'>255</td>
- <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
- <td class='detail' align='center'></td>
- <td class='detail' align='right'>null</td>
- <td class='detail'></td>
- <td class='detail'> </td>
- <td class='comment detail'></td>
-</tr>
-<tr class='even'>
- <td class='detail'>c_authorities</td>
- <td class='detail'>varchar</td>
- <td class='detail' align='right'>255</td>
- <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
- <td class='detail' align='center'></td>
- <td class='detail' align='right'>null</td>
- <td class='detail'></td>
- <td class='detail'> </td>
- <td class='comment detail'></td>
-</tr>
-<tr class='odd'>
  <td class='detail'>c_authorized_grant_types</td>
  <td class='detail'>varchar</td>
- <td class='detail' align='right'>255</td>
- <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
- <td class='detail' align='center'></td>
- <td class='detail' align='right'>null</td>
- <td class='detail'></td>
- <td class='detail'> </td>
- <td class='comment detail'></td>
-</tr>
-<tr class='even'>
- <td class='detail'>c_autoapprove</td>
- <td class='detail'>varchar</td>
- <td class='detail' align='right'>255</td>
+ <td class='detail' align='right'>1024</td>
  <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
  <td class='detail' align='center'></td>
  <td class='detail' align='right'>null</td>
@@ -215,6 +171,17 @@
  <td class='comment detail'></td>
 </tr>
 <tr class='odd'>
+ <td class='detail'>c_authentication_methods</td>
+ <td class='detail'>varchar</td>
+ <td class='detail' align='right'>1024</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>null</td>
+ <td class='detail'></td>
+ <td class='detail'> </td>
+ <td class='comment detail'></td>
+</tr>
+<tr class='even'>
  <td class='detail'>c_client_id</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
@@ -225,7 +192,29 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
+<tr class='odd'>
+ <td class='detail'>c_client_id_issued_at</td>
+ <td class='detail'>timestamp</td>
+ <td class='detail' align='right'>29,6</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>null</td>
+ <td class='detail'></td>
+ <td class='detail'> </td>
+ <td class='comment detail'></td>
+</tr>
 <tr class='even'>
+ <td class='detail'>c_client_name</td>
+ <td class='detail'>varchar</td>
+ <td class='detail' align='right'>255</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>null</td>
+ <td class='detail'></td>
+ <td class='detail'> </td>
+ <td class='comment detail'></td>
+</tr>
+<tr class='odd'>
  <td class='detail'>c_client_secret</td>
  <td class='detail'>varchar</td>
  <td class='detail' align='right'>255</td>
@@ -236,21 +225,10 @@
  <td class='detail'> </td>
  <td class='comment detail'></td>
 </tr>
-<tr class='odd'>
- <td class='detail'>c_refresh_token_validity</td>
- <td class='detail'>int4</td>
- <td class='detail' align='right'>10</td>
- <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
- <td class='detail' align='center'></td>
- <td class='detail' align='right'>null</td>
- <td class='detail'></td>
- <td class='detail'> </td>
- <td class='comment detail'></td>
-</tr>
 <tr class='even'>
- <td class='detail'>c_resource_ids</td>
- <td class='detail'>varchar</td>
- <td class='detail' align='right'>255</td>
+ <td class='detail'>c_client_secret_expires_at</td>
+ <td class='detail'>timestamp</td>
+ <td class='detail' align='right'>29,6</td>
  <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
  <td class='detail' align='center'></td>
  <td class='detail' align='right'>null</td>
@@ -259,9 +237,9 @@
  <td class='comment detail'></td>
 </tr>
 <tr class='odd'>
- <td class='detail'>c_scope</td>
+ <td class='detail'>c_client_settings</td>
  <td class='detail'>varchar</td>
- <td class='detail' align='right'>255</td>
+ <td class='detail' align='right'>2048</td>
  <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
  <td class='detail' align='center'></td>
  <td class='detail' align='right'>null</td>
@@ -270,9 +248,31 @@
  <td class='comment detail'></td>
 </tr>
 <tr class='even'>
- <td class='detail'>c_web_server_redirect_uri</td>
+ <td class='detail'>c_scopes</td>
  <td class='detail'>varchar</td>
- <td class='detail' align='right'>255</td>
+ <td class='detail' align='right'>1024</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>null</td>
+ <td class='detail'></td>
+ <td class='detail'> </td>
+ <td class='comment detail'></td>
+</tr>
+<tr class='odd'>
+ <td class='detail'>c_token_settings</td>
+ <td class='detail'>varchar</td>
+ <td class='detail' align='right'>2048</td>
+ <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
+ <td class='detail' align='center'></td>
+ <td class='detail' align='right'>null</td>
+ <td class='detail'></td>
+ <td class='detail'> </td>
+ <td class='comment detail'></td>
+</tr>
+<tr class='even'>
+ <td class='detail'>c_web_server_redirect_uris</td>
+ <td class='detail'>varchar</td>
+ <td class='detail' align='right'>2048</td>
  <td class='detail' align='center' title='nullable'>&nbsp;&radic;&nbsp;</td>
  <td class='detail' align='center'></td>
  <td class='detail' align='right'>null</td>
@@ -281,7 +281,7 @@
  <td class='comment detail'></td>
 </tr>
 </table>
-<p title='18 columns'>Table contained 1 rows at Mon Jun 20 21:34 UTC 2022<p/>
+<p title='18 columns'>Table contained 0 rows at Wed Sep 28 10:28 UTC 2022<p/>
 </td></tr></table>
 <div class='indent'>
 <b>Indexes:</b>

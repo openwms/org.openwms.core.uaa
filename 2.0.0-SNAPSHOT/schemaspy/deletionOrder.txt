@@ -1,4 +1,6 @@
 cor_uaa_client
+authorization_consent
+authorization
 cor_uaa_role_user
 cor_uaa_role_role
 cor_uaa_user_password

@@ -1,7 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <database name="testdb" schema="public" type="PostgreSQL - 12.3">
    <tables>
-      <table name="cor_uaa_client" numRows="1" remarks="" schema="public" type="TABLE">
+      <table name="authorization" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="id" nullable="false" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="6" id="1" name="access_token_expires_at" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="6" id="2" name="access_token_issued_at" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="3" name="access_token_metadata" nullable="true" remarks="" size="2000" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="4" name="access_token_scopes" nullable="true" remarks="" size="1000" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="5" name="access_token_type" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="6" name="access_token_value" nullable="true" remarks="" size="4000" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="7" name="attributes" nullable="true" remarks="" size="4000" type="varchar"/>
+         <column autoUpdated="false" digits="6" id="8" name="authorization_code_expires_at" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="6" id="9" name="authorization_code_issued_at" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="10" name="authorization_code_metadata" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="11" name="authorization_code_value" nullable="true" remarks="" size="4000" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="12" name="authorization_grant_type" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="13" name="oidc_id_token_claims" nullable="true" remarks="" size="2000" type="varchar"/>
+         <column autoUpdated="false" digits="6" id="14" name="oidc_id_token_expires_at" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="6" id="15" name="oidc_id_token_issued_at" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="16" name="oidc_id_token_metadata" nullable="true" remarks="" size="2000" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="17" name="oidc_id_token_value" nullable="true" remarks="" size="4000" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="18" name="principal_name" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="6" id="19" name="refresh_token_expires_at" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="6" id="20" name="refresh_token_issued_at" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="21" name="refresh_token_metadata" nullable="true" remarks="" size="2000" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="22" name="refresh_token_value" nullable="true" remarks="" size="4000" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="23" name="registered_client_id" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="24" name="state" nullable="true" remarks="" size="500" type="varchar"/>
+         <primaryKey column="id" sequenceNumberInPK="1"/>
+         <index name="authorization_pkey" unique="true">
+            <column ascending="true" name="id"/>
+         </index>
+      </table>
+      <table name="authorization_consent" numRows="0" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" digits="0" id="0" name="principal_name" nullable="false" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="1" name="registered_client_id" nullable="false" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="2" name="authorities" nullable="true" remarks="" size="1000" type="varchar"/>
+         <primaryKey column="principal_name" sequenceNumberInPK="1"/>
+         <primaryKey column="registered_client_id" sequenceNumberInPK="2"/>
+         <index name="authorization_consent_pkey" unique="true">
+            <column ascending="true" name="principal_name"/>
+            <column ascending="true" name="registered_client_id"/>
+         </index>
+      </table>
+      <table name="cor_uaa_client" numRows="0" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8"/>
          <column autoUpdated="false" digits="6" id="1" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
          <column autoUpdated="false" digits="0" id="2" name="c_created_by" nullable="true" remarks="" size="255" type="varchar"/>
@@ -9,17 +51,17 @@
          <column autoUpdated="false" digits="6" id="4" name="c_updated" nullable="true" remarks="" size="29" type="timestamp"/>
          <column autoUpdated="false" digits="0" id="5" name="c_ol" nullable="true" remarks="" size="19" type="int8"/>
          <column autoUpdated="false" digits="0" id="6" name="c_pid" nullable="false" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="7" name="c_access_token_validity" nullable="true" remarks="" size="10" type="int4"/>
-         <column autoUpdated="false" digits="0" id="8" name="c_additional_information" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="9" name="c_authorities" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="10" name="c_authorized_grant_types" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="11" name="c_autoapprove" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="12" name="c_client_id" nullable="false" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="13" name="c_client_secret" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="14" name="c_refresh_token_validity" nullable="true" remarks="" size="10" type="int4"/>
-         <column autoUpdated="false" digits="0" id="15" name="c_resource_ids" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="16" name="c_scope" nullable="true" remarks="" size="255" type="varchar"/>
-         <column autoUpdated="false" digits="0" id="17" name="c_web_server_redirect_uri" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="7" name="c_authorized_grant_types" nullable="true" remarks="" size="1024" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="8" name="c_authentication_methods" nullable="true" remarks="" size="1024" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="9" name="c_client_id" nullable="false" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="6" id="10" name="c_client_id_issued_at" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="11" name="c_client_name" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="12" name="c_client_secret" nullable="true" remarks="" size="255" type="varchar"/>
+         <column autoUpdated="false" digits="6" id="13" name="c_client_secret_expires_at" nullable="true" remarks="" size="29" type="timestamp"/>
+         <column autoUpdated="false" digits="0" id="14" name="c_client_settings" nullable="true" remarks="" size="2048" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="15" name="c_scopes" nullable="true" remarks="" size="1024" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="16" name="c_token_settings" nullable="true" remarks="" size="2048" type="varchar"/>
+         <column autoUpdated="false" digits="0" id="17" name="c_web_server_redirect_uris" nullable="true" remarks="" size="2048" type="varchar"/>
          <primaryKey column="c_pk" sequenceNumberInPK="1"/>
          <index name="cor_uaa_client_pkey" unique="true">
             <column ascending="true" name="c_pk"/>
@@ -28,7 +70,7 @@
             <column ascending="true" name="c_pid"/>
          </index>
       </table>
-      <table name="cor_uaa_email" numRows="1" remarks="" schema="public" type="TABLE">
+      <table name="cor_uaa_email" numRows="0" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8"/>
          <column autoUpdated="false" digits="6" id="1" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
          <column autoUpdated="false" digits="0" id="2" name="c_created_by" nullable="true" remarks="" size="255" type="varchar"/>
@@ -50,7 +92,7 @@
             <column ascending="true" name="c_address"/>
          </index>
       </table>
-      <table name="cor_uaa_role" numRows="6" remarks="" schema="public" type="TABLE">
+      <table name="cor_uaa_role" numRows="0" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_type" nullable="false" remarks="" size="20" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="c_pk" nullable="false" remarks="" size="19" type="int8">
             <child column="c_grant_id" foreignKey="fk_uaa_grant_role" implied="false" onDeleteCascade="false" table="cor_uaa_role_role"/>
@@ -77,7 +119,7 @@
             <column ascending="true" name="c_pid"/>
          </index>
       </table>
-      <table name="cor_uaa_role_role" numRows="4" remarks="" schema="public" type="TABLE">
+      <table name="cor_uaa_role_role" numRows="0" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_role_id" nullable="false" remarks="" size="19" type="int8">
             <parent column="c_pk" foreignKey="fk_uaa_role_grant" implied="false" onDeleteCascade="false" table="cor_uaa_role"/>
          </column>
@@ -91,7 +133,7 @@
             <column ascending="true" name="c_grant_id"/>
          </index>
       </table>
-      <table name="cor_uaa_role_user" numRows="1" remarks="" schema="public" type="TABLE">
+      <table name="cor_uaa_role_user" numRows="0" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_role_id" nullable="false" remarks="" size="19" type="int8">
             <parent column="c_pk" foreignKey="fk_uaa_role_user" implied="false" onDeleteCascade="false" table="cor_uaa_role"/>
          </column>
@@ -105,7 +147,7 @@
             <column ascending="true" name="c_user_id"/>
          </index>
       </table>
-      <table name="cor_uaa_user" numRows="2" remarks="" schema="public" type="TABLE">
+      <table name="cor_uaa_user" numRows="0" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_type" nullable="false" remarks="" size="31" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="c_pk" nullable="false" remarks="" size="19" type="int8">
             <child column="c_user_id" foreignKey="fk_uaa_user_role" implied="false" onDeleteCascade="false" table="cor_uaa_role_user"/>

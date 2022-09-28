@@ -1,0 +1,32 @@
+// dot 2.43.0 on Linux 5.15.0-1020-azure
+// SchemaSpy rev Unknown
+digraph "authorization_consent" {
+  graph [
+    rankdir="RL"
+    bgcolor="#f7f7f7"
+    nodesep="0.18"
+    ranksep="0.46"
+    fontname="Helvetica"
+    fontsize="11"
+  ];
+  node [
+    fontname="Helvetica"
+    fontsize="11"
+    shape="plaintext"
+  ];
+  edge [
+    arrowsize="0.8"
+  ];
+  "authorization_consent" [
+    label=<
+    <TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0" BGCOLOR="#ffffff">
+      <TR><TD COLSPAN="3" BGCOLOR="#9bab96" ALIGN="CENTER">authorization_consent</TD></TR>
+      <TR><TD PORT="principal_name" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">principal_name</TD></TR>
+      <TR><TD PORT="registered_client_id" COLSPAN="3" BGCOLOR="#bed1b8" ALIGN="LEFT">registered_client_id</TD></TR>
+      <TR><TD PORT="authorities" COLSPAN="3" ALIGN="LEFT">authorities</TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+    </TABLE>>
+    URL="tables/authorization_consent.html"
+    tooltip="authorization_consent"
+  ];
+}
