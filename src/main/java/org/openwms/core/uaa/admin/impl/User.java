@@ -16,7 +16,7 @@
 package org.openwms.core.uaa.admin.impl;
 
 import org.ameba.integration.jpa.ApplicationEntity;
-import org.openwms.core.exception.InvalidPasswordException;
+import org.openwms.core.uaa.admin.InvalidPasswordException;
 import org.openwms.core.uaa.app.DefaultTimeProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

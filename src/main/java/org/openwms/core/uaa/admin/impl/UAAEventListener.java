@@ -15,7 +15,6 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
-import org.openwms.core.uaa.events.UserEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

@@ -26,7 +26,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.openwms.core.AbstractMockitoTests;
 import org.openwms.core.uaa.admin.UserService;
-import org.openwms.core.uaa.events.UserEvent;
 import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

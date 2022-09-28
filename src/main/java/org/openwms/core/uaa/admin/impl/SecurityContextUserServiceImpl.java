@@ -18,7 +18,6 @@ package org.openwms.core.uaa.admin.impl;
 import net.sf.ehcache.Ehcache;
 import org.ameba.annotation.TxService;
 import org.openwms.core.uaa.admin.UserService;
-import org.openwms.core.uaa.events.UserEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
