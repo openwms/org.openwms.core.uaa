@@ -18,7 +18,6 @@ package org.openwms.core.uaa.api;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,19 +30,19 @@ class RoleVOTest {
 
     @Test
     void testEquality() {
-        RoleVO original = RoleVO.newBuilder()
+        var original = RoleVO.Builder.newBuilder()
                 .name("name")
                 .immutable(true)
                 .description("description")
                 .build();
-        RoleVO same = RoleVO.newBuilder()
+        var same = RoleVO.Builder.newBuilder()
                 .name("name")
                 .immutable(true)
                 .description("description")
                 .build();
 
         assertThat(original).isEqualTo(same);
-        Set<RoleVO> roles = new HashSet<>();
+        var roles = new HashSet<>();
         roles.add(original);
         roles.add(same);
         assertThat(roles).hasSize(1);

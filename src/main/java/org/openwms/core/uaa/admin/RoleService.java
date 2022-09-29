@@ -20,7 +20,7 @@ import org.openwms.core.uaa.api.RoleVO;
 import org.openwms.core.uaa.api.ValidationGroups;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -29,9 +29,7 @@ import java.util.List;
  * objects, even those are currently acting as entities as well. But this may change in future and should not influence the interface.
  *
  * @author Heiko Scherrer
- * @version 0.2
  * @see Role
- * @since 0.1
  */
 public interface RoleService {
 
@@ -40,7 +38,7 @@ public interface RoleService {
      *
      * @return All Roles or an empty collection type, never {@literal null}
      */
-    List<RoleVO> findAll();
+    @NotNull List<RoleVO> findAll();
 
     /**
      * Find and return a {@code Role}.
@@ -49,7 +47,7 @@ public interface RoleService {
      * @return The instance
      * @throws org.ameba.exception.NotFoundException If the Role does not exist
      */
-    RoleVO findByPKey(String pKey);
+    @NotNull RoleVO findByPKey(@NotBlank String pKey);
 
     /**
      * Find and return all existing {@link Role}s.
@@ -57,7 +55,7 @@ public interface RoleService {
      * @param roleNames A list with all the names
      * @return A list with Roles, never {@literal null}
      */
-    List<Role> findByNames(List<String> roleNames);
+    @NotNull List<Role> findByNames(@NotNull List<String> roleNames);
 
     /**
      * Create a Role that does not exist so far.
@@ -66,7 +64,7 @@ public interface RoleService {
      * @return The created Role instance
      * @throws org.ameba.exception.ResourceExistsException If the {@code role} already exists
      */
-    RoleVO create(@NotNull(groups = ValidationGroups.Create.class) @Valid RoleVO role);
+    @NotNull RoleVO create(@NotNull(groups = ValidationGroups.Create.class) @Valid RoleVO role);
 
     /**
      * Update an existing Role.
@@ -76,14 +74,14 @@ public interface RoleService {
      * @return The updated instance
      * @throws org.ameba.exception.NotFoundException If the {@code role} does not exist
      */
-    RoleVO save(@NotEmpty String pKey, @NotNull(groups = ValidationGroups.Modify.class) @Valid RoleVO role);
+    @NotNull RoleVO save(@NotBlank String pKey, @NotNull(groups = ValidationGroups.Modify.class) @Valid RoleVO role);
 
     /**
      * Delete a {@link Role}.
      *
      * @param pKey The identifiable persistent key
      */
-    void delete(@NotEmpty String pKey);
+    void delete(@NotBlank String pKey);
 
     /**
      * Assign an {@code User} to a {@code Role}.
@@ -92,7 +90,7 @@ public interface RoleService {
      * @param userPKey The persistent key of the existing User
      * @return The updated Role instance
      */
-    RoleVO assignUser(String pKey, String userPKey);
+    @NotNull RoleVO assignUser(@NotBlank String pKey, @NotBlank String userPKey);
 
     /**
      * Unassign an assigned {@code User} from a {@code Role}.
@@ -101,5 +99,5 @@ public interface RoleService {
      * @param userPKey The persistent key of the existing User
      * @return The updated Role instance
      */
-    RoleVO unassignUser(String pKey, String userPKey);
+    @NotNull RoleVO unassignUser(@NotBlank String pKey, @NotBlank String userPKey);
 }

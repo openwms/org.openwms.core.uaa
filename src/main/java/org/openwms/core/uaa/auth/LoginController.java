@@ -15,12 +15,22 @@
  */
 package org.openwms.core.uaa.auth;
 
+import com.nimbusds.oauth2.sdk.id.Subject;
+import com.nimbusds.openid.connect.sdk.claims.Gender;
+import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import org.ameba.http.MeasuredRestController;
 import org.openwms.core.http.AbstractWebController;
+import org.openwms.core.uaa.admin.impl.Email;
+import org.openwms.core.uaa.admin.impl.UserWrapper;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
+import java.security.Principal;
 
 /**
  * A LoginController.
@@ -40,22 +50,20 @@ public class LoginController extends AbstractWebController {
     public ResponseEntity<Void> loginGet() {
         return ResponseEntity.ok().build();
     }
-/*
+
     //@Secured("ROLE_USER")
     //@PreAuthorize("isAnonymous()")
     @GetMapping(value = "/oauth/userinfo", produces = MediaType.APPLICATION_JSON_VALUE)
     public String user(Principal principal) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(principal.getName());
+        var userDetails = userDetailsService.loadUserByUsername(principal.getName());
         if (UserWrapper.class.equals(userDetails.getClass())) {
-            User user = ((UserWrapper) userDetails).getUser();
+            var user = ((UserWrapper) userDetails).getUser();
             final String baseUrl =
                     ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-            UserInfo userInfo = new UserInfo(new Subject(user.getUsername()));
+            var userInfo = new UserInfo(new Subject(user.getUsername()));
             userInfo.setName(user.getUsername());
-            Optional<Email> first = user.getEmailAddresses().stream().filter(Email::isPrimary).findFirst();
-            if (first.isPresent()) {
-                userInfo.setEmailAddress(first.get().toString());
-            }
+            var first = user.getEmailAddresses().stream().filter(Email::isPrimary).findFirst();
+            first.ifPresent(email -> userInfo.setEmailAddress(email.toString()));
             userInfo.setPhoneNumber(user.getUserDetails().getPhoneNo());
             userInfo.setFamilyName(user.getFullname());
             userInfo.setGivenName(user.getFullname());
@@ -63,12 +71,10 @@ public class LoginController extends AbstractWebController {
             userInfo.setGender(new Gender(user.getUserDetails().getGender().name()));
             return userInfo.toJSONObject().toJSONString();
         } else {
-            UserInfo userInfo = new UserInfo(new Subject(principal.getName()));
+            var userInfo = new UserInfo(new Subject(principal.getName()));
             return userInfo.toJSONObject().toJSONString();
         }
     }
-
- */
 
     @PostMapping("/login")
     public ResponseEntity<Void> login() {

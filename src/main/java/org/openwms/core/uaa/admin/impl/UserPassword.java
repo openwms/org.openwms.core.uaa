@@ -144,7 +144,7 @@ public class UserPassword extends BaseEntity implements Serializable {
         if (!(obj instanceof UserPassword)) {
             return false;
         }
-        UserPassword other = (UserPassword) obj;
+        var other = (UserPassword) obj;
         if (password == null) {
             if (other.password != null) {
                 return false;

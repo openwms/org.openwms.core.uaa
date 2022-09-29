@@ -40,6 +40,9 @@ public final class MessageCodes {
     /** Thrown if a Role has been looked up by persistent key but hasn't been found. */
     public static final String ROLE_WITH_PKEY_NOT_EXIST = "role.pkey.not.exist";
 
+    /** Thrown if a SecurityObject has been looked up by persistent key but hasn't been found. */
+    public static final String SO_WITH_PKEY_NOT_EXIST = "so.pkey.not.exist";
+
     /** Thrown if a service method was called with expected modulename but that was {@code null}. */
     public static final String MODULENAME_NOT_NULL = "module.modulename.null.argument";
 }

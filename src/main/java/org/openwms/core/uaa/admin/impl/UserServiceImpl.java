@@ -44,7 +44,7 @@ import org.springframework.validation.annotation.Validated;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import javax.validation.Validator;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 import java.util.Collection;
@@ -69,7 +69,6 @@ import static org.openwms.core.uaa.MessageCodes.USER_WITH_PK_NOT_EXIST;
  *
  * @author Heiko Scherrer
  */
-@Validated
 @TxService
 class UserServiceImpl implements UserService {
 
@@ -111,12 +110,12 @@ class UserServiceImpl implements UserService {
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
     @Measured
-    public User save(@NotNull User user, List<String> roleNames) {
+    public @NotNull User save(@NotNull(groups = ValidationGroups.Modify.class) @Valid User user, List<String> roleNames) {
         validate(validator, user, ValidationGroups.Modify.class);
         if (roleNames != null && !roleNames.isEmpty()) {
             user.setRoles(roleService.findByNames(roleNames));
         }
-        User saved = repository.save(user);
+        var saved = repository.save(user);
         eventPublisher.publishEvent(new UserEvent(saved, UserEvent.EventType.MODIFIED));
         return saved;
     }
@@ -129,8 +128,8 @@ class UserServiceImpl implements UserService {
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
     @Measured
-    public void uploadImageFile(String pKey, byte[] image) {
-        User user = findByPKeyInternal(pKey);
+    public void uploadImageFile(@NotBlank String pKey, @NotNull byte[] image) {
+        var user = findByPKeyInternal(pKey);
         user.getUserDetails().setImage(image);
         repository.save(user);
         eventPublisher.publishEvent(new UserEvent(user, UserEvent.EventType.MODIFIED));
@@ -148,7 +147,7 @@ class UserServiceImpl implements UserService {
     public User save(User entity) {
         Assert.notNull(entity, translator.translate(USER_SAVE_NOT_BE_NULL));
         validate(validator, entity, ValidationGroups.Modify.class);
-        User saved = repository.save(entity);
+        var saved = repository.save(entity);
         eventPublisher.publishEvent(new UserEvent(saved, UserEvent.EventType.MODIFIED));
         return saved;
     }
@@ -161,7 +160,7 @@ class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     @Measured
-    public User getTemplate(String username) {
+    public @NotNull User getTemplate(@NotBlank String username) {
         return new User(username);
     }
 
@@ -173,7 +172,7 @@ class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     @Measured
-    public SystemUser createSystemUser() {
+    public @NotNull SystemUser createSystemUser() {
         var sys = new SystemUser(systemUsername, systemPassword);
         var role = new Role.Builder(SystemUser.SYSTEM_ROLE_NAME).withDescription("SuperUsers Role").asImmutable().build();
         role.setGrants(new HashSet<>(securityObjectDao.findAll()));
@@ -186,8 +185,9 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @Measured
-    public User create(@NotNull @Valid User user, List<String> roleNames) {
-        Optional<User> optUser = repository.findByUsername(user.getUsername());
+    @Validated(ValidationGroups.Create.class)
+    public @NotNull User create(@NotNull(groups = ValidationGroups.Create.class) @Valid User user, List<String> roleNames) {
+        var optUser = repository.findByUsername(user.getUsername());
         if (optUser.isPresent()) {
             throw new ResourceExistsException(translator.translate(USER_ALREADY_EXISTS, user.getUsername()),
                     USER_ALREADY_EXISTS,
@@ -195,12 +195,12 @@ class UserServiceImpl implements UserService {
         }
         user.getEmailAddresses().forEach(e -> e.setUser(user));
         if (roleNames != null) {
-            List<Role> byNames = roleService.findByNames(roleNames);
+            var byNames = roleService.findByNames(roleNames);
             byNames.forEach(role -> role.addUser(user));
             user.setRoles(byNames);
             LOGGER.debug("Assigned roles [{}] to User [{}]", byNames, user.getUsername());
         }
-        User created = repository.save(user);
+        var created = repository.save(user);
         eventPublisher.publishEvent(new UserEvent(created, UserEvent.EventType.CREATED));
         return created;
     }
@@ -210,7 +210,7 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @Measured
-    public Optional<User> findByUsername(@NotEmpty String username) {
+    public @NotNull Optional<User> findByUsername(@NotBlank String username) {
         return repository.findByUsername(username);
     }
 
@@ -219,7 +219,7 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @Measured
-    public @NotNull User findByPKey(@NotEmpty String pKey) {
+    public @NotNull User findByPKey(@NotBlank String pKey) {
         return findByPKeyInternal(pKey);
     }
 
@@ -236,8 +236,8 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @Measured
-    public void remove(String username) {
-        User user = findInternal(username);
+    public void remove(@NotBlank String username) {
+        var user = findInternal(username);
         repository.delete(user);
         eventPublisher.publishEvent(new UserEvent(user, UserEvent.EventType.DELETED));
     }
@@ -247,8 +247,8 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @Measured
-    public void delete(String pKey) {
-        User user = findByPKeyInternal(pKey);
+    public void delete(@NotBlank String pKey) {
+        var user = findByPKeyInternal(pKey);
         repository.delete(user);
         eventPublisher.publishEvent(new UserEvent(user, UserEvent.EventType.DELETED));
     }
@@ -258,7 +258,7 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @Measured
-    public UserVO updatePassword(String pKey, CharSequence newPassword) throws InvalidPasswordException {
+    public @NotNull UserVO updatePassword(@NotBlank String pKey, @NotNull CharSequence newPassword) throws InvalidPasswordException {
         var saved = findByPKey(pKey);
         saved.changePassword(enc.encode(newPassword), newPassword.toString(), enc);
         eventPublisher.publishEvent(new UserEvent(saved, UserEvent.EventType.MODIFIED));
@@ -272,7 +272,7 @@ class UserServiceImpl implements UserService {
     @FireAfterTransaction(events = {UserChangedEvent.class})
     @Measured
     public void changeUserPassword(@NotNull UserPassword userPassword) {
-        User entity = findInternal(userPassword.getUser().getUsername());
+        var entity = findInternal(userPassword.getUser().getUsername());
         try {
             entity.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);
             repository.save(entity);
@@ -300,7 +300,10 @@ class UserServiceImpl implements UserService {
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
     @Measured
-    public User saveUserProfile(@NotNull User user, @NotNull UserPassword userPassword, UserPreference... prefs) {
+    public @NotNull User saveUserProfile(
+            @NotNull(groups = ValidationGroups.Modify.class) @Valid User user,
+            @NotNull UserPassword userPassword,
+            UserPreference... prefs) {
         try {
             user.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);
         } catch (InvalidPasswordException ipe) {

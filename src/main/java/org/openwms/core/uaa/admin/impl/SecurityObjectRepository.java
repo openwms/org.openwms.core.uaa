@@ -19,6 +19,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A SecurityObjectRepository is used to find, modify and delete {@link SecurityObject}s.
@@ -26,6 +27,10 @@ import java.util.List;
  * @author Heiko Scherrer
  */
 interface SecurityObjectRepository extends JpaRepository<SecurityObject, Long> {
+
+    Optional<Grant> findBypKey(String pKey);
+
+    Optional<Grant> findByName(String name);
 
     @Query("select g from Grant g where g.name like :moduleName")
     List<Grant> findAllOfModule(String moduleName);

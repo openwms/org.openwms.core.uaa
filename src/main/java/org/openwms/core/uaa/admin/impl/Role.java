@@ -45,8 +45,7 @@ import java.util.Set;
 public class Role extends SecurityObject implements Serializable {
 
     public static final String NOT_ALLOWED_TO_CREATE_A_ROLE_WITH_AN_EMPTY_NAME = "Not allowed to create a Role with an empty name";
-    /**
-     * Whether or not this Role is immutable. Immutable Roles can't be modified. */
+    /** Whether or not this Role is immutable. Immutable Roles can't be modified. */
     @Column(name = "C_IMMUTABLE")
     private Boolean immutable = false;
 
@@ -87,7 +86,7 @@ public class Role extends SecurityObject implements Serializable {
      */
     public static class Builder {
 
-        private Role role;
+        private final Role role;
 
         /**
          * Create a new Builder.
@@ -330,7 +329,7 @@ public class Role extends SecurityObject implements Serializable {
         if (!(obj instanceof Role)) {
             return false;
         }
-        Role other = (Role) obj;
+        var other = (Role) obj;
         if (this.getName() == null) {
             if (other.getName() != null) {
                 return false;

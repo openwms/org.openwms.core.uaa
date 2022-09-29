@@ -82,7 +82,7 @@ class SecurityObjectAuthority implements GrantedAuthority, Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        SecurityObjectAuthority other = (SecurityObjectAuthority) obj;
+        var other = (SecurityObjectAuthority) obj;
         if (sObj == null) {
             if (other.sObj != null) {
                 return false;

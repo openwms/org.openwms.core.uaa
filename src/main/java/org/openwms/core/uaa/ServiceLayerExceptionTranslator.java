@@ -16,8 +16,10 @@
 package org.openwms.core.uaa;
 
 import org.ameba.aop.ServiceLayerAspect;
+import org.ameba.exception.ResourceExistsException;
 import org.ameba.exception.ServiceLayerException;
 import org.springframework.core.annotation.Order;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintViolationException;
@@ -45,6 +47,9 @@ class ServiceLayerExceptionTranslator extends ServiceLayerAspect {
         }
         if (ex instanceof ServiceLayerException) {
             return Optional.of(ex);
+        }
+        if (ex instanceof DataIntegrityViolationException) {
+            return Optional.of(new ResourceExistsException(ex.getMessage()));
         }
         return Optional.of(new ServiceLayerException(ex.getMessage(), ex));
     }

@@ -13,8 +13,8 @@ And the server responds with a `HAL+JSON` representation to further operations:
 include::{generated}/roles-index/http-response.adoc[]
 
 === Create a Role
-To create a new `Role` instance, a `POST` request must be send to the server with the mandatory fields of the `Role` in the request body.
-
+To create a new `Role` instance, a `POST` request must be send to the server with the mandatory fields of the `Role` resource in the
+request body.
 include::{generated}/role-create/http-request.adoc[]
 include::{generated}/role-create/request-fields.adoc[]
 
@@ -35,14 +35,14 @@ and returns either an array of `Roles` or an empty array, but always a `200-OK`.
 
 include::{generated}/role-findAll/http-response.adoc[]
 
+[[role-findbypkey]]
 === Find a Role by persistent key
-Each `Role` has an unique ID the _pKey_ or _persistent identifier_. To find and return a `Role` by the `pKey` a client must send a `GET`
-request to the `Role` resource:
+Each `Role` has an unique ID the _pKey_ or _persistent identifier_. To find and return a `Role` by `pKey` a client must send a `GET` request
+to the `Roles` resource:
 
 include::{generated}/role-findByPKey/http-request.adoc[]
 
 include::{generated}/role-findByPKey/http-response.adoc[]
-
 
 === Modify an existing Role
 An existing `Role` instance can be modified by sending a `PUT` request with the `Role` representation as request body. At least the name of

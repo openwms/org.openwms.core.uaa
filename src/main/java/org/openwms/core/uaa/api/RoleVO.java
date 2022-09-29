@@ -15,14 +15,10 @@
  */
 package org.openwms.core.uaa.api;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.ameba.http.AbstractBase;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -33,23 +29,14 @@ import java.util.Set;
  * 
  * @author Heiko Scherrer
  */
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class RoleVO extends AbstractBase<RoleVO> implements Serializable {
+public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
 
-    /** The persistent key. */
-    @JsonProperty("pKey")
-    private String pKey;
-    /** Unique name of the Role. */
-    @JsonProperty("name")
-    @NotEmpty(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class})
-    private String name;
+    /** HTTP media type representation. */
+    public static final String MEDIA_TYPE = "application/vnd.openwms.uaa.role-v1+json";
+
     /** Whether or not this Role is immutable. Immutable Roles can't be modified. */
     @JsonProperty("immutable")
     private Boolean immutable;
-    /** A descriptive text for the Role. */
-    @JsonProperty("description")
-    private String description;
     /** All Users assigned to the Role. */
     @JsonProperty("users")
     private Set<UserVO> users = new HashSet<>();
@@ -57,36 +44,25 @@ public class RoleVO extends AbstractBase<RoleVO> implements Serializable {
     @JsonProperty("grants")
     private Set<SecurityObjectVO> grants = new HashSet<>();
 
-    @JsonCreator
+    @JsonCreator // NOT for the mapper
     public RoleVO() { }
 
     private RoleVO(Builder builder) {
-        pKey = builder.pKey;
-        name = builder.name;
-        immutable = builder.immutable;
-        description = builder.description;
-        users = builder.users;
-        grants = builder.grants;
+        this.setName(builder.name);
+        this.setDescription(builder.description);
+        this.immutable = builder.immutable;
+        this.users = builder.users;
+        this.setpKey(builder.pKey);
+        this.grants = builder.grants;
     }
 
-    public static Builder newBuilder() {
-        return new Builder();
-    }
-
-    public String getpKey() {
-        return pKey;
-    }
-
-    public String getName() {
-        return name;
+    /* Used by the mapper. */
+    public static RoleVO.Builder newBuilder() {
+        return new RoleVO.Builder();
     }
 
     public Boolean getImmutable() {
         return immutable;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public Set<UserVO> getUsers() {
@@ -107,11 +83,8 @@ public class RoleVO extends AbstractBase<RoleVO> implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        RoleVO roleVO = (RoleVO) o;
-        return Objects.equals(pKey, roleVO.pKey) &&
-                Objects.equals(name, roleVO.name) &&
-                Objects.equals(immutable, roleVO.immutable) &&
-                Objects.equals(description, roleVO.description) &&
+        var roleVO = (RoleVO) o;
+        return Objects.equals(immutable, roleVO.immutable) &&
                 Objects.equals(users, roleVO.users) &&
                 Objects.equals(grants, roleVO.grants);
     }
@@ -123,7 +96,7 @@ public class RoleVO extends AbstractBase<RoleVO> implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), pKey, name, immutable, description, users, grants);
+        return Objects.hash(super.hashCode(), immutable, users, grants);
     }
 
     /**
@@ -134,53 +107,54 @@ public class RoleVO extends AbstractBase<RoleVO> implements Serializable {
     @Override
     public String toString() {
         return "RoleVO{" +
-                "pKey='" + pKey + '\'' +
-                ", name='" + name + '\'' +
-                ", immutable=" + immutable +
-                ", description='" + description + '\'' +
+                "immutable=" + immutable +
                 ", users=" + users +
                 ", grants=" + grants +
                 '}';
     }
 
     public static final class Builder {
-        private String pKey;
-        private String name;
         private Boolean immutable;
-        private String description;
         private Set<UserVO> users;
         private Set<SecurityObjectVO> grants;
+        private String pKey;
+        private @NotBlank(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class}) String name;
+        private String description;
 
         private Builder() {
         }
 
-        public Builder pKey(String val) {
-            pKey = val;
+        public static Builder newBuilder() {
+            return new Builder();
+        }
+
+        public Builder immutable(Boolean immutable) {
+            this.immutable = immutable;
             return this;
         }
 
-        public Builder name(String val) {
-            name = val;
+        public Builder users(Set<UserVO> users) {
+            this.users = users;
             return this;
         }
 
-        public Builder immutable(Boolean val) {
-            immutable = val;
+        public Builder grants(Set<SecurityObjectVO> grants) {
+            this.grants = grants;
             return this;
         }
 
-        public Builder description(String val) {
-            description = val;
+        public Builder pKey(String pKey) {
+            this.pKey = pKey;
             return this;
         }
 
-        public Builder users(Set<UserVO> val) {
-            users = val;
+        public Builder name(String name) {
+            this.name = name;
             return this;
         }
 
-        public Builder grants(Set<SecurityObjectVO> val) {
-            grants = val;
+        public Builder description(String description) {
+            this.description = description;
             return this;
         }
 

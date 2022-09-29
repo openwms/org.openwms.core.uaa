@@ -33,6 +33,7 @@ class ConfigurationServiceImpl implements ConfigurationService {
      */
     @Override
     public UserPreference save(UserPreference preference) {
+        // TODO [openwms]: 29.09.22 implement
         return null;
     }
 }

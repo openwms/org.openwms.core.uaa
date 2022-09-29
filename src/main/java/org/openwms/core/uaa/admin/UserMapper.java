@@ -56,7 +56,7 @@ public interface UserMapper {
 
     default byte[] map(String source) {
         if (source == null) {
-            return null;
+            return new byte[0];
         }
         return Base64.getDecoder().decode(source);
     }

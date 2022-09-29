@@ -94,7 +94,7 @@ public class SystemUserWrapper extends UserWrapper implements Serializable {
         if (!super.equals(obj)) {
             return false;
         }
-        SystemUserWrapper other = (SystemUserWrapper) obj;
+        var other = (SystemUserWrapper) obj;
         if (password == null) {
             if (other.password != null) {
                 return false;

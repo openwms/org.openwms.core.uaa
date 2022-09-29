@@ -51,7 +51,7 @@ import java.util.Locale;
  */
 @Configuration
 @EnableJpaAuditing
-@EnableAspects(propagateRootCause = true)
+@EnableAspects(propagateRootCause = false)
 @EnableTransactionManagement
 @Import(BaseConfiguration.class)
 public class UAAModuleConfiguration implements WebMvcConfigurer {

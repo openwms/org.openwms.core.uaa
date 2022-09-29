@@ -19,8 +19,10 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.ameba.http.AbstractBase;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -31,14 +33,20 @@ import java.util.Objects;
  */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SecurityObjectVO implements Serializable {
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
+public class SecurityObjectVO<T extends SecurityObjectVO<T>> extends AbstractBase<T> implements Serializable {
+
+    /** HTTP media type representation. */
+    public static final String MEDIA_TYPE = "application/vnd.openwms.uaa.security-object-v1+json";
 
     /** The persistent key. */
     @JsonProperty("pKey")
     private String pKey;
+    /** Unique name of the SecurityObject. */
     @JsonProperty("name")
-    @NotEmpty
+    @NotBlank(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class})
     private String name;
+    /** A descriptive text for the SecurityObject. */
     @JsonProperty("description")
     private String description;
 
@@ -103,4 +111,5 @@ public class SecurityObjectVO implements Serializable {
     public String toString() {
         return name;
     }
+
 }

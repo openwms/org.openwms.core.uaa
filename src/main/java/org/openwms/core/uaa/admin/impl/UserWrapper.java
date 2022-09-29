@@ -159,7 +159,7 @@ public class UserWrapper implements UserDetails, UserHolder, Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        UserWrapper other = (UserWrapper) obj;
+        var other = (UserWrapper) obj;
         if (authorities == null) {
             if (other.authorities != null) {
                 return false;

@@ -58,28 +58,17 @@ public class SecurityServiceTest extends AbstractMockitoTests {
     @Mock
     private Translator translator;
     @InjectMocks
-    private SecurityServiceImpl srv;
+    private GrantServiceImpl srv;
 
-    /**
-     * Setting up some test data.
-     */
     @BeforeEach
     public void onBefore() {
         when(messageSource.getMessage(anyString(), any(), any(Locale.class))).thenReturn("");
     }
 
-    /**
-     * Test to call service with null.
-     */
     @Test void testMergeGrantsWithNull() {
         assertThrows(IllegalArgumentException.class, () -> srv.mergeGrants(null, null));
     }
 
-    /**
-     * Test method for {@link SecurityServiceImpl#mergeGrants(java.lang.String, java.util.List)} .
-     * <p>
-     * Add a new Grant.
-     */
     @Disabled
     @Test void testMergeGrantsNew() {
         // prepare data
@@ -106,11 +95,6 @@ public class SecurityServiceTest extends AbstractMockitoTests {
         assertTrue(result.contains(testGrant));
     }
 
-    /**
-     * Test method for {@link SecurityServiceImpl#mergeGrants(java.lang.String, java.util.List)} .
-     * <p>
-     * Merge existing Grants.
-     */
     @Test void testMergeGrantsExisting() {
         // prepare data
         Grant testGrant = new Grant("TMS_NEW");

@@ -49,7 +49,7 @@ class ClientVOTest {
                 .build();
 
         assertThat(original).isEqualTo(same);
-        Set<ClientVO> clients = new HashSet<>();
+        var clients = new HashSet<>();
         clients.add(original);
         clients.add(same);
         assertThat(clients).hasSize(1);

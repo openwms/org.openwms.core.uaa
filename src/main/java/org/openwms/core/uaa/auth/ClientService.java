@@ -15,7 +15,10 @@
  */
 package org.openwms.core.uaa.auth;
 
-import javax.validation.constraints.NotEmpty;
+import org.openwms.core.uaa.api.ValidationGroups;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -32,7 +35,7 @@ public interface ClientService {
      * @param client The instance to save
      * @return The saved instance
      */
-    Client create(@NotNull Client client);
+    @NotNull Client create(@NotNull(groups = ValidationGroups.Create.class) @Valid Client client);
 
     /**
      * Update an existing {@link Client} instance.
@@ -40,19 +43,26 @@ public interface ClientService {
      * @param client The instance to save
      * @return The saved instance
      */
-    Client save(@NotNull Client client);
+    @NotNull Client save(@NotNull(groups = ValidationGroups.Modify.class) @Valid Client client);
 
     /**
      * Delete a {@link Client}.
      *
      * @param pKey The identifiable persistent key
      */
-    void delete(@NotEmpty String pKey);
+    void delete(@NotBlank String pKey);
 
     /**
      * Find and return all existing {@link Client}s.
      *
      * @return A list of those
      */
-    List<Client> findAll();
+    @NotNull Client findByPKey(@NotBlank String pKey);
+
+    /**
+     * Find and return all existing {@link Client}s.
+     *
+     * @return A list of those
+     */
+    @NotNull List<Client> findAll();
 }

@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.List;
@@ -44,7 +44,6 @@ import static org.openwms.core.uaa.MessageCodes.ROLE_WITH_PKEY_NOT_EXIST;
  * @author Heiko Scherrer
  */
 @TxService
-@Validated
 class RoleServiceImpl implements RoleService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RoleServiceImpl.class);
@@ -65,7 +64,7 @@ class RoleServiceImpl implements RoleService {
      */
     @Override
     @Measured
-    public List<RoleVO> findAll() {
+    public @NotNull List<RoleVO> findAll() {
         return mapper.convertToVO(repository.findAll());
     }
 
@@ -74,7 +73,7 @@ class RoleServiceImpl implements RoleService {
      */
     @Override
     @Measured
-    public RoleVO findByPKey(String pKey) {
+    public @NotNull RoleVO findByPKey(@NotBlank String pKey) {
         return mapper.convertToVO(getRole(pKey));
     }
 
@@ -83,7 +82,7 @@ class RoleServiceImpl implements RoleService {
      */
     @Override
     @Measured
-    public List<Role> findByNames(List<String> roleNames) {
+    public @NotNull List<Role> findByNames(@NotNull List<String> roleNames) {
         var allRoles = repository.findByNames(roleNames);
         return allRoles == null ? Collections.emptyList() : allRoles;
     }
@@ -94,7 +93,7 @@ class RoleServiceImpl implements RoleService {
     @Override
     @Measured
     @Validated(ValidationGroups.Create.class)
-    public RoleVO create(@NotNull(groups = ValidationGroups.Create.class) @Valid RoleVO role) {
+    public @NotNull RoleVO create(@NotNull(groups = ValidationGroups.Create.class) @Valid RoleVO role) {
         var newRole = mapper.convertFrom(role);
         newRole.setName(role.getName());
         if (repository.findByName(newRole.getName()).isPresent()) {
@@ -111,7 +110,7 @@ class RoleServiceImpl implements RoleService {
     @Override
     @Measured
     @Validated(ValidationGroups.Modify.class)
-    public RoleVO save(@NotEmpty String pKey, @NotNull(groups = ValidationGroups.Modify.class) @Valid RoleVO role) {
+    public @NotNull RoleVO save(@NotBlank String pKey, @NotNull(groups = ValidationGroups.Modify.class) @Valid RoleVO role) {
         var existingRole = getRole(pKey);
         existingRole.setName(role.getName());
         existingRole.setDescription(role.getDescription());
@@ -130,7 +129,7 @@ class RoleServiceImpl implements RoleService {
      */
     @Override
     @Measured
-    public void delete(@NotEmpty String pKey) {
+    public void delete(@NotBlank String pKey) {
         repository.deleteByPKey(pKey);
     }
 
@@ -139,7 +138,7 @@ class RoleServiceImpl implements RoleService {
      */
     @Override
     @Measured
-    public RoleVO assignUser(String pKey, String userPKey) {
+    public @NotNull RoleVO assignUser(@NotBlank String pKey, @NotBlank String userPKey) {
         var role = getRole(pKey);
         var user = userService.findByPKey(userPKey);
         role.addUser(user);
@@ -152,7 +151,7 @@ class RoleServiceImpl implements RoleService {
      */
     @Override
     @Measured
-    public RoleVO unassignUser(String pKey, String userPKey) {
+    public @NotNull RoleVO unassignUser(@NotBlank String pKey, @NotBlank String userPKey) {
         var role = getRole(pKey);
         var user = userService.findByPKey(userPKey);
         role.removeUser(user);

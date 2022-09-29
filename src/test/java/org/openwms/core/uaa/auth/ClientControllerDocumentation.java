@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.openwms.core.UAAApplicationTest;
 import org.openwms.core.uaa.api.ClientVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
@@ -100,10 +101,10 @@ class ClientControllerDocumentation {
                 .webServerRedirectUris(asList("url"))
                 .build();
 
-        mockMvc.perform(
-                RestDocumentationRequestBuilders.post(API_CLIENTS)
-                        .content(objectMapper.writeValueAsString(vo))
-                        .contentType(MediaType.APPLICATION_JSON))
+        var mvcResult = mockMvc.perform(
+                        RestDocumentationRequestBuilders.post(API_CLIENTS)
+                                .content(objectMapper.writeValueAsString(vo))
+                                .contentType(MediaType.APPLICATION_JSON))
                 .andDo(document("client-create",
                         preprocessResponse(prettyPrint()),
                         requestFields(
@@ -114,8 +115,9 @@ class ClientControllerDocumentation {
                                 fieldWithPath("authorizedGrantTypes").description("The OAuth2 grant types the client is allowed to use")
                         )
                 ))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andReturn();
+        assertThat(mvcResult.getResponse().getHeader(HttpHeaders.LOCATION)).isNotBlank();
     }
 
     @Sql("classpath:test.sql")

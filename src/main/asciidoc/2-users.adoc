@@ -13,8 +13,8 @@ And the server responds with a `HAL+JSON` representation to further operations:
 include::{generated}/users-index/http-response.adoc[]
 
 === Create an User
-To create a new `User` instance, a `POST` request must be send to the server with the mandatory fields of the `User` in the request body
-
+To create a new `User` instance, a `POST` request must be send to the server with the mandatory fields of the `User` resource in the request
+body.
 include::{generated}/user-create/http-request.adoc[]
 include::{generated}/user-create/request-fields.adoc[]
 

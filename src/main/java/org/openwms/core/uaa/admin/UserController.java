@@ -23,6 +23,7 @@ import org.openwms.core.uaa.api.RoleVO;
 import org.openwms.core.uaa.api.SecurityObjectVO;
 import org.openwms.core.uaa.api.UserVO;
 import org.openwms.core.uaa.api.ValidationGroups;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,16 +53,17 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  *
  * @author Heiko Scherrer
  */
+@Validated
 @MeasuredRestController
 public class UserController extends AbstractWebController {
 
-    private final UserService service;
+    private final UserService userService;
     private final UserMapper userMapper;
     private final RoleMapper roleMapper;
     private final SecurityObjectMapper securityObjectMapper;
 
-    public UserController(UserService service, UserMapper userMapper, RoleMapper roleMapper, SecurityObjectMapper securityObjectMapper) {
-        this.service = service;
+    public UserController(UserService userService, UserMapper userMapper, RoleMapper roleMapper, SecurityObjectMapper securityObjectMapper) {
+        this.userService = userService;
         this.userMapper = userMapper;
         this.roleMapper = roleMapper;
         this.securityObjectMapper = securityObjectMapper;
@@ -69,82 +71,123 @@ public class UserController extends AbstractWebController {
 
     @GetMapping(API_USERS + "/index")
     public ResponseEntity<Index> index() {
+
         return ResponseEntity.ok(
                 new Index(
+                        linkTo(methodOn(UserController.class).findByPKey("{pKey}")).withRel("users-findbypkey"),
                         linkTo(methodOn(UserController.class).findAllUsers()).withRel("users-findall"),
-                        linkTo(methodOn(UserController.class).findUser("pKey")).withRel("users-findbypkey"),
-                        linkTo(methodOn(UserController.class).findGrantsForUser("pKey")).withRel("users-findgrants"),
+                        linkTo(methodOn(UserController.class).findGrantsForUser("{pKey}")).withRel("users-findgrants"),
                         linkTo(methodOn(UserController.class).create(new UserVO(), null)).withRel("users-create"),
                         linkTo(methodOn(UserController.class).save(new UserVO())).withRel("users-save"),
-                        linkTo(methodOn(UserController.class).saveImage("", "pKey")).withRel("users-saveimage"),
-                        linkTo(methodOn(UserController.class).updatePassword("pKey", new PasswordString("newPassword"))).withRel("users-change-password"),
-                        linkTo(methodOn(UserController.class).delete("pKey")).withRel("users-delete")
+                        linkTo(methodOn(UserController.class).saveImage("", "{pKey}")).withRel("users-saveimage"),
+                        linkTo(methodOn(UserController.class).updatePassword("{pKey}", new PasswordString("newPassword"))).withRel("users-change-password"),
+                        linkTo(methodOn(UserController.class).delete("{pKey}")).withRel("users-delete")
                 )
         );
     }
 
-    @GetMapping(API_USERS)
-    public ResponseEntity<List<UserVO>> findAllUsers() {
-        return ResponseEntity.ok(userMapper.convertToVO(new ArrayList<>(service.findAll())));
+    @GetMapping(API_USERS + "/{pKey}")
+    public ResponseEntity<UserVO> findByPKey(@PathVariable("pKey") String pKey) {
+
+        var eo = userService.findByPKey(pKey);
+        var result = userMapper.convertToVO(eo);
+        addSelfLink(result);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header(HttpHeaders.CONTENT_TYPE, UserVO.MEDIA_TYPE)
+                .body(result);
     }
 
-    @GetMapping(API_USERS + "/{pKey}")
-    public ResponseEntity<UserVO> findUser(@PathVariable("pKey") @NotEmpty String pKey) {
-        return ResponseEntity.ok(userMapper.convertToVO(service.findByPKey(pKey)));
+    @GetMapping(API_USERS)
+    public ResponseEntity<List<UserVO>> findAllUsers() {
+
+        var eos = userService.findAll();
+        var result = userMapper.convertToVO(new ArrayList<>(eos));
+        result.forEach(this::addSelfLink);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header(HttpHeaders.CONTENT_TYPE, UserVO.MEDIA_TYPE)
+                .body(result);
     }
 
     @Transactional(readOnly = true)
     @GetMapping(API_USERS + "/{pKey}/grants")
-    public ResponseEntity<List<SecurityObjectVO>> findGrantsForUser(@PathVariable("pKey") @NotEmpty String pKey) {
-        var user = service.findByPKey(pKey);
-        return ResponseEntity.ok(securityObjectMapper.convertToVO(user.getGrants()));
+    public ResponseEntity<List<SecurityObjectVO>> findGrantsForUser(@PathVariable("pKey") String pKey) {
+
+        var user = userService.findByPKey(pKey);
+        var result = securityObjectMapper.convertToVO(user.getGrants());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header(HttpHeaders.CONTENT_TYPE, SecurityObjectVO.MEDIA_TYPE)
+                .body(result);
     }
 
     @Transactional(readOnly = true)
     @GetMapping(API_USERS + "/{pKey}/roles")
     public ResponseEntity<List<RoleVO>> findRolesForUser(@PathVariable("pKey") @NotEmpty String pKey) {
-        var user = service.findByPKey(pKey);
-        return ResponseEntity.ok(roleMapper.convertToVO(user.getRoles()));
+
+        var eo = userService.findByPKey(pKey);
+        var result = roleMapper.convertToVO(eo.getRoles());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header(HttpHeaders.CONTENT_TYPE, RoleVO.MEDIA_TYPE)
+                .body(result);
     }
 
     @PostMapping(API_USERS)
     @Validated(ValidationGroups.Create.class)
-    public ResponseEntity<UserVO> create(
-            @RequestBody @Valid @NotNull UserVO vo,
-            HttpServletRequest req) {
-        var user = userMapper.convertFrom(vo);
-        var created = service.create(user, vo.getRoleNames());
+    public ResponseEntity<UserVO> create(@RequestBody @Valid @NotNull UserVO vo, HttpServletRequest req) {
+
+        var eo = userMapper.convertFrom(vo);
+        var created = userService.create(eo, vo.getRoleNames());
+        var result = userMapper.convertToVO(created);
         return ResponseEntity
-                .created(getLocationURIForCreatedResource(req, created.getPersistentKey()))
-                .body(userMapper.convertToVO(created));
+                .created(getLocationURIForCreatedResource(req, result.getpKey()))
+                .header(HttpHeaders.CONTENT_TYPE, UserVO.MEDIA_TYPE)
+                .body(result);
     }
 
     @PutMapping(API_USERS)
     public ResponseEntity<UserVO> save(@RequestBody @Valid UserVO vo) {
+
         var user = userMapper.convertFrom(vo);
-        return ResponseEntity.ok(userMapper.convertToVO(service.save(user, vo.getRoleNames())));
+        var created = userService.save(user, vo.getRoleNames());
+        var result = userMapper.convertToVO(created);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header(HttpHeaders.CONTENT_TYPE, UserVO.MEDIA_TYPE)
+                .body(result);
     }
 
     @PostMapping(API_USERS + "/{pKey}/details/image")
-    public ResponseEntity<Void> saveImage(@RequestBody @NotNull String image, @PathVariable("pKey") @NotEmpty String pKey) {
-        service.uploadImageFile(pKey, image.getBytes(StandardCharsets.UTF_8));
+    public ResponseEntity<Void> saveImage(@RequestBody @NotNull String image, @PathVariable("pKey") String pKey) {
+
+        userService.uploadImageFile(pKey, image.getBytes(StandardCharsets.UTF_8));
         return ResponseEntity.ok().build();
     }
 
     @PostMapping(API_USERS + "/{pKey}/password")
-    public ResponseEntity<UserVO> updatePassword(
-            @PathVariable("pKey") @NotEmpty String pKey,
-            @RequestBody @NotNull PasswordString password) {
+    public ResponseEntity<UserVO> updatePassword(@PathVariable("pKey") String pKey, @RequestBody @NotNull PasswordString password) {
+
         try {
-            return ResponseEntity.ok(service.updatePassword(pKey, password.asValue()));
+            var result = userService.updatePassword(pKey, password.asValue());
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .header(HttpHeaders.CONTENT_TYPE, UserVO.MEDIA_TYPE)
+                    .body(result);
         } catch (InvalidPasswordException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
 
     @DeleteMapping(API_USERS + "/{pKey}")
-    public ResponseEntity<Void> delete(@PathVariable("pKey") @NotEmpty String pKey) {
-        service.delete(pKey);
+    public ResponseEntity<Void> delete(@PathVariable("pKey") String pKey) {
+
+        userService.delete(pKey);
         return ResponseEntity.noContent().build();
+    }
+
+    private void addSelfLink(UserVO result) {
+        result.add(linkTo(methodOn(UserController.class).findByPKey(result.getpKey())).withRel("user-findbypkey"));
     }
 }

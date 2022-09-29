@@ -36,8 +36,13 @@ import java.util.Objects;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ClientVO extends AbstractBase<ClientVO> implements Serializable {
 
+    /** HTTP media type representation. */
+    public static final String MEDIA_TYPE = "application/vnd.openwms.uaa.client-v1+json";
+
     @JsonProperty("pKey")
     private String pKey;
+    @JsonProperty("resourceIds")
+    private String resourceIds;
     @NotBlank
     @JsonProperty("clientId")
     private String clientId;

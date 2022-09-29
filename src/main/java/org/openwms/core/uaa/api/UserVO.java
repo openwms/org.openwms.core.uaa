@@ -44,6 +44,9 @@ import static org.openwms.core.uaa.TimeProvider.DATE_TIME_WITH_TIMEZONE;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserVO extends AbstractBase<UserVO> implements Serializable {
 
+    /** HTTP media type representation. */
+    public static final String MEDIA_TYPE = "application/vnd.openwms.uaa.user-v1+json";
+
     /** The persistent key. */
     @JsonProperty("pKey")
     @Null(groups = {ValidationGroups.Create.class})
@@ -82,12 +85,12 @@ public class UserVO extends AbstractBase<UserVO> implements Serializable {
     @JsonProperty("emailAddresses")
     @NotEmpty(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class})
     private List<EmailVO> emailAddresses = new ArrayList<>();
+    /** The User's assigned role names. */
     @JsonProperty("roleNames")
     private List<String> roleNames;
 
-    @JsonCreator
-    public UserVO() {
-    }
+    @JsonCreator // NOT for the mapper
+    public UserVO() { }
 
     private UserVO(Builder builder) {
         pKey = builder.pKey;
@@ -103,6 +106,7 @@ public class UserVO extends AbstractBase<UserVO> implements Serializable {
         roleNames = builder.roleNames;
     }
 
+    /* Used by the mapper. */
     public static Builder newBuilder() {
         return new Builder();
     }

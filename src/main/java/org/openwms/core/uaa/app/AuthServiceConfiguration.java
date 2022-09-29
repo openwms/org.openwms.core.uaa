@@ -65,7 +65,7 @@ class AuthServiceConfiguration {
     /*
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        CustomJdbcClientDetailsService clientDetailsService = new CustomJdbcClientDetailsService(dataSource);
+        var clientDetailsService = new CustomJdbcClientDetailsService(dataSource);
         LOGGER.info("Encoding passwords enabled? [{}]", useEncoder);
         clientDetailsService.setPasswordEncoder(encoder);
         clients.withClientDetails(clientDetailsService);
@@ -193,7 +193,7 @@ class AuthServiceConfiguration {
 
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() throws Exception {
-        JwtAccessTokenConverter result = new JwtAccessTokenConverter();
+        var result = new JwtAccessTokenConverter();
         result.afterPropertiesSet();
         return result;
     }

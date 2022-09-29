@@ -63,7 +63,7 @@ public class Email extends BaseEntity implements Serializable {
      * Dear JPA...
      */
     @Default
-    Email() {}
+    protected Email() {}
 
     /**
      * Create a new {@code Email}.
@@ -163,7 +163,7 @@ public class Email extends BaseEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Email email = (Email) o;
+        var email = (Email) o;
         return Objects.equals(user, email.user) &&
                 Objects.equals(emailAddress, email.emailAddress) &&
                 Objects.equals(fullname, email.fullname);
