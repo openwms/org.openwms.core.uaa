@@ -103,17 +103,17 @@ public class RoleServiceIT extends TestBase {
     }
 
     @Test void testCreateExistingRoleMustFail() {
-        assertThrows(ResourceExistsException.class, () -> srv.create(RoleVO.newBuilder().name("ROLE_ADMIN").build()));
+        assertThrows(ResourceExistsException.class, () -> srv.create(RoleVO.Builder.newBuilder().name("ROLE_ADMIN").build()));
     }
 
     @Test void testCreateNewRole() {
-        RoleVO role = srv.create(RoleVO.newBuilder().name("ANONYMOUS").build());
+        RoleVO role = srv.create(RoleVO.Builder.newBuilder().name("ANONYMOUS").build());
         assertThat(role).isNotNull();
         assertThat(role.getName()).isEqualTo("ROLE_ANONYMOUS");
     }
 
     @Test void testCreateNewRoleWithoutPrefix() {
-        RoleVO role = srv.create(RoleVO.newBuilder().name("ANONYMOUS").build());
+        RoleVO role = srv.create(RoleVO.Builder.newBuilder().name("ANONYMOUS").build());
         assertThat(role.getName()).isEqualTo("ROLE_ANONYMOUS");
     }
 
@@ -127,7 +127,7 @@ public class RoleServiceIT extends TestBase {
     }
 
     @Test void testSaveExisingRole() {
-        RoleVO roleSaved = srv.save("1", RoleVO.newBuilder().name("test").description("Test description").build());
+        RoleVO roleSaved = srv.save("1", RoleVO.Builder.newBuilder().name("test").description("Test description").build());
         assertThat(roleSaved).isNotNull();
         assertThat(roleSaved.getDescription()).isEqualTo("Test description");
         assertThat(roleSaved.getName()).isEqualTo("ROLE_test");

@@ -16,16 +16,12 @@
 package org.openwms.core.uaa.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
 
 /**
- * A RoleVO is the representation of the role an User is assigned to.
+ * A GrantVO is the representation of a permission an User is granted to.
  * 
  * @author Heiko Scherrer
  */
@@ -34,155 +30,42 @@ public class GrantVO extends SecurityObjectVO<GrantVO> implements Serializable {
     /** HTTP media type representation. */
     public static final String MEDIA_TYPE = "application/vnd.openwms.uaa.grant-v1+json";
 
-    /** The persistent key. */
-    @JsonProperty("pKey")
-    private String pKey;
-    /** Unique name of the Role. */
-    @JsonProperty("name")
-    @NotEmpty(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class})
-    private String name;
-    /** Whether or not this Role is immutable. Immutable Roles can't be modified. */
-    @JsonProperty("immutable")
-    private Boolean immutable;
-    /** A descriptive text for the Role. */
-    @JsonProperty("description")
-    private String description;
-    /** All Users assigned to the Role. */
-    @JsonProperty("users")
-    private Set<UserVO> users = new HashSet<>();
-    /** A collection of Grants that are assigned to the Role. */
-    @JsonProperty("grants")
-    private Set<SecurityObjectVO> grants = new HashSet<>();
-
-    @JsonCreator
+    @JsonCreator // and mapper usage
     public GrantVO() { }
-
-    private GrantVO(Builder builder) {
-        pKey = builder.pKey;
-        name = builder.name;
-        immutable = builder.immutable;
-        description = builder.description;
-        users = builder.users;
-        grants = builder.grants;
-    }
-
-    public static Builder newBuilder() {
-        return new Builder();
-    }
-
-    public String getpKey() {
-        return pKey;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Boolean getImmutable() {
-        return immutable;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Set<UserVO> getUsers() {
-        return users;
-    }
-
-    public Set<SecurityObjectVO> getGrants() {
-        return grants;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * All fields.
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        GrantVO roleVO = (GrantVO) o;
-        return Objects.equals(pKey, roleVO.pKey) &&
-                Objects.equals(name, roleVO.name) &&
-                Objects.equals(immutable, roleVO.immutable) &&
-                Objects.equals(description, roleVO.description) &&
-                Objects.equals(users, roleVO.users) &&
-                Objects.equals(grants, roleVO.grants);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * All fields.
-     */
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), pKey, name, immutable, description, users, grants);
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * All fields.
-     */
-    @Override
-    public String toString() {
-        return "RoleVO{" +
-                "pKey='" + pKey + '\'' +
-                ", name='" + name + '\'' +
-                ", immutable=" + immutable +
-                ", description='" + description + '\'' +
-                ", users=" + users +
-                ", grants=" + grants +
-                '}';
-    }
 
     public static final class Builder {
         private String pKey;
-        private String name;
-        private Boolean immutable;
+        private @NotBlank(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class}) String name;
         private String description;
-        private Set<UserVO> users;
-        private Set<SecurityObjectVO> grants;
 
         private Builder() {
         }
 
-        public Builder pKey(String val) {
-            pKey = val;
+        public static Builder aGrantVO() {
+            return new Builder();
+        }
+
+        public Builder pKey(String pKey) {
+            this.pKey = pKey;
             return this;
         }
 
-        public Builder name(String val) {
-            name = val;
+        public Builder name(String name) {
+            this.name = name;
             return this;
         }
 
-        public Builder immutable(Boolean val) {
-            immutable = val;
-            return this;
-        }
-
-        public Builder description(String val) {
-            description = val;
-            return this;
-        }
-
-        public Builder users(Set<UserVO> val) {
-            users = val;
-            return this;
-        }
-
-        public Builder grants(Set<SecurityObjectVO> val) {
-            grants = val;
+        public Builder description(String description) {
+            this.description = description;
             return this;
         }
 
         public GrantVO build() {
-            return new GrantVO(this);
+            GrantVO grantVO = new GrantVO();
+            grantVO.setName(name);
+            grantVO.setDescription(description);
+            grantVO.setpKey(this.pKey);
+            return grantVO;
         }
     }
 }

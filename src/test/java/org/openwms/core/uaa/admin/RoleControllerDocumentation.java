@@ -81,7 +81,7 @@ class RoleControllerDocumentation {
     @Sql("classpath:test.sql")
     @Test
     void shall_create_role() throws Exception {
-        var vo = RoleVO.newBuilder()
+        var vo = RoleVO.Builder.newBuilder()
                 .name("ROLE_DEV")
                 .description("Developers")
                 .immutable(true)
@@ -101,11 +101,11 @@ class RoleControllerDocumentation {
                                 fieldWithPath("description").description("A descriptive text for the Role")
                         )
                 ))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andReturn();
         assertThat(mvcResult.getResponse().getHeader(HttpHeaders.LOCATION)).isNotBlank();
 
-        vo = RoleVO.newBuilder()
+        vo = RoleVO.Builder.newBuilder()
                 .name("ROLE_ADMIN")
                 .description("")
                 .immutable(true)
@@ -143,7 +143,7 @@ class RoleControllerDocumentation {
     @Sql("classpath:test.sql")
     @Test
     void shall_save_role() throws Exception {
-        var vo = RoleVO.newBuilder()
+        var vo = RoleVO.Builder.newBuilder()
                 .pKey("1")
                 .name("ROLE_SUPER")
                 .description("Administrators role")

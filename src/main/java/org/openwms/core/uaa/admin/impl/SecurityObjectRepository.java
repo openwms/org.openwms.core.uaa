@@ -28,8 +28,9 @@ import java.util.Optional;
  */
 interface SecurityObjectRepository extends JpaRepository<SecurityObject, Long> {
 
-    @Query
     Optional<Grant> findBypKey(String pKey);
+
+    Optional<Grant> findByName(String name);
 
     @Query("select g from Grant g where g.name like :moduleName")
     List<Grant> findAllOfModule(String moduleName);

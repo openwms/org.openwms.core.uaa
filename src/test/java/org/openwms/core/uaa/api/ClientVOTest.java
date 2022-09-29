@@ -18,7 +18,6 @@ package org.openwms.core.uaa.api;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,7 +30,7 @@ class ClientVOTest {
 
     @Test
     void testEquality() {
-        ClientVO original = ClientVO.newBuilder()
+        var original = ClientVO.newBuilder()
                 .clientId("cliendId")
                 .clientSecret("secr3t")
                 .accessTokenValidity(9999)
@@ -44,7 +43,7 @@ class ClientVOTest {
                 .scope("client")
                 .webServerRedirectUri("url")
                 .build();
-        ClientVO same = ClientVO.newBuilder()
+        var same = ClientVO.newBuilder()
                 .clientId("cliendId")
                 .clientSecret("secr3t")
                 .accessTokenValidity(9999)
@@ -59,7 +58,7 @@ class ClientVOTest {
                 .build();
 
         assertThat(original).isEqualTo(same);
-        Set<ClientVO> clients = new HashSet<>();
+        var clients = new HashSet<>();
         clients.add(original);
         clients.add(same);
         assertThat(clients).hasSize(1);

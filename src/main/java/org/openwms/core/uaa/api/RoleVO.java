@@ -34,9 +34,6 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
     /** HTTP media type representation. */
     public static final String MEDIA_TYPE = "application/vnd.openwms.uaa.role-v1+json";
 
-    /** The persistent key. */
-    @JsonProperty("pKey")
-    private String pKey;
     /** Whether or not this Role is immutable. Immutable Roles can't be modified. */
     @JsonProperty("immutable")
     private Boolean immutable;
@@ -47,22 +44,21 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
     @JsonProperty("grants")
     private Set<SecurityObjectVO> grants = new HashSet<>();
 
-    @JsonCreator
+    @JsonCreator // NOT for the mapper
     public RoleVO() { }
 
     private RoleVO(Builder builder) {
-        pKey = builder.pKey;
-        immutable = builder.immutable;
-        users = builder.users;
-        grants = builder.grants;
+        this.setName(builder.name);
+        this.setDescription(builder.description);
+        this.immutable = builder.immutable;
+        this.users = builder.users;
+        this.setpKey(builder.pKey);
+        this.grants = builder.grants;
     }
 
-    public static Builder newBuilder() {
-        return new Builder();
-    }
-
-    public String getpKey() {
-        return pKey;
+    /* Used by the mapper. */
+    public static RoleVO.Builder newBuilder() {
+        return new RoleVO.Builder();
     }
 
     public Boolean getImmutable() {
@@ -87,9 +83,8 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
-        RoleVO roleVO = (RoleVO) o;
-        return Objects.equals(pKey, roleVO.pKey) &&
-                Objects.equals(immutable, roleVO.immutable) &&
+        var roleVO = (RoleVO) o;
+        return Objects.equals(immutable, roleVO.immutable) &&
                 Objects.equals(users, roleVO.users) &&
                 Objects.equals(grants, roleVO.grants);
     }
@@ -101,7 +96,7 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), pKey, immutable, users, grants);
+        return Objects.hash(super.hashCode(), immutable, users, grants);
     }
 
     /**
@@ -112,31 +107,25 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
     @Override
     public String toString() {
         return "RoleVO{" +
-                "pKey='" + pKey + '\'' +
-                ", immutable=" + immutable +
+                "immutable=" + immutable +
                 ", users=" + users +
                 ", grants=" + grants +
                 '}';
     }
 
     public static final class Builder {
-        private String pKey;
         private Boolean immutable;
         private Set<UserVO> users;
         private Set<SecurityObjectVO> grants;
+        private String pKey;
         private @NotBlank(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class}) String name;
         private String description;
 
         private Builder() {
         }
 
-        public static Builder aRoleVO() {
+        public static Builder newBuilder() {
             return new Builder();
-        }
-
-        public Builder pKey(String pKey) {
-            this.pKey = pKey;
-            return this;
         }
 
         public Builder immutable(Boolean immutable) {
@@ -154,6 +143,11 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
             return this;
         }
 
+        public Builder pKey(String pKey) {
+            this.pKey = pKey;
+            return this;
+        }
+
         public Builder name(String name) {
             this.name = name;
             return this;
@@ -165,14 +159,7 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
         }
 
         public RoleVO build() {
-            RoleVO roleVO = new RoleVO();
-            roleVO.setName(name);
-            roleVO.setDescription(description);
-            roleVO.immutable = this.immutable;
-            roleVO.users = this.users;
-            roleVO.pKey = this.pKey;
-            roleVO.grants = this.grants;
-            return roleVO;
+            return new RoleVO(this);
         }
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="false" scan="false">
+<configuration debug="false" scan="false" scanPeriod="30 seconds">
 
     <property name="LOG_TEMP" value="/tmp/owms"/>
     <property name="MODULE_NAME" value="TEST"/>
@@ -9,8 +9,11 @@
 
     <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
 
-    <logger name="org.ameba" level="ERROR" additivity="false"/>
+    <logger name="com.github.dozermapper" level="ERROR"/>
+    <logger name="org.ameba" level="OFF" additivity="false"/>
     <logger name="org.hibernate" level="OFF"/>
+    <logger name="org.hibernate.SQL" level="OFF"/>
+    <logger name="org.hibernate.type" level="OFF"/>
     <logger name="org.junit" level="OFF"/>
     <logger name="org.openwms" level="DEBUG" additivity="false" />
     <logger name="org.springframework" level="ERROR"/>
@@ -24,10 +27,10 @@
     <logger name="INTEGRATION_LAYER_EXCEPTION" level="OFF" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="CORE_INTEGRATION_MESSAGING" level="OFF">
+    <logger name="CORE_INTEGRATION_MESSAGING" level="OFF" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
-    <logger name="MEASURED" level="OFF" />
+    <logger name="MEASURED" level="INFO" additivity="false" />
 
     <root level="ERROR">
         <appender-ref ref="STDOUT"/>

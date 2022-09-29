@@ -143,7 +143,7 @@ public class UserController extends AbstractWebController {
         var created = userService.create(eo, vo.getRoleNames());
         var result = userMapper.convertToVO(created);
         return ResponseEntity
-                .created(getLocationURIForCreatedResource(req, created.getPersistentKey()))
+                .created(getLocationURIForCreatedResource(req, result.getpKey()))
                 .header(HttpHeaders.CONTENT_TYPE, UserVO.MEDIA_TYPE)
                 .body(result);
     }

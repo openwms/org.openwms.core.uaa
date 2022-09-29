@@ -18,6 +18,7 @@ package org.openwms.core.uaa.admin.impl;
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
+import org.ameba.exception.ResourceExistsException;
 import org.ameba.i18n.Translator;
 import org.openwms.core.annotation.FireAfterTransaction;
 import org.openwms.core.event.UserChangedEvent;
@@ -118,6 +119,9 @@ class GrantServiceImpl implements GrantService {
     @Measured
     @Validated(ValidationGroups.Create.class)
     public @NotNull Grant create(@NotNull(groups = ValidationGroups.Create.class) @Valid Grant grant) {
+        if (securityObjectRepository.findByName(grant.getName()).isPresent()) {
+            throw new ResourceExistsException(format("Grant with name [%s] already exists", grant.getName()));
+        }
         return securityObjectRepository.save(grant);
     }
 }

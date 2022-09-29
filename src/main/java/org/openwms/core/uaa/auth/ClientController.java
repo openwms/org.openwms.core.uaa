@@ -19,6 +19,7 @@ import org.ameba.http.MeasuredRestController;
 import org.openwms.core.http.AbstractWebController;
 import org.openwms.core.http.Index;
 import org.openwms.core.uaa.api.ClientVO;
+import org.openwms.core.uaa.api.ValidationGroups;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import static org.openwms.core.uaa.api.UAAConstants.API_CLIENTS;
@@ -61,7 +64,7 @@ public class ClientController extends AbstractWebController {
                 new Index(
                         linkTo(methodOn(ClientController.class).findAll()).withRel("clients-findall"),
                         linkTo(methodOn(ClientController.class).findByPKey("{pKey}")).withRel("clients-findbypkey"),
-                        linkTo(methodOn(ClientController.class).create(new ClientVO())).withRel("clients-create"),
+                        linkTo(methodOn(ClientController.class).create(new ClientVO(), null)).withRel("clients-create"),
                         linkTo(methodOn(ClientController.class).save(new ClientVO())).withRel("clients-save"),
                         linkTo(methodOn(ClientController.class).delete("{pKey}")).withRel("clients-delete")
                 )
@@ -93,12 +96,13 @@ public class ClientController extends AbstractWebController {
     }
 
     @PostMapping(API_CLIENTS)
-    public ResponseEntity<ClientVO> create(@RequestBody @Valid ClientVO client) {
+    @Validated(ValidationGroups.Create.class)
+    public ResponseEntity<ClientVO> create(@RequestBody @Valid @NotNull ClientVO client, HttpServletRequest req) {
 
         var eo = clientService.create(mapper.from(client));
         var result = mapper.to(eo);
         return ResponseEntity
-                .status(HttpStatus.OK)
+                .created(getLocationURIForCreatedResource(req, result.getpKey()))
                 .header(HttpHeaders.CONTENT_TYPE, ClientVO.MEDIA_TYPE)
                 .body(result);
     }

@@ -15,8 +15,11 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
+import org.ameba.annotation.Default;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import java.beans.ConstructorProperties;
 import java.io.Serializable;
 
 /**
@@ -52,6 +55,8 @@ public class Grant extends SecurityObject implements Serializable {
      * @param description
      *            The description text of the {@code Grant}
      */
+    @Default
+    @ConstructorProperties({"name", "description"})
     public Grant(String name, String description) {
         super(name, description);
     }
@@ -62,6 +67,7 @@ public class Grant extends SecurityObject implements Serializable {
      * @param name
      *            The name of the {@code Grant}
      */
+    @ConstructorProperties("name")
     public Grant(String name) {
         super(name);
     }

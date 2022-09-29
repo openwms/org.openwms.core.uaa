@@ -85,12 +85,12 @@ public class UserVO extends AbstractBase<UserVO> implements Serializable {
     @JsonProperty("emailAddresses")
     @NotEmpty(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class})
     private List<EmailVO> emailAddresses = new ArrayList<>();
+    /** The User's assigned role names. */
     @JsonProperty("roleNames")
     private List<String> roleNames;
 
-    @JsonCreator
-    public UserVO() {
-    }
+    @JsonCreator // NOT for the mapper
+    public UserVO() { }
 
     private UserVO(Builder builder) {
         pKey = builder.pKey;
@@ -106,6 +106,7 @@ public class UserVO extends AbstractBase<UserVO> implements Serializable {
         roleNames = builder.roleNames;
     }
 
+    /* Used by the mapper. */
     public static Builder newBuilder() {
         return new Builder();
     }

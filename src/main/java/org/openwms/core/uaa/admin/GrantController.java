@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import static org.ameba.Constants.HEADER_VALUE_X_IDENTITY;
@@ -63,10 +64,10 @@ public class GrantController extends AbstractWebController {
         return ResponseEntity.ok(
 
                 new Index(
-                        linkTo(methodOn(GrantController.class).findByPKey("{pKey}")).withRel("grants-findbypkey"),
-                        linkTo(methodOn(GrantController.class).findAllGrants()).withRel("grants-findall"),
-                        linkTo(methodOn(GrantController.class).findAllForUser("{user}")).withRel("grants-findallforuser"),
-                        linkTo(methodOn(GrantController.class).createGrant(null, null)).withRel("grants-create")
+                        linkTo(methodOn(GrantController.class).findByPKey("pKey")).withRel("grant-findbypkey"),
+                        linkTo(methodOn(GrantController.class).findAllGrants()).withRel("grant-findall"),
+                        linkTo(methodOn(GrantController.class).findAllForUser("user")).withRel("grant-findallforuser"),
+                        linkTo(methodOn(GrantController.class).createGrant(null, null)).withRel("grant-create")
                 )
         );
     }
@@ -101,6 +102,9 @@ public class GrantController extends AbstractWebController {
 
         var grants = grantService.findAllFor(user);
         var vos = mapper.convertToGrantVOs(grants);
+        if (vos.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
         vos.forEach(this::addSelfLink);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -108,17 +112,16 @@ public class GrantController extends AbstractWebController {
                 .body(vos);
     }
 
-    @Transactional(readOnly = true)
     @Validated(ValidationGroups.Create.class)
     @PostMapping(API_GRANTS)
-    public ResponseEntity<GrantVO> createGrant(@Valid @RequestBody GrantVO grant, HttpServletRequest req) {
+    public ResponseEntity<GrantVO> createGrant(@Valid @RequestBody @NotNull GrantVO grant, HttpServletRequest req) {
 
         var eo = mapper.convertToEO(grant);
         var created = grantService.create(eo);
         var result = mapper.convertToVO(created);
         addSelfLink(result);
         return ResponseEntity
-                .created(super.getLocationURIForCreatedResource(req, created.getPersistentKey()))
+                .created(super.getLocationURIForCreatedResource(req, result.getpKey()))
                 .header(HttpHeaders.CONTENT_TYPE, GrantVO.MEDIA_TYPE)
                 .body(result);
     }
