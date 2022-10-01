@@ -26,6 +26,8 @@ public final class MessageCodes {
 
     /** Thrown if an User to persist already exists. */
     public static final String USER_ALREADY_EXISTS = "user.already.exists";
+    /** Thrown if an User to persist already exists. */
+    public static final String USER_WITH_PKEY_ALREADY_EXISTS = "user.pkey.already.exists";
     /** Thrown if an User has been looked up but hasn't been found. */
     public static final String USER_WITH_PKEY_NOT_EXIST = "user.pkey.not.exist";
     /** Thrown if an User has been looked up but hasn't been found. */
