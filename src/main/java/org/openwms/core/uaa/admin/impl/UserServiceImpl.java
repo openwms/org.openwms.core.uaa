@@ -109,13 +109,15 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @FireAfterTransaction(events = {UserChangedEvent.class})
+    @Validated(ValidationGroups.Modify.class)
     @Measured
     public @NotNull User save(@NotNull(groups = ValidationGroups.Modify.class) @Valid User user, List<String> roleNames) {
-        validate(validator, user, ValidationGroups.Modify.class);
+        var existingUser = findByPKeyInternal(user.getPersistentKey());
+        userMapper.copy(user, existingUser);
         if (roleNames != null && !roleNames.isEmpty()) {
-            user.setRoles(roleService.findByNames(roleNames));
+            existingUser.setRoles(roleService.findByNames(roleNames));
         }
-        var saved = repository.save(user);
+        var saved = repository.save(existingUser);
         eventPublisher.publishEvent(new UserEvent(saved, UserEvent.EventType.MODIFIED));
         return saved;
     }
