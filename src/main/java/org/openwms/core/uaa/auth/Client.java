@@ -26,6 +26,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -149,7 +150,7 @@ public class Client extends ApplicationEntity implements Serializable {
     }
 
     public List<String> getScopes() {
-        return scopes;
+        return scopes == null ? new ArrayList<>() : scopes;
     }
 
     public void setScopes(List<String> scopes) {

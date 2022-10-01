@@ -39,5 +39,4 @@ public interface ClientMapper {
     Client from(ClientVO vo);
 
     void copy(Client client, @MappingTarget Client target);
-
 }
