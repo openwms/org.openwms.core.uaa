@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.plugin.core.PluginRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -81,13 +82,14 @@ class UserServiceImpl implements UserService {
     private final Translator translator;
     private final Validator validator;
     private final UserMapper userMapper;
+    private final PluginRegistry<UserUpdater, String> userUpdater;
     private final ApplicationEventPublisher eventPublisher;
     private final String systemUsername;
     private final String systemPassword;
 
     UserServiceImpl(UserRepository repository, SecurityObjectRepository securityObjectDao, ConfigurationService confSrv,
             @Lazy RoleService roleService, PasswordEncoder enc, Translator translator, Validator validator, UserMapper userMapper,
-            ApplicationEventPublisher eventPublisher, @Value("${owms.security.system.username}") String systemUsername,
+            PluginRegistry<UserUpdater, String> userUpdater, ApplicationEventPublisher eventPublisher, @Value("${owms.security.system.username}") String systemUsername,
             @Value("${owms.security.system.password}") String systemPassword) {
         this.repository = repository;
         this.securityObjectDao = securityObjectDao;
@@ -97,6 +99,7 @@ class UserServiceImpl implements UserService {
         this.translator = translator;
         this.validator = validator;
         this.userMapper = userMapper;
+        this.userUpdater = userUpdater;
         this.eventPublisher = eventPublisher;
         this.systemUsername = systemUsername;
         this.systemPassword = systemPassword;
@@ -113,10 +116,16 @@ class UserServiceImpl implements UserService {
     @Measured
     public @NotNull User save(@NotNull(groups = ValidationGroups.Modify.class) @Valid User user, List<String> roleNames) {
         var existingUser = findByPKeyInternal(user.getPersistentKey());
+        for (var updater : userUpdater.getPlugins()) {
+            existingUser = updater.update(existingUser, user);
+        }
+        /*
         userMapper.copy(user, existingUser);
+         */
         if (roleNames != null && !roleNames.isEmpty()) {
             existingUser.setRoles(roleService.findByNames(roleNames));
         }
+
         var saved = repository.save(existingUser);
         eventPublisher.publishEvent(new UserEvent(saved, UserEvent.EventType.MODIFIED));
         return saved;

@@ -32,6 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openwms.core.TestBase;
 import org.openwms.core.uaa.MessageCodes;
+import org.openwms.core.uaa.admin.EmailMapper;
 import org.openwms.core.uaa.admin.UserMapper;
 import org.openwms.core.uaa.admin.UserService;
 import org.openwms.core.uaa.configuration.ConfigurationService;
@@ -48,6 +49,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
+import org.springframework.plugin.core.config.EnablePluginRegistries;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Rollback;
@@ -98,15 +100,20 @@ public class UserServiceIT extends TestBase {
     private Translator translator;
 
     @TestConfiguration
+    @EnablePluginRegistries({UserUpdater.class})
     @Import(BaseConfiguration.class)
     public static class TestConfig {
         @Bean
-        public UserMapper beanMapper() {
-            return new UserMapperImpl();
+        public UserMapper beanMapper(EmailMapper emailMapper) {
+            return new UserMapperImpl(emailMapper);
+        }
+        @Bean
+        public EmailMapper emailMapper() {
+            return new EmailMapperImpl();
         }
         @Bean
         MethodValidationPostProcessor methodValidationPostProcessor(Validator validator) {
-            MethodValidationPostProcessor mvpp = new MethodValidationPostProcessor();
+            var mvpp = new MethodValidationPostProcessor();
             mvpp.setValidator(validator);
             return mvpp;
         }
@@ -148,12 +155,12 @@ public class UserServiceIT extends TestBase {
     }
 
     @Test void testSaveTransient() {
-        User user = srv.save(new User(UNKNOWN_USER));
+        var user = srv.save(new User(UNKNOWN_USER));
         assertFalse("User must be persisted and has a primary key", user.isNew());
     }
 
     @Test void testSaveDetached() {
-        User user = findUser(KNOWN_USER);
+        var user = findUser(KNOWN_USER);
         assertFalse("User must be persisted before", user.isNew());
         entityManager.clear();
         user.setFullname("Mr. Hudson");
@@ -175,7 +182,7 @@ public class UserServiceIT extends TestBase {
     }
 
     @Test void testRemove() {
-        User user = findUser(KNOWN_USER);
+        var user = findUser(KNOWN_USER);
         assertThat(user.isNew());
         entityManager.clear();
         srv.remove(KNOWN_USER);
@@ -225,26 +232,26 @@ public class UserServiceIT extends TestBase {
     }
 
     @Test void testFindById() {
-        Collection<User> users = srv.findAll();
+        var users = srv.findAll();
         assertEquals(1, users.size(), "1 User is expected");
-        User user = srv.findById(users.iterator().next().getPk());
+        var user = srv.findById(users.iterator().next().getPk());
         assertNotNull("We expect to get back an instance", user);
     }
 
     @Test void testFindByIdNegative() {
-        Collection<User> users = srv.findAll();
+        var users = srv.findAll();
         assertEquals(1, users.size(), "1 User is expected");
         assertThrows(RuntimeException.class, () -> srv.findById(users.iterator().next().getPk() + 1));
     }
 
     @Test void testGetTemplate() {
-        User user = srv.getTemplate("TEST_USER");
+        var user = srv.getTemplate("TEST_USER");
         assertTrue("Must be a new User", user.isNew());
         assertEquals("TEST_USER", user.getUsername(), "Expected to get an User instance with the same username");
     }
 
     @Test void testCreateSystemUser() {
-        User user = srv.createSystemUser();
+        var user = srv.createSystemUser();
         assertTrue("Must be a new User", user.isNew());
         assertEquals(1, user.getRoles().size(), "Expected one Role");
     }
@@ -260,14 +267,14 @@ public class UserServiceIT extends TestBase {
     }
 
     @Test void testSaveUserProfileUserWithPassword() {
-        User user = new User(TEST_USER);
-        User u = srv.saveUserProfile(user, new UserPassword(user, "password"));
+        var user = new User(TEST_USER);
+        var u = srv.saveUserProfile(user, new UserPassword(user, "password"));
         assertEquals(u, user, "Must return the saved user");
     }
 
     @Test void testSaveUserProfileUserWithInvalidPassword() {
-        User user = new User(TEST_USER);
-        User u = srv.saveUserProfile(user, new UserPassword(user, "password"));
+        var user = new User(TEST_USER);
+        var u = srv.saveUserProfile(user, new UserPassword(user, "password"));
         u = srv.saveUserProfile(u, new UserPassword(u, "password1"));
         try {
             u = srv.saveUserProfile(u, new UserPassword(user, "password"));
@@ -281,8 +288,8 @@ public class UserServiceIT extends TestBase {
     }
 
     @Test void testSaveUserProfileWithPreference() {
-        User user = new User(TEST_USER);
-        User u = srv.saveUserProfile(user, new UserPassword(user, "password"), new UserPreference(user.getUsername()));
+        var user = new User(TEST_USER);
+        var u = srv.saveUserProfile(user, new UserPassword(user, "password"), new UserPreference(user.getUsername()));
         entityManager.flush();
         entityManager.clear();
         assertEquals(u, user, "Must return the saved user");

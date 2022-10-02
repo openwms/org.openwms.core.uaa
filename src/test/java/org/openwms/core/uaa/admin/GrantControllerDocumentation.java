@@ -89,7 +89,6 @@ class GrantControllerDocumentation {
                 .andDo(document("grant-create",
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("links[]").ignored(),
                                 fieldWithPath("@class").ignored(),
                                 fieldWithPath("name").description("Unique name of the Grant"),
                                 fieldWithPath("description").description("(Optional) A descriptive text for the Grant")

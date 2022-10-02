@@ -139,19 +139,12 @@ class ClientControllerDocumentation {
                 .andDo(document("client-save",
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("links[]").ignored(),
                                 fieldWithPath("pKey").description("The persistent key must be passed when modifying an existing instance"),
                                 fieldWithPath("clientId").ignored(),
                                 fieldWithPath("clientSecret").ignored(),
-                                fieldWithPath("accessTokenValidity").ignored(),
-                                fieldWithPath("additionalInformation").ignored(),
-                                fieldWithPath("authorities").ignored(),
                                 fieldWithPath("authorizedGrantTypes").ignored(),
-                                fieldWithPath("autoapprove").ignored(),
-                                fieldWithPath("refreshTokenValidity").ignored(),
-                                fieldWithPath("resourceIds").ignored(),
-                                fieldWithPath("scope").ignored(),
-                                fieldWithPath("webServerRedirectUri").ignored()
+                                fieldWithPath("scopes").ignored(),
+                                fieldWithPath("webServerRedirectUris").ignored()
                         )
                 ))
                 .andExpect(status().isOk())

@@ -17,20 +17,21 @@ package org.openwms.core.uaa.app;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import org.ameba.annotation.EnableAspects;
-import org.ameba.app.BaseConfiguration;
 import org.ameba.app.SpringProfiles;
 import org.ameba.http.PermitAllCorsConfigurationSource;
 import org.ameba.i18n.AbstractSpringTranslator;
 import org.ameba.i18n.Translator;
 import org.ameba.system.NestedReloadableResourceBundleMessageSource;
+import org.openwms.core.uaa.admin.impl.UserUpdater;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.plugin.core.config.EnablePluginRegistries;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.filter.CorsFilter;
@@ -51,9 +52,11 @@ import java.util.Locale;
  */
 @Configuration
 @EnableJpaAuditing
-@EnableAspects(propagateRootCause = false)
+@EnableAspects(propagateRootCause = true)
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableTransactionManagement
-@Import(BaseConfiguration.class)
+@EnablePluginRegistries({UserUpdater.class})
+//@Import(BaseConfiguration.class)
 public class UAAModuleConfiguration implements WebMvcConfigurer {
 
     @Override

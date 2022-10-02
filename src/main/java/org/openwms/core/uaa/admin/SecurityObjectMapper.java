@@ -19,11 +19,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.SubclassMapping;
 import org.openwms.core.uaa.admin.impl.Grant;
-import org.openwms.core.uaa.admin.impl.Role;
 import org.openwms.core.uaa.admin.impl.SecurityObject;
 import org.openwms.core.uaa.admin.impl.UserDetails;
 import org.openwms.core.uaa.api.GrantVO;
-import org.openwms.core.uaa.api.RoleVO;
 import org.openwms.core.uaa.api.SecurityObjectVO;
 import org.openwms.core.uaa.api.UserDetailsVO;
 
@@ -39,6 +37,11 @@ import java.util.List;
 @Mapper(implementationPackage = "org.openwms.core.uaa.admin.impl")
 public interface SecurityObjectMapper {
 
+    List<String> convertToStrings(List<SecurityObject> eo);
+    default String convertToString(SecurityObject eo) {
+        return eo.getName();
+    }
+
     @Mapping(source = "pKey", target = "persistentKey")
     Grant convertToEO(GrantVO vo);
 
@@ -48,7 +51,6 @@ public interface SecurityObjectMapper {
     List<GrantVO> convertToGrantVOs(List<Grant> eo);
 
     @SubclassMapping(source = GrantVO.class, target = Grant.class)
-    @SubclassMapping(source = RoleVO.class, target = Role.class)
     @Mapping(source = "pKey", target = "persistentKey")
     @Mapping(source = "name", target = "name")
     SecurityObject convertToEO(SecurityObjectVO vo);

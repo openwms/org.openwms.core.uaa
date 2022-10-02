@@ -26,6 +26,7 @@ import org.openwms.core.uaa.api.ValidationGroups;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -54,6 +55,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  * @author Heiko Scherrer
  */
 @Validated
+@Transactional
 @MeasuredRestController
 public class UserController extends AbstractWebController {
 
@@ -70,6 +72,7 @@ public class UserController extends AbstractWebController {
     }
 
     @GetMapping(API_USERS + "/index")
+    @Transactional(propagation = Propagation.NEVER)
     public ResponseEntity<Index> index() {
 
         return ResponseEntity.ok(
@@ -110,7 +113,6 @@ public class UserController extends AbstractWebController {
                 .body(result);
     }
 
-    @Transactional(readOnly = true)
     @GetMapping(API_USERS + "/{pKey}/grants")
     public ResponseEntity<List<SecurityObjectVO>> findGrantsForUser(@PathVariable("pKey") String pKey) {
 
@@ -122,7 +124,6 @@ public class UserController extends AbstractWebController {
                 .body(result);
     }
 
-    @Transactional(readOnly = true)
     @GetMapping(API_USERS + "/{pKey}/roles")
     public ResponseEntity<List<RoleVO>> findRolesForUser(@PathVariable("pKey") @NotEmpty String pKey) {
 
@@ -148,11 +149,12 @@ public class UserController extends AbstractWebController {
     }
 
     @PutMapping(API_USERS)
-    public ResponseEntity<UserVO> save(@RequestBody @Valid UserVO vo) {
+    @Validated(ValidationGroups.Modify.class)
+    public ResponseEntity<UserVO> save(@RequestBody @Valid @NotNull UserVO vo) {
 
         var user = userMapper.convertFrom(vo);
-        var created = userService.save(user, vo.getRoleNames());
-        var result = userMapper.convertToVO(created);
+        var saved = userService.save(user, vo.getRoleNames());
+        var result = userMapper.convertToVO(saved);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .header(HttpHeaders.CONTENT_TYPE, UserVO.MEDIA_TYPE)

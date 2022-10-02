@@ -94,8 +94,8 @@ class RoleControllerDocumentation {
                 .andDo(document("role-create",
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("links[]").ignored(),
                                 fieldWithPath("@class").ignored(),
+                                fieldWithPath("ol").description("Versioning field to check the instance version"),
                                 fieldWithPath("name").description("Unique name of the Role"),
                                 fieldWithPath("immutable").description("Whether or not this Role is immutable. Immutable Roles can't be modified"),
                                 fieldWithPath("description").description("A descriptive text for the Role")
@@ -165,9 +165,9 @@ class RoleControllerDocumentation {
                 .andDo(document("role-save",
                         preprocessResponse(prettyPrint()),
                         requestFields(
-                                fieldWithPath("links[]").ignored(),
                                 fieldWithPath("@class").ignored(),
                                 fieldWithPath("pKey").description("The persistent key must be passed when modifying an existing instance"),
+                                fieldWithPath("ol").description("Versioning field to check the instance version"),
                                 fieldWithPath("name").description("The name as an identifying attribute of the existing Role, cannot be changed"),
                                 fieldWithPath("description").description("A description text to update"),
                                 fieldWithPath("immutable").description("Whether the Role is immutable or not")
