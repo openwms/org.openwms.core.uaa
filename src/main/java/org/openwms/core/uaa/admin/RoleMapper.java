@@ -18,8 +18,11 @@ package org.openwms.core.uaa.admin;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
+import org.mapstruct.SubclassMapping;
 import org.openwms.core.uaa.admin.impl.Role;
+import org.openwms.core.uaa.admin.impl.SecurityObject;
 import org.openwms.core.uaa.api.RoleVO;
+import org.openwms.core.uaa.api.SecurityObjectVO;
 
 import java.util.List;
 
@@ -37,12 +40,17 @@ public interface RoleMapper {
     }
 
     @Mapping(source = "persistentKey", target = "pKey")
+    @Mapping(source = "ol", target = "ol")
     RoleVO convertToVO(Role eo);
-
     List<RoleVO> convertToVO(List<Role> eo);
 
     @Mapping(source = "pKey", target = "persistentKey")
     @Mapping(source = "users", target = "users", nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     @Mapping(source = "grants", target = "grants", nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
     Role convertFrom(RoleVO vo);
+
+    @SubclassMapping(source = RoleVO.class, target = Role.class)
+    @Mapping(source = "pKey", target = "persistentKey")
+    @Mapping(source = "name", target = "name")
+    SecurityObject convertToEO(SecurityObjectVO vo);
 }

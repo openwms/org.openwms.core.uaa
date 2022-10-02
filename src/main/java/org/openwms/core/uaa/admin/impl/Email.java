@@ -39,13 +39,13 @@ import java.util.Objects;
 @Entity
 @Table(name = "COR_UAA_EMAIL",
         uniqueConstraints = {
-                @UniqueConstraint(name = "UC_EMAIL_USER", columnNames = {"C_USERNAME", "C_ADDRESS"})
+                @UniqueConstraint(name = "UC_EMAIL_USER", columnNames = {"C_USER_PK", "C_ADDRESS"})
 })
 public class Email extends BaseEntity implements Serializable {
 
     /** Unique identifier of the {@code Email} (not nullable). */
     @ManyToOne
-    @JoinColumn(name = "C_USERNAME", referencedColumnName = "C_USERNAME", foreignKey = @ForeignKey(name = "FK_UAA_USER_EMAIL"))
+    @JoinColumn(name = "C_USER_PK", foreignKey = @ForeignKey(name = "FK_UAA_USER_EMAIL"))
     private User user;
     /** The email address as String (not nullable). */
     @Column(name = "C_ADDRESS", nullable = false)
@@ -76,7 +76,7 @@ public class Email extends BaseEntity implements Serializable {
         Assert.notNull(user, "User must not be null");
         Assert.hasText(emailAddress, "EmailAddress must not be null or empty");
         this.user = user;
-        this.emailAddress = emailAddress;
+        this.emailAddress = emailAddress.toLowerCase();
     }
 
     /**

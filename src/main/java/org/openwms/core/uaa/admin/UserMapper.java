@@ -19,6 +19,8 @@ import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+import org.openwms.core.uaa.admin.impl.Role;
 import org.openwms.core.uaa.admin.impl.User;
 import org.openwms.core.uaa.admin.impl.UserDetails;
 import org.openwms.core.uaa.api.UserDetailsVO;
@@ -33,15 +35,22 @@ import java.util.List;
  *
  * @author Heiko Scherrer
  */
-@Mapper(implementationPackage = "org.openwms.core.uaa.admin.impl")
+@Mapper(implementationPackage = "org.openwms.core.uaa.admin.impl", uses = {EmailMapper.class})
 public interface UserMapper {
 
-    @Mapping(source = "persistentKey", target = "pKey")
-    UserVO convertToVO(User eo);
+    default String convertToString(Role eo) {
+        return eo.getName();
+    }
 
+    @Mapping(source = "persistentKey", target = "pKey")
+    @Mapping(source = "ol", target = "ol")
+    @Mapping(source = "externalUser", target = "extern")
+    @Mapping(source = "roles", target = "roleNames")
+    UserVO convertToVO(User eo);
     List<UserVO> convertToVO(List<User> eo);
 
     @Mapping(source = "pKey", target = "persistentKey")
+    @Mapping(source = "extern", target = "externalUser")
     User convertFrom(UserVO vo);
 
     @AfterMapping
@@ -51,6 +60,9 @@ public interface UserMapper {
             childList.forEach(child -> child.setUser(parent));
         }
     }
+
+    @Mapping(source = "persistentKey", target = "persistentKey", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void copy(User source, @MappingTarget User target);
 
     @Valid UserDetailsVO map(UserDetails eo);
 

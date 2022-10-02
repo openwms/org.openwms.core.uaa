@@ -54,6 +54,7 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
         this.users = builder.users;
         this.setpKey(builder.pKey);
         this.grants = builder.grants;
+        super.setOl(builder.ol);
     }
 
     /* Used by the mapper. */
@@ -120,6 +121,7 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
         private String pKey;
         private @NotBlank(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class}) String name;
         private String description;
+        private long ol;
 
         private Builder() {
         }
@@ -155,6 +157,11 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
 
         public Builder description(String description) {
             this.description = description;
+            return this;
+        }
+
+        public Builder ol(long val) {
+            ol = val;
             return this;
         }
 

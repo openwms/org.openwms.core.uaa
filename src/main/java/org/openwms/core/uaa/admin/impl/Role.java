@@ -191,6 +191,16 @@ public class Role extends SecurityObject implements Serializable {
     }
 
     /**
+     * Set the Role as immutable.
+     *
+     * @param immutable {@code true} if so
+     */
+    // Used by Mapper only
+    public void setImmutable(Boolean immutable) {
+        this.immutable = immutable;
+    }
+
+    /**
      * Return a Set of all {@link User}s assigned to the Role.
      *
      * @return A Set of all {@link User}s assigned to the Role
@@ -199,7 +209,7 @@ public class Role extends SecurityObject implements Serializable {
         if (users == null) {
             return new HashSet<>();
         }
-        return new HashSet<>(users);
+        return users;
     }
 
     /**
@@ -212,6 +222,17 @@ public class Role extends SecurityObject implements Serializable {
     public boolean addUser(User user) {
         Assert.notNull(user, "User to add must not be null");
         return users.add(user);
+    }
+
+    /**
+     * Add existing {@link User}s to the Role.
+     *
+     * @param users A Set of {@link User}s to be added to the Role
+     * @throws IllegalArgumentException if grants is {@literal null}
+     */
+    public void addUsers(Set<User> users) {
+        Assert.notNull(users, "Set of Users must not be null");
+        getUsers().addAll(users);
     }
 
     /**
@@ -245,7 +266,7 @@ public class Role extends SecurityObject implements Serializable {
         if (grants == null) {
             grants = new HashSet<>();
         }
-        return new HashSet<>(grants);
+        return grants;
     }
 
     /**
@@ -259,6 +280,17 @@ public class Role extends SecurityObject implements Serializable {
     public boolean addGrant(SecurityObject grant) {
         Assert.notNull(grant, "Grant to add must not be null");
         return grants.add(grant);
+    }
+
+    /**
+     * Add existing {@link SecurityObject}s to the Role.
+     *
+     * @param grants A Set of {@link SecurityObject}s to be added to the Role
+     * @throws IllegalArgumentException if grants is {@literal null}
+     */
+    public void addGrants(Set<SecurityObject> grants) {
+        Assert.notNull(grants, "Set of Grants must not be null");
+        getGrants().addAll(grants);
     }
 
     /**

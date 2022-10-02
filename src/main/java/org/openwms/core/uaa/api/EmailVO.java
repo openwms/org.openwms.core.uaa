@@ -48,7 +48,7 @@ public class EmailVO implements Serializable {
     EmailVO() {}
 
     @ConstructorProperties({"emailAddress", "primary"})
-    public EmailVO(@NotEmpty String emailAddress, Boolean primary) {
+    public EmailVO(@NotEmpty String emailAddress, boolean primary) {
         this.emailAddress = emailAddress;
         this.primary = primary;
     }

@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.ameba.http.AbstractBase;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Null;
 import java.io.Serializable;
@@ -50,11 +51,11 @@ public class UserVO extends AbstractBase<UserVO> implements Serializable {
     /** The persistent key. */
     @JsonProperty("pKey")
     @Null(groups = {ValidationGroups.Create.class})
-    @NotEmpty(groups = {ValidationGroups.Modify.class})
+    @NotBlank(groups = {ValidationGroups.Modify.class})
     private String pKey;
     /** The User's unique name. */
     @JsonProperty("username")
-    @NotEmpty(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class})
+    @NotBlank(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class})
     private String username;
     /** If the User is authenticated against an external system. */
     @JsonProperty("externalUser")
@@ -104,6 +105,7 @@ public class UserVO extends AbstractBase<UserVO> implements Serializable {
         userDetails = builder.userDetails;
         emailAddresses = builder.emailAddresses;
         roleNames = builder.roleNames;
+        super.setOl(builder.ol);
     }
 
     /* Used by the mapper. */
@@ -257,6 +259,7 @@ public class UserVO extends AbstractBase<UserVO> implements Serializable {
         private @Valid UserDetailsVO userDetails;
         private @NotEmpty(groups = ValidationGroups.Create.class) List<EmailVO> emailAddresses;
         private List<String> roleNames;
+        private long ol;
 
         private Builder() {
         }
@@ -313,6 +316,11 @@ public class UserVO extends AbstractBase<UserVO> implements Serializable {
 
         public Builder roleNames(List<String> val) {
             roleNames = val;
+            return this;
+        }
+
+        public Builder ol(long val) {
+            ol = val;
             return this;
         }
 

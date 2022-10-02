@@ -23,13 +23,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.Assert;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -41,12 +39,16 @@ import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
+
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.REFRESH;
 
 /**
  * An User represents a human user of the system. Typically an User is assigned to one or more {@code Roles} to define security constraints.
@@ -97,16 +99,16 @@ public class User extends ApplicationEntity implements Serializable {
     @Column(name = "C_FULLNAME")
     private String fullname;
     /** Email addresses. */
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = {ALL}, orphanRemoval = true)
     private Set<Email> emailAddresses;
     /** More detail information of the User. */
     @Embedded
     private UserDetails userDetails;
     /** List of {@link Role}s assigned to the User. */
-    @ManyToMany(mappedBy = "users", cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "users", cascade = {MERGE, REFRESH})
     private List<Role> roles = new ArrayList<>();
     /** Last passwords of the User. */
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "user", cascade = {ALL}, orphanRemoval = true)
     private List<UserPassword> passwords = new ArrayList<>();
     /** The number of passwords to keep in the password history. Default: {@value}. */
     public static final short NUMBER_STORED_PASSWORDS = 3;
@@ -133,7 +135,7 @@ public class User extends ApplicationEntity implements Serializable {
     }
 
     /**
-     * Create a new User with an username.
+     * Create a new User with a username.
      *
      * @param username The unique name of the user
      * @param password The password of the user
@@ -168,6 +170,35 @@ public class User extends ApplicationEntity implements Serializable {
     }
 
     /**
+     * Set the {@code password} and {@code persistedPassword} to {@literal null}.
+     */
+    public void wipePassword() {
+        this.password = null;
+        this.persistedPassword = null;
+    }
+
+    public boolean addNewEmailAddress(Email email) {
+        Assert.notNull(email, "Email must not be null");
+        var existingOnes = getEmailAddressesInternal();
+        if (!existingOnes.contains(email)) {
+            email.setUser(this);
+            return existingOnes.add(email);
+        }
+        return false;
+    }
+
+    public boolean removeEmailAddress(Email email) {
+        Assert.notNull(email, "Email must not be null");
+        var existingOnes = getEmailAddressesInternal();
+        if (existingOnes.contains(email)) {
+            var existingOne = existingOnes.stream().filter(e -> e.equals(email)).findFirst().orElseThrow();
+            //existingOne.setUser(null);
+            return existingOnes.remove(email);
+        }
+        return false;
+    }
+
+    /**
      * Return the unique username of the User.
      *
      * @return The current username
@@ -181,7 +212,8 @@ public class User extends ApplicationEntity implements Serializable {
      *
      * @param username The new username to set
      */
-    protected void setUsername(String username) {
+    // Must be public for the MapStruct mapper
+    public void setUsername(String username) {
         this.username = username;
     }
 
@@ -204,12 +236,21 @@ public class User extends ApplicationEntity implements Serializable {
     }
 
     /**
-     * Return the date when the password has changed recently.
+     * Return the date when the password has been changed the last time.
      *
-     * @return The date when the password has changed recently
+     * @return The date when the password has been changed the last time
      */
     public ZonedDateTime getLastPasswordChange() {
         return lastPasswordChange;
+    }
+
+    /**
+     * Set the date when the password has been changed the last time.
+     *
+     * @param lastPasswordChange The date when the password has been changed the last time
+     */
+    public void setLastPasswordChange(ZonedDateTime lastPasswordChange) {
+        this.lastPasswordChange = lastPasswordChange;
     }
 
     /**
@@ -260,6 +301,7 @@ public class User extends ApplicationEntity implements Serializable {
      */
     public void changePassword(String encodedPassword, String rawPassword, PasswordEncoder encoder) throws InvalidPasswordException {
         if (persistedPassword != null && encoder.matches(rawPassword, persistedPassword)) {
+            LOGGER.debug("Password matches, no need to change");
             return;
         }
         validateAgainstPasswordHistory(rawPassword, encoder);
@@ -439,8 +481,15 @@ public class User extends ApplicationEntity implements Serializable {
         return this;
     }
 
-    public Set<Email> getEmailAddresses() {
+    private Set<Email> getEmailAddressesInternal() {
+        if (emailAddresses == null) {
+            emailAddresses = new HashSet<>();
+        }
         return emailAddresses;
+    }
+
+    public Set<Email> getEmailAddresses() {
+        return emailAddresses == null ? null : new HashSet<>(emailAddresses);
     }
 
     public void setEmailAddresses(Set<Email> emailAddresses) {
@@ -568,14 +617,6 @@ public class User extends ApplicationEntity implements Serializable {
                 ", fullname='" + fullname + '\'' +
                 ", userDetails=" + userDetails +
                 '}';
-    }
-
-    /**
-     * Set the {@code password} and {@code persistedPassword} to {@literal null}.
-     */
-    public void wipePassword() {
-        this.password = null;
-        this.persistedPassword = null;
     }
 
     /**
