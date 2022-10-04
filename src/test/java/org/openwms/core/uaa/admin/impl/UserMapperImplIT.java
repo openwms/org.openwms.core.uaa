@@ -15,13 +15,16 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
+import org.ameba.app.ValidationConfiguration;
 import org.junit.jupiter.api.Test;
 import org.openwms.core.uaa.api.EmailVO;
 import org.openwms.core.uaa.api.UserDetailsVO;
 import org.openwms.core.uaa.api.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.ZonedDateTime;
@@ -35,12 +38,14 @@ import static org.assertj.core.api.Assertions.assertThat;
  * @author Heiko Scherrer
  */
 @DataJpaTest
+@Sql("classpath:test.sql")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(ValidationConfiguration.class)
 class UserMapperImplIT {
 
     @Autowired
     private TestEntityManager em;
 
-    @Sql("classpath:test.sql")
     @Test
     void testEOtoVO() {
         // arrange
@@ -56,7 +61,6 @@ class UserMapperImplIT {
         assertVO(vo);
     }
 
-    @Sql("classpath:test.sql")
     @Test
     void testEOtoEO() {
         // arrange
@@ -73,7 +77,6 @@ class UserMapperImplIT {
         assertCopiedEO(target);
     }
 
-    @Sql("classpath:test.sql")
     @Test
     void testEOstoVOs() {
         // arrange
@@ -88,7 +91,6 @@ class UserMapperImplIT {
         assertVO(vo.get(0));
     }
 
-    @Sql("classpath:test.sql")
     @Test
     void testVOtoEO() {
         // arrange

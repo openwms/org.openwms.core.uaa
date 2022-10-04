@@ -15,12 +15,15 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
+import org.ameba.app.ValidationConfiguration;
 import org.junit.jupiter.api.Test;
 import org.openwms.core.uaa.api.RoleVO;
 import org.openwms.core.uaa.api.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
@@ -29,17 +32,19 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * A RoleMapperImplTest.
+ * A RoleMapperImplIT.
  *
  * @author Heiko Scherrer
  */
 @DataJpaTest
-class RoleMapperImplTest {
+@Sql("classpath:test.sql")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(ValidationConfiguration.class)
+class RoleMapperImplIT {
 
     @Autowired
     private TestEntityManager em;
 
-    @Sql("classpath:test.sql")
     @Test
     void testEOtoVO() {
         // arrange
@@ -54,7 +59,6 @@ class RoleMapperImplTest {
         assertRole(vo);
     }
 
-    @Sql("classpath:test.sql")
     @Test
     void testEOstoVOs() {
         // arrange
@@ -69,7 +73,6 @@ class RoleMapperImplTest {
         assertRole(vo.get(0));
     }
 
-    @Sql("classpath:test.sql")
     @Test
     void testVOtoEO() {
         // arrange

@@ -186,6 +186,10 @@ spring:
     discovery:
       enabled: false
   jpa:
+    database: H2
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
     show-sql: false
   main:
     banner-mode: "off"
