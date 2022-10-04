@@ -39,7 +39,7 @@ digraph "cor_uaa_client" {
       <TR><TD PORT="c_scopes" COLSPAN="3" ALIGN="LEFT">c_scopes</TD></TR>
       <TR><TD PORT="c_token_settings" COLSPAN="3" ALIGN="LEFT">c_token_settings</TD></TR>
       <TR><TD PORT="c_web_server_redirect_uris" COLSPAN="3" ALIGN="LEFT">c_web_server_redirect_uris</TD></TR>
-      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">0 rows</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
+      <TR><TD ALIGN="LEFT" BGCOLOR="#f7f7f7">  </TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">1 row</TD><TD ALIGN="RIGHT" BGCOLOR="#f7f7f7">  </TD></TR>
     </TABLE>>
     URL="tables/cor_uaa_client.html"
     tooltip="cor_uaa_client"

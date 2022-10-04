@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<meta name="author" content="(2.0.0-SNAPSHOT-52)">
+<meta name="author" content="(2.0.0-SNAPSHOT-56)">
 <title>OpenWMS.org WMS: RESTful API (UAA)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -443,7 +443,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org WMS: RESTful API (UAA)</h1>
 <div class="details">
-<span id="author" class="author">(2.0.0-SNAPSHOT-52)</span><br>
+<span id="author" class="author">(2.0.0-SNAPSHOT-56)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -480,7 +480,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_role_index">Role Index</a></li>
 <li><a href="#_create_a_role">Create a Role</a></li>
 <li><a href="#_find_all_roles">Find all Roles</a></li>
-<li><a href="#_find_a_role_by_persistent_key">Find a Role by persistent key</a></li>
+<li><a href="#role-findbypkey">Find a Role by persistent key</a></li>
 <li><a href="#_modify_an_existing_role">Modify an existing Role</a></li>
 <li><a href="#_assign_an_user_to_a_role">Assign an User to a Role</a></li>
 <li><a href="#_unassign_an_user_from_a_role">Unassign an User from a Role</a></li>
@@ -489,8 +489,11 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#resources-grant">Grant</a>
 <ul class="sectlevel2">
-<li><a href="#_grant_index">Grant Index</a></li>
-<li><a href="#_find_all_grants">Find all Grants</a></li>
+<li><a href="#grant-index">Grant Index</a></li>
+<li><a href="#grant-create">Create a Grant</a></li>
+<li><a href="#grant-findall">Find all Grants</a></li>
+<li><a href="#grant-findbypkey">Find a Grant by persistent key</a></li>
+<li><a href="#grant-findallforuser">Find all Grants of a User</a></li>
 </ul>
 </li>
 <li><a href="#resources-client">Client</a>
@@ -788,18 +791,18 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 695
+Content-Length: 725
 
 {
   "_links" : {
+    "users-findbypkey" : {
+      "href" : "http://localhost:8080/users/%7BpKey%7D"
+    },
     "users-findall" : {
       "href" : "http://localhost:8080/users"
     },
-    "users-findbypkey" : {
-      "href" : "http://localhost:8080/users/pKey"
-    },
     "users-findgrants" : {
-      "href" : "http://localhost:8080/users/pKey/grants"
+      "href" : "http://localhost:8080/users/%7BpKey%7D/grants"
     },
     "users-create" : {
       "href" : "http://localhost:8080/users"
@@ -808,13 +811,13 @@ Content-Length: 695
       "href" : "http://localhost:8080/users"
     },
     "users-saveimage" : {
-      "href" : "http://localhost:8080/users/pKey/details/image"
+      "href" : "http://localhost:8080/users/%7BpKey%7D/details/image"
     },
     "users-change-password" : {
-      "href" : "http://localhost:8080/users/pKey/password"
+      "href" : "http://localhost:8080/users/%7BpKey%7D/password"
     },
     "users-delete" : {
-      "href" : "http://localhost:8080/users/pKey"
+      "href" : "http://localhost:8080/users/%7BpKey%7D"
     }
   }
 }</code></pre>
@@ -824,20 +827,22 @@ Content-Length: 695
 <div class="sect2">
 <h3 id="_create_an_user"><a class="anchor" href="#_create_an_user"></a><a class="link" href="#_create_an_user">Create an User</a></h3>
 <div class="paragraph">
-<p>To create a new <code>User</code> instance, a <code>POST</code> request must be send to the server with the mandatory fields of the <code>User</code> in the request body</p>
+<p>To create a new <code>User</code> instance, a <code>POST</code> request must be send to the server with the mandatory fields of the <code>User</code> resource in the request
+body.</p>
 </div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /users HTTP/1.1
 Content-Type: application/json
-Content-Length: 139
+Content-Length: 152
 Host: localhost:8080
 
 {
   "links" : [ ],
+  "ol" : 0,
   "username" : "admin2",
   "emailAddresses" : [ {
-    "emailAddress" : "admin@example.com",
+    "emailAddress" : "admin2@example.com",
     "primary" : true
   } ]
 }</code></pre>
@@ -885,19 +890,23 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/30552ce0-6edb-4f5e-926a-529453dbce42/
-Content-Type: application/hal+json
-Content-Length: 213
+Location: http://localhost:8080/users/70c10ac9-9c56-4c68-95f3-0341f2b17ff6/
+Content-Type: application/vnd.openwms.uaa.user-v1+json
+Content-Length: 290
 
 {
-  "pKey" : "30552ce0-6edb-4f5e-926a-529453dbce42",
+  "links" : [ ],
+  "ol" : 0,
+  "pKey" : "70c10ac9-9c56-4c68-95f3-0341f2b17ff6",
   "username" : "admin2",
+  "externalUser" : false,
   "locked" : false,
   "enabled" : true,
   "emailAddresses" : [ {
-    "emailAddress" : "admin@example.com",
+    "emailAddress" : "admin2@example.com",
     "primary" : true
-  } ]
+  } ],
+  "roleNames" : [ ]
 }</code></pre>
 </div>
 </div>
@@ -911,9 +920,9 @@ Content-Type: application/hal+json
 Content-Length: 166
 
 {
-  "message" : "User with name admin2 already exists",
+  "message" : "User with name tester already exists",
   "messageKey" : "user.already.exists",
-  "obj" : [ "admin2" ],
+  "obj" : [ "tester" ],
   "httpStatus" : "409",
   "class" : "String"
 }</code></pre>
@@ -925,14 +934,69 @@ Content-Length: 166
 <div class="paragraph">
 <p>To find and retrieve an array of all existing <code>Users</code> a client may call a <code>GET</code> request:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-findAll/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /users HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>and returns either an array of <code>Users</code>&#8230;&#8203;</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-findAll/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.uaa.user-v1+json
+Content-Length: 1280
+
+[ {
+  "links" : [ {
+    "rel" : "user-findbypkey",
+    "href" : "http://localhost:8080/users/96baa849-dd19-4b19-8c5e-895d3b7f405d"
+  } ],
+  "ol" : 1,
+  "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405d",
+  "username" : "jenkins",
+  "externalUser" : true,
+  "lastPasswordChange" : "2020-06-22T19:02:47Z",
+  "locked" : true,
+  "enabled" : true,
+  "expirationDate" : "2020-06-23T19:02:45Z",
+  "fullname" : "Mister Jenkins",
+  "details" : { },
+  "emailAddresses" : [ {
+    "emailAddress" : "admin.private@acme.com",
+    "primary" : true,
+    "fullname" : "Mr. Jenkins"
+  }, {
+    "emailAddress" : "admin@acme.com",
+    "primary" : false,
+    "fullname" : "Mr. Jenkins"
+  } ],
+  "roleNames" : [ "ROLE_ADMIN" ]
+}, {
+  "links" : [ {
+    "rel" : "user-findbypkey",
+    "href" : "http://localhost:8080/users/96baa849-dd19-4b19-8c5e-895d3b7f405e"
+  } ],
+  "ol" : 1,
+  "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405e",
+  "username" : "tester",
+  "externalUser" : false,
+  "lastPasswordChange" : "2020-06-22T19:02:47Z",
+  "locked" : false,
+  "enabled" : true,
+  "expirationDate" : "2020-06-23T19:02:45Z",
+  "fullname" : "Tester",
+  "details" : { },
+  "emailAddresses" : [ {
+    "emailAddress" : "tester@acme.com",
+    "primary" : true,
+    "fullname" : "Mr. Tester"
+  } ],
+  "roleNames" : [ ]
+} ]</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>or an empty array, but always with a <code>200-OK</code>.</p>
@@ -940,10 +1004,56 @@ Content-Length: 166
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 3
+Content-Type: application/vnd.openwms.uaa.user-v1+json
+Content-Length: 1280
 
-[ ]</code></pre>
+[ {
+  "links" : [ {
+    "rel" : "user-findbypkey",
+    "href" : "http://localhost:8080/users/96baa849-dd19-4b19-8c5e-895d3b7f405d"
+  } ],
+  "ol" : 1,
+  "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405d",
+  "username" : "jenkins",
+  "externalUser" : true,
+  "lastPasswordChange" : "2020-06-22T19:02:47Z",
+  "locked" : true,
+  "enabled" : true,
+  "expirationDate" : "2020-06-23T19:02:45Z",
+  "fullname" : "Mister Jenkins",
+  "details" : { },
+  "emailAddresses" : [ {
+    "emailAddress" : "admin.private@acme.com",
+    "primary" : true,
+    "fullname" : "Mr. Jenkins"
+  }, {
+    "emailAddress" : "admin@acme.com",
+    "primary" : false,
+    "fullname" : "Mr. Jenkins"
+  } ],
+  "roleNames" : [ "ROLE_ADMIN" ]
+}, {
+  "links" : [ {
+    "rel" : "user-findbypkey",
+    "href" : "http://localhost:8080/users/96baa849-dd19-4b19-8c5e-895d3b7f405e"
+  } ],
+  "ol" : 1,
+  "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405e",
+  "username" : "tester",
+  "externalUser" : false,
+  "lastPasswordChange" : "2020-06-22T19:02:47Z",
+  "locked" : false,
+  "enabled" : true,
+  "expirationDate" : "2020-06-23T19:02:45Z",
+  "fullname" : "Tester",
+  "details" : { },
+  "emailAddresses" : [ {
+    "emailAddress" : "tester@acme.com",
+    "primary" : true,
+    "fullname" : "Mr. Tester"
+  } ],
+  "roleNames" : [ ]
+} ]</code></pre>
 </div>
 </div>
 </div>
@@ -953,32 +1063,14 @@ Content-Length: 3
 <p>A newly created <code>User</code> can be retrieved by following the URI in the <code>Location</code> header of the response. This URI points to the created
 resource:</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /users/30552ce0-6edb-4f5e-926a-529453dbce42/ HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-findByPkey/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
 <p>If the resource exists the server responds with a <code>200-OK</code> and the <code>User</code> representation in the response body.</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 213
-
-{
-  "pKey" : "30552ce0-6edb-4f5e-926a-529453dbce42",
-  "username" : "admin2",
-  "locked" : false,
-  "enabled" : true,
-  "emailAddresses" : [ {
-    "emailAddress" : "admin@example.com",
-    "primary" : true
-  } ]
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-findByPkey/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -990,12 +1082,13 @@ Content-Length: 213
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /users HTTP/1.1
 Content-Type: application/json
-Content-Length: 233
+Content-Length: 245
 Host: localhost:8080
 
 {
   "links" : [ ],
-  "pKey" : "30552ce0-6edb-4f5e-926a-529453dbce42",
+  "ol" : 0,
+  "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405e",
   "username" : "superuser",
   "locked" : true,
   "enabled" : false,
@@ -1012,18 +1105,22 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 216
+Content-Type: application/vnd.openwms.uaa.user-v1+json
+Content-Length: 292
 
 {
-  "pKey" : "99c54a46-93d0-4e6b-a626-475e4b8e12be",
+  "links" : [ ],
+  "ol" : 0,
+  "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405e",
   "username" : "superuser",
+  "externalUser" : false,
   "locked" : true,
   "enabled" : false,
   "emailAddresses" : [ {
     "emailAddress" : "admin@example.com",
     "primary" : true
-  } ]
+  } ],
+  "roleNames" : [ ]
 }</code></pre>
 </div>
 </div>
@@ -1035,7 +1132,7 @@ Content-Length: 216
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /users/30552ce0-6edb-4f5e-926a-529453dbce42/password HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /users/96baa849-dd19-4b19-8c5e-895d3b7f405e/password HTTP/1.1
 Content-Type: application/json
 Content-Length: 28
 Host: localhost:8080
@@ -1051,20 +1148,24 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 281
+Content-Type: application/vnd.openwms.uaa.user-v1+json
+Content-Length: 360
 
 {
-  "pKey" : "30552ce0-6edb-4f5e-926a-529453dbce42",
-  "username" : "admin2",
-  "lastPasswordChange" : "2022-09-28T11:16:10Z",
-  "locked" : false,
-  "enabled" : true,
+  "links" : [ ],
+  "ol" : 3,
+  "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405e",
+  "username" : "superuser",
+  "externalUser" : false,
+  "lastPasswordChange" : "2022-10-04T14:09:04Z",
+  "locked" : true,
+  "enabled" : false,
   "details" : { },
   "emailAddresses" : [ {
     "emailAddress" : "admin@example.com",
     "primary" : true
-  } ]
+  } ],
+  "roleNames" : [ ]
 }</code></pre>
 </div>
 </div>
@@ -1076,7 +1177,7 @@ Content-Length: 281
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /users/30552ce0-6edb-4f5e-926a-529453dbce42/details/image HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /users/96baa849-dd19-4b19-8c5e-895d3b7f405e/details/image HTTP/1.1
 Content-Type: application/octet-stream
 Content-Length: 18572
 Host: localhost:8080
@@ -1119,7 +1220,7 @@ to access the endpoint.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /users/30552ce0-6edb-4f5e-926a-529453dbce42/ HTTP/1.1
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /users/96baa849-dd19-4b19-8c5e-895d3b7f405e HTTP/1.1
 Host: localhost:8080</code></pre>
 </div>
 </div>
@@ -1163,11 +1264,11 @@ Content-Length: 806
 
 {
   "_links" : {
-    "roles-findall" : {
-      "href" : "http://localhost:8080/roles"
-    },
     "roles-findbypkey" : {
       "href" : "http://localhost:8080/roles/pKey"
+    },
+    "roles-findall" : {
+      "href" : "http://localhost:8080/roles"
     },
     "roles-findusersofrole" : {
       "href" : "http://localhost:8080/roles/pKey/users"
@@ -1198,23 +1299,106 @@ Content-Length: 806
 <div class="sect2">
 <h3 id="_create_a_role"><a class="anchor" href="#_create_a_role"></a><a class="link" href="#_create_a_role">Create a Role</a></h3>
 <div class="paragraph">
-<p>To create a new <code>Role</code> instance, a <code>POST</code> request must be send to the server with the mandatory fields of the <code>Role</code> in the request body.</p>
+<p>To create a new <code>Role</code> instance, a <code>POST</code> request must be send to the server with the mandatory fields of the <code>Role</code> resource in the
+request body.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-create/http-request.adoc[]
-Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-create/request-fields.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /roles HTTP/1.1
+Content-Type: application/json
+Content-Length: 139
+Host: localhost:8080
+
+{
+  "@class" : "org.openwms.core.uaa.api.RoleVO",
+  "ol" : 0,
+  "name" : "ROLE_DEV",
+  "description" : "Developers",
+  "immutable" : true
+}</code></pre>
 </div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ol</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Versioning field to check the instance version</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique name of the Role</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>immutable</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether or not this Role is immutable. Immutable Roles can&#8217;t be modified</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A descriptive text for the Role</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>If the <code>Role</code> has been created successfully, the server returns the URI to the created resource in the <code>Location</code> header:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-create/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
+Location: http://localhost:8080/roles/067c0213-2e13-4eb9-a3f6-716483b633dc/
+Content-Type: application/vnd.openwms.uaa.role-v1+json
+Content-Length: 554
+
+{
+  "@class" : "org.openwms.core.uaa.api.RoleVO",
+  "links" : [ {
+    "rel" : "users",
+    "href" : "http://localhost:8080/roles/067c0213-2e13-4eb9-a3f6-716483b633dc/users"
+  }, {
+    "rel" : "grants",
+    "href" : "http://localhost:8080/roles/067c0213-2e13-4eb9-a3f6-716483b633dc/grants"
+  }, {
+    "rel" : "role-findbypkey",
+    "href" : "http://localhost:8080/roles/067c0213-2e13-4eb9-a3f6-716483b633dc"
+  } ],
+  "ol" : 0,
+  "pKey" : "067c0213-2e13-4eb9-a3f6-716483b633dc",
+  "name" : "ROLE_DEV",
+  "description" : "Developers",
+  "immutable" : true
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If a <code>Role</code> with the same name already exists the server returns an error:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-create-exists/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 409 Conflict
+Content-Type: application/hal+json
+Content-Length: 121
+
+{
+  "message" : "Role with name [ROLE_ADMIN] already exists",
+  "messageKey" : "already.exists",
+  "httpStatus" : "409"
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1222,27 +1406,79 @@ Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.co
 <div class="paragraph">
 <p>To find and retrieve an array of all existing <code>Roles</code> a role may call a <code>GET</code> request:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-findAll/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /roles HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>and returns either an array of <code>Roles</code> or an empty array, but always a <code>200-OK</code>.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-findAll/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.uaa.role-v1+json
+Content-Length: 844
+
+[ {
+  "@class" : "org.openwms.core.uaa.api.RoleVO",
+  "links" : [ {
+    "rel" : "users",
+    "href" : "http://localhost:8080/roles/1/users"
+  }, {
+    "rel" : "grants",
+    "href" : "http://localhost:8080/roles/1/grants"
+  }, {
+    "rel" : "role-findbypkey",
+    "href" : "http://localhost:8080/roles/1"
+  } ],
+  "ol" : 1,
+  "pKey" : "1",
+  "name" : "ROLE_ADMIN",
+  "description" : "Super user role",
+  "immutable" : true
+}, {
+  "@class" : "org.openwms.core.uaa.api.RoleVO",
+  "links" : [ {
+    "rel" : "users",
+    "href" : "http://localhost:8080/roles/2/users"
+  }, {
+    "rel" : "grants",
+    "href" : "http://localhost:8080/roles/2/grants"
+  }, {
+    "rel" : "role-findbypkey",
+    "href" : "http://localhost:8080/roles/2"
+  } ],
+  "ol" : 1,
+  "pKey" : "2",
+  "name" : "ROLE_OPS",
+  "description" : "Operator role",
+  "immutable" : true
+} ]</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_a_role_by_persistent_key"><a class="anchor" href="#_find_a_role_by_persistent_key"></a><a class="link" href="#_find_a_role_by_persistent_key">Find a Role by persistent key</a></h3>
+<h3 id="role-findbypkey"><a class="anchor" href="#role-findbypkey"></a><a class="link" href="#role-findbypkey">Find a Role by persistent key</a></h3>
 <div class="paragraph">
-<p>Each <code>Role</code> has an unique ID the <em>pKey</em> or <em>persistent identifier</em>. To find and return a <code>Role</code> by the <code>pKey</code> a client must send a <code>GET</code>
-request to the <code>Role</code> resource:</p>
+<p>Each <code>Role</code> has an unique ID the <em>pKey</em> or <em>persistent identifier</em>. To find and return a <code>Role</code> by <code>pKey</code> a client must send a <code>GET</code> request
+to the <code>Roles</code> resource:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-findByPKey/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /roles/1 HTTP/1.1
+Host: localhost:8080</code></pre>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-findByPKey/http-response.adoc[]</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.uaa.role-v1+json
+Content-Length: 330
+
+{"@class":"org.openwms.core.uaa.api.RoleVO","links":[{"rel":"users","href":"http://localhost:8080/roles/1/users"},{"rel":"grants","href":"http://localhost:8080/roles/1/grants"},{"rel":"role-findbypkey","href":"http://localhost:8080/roles/1"}],"ol":1,"pKey":"1","name":"ROLE_ADMIN","description":"Super user role","immutable":true}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1251,23 +1487,108 @@ request to the <code>Role</code> resource:</p>
 <p>An existing <code>Role</code> instance can be modified by sending a <code>PUT</code> request with the <code>Role</code> representation as request body. At least the name of
 the <code>Role</code>, as an identifying attribute must be set.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-save/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /roles/1 HTTP/1.1
+Content-Type: application/json
+Content-Length: 167
+Host: localhost:8080
+
+{
+  "@class" : "org.openwms.core.uaa.api.RoleVO",
+  "ol" : 0,
+  "pKey" : "1",
+  "name" : "ROLE_SUPER",
+  "description" : "Administrators role",
+  "immutable" : false
+}</code></pre>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-save/request-fields.adoc[]</p>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pKey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The persistent key must be passed when modifying an existing instance</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ol</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Versioning field to check the instance version</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name as an identifying attribute of the existing Role, cannot be changed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A description text to update</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>immutable</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether the Role is immutable or not</p></td>
+</tr>
+</tbody>
+</table>
 <div class="paragraph">
 <p>If the server has correctly updated the <code>Role</code> the response contains the updated representation:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-save/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.uaa.role-v1+json
+Content-Length: 425
+
+{
+  "@class" : "org.openwms.core.uaa.api.RoleVO",
+  "links" : [ {
+    "rel" : "users",
+    "href" : "http://localhost:8080/roles/1/users"
+  }, {
+    "rel" : "grants",
+    "href" : "http://localhost:8080/roles/1/grants"
+  }, {
+    "rel" : "role-findbypkey",
+    "href" : "http://localhost:8080/roles/1"
+  } ],
+  "ol" : 1,
+  "pKey" : "1",
+  "name" : "ROLE_SUPER",
+  "description" : "Administrators role",
+  "immutable" : true
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the name of the <code>Role</code> to update is missing, the server responds with an error:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-save-noname/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 400 Bad Request
+Content-Type: application/hal+json
+Content-Length: 143
+
+{
+  "message" : "Error on validating the input parameters [save.role.name]",
+  "messageKey" : "core.validation.error",
+  "httpStatus" : "400"
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1276,20 +1597,58 @@ the <code>Role</code>, as an identifying attribute must be set.</p>
 <p><code>Users</code> can be assigned to one or more <code>Roles</code>. To assign an existing <code>User</code> to an existing <code>Role</code> the client must send a <code>POST</code> request
 to the primary <code>Role</code> resource:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-assign-user/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /roles/1/users/96baa849-dd19-4b19-8c5e-895d3b7f405e HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the <code>User</code> has been assigned successfully, the server responds with <code>200-OK</code>:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-assign-user/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.uaa.role-v1+json
+Content-Length: 421
+
+{
+  "@class" : "org.openwms.core.uaa.api.RoleVO",
+  "links" : [ {
+    "rel" : "users",
+    "href" : "http://localhost:8080/roles/1/users"
+  }, {
+    "rel" : "grants",
+    "href" : "http://localhost:8080/roles/1/grants"
+  }, {
+    "rel" : "role-findbypkey",
+    "href" : "http://localhost:8080/roles/1"
+  } ],
+  "ol" : 1,
+  "pKey" : "1",
+  "name" : "ROLE_ADMIN",
+  "description" : "Super user role",
+  "immutable" : true
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the <code>User</code> or the <code>Role</code> do not exist the server responds with an error:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-assign-unknown-user/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 166
+
+{
+  "message" : "User with ID UNKNOWN does not exist",
+  "messageKey" : "user.pkey.not.exist",
+  "obj" : [ "UNKNOWN" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1298,20 +1657,58 @@ to the primary <code>Role</code> resource:</p>
 <p>Already assigned <code>Users</code> can be unassigned from a <code>Role</code>. Therefore the client sends a <code>DELETE</code> request on the secondary <code>User</code> resource of
 the primary <code>Role</code> resource. Note: This will not delete the <code>User</code> but delete the assignment between the <code>Role</code> and the <code>User</code>.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-unassign-user/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /roles/1/users/96baa849-dd19-4b19-8c5e-895d3b7f405d HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the <code>User</code> has been unassigned successfully, the server responds with <code>200-OK</code>:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-unassign-user/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.uaa.role-v1+json
+Content-Length: 421
+
+{
+  "@class" : "org.openwms.core.uaa.api.RoleVO",
+  "links" : [ {
+    "rel" : "users",
+    "href" : "http://localhost:8080/roles/1/users"
+  }, {
+    "rel" : "grants",
+    "href" : "http://localhost:8080/roles/1/grants"
+  }, {
+    "rel" : "role-findbypkey",
+    "href" : "http://localhost:8080/roles/1"
+  } ],
+  "ol" : 1,
+  "pKey" : "1",
+  "name" : "ROLE_ADMIN",
+  "description" : "Super user role",
+  "immutable" : true
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the <code>User</code> or the <code>Role</code> do not exist the server responds with an error:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-unassign-unknown-role/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 166
+
+{
+  "message" : "Role with ID UNKNOWN does not exist",
+  "messageKey" : "role.pkey.not.exist",
+  "obj" : [ "UNKNOWN" ],
+  "httpStatus" : "404",
+  "class" : "String"
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1319,14 +1716,19 @@ the primary <code>Role</code> resource. Note: This will not delete the <code>Use
 <div class="paragraph">
 <p>To finally delete all <code>Role</code> data, a <code>DELETE</code> request with the persistent key of the <code>Role</code> is required:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-delete/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /roles/1 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the <code>Role</code> has been deleted successfully the server responds:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 3-roles.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/role-delete/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1339,33 +1741,363 @@ the primary <code>Role</code> resource. Note: This will not delete the <code>Use
 can be taken. It has a unique business key, that is used in API or UI to protect against unauthorized access.</p>
 </div>
 <div class="sect2">
-<h3 id="_grant_index"><a class="anchor" href="#_grant_index"></a><a class="link" href="#_grant_index">Grant Index</a></h3>
+<h3 id="grant-index"><a class="anchor" href="#grant-index"></a><a class="link" href="#grant-index">Grant Index</a></h3>
 <div class="paragraph">
 <p>An overview of all possible operations on <code>Grants</code> can be found on the <code>Grant</code> index page that is retrieved with a <code>GET</code> request:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grants-index/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /grants/index HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>And the server responds with a <code>HAL+JSON</code> representation to further operations:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grants-index/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/hal+json
+Content-Length: 343
+
+{
+  "_links" : {
+    "grant-findbypkey" : {
+      "href" : "http://localhost:8080/grants/pKey"
+    },
+    "grant-findall" : {
+      "href" : "http://localhost:8080/grants"
+    },
+    "grant-findallforuser" : {
+      "href" : "http://localhost:8080/grants"
+    },
+    "grant-create" : {
+      "href" : "http://localhost:8080/grants"
+    }
+  }
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_all_grants"><a class="anchor" href="#_find_all_grants"></a><a class="link" href="#_find_all_grants">Find all Grants</a></h3>
+<h3 id="grant-create"><a class="anchor" href="#grant-create"></a><a class="link" href="#grant-create">Create a Grant</a></h3>
+<div class="paragraph">
+<p>To create a new <code>Grant</code> instance, a <code>POST</code> request must be send to the server with the mandatory fields of the <code>Grant</code> resource in the
+request body.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">POST /grants HTTP/1.1
+Content-Type: application/json
+Content-Length: 132
+Host: localhost:8080
+
+{
+  "@class" : "org.openwms.core.uaa.api.GrantVO",
+  "name" : "VIEW_USERS",
+  "description" : "Permission to view all users in UI"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Not named properties are optional to pass.</p>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique name of the Grant</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) A descriptive text for the Grant</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If the <code>Grant</code> has been created successfully, the server returns the URI to the created resource in the <code>Location</code> header:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
+Location: http://localhost:8080/grants/3e4e6c37-8f68-49e1-9432-a3efc5ddcb3d/
+Content-Type: application/vnd.openwms.uaa.grant-v1+json
+Content-Length: 331
+
+{
+  "@class" : "org.openwms.core.uaa.api.GrantVO",
+  "links" : [ {
+    "rel" : "grant-findbypkey",
+    "href" : "http://localhost:8080/grants/3e4e6c37-8f68-49e1-9432-a3efc5ddcb3d"
+  } ],
+  "ol" : 0,
+  "pKey" : "3e4e6c37-8f68-49e1-9432-a3efc5ddcb3d",
+  "name" : "VIEW_USERS",
+  "description" : "Permission to view all users in UI"
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If a <code>Grant</code> with the same name already exists the server returns an error:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 409 Conflict
+Content-Type: application/hal+json
+Content-Length: 131
+
+{
+  "message" : "Grant with name [SEC_UAA_USER_LOOKUP] already exists",
+  "messageKey" : "already.exists",
+  "httpStatus" : "409"
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="grant-findall"><a class="anchor" href="#grant-findall"></a><a class="link" href="#grant-findall">Find all Grants</a></h3>
 <div class="paragraph">
 <p>To retrieve all existing <code>Grants</code> from the server, a client simply needs to do a <code>GET</code> request to the <code>Grants</code> resource.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grants-findall/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /grants HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>The server responds with a list representation of all <code>Grants</code> or an empty list:</p>
 </div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.uaa.grant-v1+json
+Content-Length: 1056
+
+[ {
+  "@class" : "org.openwms.core.uaa.api.GrantVO",
+  "links" : [ {
+    "rel" : "grant-findbypkey",
+    "href" : "http://localhost:8080/grants/3"
+  } ],
+  "ol" : 1,
+  "pKey" : "3",
+  "name" : "SEC_UAA_USER_LOOKUP",
+  "description" : "Permission to find Users"
+}, {
+  "@class" : "org.openwms.core.uaa.api.GrantVO",
+  "links" : [ {
+    "rel" : "grant-findbypkey",
+    "href" : "http://localhost:8080/grants/4"
+  } ],
+  "ol" : 1,
+  "pKey" : "4",
+  "name" : "SEC_UAA_USER_CREATE",
+  "description" : "Permission to create Users"
+}, {
+  "@class" : "org.openwms.core.uaa.api.GrantVO",
+  "links" : [ {
+    "rel" : "grant-findbypkey",
+    "href" : "http://localhost:8080/grants/5"
+  } ],
+  "ol" : 1,
+  "pKey" : "5",
+  "name" : "SEC_UAA_USER_MODIFY",
+  "description" : "Permission to modify Users"
+}, {
+  "@class" : "org.openwms.core.uaa.api.GrantVO",
+  "links" : [ {
+    "rel" : "grant-findbypkey",
+    "href" : "http://localhost:8080/grants/6"
+  } ],
+  "ol" : 1,
+  "pKey" : "6",
+  "name" : "SEC_UAA_USER_DELETE",
+  "description" : "Permission to delete Users"
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="grant-findbypkey"><a class="anchor" href="#grant-findbypkey"></a><a class="link" href="#grant-findbypkey">Find a Grant by persistent key</a></h3>
 <div class="paragraph">
-<p>Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grants-findall/http-response.adoc[]</p>
+<p>Each <code>Grant</code> has an unique ID the <em>pKey</em> or <em>persistent identifier</em>. To find and return a <code>Grant</code> by <code>pKey</code> a client must send a <code>GET</code>
+request to the <code>Grants</code> resource:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /grants/3 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.uaa.grant-v1+json
+Content-Length: 260
+
+{
+  "@class" : "org.openwms.core.uaa.api.GrantVO",
+  "links" : [ {
+    "rel" : "grant-findbypkey",
+    "href" : "http://localhost:8080/grants/3"
+  } ],
+  "ol" : 1,
+  "pKey" : "3",
+  "name" : "SEC_UAA_USER_LOOKUP",
+  "description" : "Permission to find Users"
+}</code></pre>
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>@class</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type identifier of the Grant type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>links[]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains an array of hypermedia resource links</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ol</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Versioning field to check the instance version</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pKey</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The technical persistent identifier of the Grant</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unique name of the Grant</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A descriptive text for the Grant</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="grant-findallforuser"><a class="anchor" href="#grant-findallforuser"></a><a class="link" href="#grant-findallforuser">Find all Grants of a User</a></h3>
+<div class="paragraph">
+<p>To retrieve all existing <code>Grants</code> from assigned to a <code>User</code>, a client simply needs to do a <code>GET</code> request to the <code>Grants</code> resource and pass
+the users identity within the <code>X-Identity</code> http header.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /grants HTTP/1.1
+X-Identity: jenkins
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server responds with a list representation of all <code>Grants</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.uaa.grant-v1+json
+Content-Length: 1056
+
+[ {
+  "@class" : "org.openwms.core.uaa.api.GrantVO",
+  "links" : [ {
+    "rel" : "grant-findbypkey",
+    "href" : "http://localhost:8080/grants/5"
+  } ],
+  "ol" : 1,
+  "pKey" : "5",
+  "name" : "SEC_UAA_USER_MODIFY",
+  "description" : "Permission to modify Users"
+}, {
+  "@class" : "org.openwms.core.uaa.api.GrantVO",
+  "links" : [ {
+    "rel" : "grant-findbypkey",
+    "href" : "http://localhost:8080/grants/4"
+  } ],
+  "ol" : 1,
+  "pKey" : "4",
+  "name" : "SEC_UAA_USER_CREATE",
+  "description" : "Permission to create Users"
+}, {
+  "@class" : "org.openwms.core.uaa.api.GrantVO",
+  "links" : [ {
+    "rel" : "grant-findbypkey",
+    "href" : "http://localhost:8080/grants/3"
+  } ],
+  "ol" : 1,
+  "pKey" : "3",
+  "name" : "SEC_UAA_USER_LOOKUP",
+  "description" : "Permission to find Users"
+}, {
+  "@class" : "org.openwms.core.uaa.api.GrantVO",
+  "links" : [ {
+    "rel" : "grant-findbypkey",
+    "href" : "http://localhost:8080/grants/6"
+  } ],
+  "ol" : 1,
+  "pKey" : "6",
+  "name" : "SEC_UAA_USER_DELETE",
+  "description" : "Permission to delete Users"
+} ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or a HTTP <code>204-NO CONTENT</code> response if no <code>Grants</code> are assigned to the <code>User</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or a HTTP <code>404-NOT FOUND</code> response if the <code>User</code> does not exist:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 113
+
+{
+  "message" : "User with name [UNKNOWN] does not exist",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1395,12 +2127,15 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 357
+Content-Length: 461
 
 {
   "_links" : {
     "clients-findall" : {
       "href" : "http://localhost:8080/api/clients"
+    },
+    "clients-findbypkey" : {
+      "href" : "http://localhost:8080/api/clients/%7BpKey%7D"
     },
     "clients-create" : {
       "href" : "http://localhost:8080/api/clients"
@@ -1409,7 +2144,7 @@ Content-Length: 357
       "href" : "http://localhost:8080/api/clients"
     },
     "clients-delete" : {
-      "href" : "http://localhost:8080/api/clients/pKey"
+      "href" : "http://localhost:8080/api/clients/%7BpKey%7D"
     }
   }
 }</code></pre>
@@ -1483,13 +2218,14 @@ Host: localhost:8080
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
+Location: http://localhost:8080/api/clients/cd70b92b-9d20-40fb-8a7b-da0386eddfca/
+Content-Type: application/vnd.openwms.uaa.client-v1+json
 Content-Length: 230
 
 {
   "ol" : 0,
-  "pKey" : "a6fbd6d1-5dde-4e6c-be12-59ee9bbb6e2a",
+  "pKey" : "cd70b92b-9d20-40fb-8a7b-da0386eddfca",
   "clientId" : "cliendId",
   "clientSecret" : "secr3t",
   "scopes" : [ "client" ],
@@ -1504,14 +2240,35 @@ Content-Length: 230
 <div class="paragraph">
 <p>To find and retrieve an array of all existing <code>Clients</code> a client may call a <code>GET</code> request:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 5-clients.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/client-findAll/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/clients HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>and returns either an array of <code>Clients</code> or an empty array, but always a <code>200-OK</code>.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 5-clients.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/client-findAll/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.uaa.client-v1+json
+Content-Length: 407
+
+[ {
+  "links" : [ {
+    "rel" : "client-findbypkey",
+    "href" : "http://localhost:8080/api/clients/1000"
+  } ],
+  "ol" : 1,
+  "pKey" : "1000",
+  "clientId" : "gateway",
+  "clientSecret" : "secret",
+  "scopes" : [ "gateway" ],
+  "authorizedGrantTypes" : [ "password", "authorization_code", "refresh_token", "implicit" ],
+  "webServerRedirectUris" : [ "http://localhost:8086/login/oauth2/code/gateway" ]
+} ]</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1519,14 +2276,42 @@ Content-Length: 230
 <div class="paragraph">
 <p>An existing <code>Client</code> instance can be modified by sending a <code>PUT</code> request with the <code>Client</code> representation as request body.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 5-clients.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/client-save/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">PUT /api/clients HTTP/1.1
+Content-Type: application/json
+Content-Length: 186
+Host: localhost:8080
+
+{
+  "pKey" : "1000",
+  "clientId" : "cliendId",
+  "clientSecret" : "secr3t",
+  "scopes" : [ "client" ],
+  "authorizedGrantTypes" : [ "implicit" ],
+  "webServerRedirectUris" : [ "url" ]
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the server has correctly updated the <code>Client</code> the response contains the updated representation:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 5-clients.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/client-save/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.uaa.client-v1+json
+Content-Length: 198
+
+{
+  "ol" : 0,
+  "pKey" : "1000",
+  "clientId" : "cliendId",
+  "clientSecret" : "secr3t",
+  "scopes" : [ "client" ],
+  "authorizedGrantTypes" : [ "implicit" ],
+  "webServerRedirectUris" : [ "url" ]
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1534,14 +2319,19 @@ Content-Length: 230
 <div class="paragraph">
 <p>To finally delete all <code>Client</code> data, a <code>DELETE</code> request with the persistent key of the <code>Client</code> is required:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 5-clients.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/client-delete/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">DELETE /api/clients/1000 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the <code>Client</code> has been deleted successfully the server responds:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 5-clients.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/client-delete/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -1549,7 +2339,7 @@ Content-Length: 230
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-09-28 11:12:49 UTC
+Last updated 2022-10-04 13:58:20 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

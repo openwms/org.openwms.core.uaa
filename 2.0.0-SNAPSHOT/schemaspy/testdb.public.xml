@@ -43,7 +43,7 @@
             <column ascending="true" name="registered_client_id"/>
          </index>
       </table>
-      <table name="cor_uaa_client" numRows="0" remarks="" schema="public" type="TABLE">
+      <table name="cor_uaa_client" numRows="1" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8"/>
          <column autoUpdated="false" digits="6" id="1" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
          <column autoUpdated="false" digits="0" id="2" name="c_created_by" nullable="true" remarks="" size="255" type="varchar"/>
@@ -70,7 +70,7 @@
             <column ascending="true" name="c_pid"/>
          </index>
       </table>
-      <table name="cor_uaa_email" numRows="0" remarks="" schema="public" type="TABLE">
+      <table name="cor_uaa_email" numRows="2" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_pk" nullable="false" remarks="" size="19" type="int8"/>
          <column autoUpdated="false" digits="6" id="1" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
          <column autoUpdated="false" digits="0" id="2" name="c_created_by" nullable="true" remarks="" size="255" type="varchar"/>
@@ -80,19 +80,19 @@
          <column autoUpdated="false" digits="0" id="6" name="c_address" nullable="false" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="7" name="c_full_name" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="8" name="c_primary" nullable="false" remarks="" size="1" type="bool"/>
-         <column autoUpdated="false" digits="0" id="9" name="c_username" nullable="true" remarks="" size="255" type="varchar">
-            <parent column="c_username" foreignKey="fk_uaa_user_email" implied="false" onDeleteCascade="false" table="cor_uaa_user"/>
+         <column autoUpdated="false" digits="0" id="9" name="c_user_pk" nullable="true" remarks="" size="19" type="int8">
+            <parent column="c_pk" foreignKey="fk_uaa_user_email" implied="false" onDeleteCascade="false" table="cor_uaa_user"/>
          </column>
          <primaryKey column="c_pk" sequenceNumberInPK="1"/>
          <index name="cor_uaa_email_pkey" unique="true">
             <column ascending="true" name="c_pk"/>
          </index>
          <index name="uc_email_user" unique="true">
-            <column ascending="true" name="c_username"/>
+            <column ascending="true" name="c_user_pk"/>
             <column ascending="true" name="c_address"/>
          </index>
       </table>
-      <table name="cor_uaa_role" numRows="0" remarks="" schema="public" type="TABLE">
+      <table name="cor_uaa_role" numRows="6" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_type" nullable="false" remarks="" size="20" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="c_pk" nullable="false" remarks="" size="19" type="int8">
             <child column="c_grant_id" foreignKey="fk_uaa_grant_role" implied="false" onDeleteCascade="false" table="cor_uaa_role_role"/>
@@ -119,7 +119,7 @@
             <column ascending="true" name="c_pid"/>
          </index>
       </table>
-      <table name="cor_uaa_role_role" numRows="0" remarks="" schema="public" type="TABLE">
+      <table name="cor_uaa_role_role" numRows="4" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_role_id" nullable="false" remarks="" size="19" type="int8">
             <parent column="c_pk" foreignKey="fk_uaa_role_grant" implied="false" onDeleteCascade="false" table="cor_uaa_role"/>
          </column>
@@ -133,7 +133,7 @@
             <column ascending="true" name="c_grant_id"/>
          </index>
       </table>
-      <table name="cor_uaa_role_user" numRows="0" remarks="" schema="public" type="TABLE">
+      <table name="cor_uaa_role_user" numRows="1" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_role_id" nullable="false" remarks="" size="19" type="int8">
             <parent column="c_pk" foreignKey="fk_uaa_role_user" implied="false" onDeleteCascade="false" table="cor_uaa_role"/>
          </column>
@@ -147,9 +147,10 @@
             <column ascending="true" name="c_user_id"/>
          </index>
       </table>
-      <table name="cor_uaa_user" numRows="0" remarks="" schema="public" type="TABLE">
+      <table name="cor_uaa_user" numRows="1" remarks="" schema="public" type="TABLE">
          <column autoUpdated="false" digits="0" id="0" name="c_type" nullable="false" remarks="" size="31" type="varchar"/>
          <column autoUpdated="false" digits="0" id="1" name="c_pk" nullable="false" remarks="" size="19" type="int8">
+            <child column="c_user_pk" foreignKey="fk_uaa_user_email" implied="false" onDeleteCascade="false" table="cor_uaa_email"/>
             <child column="c_user_id" foreignKey="fk_uaa_user_role" implied="false" onDeleteCascade="false" table="cor_uaa_role_user"/>
          </column>
          <column autoUpdated="false" digits="6" id="2" name="c_created" nullable="true" remarks="" size="29" type="timestamp"/>
@@ -174,7 +175,6 @@
          <column autoUpdated="false" digits="0" id="21" name="c_office" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="22" name="c_phone_no" nullable="true" remarks="" size="255" type="varchar"/>
          <column autoUpdated="false" digits="0" id="23" name="c_username" nullable="false" remarks="" size="255" type="varchar">
-            <child column="c_username" foreignKey="fk_uaa_user_email" implied="false" onDeleteCascade="false" table="cor_uaa_email"/>
             <child column="c_username" foreignKey="fk_uaa_pw_user" implied="false" onDeleteCascade="false" table="cor_uaa_user_password"/>
          </column>
          <primaryKey column="c_pk" sequenceNumberInPK="1"/>

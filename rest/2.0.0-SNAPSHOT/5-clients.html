@@ -465,12 +465,15 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 357
+Content-Length: 461
 
 {
   "_links" : {
     "clients-findall" : {
       "href" : "http://localhost:8080/api/clients"
+    },
+    "clients-findbypkey" : {
+      "href" : "http://localhost:8080/api/clients/%7BpKey%7D"
     },
     "clients-create" : {
       "href" : "http://localhost:8080/api/clients"
@@ -479,7 +482,7 @@ Content-Length: 357
       "href" : "http://localhost:8080/api/clients"
     },
     "clients-delete" : {
-      "href" : "http://localhost:8080/api/clients/pKey"
+      "href" : "http://localhost:8080/api/clients/%7BpKey%7D"
     }
   }
 }</code></pre>
@@ -553,13 +556,14 @@ Host: localhost:8080
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
+Location: http://localhost:8080/api/clients/cd70b92b-9d20-40fb-8a7b-da0386eddfca/
+Content-Type: application/vnd.openwms.uaa.client-v1+json
 Content-Length: 230
 
 {
   "ol" : 0,
-  "pKey" : "a6fbd6d1-5dde-4e6c-be12-59ee9bbb6e2a",
+  "pKey" : "cd70b92b-9d20-40fb-8a7b-da0386eddfca",
   "clientId" : "cliendId",
   "clientSecret" : "secr3t",
   "scopes" : [ "client" ],
@@ -574,14 +578,35 @@ Content-Length: 230
 <div class="paragraph">
 <p>To find and retrieve an array of all existing <code>Clients</code> a client may call a <code>GET</code> request:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 5-clients.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/client-findAll/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/clients HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>and returns either an array of <code>Clients</code> or an empty array, but always a <code>200-OK</code>.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 5-clients.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/client-findAll/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.uaa.client-v1+json
+Content-Length: 407
+
+[ {
+  "links" : [ {
+    "rel" : "client-findbypkey",
+    "href" : "http://localhost:8080/api/clients/1000"
+  } ],
+  "ol" : 1,
+  "pKey" : "1000",
+  "clientId" : "gateway",
+  "clientSecret" : "secret",
+  "scopes" : [ "gateway" ],
+  "authorizedGrantTypes" : [ "password", "authorization_code", "refresh_token", "implicit" ],
+  "webServerRedirectUris" : [ "http://localhost:8086/login/oauth2/code/gateway" ]
+} ]</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -589,14 +614,42 @@ Content-Length: 230
 <div class="paragraph">
 <p>An existing <code>Client</code> instance can be modified by sending a <code>PUT</code> request with the <code>Client</code> representation as request body.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 5-clients.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/client-save/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">PUT /api/clients HTTP/1.1
+Content-Type: application/json
+Content-Length: 186
+Host: localhost:8080
+
+{
+  "pKey" : "1000",
+  "clientId" : "cliendId",
+  "clientSecret" : "secr3t",
+  "scopes" : [ "client" ],
+  "authorizedGrantTypes" : [ "implicit" ],
+  "webServerRedirectUris" : [ "url" ]
+}</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the server has correctly updated the <code>Client</code> the response contains the updated representation:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 5-clients.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/client-save/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.uaa.client-v1+json
+Content-Length: 198
+
+{
+  "ol" : 0,
+  "pKey" : "1000",
+  "clientId" : "cliendId",
+  "clientSecret" : "secr3t",
+  "scopes" : [ "client" ],
+  "authorizedGrantTypes" : [ "implicit" ],
+  "webServerRedirectUris" : [ "url" ]
+}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -604,14 +657,19 @@ Content-Length: 230
 <div class="paragraph">
 <p>To finally delete all <code>Client</code> data, a <code>DELETE</code> request with the persistent key of the <code>Client</code> is required:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 5-clients.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/client-delete/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/clients/1000 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the <code>Client</code> has been deleted successfully the server responds:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 5-clients.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/client-delete/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 204 No Content</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -619,7 +677,7 @@ Content-Length: 230
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-09-28 11:12:49 UTC
+Last updated 2022-10-04 13:58:20 UTC
 </div>
 </div>
 </body>
