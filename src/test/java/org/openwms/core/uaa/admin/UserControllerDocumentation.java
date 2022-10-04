@@ -64,7 +64,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Heiko Scherrer
  */
 @UAAApplicationTest
-@Sql("classpath:test.sql")
 class UserControllerDocumentation {
 
     protected MockMvc mockMvc;
@@ -89,6 +88,7 @@ class UserControllerDocumentation {
                 .andExpect(status().isOk());
     }
 
+    @Sql("classpath:test.sql")
     @Test void shall_find_demo_users() throws Exception {
         mockMvc.perform(get(API_USERS))
                 .andDo(document("user-findAll"))
@@ -103,6 +103,7 @@ class UserControllerDocumentation {
         ;
     }
 
+    @Sql("classpath:test.sql")
     @Test void shall_change_password() throws Exception {
         var p = new PasswordString("pw");
         var contentAsString = mockMvc.perform(post(API_USERS + "/96baa849-dd19-4b19-8c5e-895d3b7f405d/password")
@@ -115,6 +116,7 @@ class UserControllerDocumentation {
         assertThat(user.getLastPasswordChange()).isCloseTo(ZonedDateTime.now(), within(10, ChronoUnit.SECONDS));
     }
 
+    @Sql("classpath:test.sql")
     @Test void shall_create_user() throws Exception {
         var vo = UserVO.newBuilder()
                 .username("admin2")
@@ -149,6 +151,7 @@ class UserControllerDocumentation {
                 .andReturn().getResponse().getContentAsString();
     }
 
+    @Sql("classpath:test.sql")
     @Test void shall_create_user_exists() throws Exception {
         var vo = UserVO.newBuilder()
                 .username("tester")
@@ -167,6 +170,7 @@ class UserControllerDocumentation {
                 .andReturn();
     }
 
+    @Sql("classpath:test.sql")
     @Test void shall_update_user() throws Exception {
         final String pKey = "96baa849-dd19-4b19-8c5e-895d3b7f405e";
         var vo = UserVO.newBuilder()
@@ -210,13 +214,9 @@ class UserControllerDocumentation {
                 .andDo(document("user-change-password", preprocessResponse(prettyPrint())))
                 .andExpect(status().isOk())
         ;
-
-//        contentAsString = mockMvc.perform(get(location)).andReturn().getResponse().getContentAsString();
-//        var u = objectMapper.readValue(contentAsString, UserVO.class);
-//        assertThat(u.getUserDetails().getImage()).isEqualTo(s);
-
     }
 
+    @Sql("classpath:test.sql")
     @Test void shall_delete_user() throws Exception {
 
         // DELETE the User
