@@ -74,7 +74,7 @@ class RoleControllerDocumentation {
         mockMvc.perform(
                 get(UAAConstants.API_ROLES + "/index")
         )
-                .andDo(document("roles-index"))
+                .andDo(document("roles-index", preprocessResponse(prettyPrint())))
                 .andExpect(status().isOk());
     }
 
@@ -124,7 +124,7 @@ class RoleControllerDocumentation {
     @Sql("classpath:test.sql")
     @Test void shall_find_demo_roles() throws Exception {
         mockMvc.perform(get(API_ROLES))
-                .andDo(document("role-findAll"))
+                .andDo(document("role-findAll", preprocessResponse(prettyPrint())))
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()", greaterThan(0)))
                 .andExpect(status().isOk())
@@ -134,7 +134,7 @@ class RoleControllerDocumentation {
     @Sql("classpath:test.sql")
     @Test void shall_find_role_by_pkey() throws Exception {
         mockMvc.perform(get(API_ROLES + "/1"))
-                .andDo(document("role-findByPKey"))
+                .andDo(document("role-findByPKey", preprocessResponse(prettyPrint())))
                 .andExpect(jsonPath("$.name", is("ROLE_ADMIN")))
                 .andExpect(status().isOk())
         ;
@@ -154,7 +154,7 @@ class RoleControllerDocumentation {
                 RestDocumentationRequestBuilders.put(API_ROLES + "/" + 1)
                         .content(objectMapper.writeValueAsString(new RoleVO()))
                         .contentType(MediaType.APPLICATION_JSON))
-                .andDo(document("role-save-noname"))
+                .andDo(document("role-save-noname", preprocessResponse(prettyPrint())))
                 .andExpect(status().isBadRequest())
                 .andReturn();
 

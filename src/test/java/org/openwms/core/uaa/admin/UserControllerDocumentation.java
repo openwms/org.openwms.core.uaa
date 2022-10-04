@@ -96,6 +96,14 @@ class UserControllerDocumentation {
         ;
     }
 
+    @Sql("classpath:test.sql")
+    @Test void shall_find_by_pKey() throws Exception {
+        mockMvc.perform(get(API_USERS + "/96baa849-dd19-4b19-8c5e-895d3b7f405d"))
+                .andDo(document("user-findByPkey"))
+                .andExpect(status().isOk())
+        ;
+    }
+
     @Test void shall_find_no_users() throws Exception {
         mockMvc.perform(get(API_USERS))
                 .andDo(document("user-findNone"))
