@@ -10,21 +10,16 @@ spring:
       name: user
       password: sa
   jpa:
-    database: H2
-    generate-ddl: true
-    hibernate:
-      ddl-auto: create
     mapping-resources:
       - META-INF/uaa-orm.xml
     open-in-view: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
+        jdbc:
+          time_zone: UTC
     show-sql: false
   jackson:
     date-format: "yyyy-MM-dd'T'HH:mm:ssXXX" # Only matches Dates no Instants!
-    deserialization:
-      ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT: true
   main:
     allow-bean-definition-overriding: true
   mvc:
@@ -54,8 +49,6 @@ owms:
 
 server:
   port: ${PORT:8110}
-#  servlet:
-#    context-path: /uaa
 
 eureka:
   client:
@@ -236,7 +229,7 @@ spring:
           use_jdbc_metadata_defaults: false
         default_schema: public
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   main:
     banner-mode: "off"
   zipkin:

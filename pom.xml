@@ -70,7 +70,7 @@
         <guava.version>30.0-jre</guava.version>
         <org.mapstruct.version>1.5.2.Final</org.mapstruct.version>
         <servo-core.version>0.12.21</servo-core.version>
-        <spring-cloud-dependencies.version>2021.0.3</spring-cloud-dependencies.version>
+        <spring-cloud-dependencies.version>2021.0.4</spring-cloud-dependencies.version>
     </properties>
 
     <reporting>
@@ -208,11 +208,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.openwms</groupId>
-                <artifactId>org.openwms.core.util</artifactId>
-                <version>${core.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
