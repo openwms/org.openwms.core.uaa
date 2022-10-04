@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<meta name="author" content="(2.0.0-SNAPSHOT-57)">
+<meta name="author" content="(2.0.0-SNAPSHOT-58)">
 <title>OpenWMS.org WMS: RESTful API (UAA)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -443,7 +443,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org WMS: RESTful API (UAA)</h1>
 <div class="details">
-<span id="author" class="author">(2.0.0-SNAPSHOT-57)</span><br>
+<span id="author" class="author">(2.0.0-SNAPSHOT-58)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -471,7 +471,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_modify_an_existing_user">Modify an existing User</a></li>
 <li><a href="#_change_the_users_password">Change the Users password</a></li>
 <li><a href="#_update_the_image_of_an_existing_user">Update the image of an existing User</a></li>
-<li><a href="#_get_the_user_details_oauth2_userdetails">Get the User Details (OAuth2 UserDetails)</a></li>
 <li><a href="#_delete_an_user">Delete an User</a></li>
 </ul>
 </li>
@@ -890,14 +889,14 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/83a00dd8-0df2-41c9-b3a4-951bfa40f8bc/
+Location: http://localhost:8080/users/989df339-986b-40e1-8d11-d0ec8bc5e68a/
 Content-Type: application/vnd.openwms.uaa.user-v1+json
 Content-Length: 290
 
 {
   "links" : [ ],
   "ol" : 0,
-  "pKey" : "83a00dd8-0df2-41c9-b3a4-951bfa40f8bc",
+  "pKey" : "989df339-986b-40e1-8d11-d0ec8bc5e68a",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -1063,14 +1062,23 @@ Content-Length: 1280
 <p>A newly created <code>User</code> can be retrieved by following the URI in the <code>Location</code> header of the response. This URI points to the created
 resource:</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-findByPkey/http-request.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /users/96baa849-dd19-4b19-8c5e-895d3b7f405d HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
 </div>
 <div class="paragraph">
 <p>If the resource exists the server responds with a <code>200-OK</code> and the <code>User</code> representation in the response body.</p>
 </div>
-<div class="paragraph">
-<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-findByPkey/http-response.adoc[]</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.uaa.user-v1+json
+Content-Length: 562
+
+{"links":[{"rel":"user-findbypkey","href":"http://localhost:8080/users/96baa849-dd19-4b19-8c5e-895d3b7f405d"}],"ol":1,"pKey":"96baa849-dd19-4b19-8c5e-895d3b7f405d","username":"jenkins","externalUser":true,"lastPasswordChange":"2020-06-22T19:02:47Z","locked":true,"enabled":true,"expirationDate":"2020-06-23T19:02:45Z","fullname":"Mister Jenkins","details":{},"emailAddresses":[{"emailAddress":"admin.private@acme.com","primary":true,"fullname":"Mr. Jenkins"},{"emailAddress":"admin@acme.com","primary":false,"fullname":"Mr. Jenkins"}],"roleNames":["ROLE_ADMIN"]}</code></pre>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1157,7 +1165,7 @@ Content-Length: 360
   "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405e",
   "username" : "superuser",
   "externalUser" : false,
-  "lastPasswordChange" : "2022-10-04T22:40:31Z",
+  "lastPasswordChange" : "2022-10-04T22:54:23Z",
   "locked" : true,
   "enabled" : false,
   "details" : { },
@@ -1192,25 +1200,6 @@ iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAYAAAB5fY51AAAACXBIWXMAAC4jAAAuIwF4pT92AAAAG3RF
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK</code></pre>
 </div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_get_the_user_details_oauth2_userdetails"><a class="anchor" href="#_get_the_user_details_oauth2_userdetails"></a><a class="link" href="#_get_the_user_details_oauth2_userdetails">Get the User Details (OAuth2 UserDetails)</a></h3>
-<div class="paragraph">
-<p>An endpoint exists to get the details of the current logged-in <code>User</code> from. An OAuth2 Access Token must be provided as Bearer token in order
-to access the endpoint.</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/oauth-findUserInfo/http-request.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>If the access token is valid and the server granted access to the resource, a JSON object with the user details is returned.</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/oauth-findUserInfo/http-response.adoc[]</p>
-</div>
-<div class="paragraph">
-<p>Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/oauth-findUserInfo/response-fields.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
@@ -1360,7 +1349,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/roles/5bf411ab-feb0-47d4-9b5f-66e87fd29636/
+Location: http://localhost:8080/roles/35c0f26f-75b8-49be-850e-40a385665c8c/
 Content-Type: application/vnd.openwms.uaa.role-v1+json
 Content-Length: 554
 
@@ -1368,16 +1357,16 @@ Content-Length: 554
   "@class" : "org.openwms.core.uaa.api.RoleVO",
   "links" : [ {
     "rel" : "users",
-    "href" : "http://localhost:8080/roles/5bf411ab-feb0-47d4-9b5f-66e87fd29636/users"
+    "href" : "http://localhost:8080/roles/35c0f26f-75b8-49be-850e-40a385665c8c/users"
   }, {
     "rel" : "grants",
-    "href" : "http://localhost:8080/roles/5bf411ab-feb0-47d4-9b5f-66e87fd29636/grants"
+    "href" : "http://localhost:8080/roles/35c0f26f-75b8-49be-850e-40a385665c8c/grants"
   }, {
     "rel" : "role-findbypkey",
-    "href" : "http://localhost:8080/roles/5bf411ab-feb0-47d4-9b5f-66e87fd29636"
+    "href" : "http://localhost:8080/roles/35c0f26f-75b8-49be-850e-40a385665c8c"
   } ],
   "ol" : 0,
-  "pKey" : "5bf411ab-feb0-47d4-9b5f-66e87fd29636",
+  "pKey" : "35c0f26f-75b8-49be-850e-40a385665c8c",
   "name" : "ROLE_DEV",
   "description" : "Developers",
   "immutable" : true
@@ -1475,9 +1464,26 @@ Host: localhost:8080</code></pre>
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.uaa.role-v1+json
-Content-Length: 330
+Content-Length: 421
 
-{"@class":"org.openwms.core.uaa.api.RoleVO","links":[{"rel":"users","href":"http://localhost:8080/roles/1/users"},{"rel":"grants","href":"http://localhost:8080/roles/1/grants"},{"rel":"role-findbypkey","href":"http://localhost:8080/roles/1"}],"ol":1,"pKey":"1","name":"ROLE_ADMIN","description":"Super user role","immutable":true}</code></pre>
+{
+  "@class" : "org.openwms.core.uaa.api.RoleVO",
+  "links" : [ {
+    "rel" : "users",
+    "href" : "http://localhost:8080/roles/1/users"
+  }, {
+    "rel" : "grants",
+    "href" : "http://localhost:8080/roles/1/grants"
+  }, {
+    "rel" : "role-findbypkey",
+    "href" : "http://localhost:8080/roles/1"
+  } ],
+  "ol" : 1,
+  "pKey" : "1",
+  "name" : "ROLE_ADMIN",
+  "description" : "Super user role",
+  "immutable" : true
+}</code></pre>
 </div>
 </div>
 </div>
@@ -1834,7 +1840,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/grants/8809b5c9-1d02-4b44-a668-ae368bfefb22/
+Location: http://localhost:8080/grants/2457010b-57fc-430d-ac58-64bc9e582624/
 Content-Type: application/vnd.openwms.uaa.grant-v1+json
 Content-Length: 331
 
@@ -1842,10 +1848,10 @@ Content-Length: 331
   "@class" : "org.openwms.core.uaa.api.GrantVO",
   "links" : [ {
     "rel" : "grant-findbypkey",
-    "href" : "http://localhost:8080/grants/8809b5c9-1d02-4b44-a668-ae368bfefb22"
+    "href" : "http://localhost:8080/grants/2457010b-57fc-430d-ac58-64bc9e582624"
   } ],
   "ol" : 0,
-  "pKey" : "8809b5c9-1d02-4b44-a668-ae368bfefb22",
+  "pKey" : "2457010b-57fc-430d-ac58-64bc9e582624",
   "name" : "VIEW_USERS",
   "description" : "Permission to view all users in UI"
 }</code></pre>
@@ -2219,13 +2225,13 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/api/clients/3769fb95-f68e-4a1b-a1d3-542fc5b1ea84/
+Location: http://localhost:8080/api/clients/cb867c28-c698-4d88-91a3-a8f9bb29f6f0/
 Content-Type: application/vnd.openwms.uaa.client-v1+json
 Content-Length: 230
 
 {
   "ol" : 0,
-  "pKey" : "3769fb95-f68e-4a1b-a1d3-542fc5b1ea84",
+  "pKey" : "cb867c28-c698-4d88-91a3-a8f9bb29f6f0",
   "clientId" : "cliendId",
   "clientSecret" : "secr3t",
   "scopes" : [ "client" ],
@@ -2339,7 +2345,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-10-04 22:36:46 UTC
+Last updated 2022-10-04 22:45:25 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
