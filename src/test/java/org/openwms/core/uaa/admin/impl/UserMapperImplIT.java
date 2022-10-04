@@ -30,12 +30,12 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * A UserMapperImplTest.
+ * A UserMapperImplIT.
  *
  * @author Heiko Scherrer
  */
 @DataJpaTest
-class UserMapperImplTest {
+class UserMapperImplIT {
 
     @Autowired
     private TestEntityManager em;
