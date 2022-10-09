@@ -27,7 +27,6 @@ import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ServiceLayerException;
 import org.ameba.i18n.Translator;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openwms.core.TestBase;
@@ -59,15 +58,9 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 import javax.persistence.NoResultException;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
-import java.util.Collection;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
-import static org.springframework.test.util.AssertionErrors.assertFalse;
-import static org.springframework.test.util.AssertionErrors.assertNotNull;
-import static org.springframework.test.util.AssertionErrors.assertTrue;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * A UserServiceIT.
@@ -88,7 +81,6 @@ import static org.springframework.test.util.AssertionErrors.assertTrue;
 @Import(ValidationConfiguration.class)
 public class UserServiceIT extends TestBase {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceIT.class);
     private static final String TEST_USER = "TEST";
     private static final String UNKNOWN_USER = "UNKNOWN";
     private static final String KNOWN_USER = "KNOWN";
@@ -135,77 +127,60 @@ public class UserServiceIT extends TestBase {
 
     @Test
     void testUploadImageNotFound() {
-        assertThrows(NotFoundException.class, () -> srv.uploadImageFile("100L", new byte[222]));
+        assertThatThrownBy(() -> srv.uploadImageFile("100L", new byte[222])).isInstanceOf(NotFoundException.class);
     }
 
     @Test void testUploadImage() {
         srv.uploadImageFile(findUser(KNOWN_USER).getPersistentKey(), new byte[222]);
-        User user = findUser(KNOWN_USER);
+        var user = findUser(KNOWN_USER);
         assertThat(user.getUserDetails().getImage()).hasSize(222);
     }
 
-    @Disabled
     @Test void testSaveWithNull() {
-        try {
-            srv.save(null);
-            fail("Should throw an exception when calling with null");
-        } catch (ServiceLayerException sre) {
-            LOGGER.debug("OK: null user:" + sre.getMessage());
-        }
+        assertThatThrownBy(() -> srv.save(null)).isInstanceOf(ConstraintViolationException.class);
     }
 
     @Test void testSaveTransient() {
         var user = srv.save(new User(UNKNOWN_USER));
-        assertFalse("User must be persisted and has a primary key", user.isNew());
+        assertThat(user.isNew()).isFalse();
     }
 
     @Test void testSaveDetached() {
         var user = findUser(KNOWN_USER);
-        assertFalse("User must be persisted before", user.isNew());
+        assertThat(user.isNew()).isFalse();
         entityManager.clear();
         user.setFullname("Mr. Hudson");
-        user = srv.save(user);
+        srv.save(user);
         entityManager.flush();
         entityManager.clear();
         user = findUser(KNOWN_USER);
-        assertEquals("Mr. Hudson", user.getFullname(), "Changes must be saved");
+        assertThat(user.getFullname()).isEqualTo("Mr. Hudson");
     }
 
-    @Disabled
     @Test void testRemoveWithNull() {
-        try {
-            srv.remove(null);
-            fail("Should throw an exception when calling with null");
-        } catch (ServiceLayerException sre) {
-            LOGGER.debug("OK: null user:" + sre.getMessage());
-        }
+        assertThatThrownBy(() -> srv.remove(null)).isInstanceOf(ConstraintViolationException.class);
     }
 
     @Test void testRemove() {
         var user = findUser(KNOWN_USER);
-        assertThat(user.isNew());
+        assertThat(user.isNew()).isFalse();
         entityManager.clear();
         srv.remove(KNOWN_USER);
         entityManager.flush();
         entityManager.clear();
-        assertThrows(NoResultException.class, () -> findUser(KNOWN_USER));
+        assertThatThrownBy(() -> findUser(KNOWN_USER)).isInstanceOf(NoResultException.class);
     }
 
-    @Disabled
-    public final void testChangePasswordWithNull() {
-        assertThrows(ConstraintViolationException.class, () -> srv.changeUserPassword(null));
+    @Test void testChangePasswordWithNull() {
+        assertThatThrownBy(() -> srv.changeUserPassword(null)).isInstanceOf(ConstraintViolationException.class);
     }
 
     @Test void testChangePasswordUnknown() {
-        try {
-            srv.changeUserPassword(new UserPassword(new User(UNKNOWN_USER), "password"));
-            fail("Should throw an exception when calling with an unknown user");
-        } catch (NotFoundException sre) {
-            if (!(sre.getMessageKey().equals(MessageCodes.USER_WITH_NAME_NOT_EXIST))) {
-                fail("Should throw an NotFoundException when calling with an unknown user");
-            }
-            LOGGER.debug("OK: UserNotFoundException:" + sre.getMessage());
-        }
+        assertThatThrownBy(() -> srv.changeUserPassword(new UserPassword(new User(UNKNOWN_USER), "password")))
+                .isInstanceOf(NotFoundException.class)
+                .extracting("messageKey")
+                .isEqualTo(MessageCodes.USER_WITH_NAME_NOT_EXIST);
+        ;
     }
 
     @Test void testChangePassword() {
@@ -215,76 +190,69 @@ public class UserServiceIT extends TestBase {
     @Test void testChangePasswordInvalidPassword() {
         srv.changeUserPassword(new UserPassword(new User(KNOWN_USER), "password"));
         srv.changeUserPassword(new UserPassword(new User(KNOWN_USER), "password1"));
-        try {
-            srv.changeUserPassword(new UserPassword(new User(KNOWN_USER), "password"));
-            fail("Should throw an exception when calling with an invalid password");
-        } catch (ServiceLayerException sre) {
-            if (!(sre.getMessageKey().equals(MessageCodes.USER_PW_INVALID))) {
-                fail("Should throw a nested InvalidPasswordException when calling with an invalid password");
-            }
-            LOGGER.debug("OK: InvalidPasswordException:" + sre.getMessage());
-        }
+        assertThatThrownBy(() -> srv.changeUserPassword(new UserPassword(new User(KNOWN_USER), "password")))
+                .isInstanceOf(ServiceLayerException.class)
+                .extracting("messageKey")
+                .isEqualTo(MessageCodes.USER_PW_INVALID);
     }
 
-    public
     @Test void testFindAll() {
-        assertThat(srv.findAll()).hasSize(1);
+        assertThat(srv.findAll()).hasSizeGreaterThan(0);
     }
 
     @Test void testFindById() {
         var users = srv.findAll();
-        assertEquals(1, users.size(), "1 User is expected");
+        assertThat(users).hasSizeGreaterThan(0);
         var user = srv.findById(users.iterator().next().getPk());
-        assertNotNull("We expect to get back an instance", user);
+        assertThat(user).isNotNull();
     }
 
     @Test void testFindByIdNegative() {
         var users = srv.findAll();
-        assertEquals(1, users.size(), "1 User is expected");
-        assertThrows(RuntimeException.class, () -> srv.findById(users.iterator().next().getPk() + 1));
+        assertThat(users).hasSizeGreaterThan(0);
+        assertThatThrownBy(() -> srv.findById(users.iterator().next().getPk() + 1))
+                .isInstanceOf(RuntimeException.class);
     }
 
     @Test void testGetTemplate() {
         var user = srv.getTemplate("TEST_USER");
-        assertTrue("Must be a new User", user.isNew());
-        assertEquals("TEST_USER", user.getUsername(), "Expected to get an User instance with the same username");
+        assertThat(user.isNew()).isTrue();
+        assertThat(user.getUsername()).isEqualTo("TEST_USER");
     }
 
     @Test void testCreateSystemUser() {
         var user = srv.createSystemUser();
-        assertTrue("Must be a new User", user.isNew());
-        assertEquals(1, user.getRoles().size(), "Expected one Role");
+        assertThat(user.isNew()).isTrue();
+        assertThat(user.getRoles()).hasSize(1);
     }
 
-    @Disabled
     @Test void testSaveUserProfileUserNull() {
-        assertThrows(ConstraintViolationException.class, () -> srv.saveUserProfile(null, new UserPassword(new User(TEST_USER), TEST_USER)));
+        assertThatThrownBy(
+                () -> srv.saveUserProfile(null, new UserPassword(new User(TEST_USER), TEST_USER))
+        ).isInstanceOf(ConstraintViolationException.class);
     }
 
-    @Disabled
     @Test void testSaveUserProfileUserPreferencePasswordNull() {
-        assertThrows(ConstraintViolationException.class, () -> srv.saveUserProfile(new User(TEST_USER), null));
+        assertThatThrownBy(
+                () -> srv.saveUserProfile(new User(TEST_USER), null)
+        ).isInstanceOf(ConstraintViolationException.class);
     }
 
     @Test void testSaveUserProfileUserWithPassword() {
         var user = new User(TEST_USER);
         var u = srv.saveUserProfile(user, new UserPassword(user, "password"));
-        assertEquals(u, user, "Must return the saved user");
+        assertThat(user).isEqualTo(u);
     }
 
     @Test void testSaveUserProfileUserWithInvalidPassword() {
         var user = new User(TEST_USER);
         var u = srv.saveUserProfile(user, new UserPassword(user, "password"));
         u = srv.saveUserProfile(u, new UserPassword(u, "password1"));
-        try {
-            u = srv.saveUserProfile(u, new UserPassword(user, "password"));
-            fail("Expected to catch an ServiceLayerException when the password is invalid");
-        } catch (ServiceLayerException sre) {
-            if (!(sre.getMessageKey().equals(MessageCodes.USER_PW_INVALID))) {
-                fail("Expected to catch an InvalidPasswordException when the password is invalid");
-            }
-        }
-        assertEquals(u, user, "Must return the saved user");
+        final var savedUser = srv.findByUsername(TEST_USER).orElseThrow();
+        assertThatThrownBy(() -> srv.saveUserProfile(savedUser, new UserPassword(user, "password")))
+                .isInstanceOf(ServiceLayerException.class)
+                .extracting("messageKey")
+                .isEqualTo(MessageCodes.USER_PW_INVALID);
     }
 
     @Test void testSaveUserProfileWithPreference() {
@@ -292,7 +260,7 @@ public class UserServiceIT extends TestBase {
         var u = srv.saveUserProfile(user, new UserPassword(user, "password"), new UserPreference(user.getUsername()));
         entityManager.flush();
         entityManager.clear();
-        assertEquals(u, user, "Must return the saved user");
+        assertThat(user).isEqualTo(u);
         /*
         assertEquals("Number of UserPreferences must be 1", 1, entityManager.find(User.class, u.getId())
                 .getPreferences().size());

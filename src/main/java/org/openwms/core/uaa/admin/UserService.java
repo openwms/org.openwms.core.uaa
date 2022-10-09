@@ -78,7 +78,7 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
      * @return The saved User instance
      */
     @NotNull User saveUserProfile(
-            @NotNull(groups = ValidationGroups.Modify.class) @Valid User user,
+            @NotNull @Valid User user,
             @NotNull UserPassword userPassword,
             UserPreference... prefs);
 

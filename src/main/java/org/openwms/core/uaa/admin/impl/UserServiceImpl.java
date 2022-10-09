@@ -155,7 +155,7 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @Measured
-    public User save(User entity) {
+    public @NotNull User save(@NotNull User entity) {
         Assert.notNull(entity, translator.translate(USER_SAVE_NOT_BE_NULL));
         validate(validator, entity, ValidationGroups.Modify.class);
         var saved = repository.save(entity);
@@ -312,7 +312,7 @@ class UserServiceImpl implements UserService {
     @FireAfterTransaction(events = {UserChangedEvent.class})
     @Measured
     public @NotNull User saveUserProfile(
-            @NotNull(groups = ValidationGroups.Modify.class) @Valid User user,
+            @NotNull @Valid User user,
             @NotNull UserPassword userPassword,
             UserPreference... prefs) {
         try {
