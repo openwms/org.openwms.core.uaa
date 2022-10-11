@@ -21,7 +21,6 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
-import org.ameba.app.BaseConfiguration;
 import org.ameba.app.ValidationConfiguration;
 import org.ameba.exception.ResourceExistsException;
 import org.ameba.i18n.Translator;
@@ -80,7 +79,6 @@ public class RoleServiceIT extends TestBase {
     private Translator translator;
 
     @TestConfiguration
-    @Import(BaseConfiguration.class)
     public static class TestConfig {
         @Bean
         public RoleMapper beanMapper() {

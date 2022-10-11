@@ -21,7 +21,6 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
-import org.ameba.app.BaseConfiguration;
 import org.ameba.app.ValidationConfiguration;
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ServiceLayerException;
@@ -36,8 +35,6 @@ import org.openwms.core.uaa.admin.UserMapper;
 import org.openwms.core.uaa.admin.UserService;
 import org.openwms.core.uaa.configuration.ConfigurationService;
 import org.openwms.core.uaa.configuration.UserPreference;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -93,7 +90,6 @@ public class UserServiceIT extends TestBase {
 
     @TestConfiguration
     @EnablePluginRegistries({UserUpdater.class})
-    @Import(BaseConfiguration.class)
     public static class TestConfig {
         @Bean
         public UserMapper beanMapper(EmailMapper emailMapper) {

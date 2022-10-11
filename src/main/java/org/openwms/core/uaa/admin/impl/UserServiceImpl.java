@@ -331,7 +331,7 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @Measured
-    public Collection<User> findAll() {
+    public @NotNull Collection<User> findAll() {
         return repository.findAll();
     }
 
@@ -340,7 +340,7 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @Measured
-    public User findById(Long pk) {
+    public @NotNull User findById(@NotNull Long pk) {
         return repository.findById(pk).orElseThrow(() -> new NotFoundException(
                 translator, USER_WITH_PK_NOT_EXIST, new Long[]{pk}, pk
         ));

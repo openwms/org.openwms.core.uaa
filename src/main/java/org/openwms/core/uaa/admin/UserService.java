@@ -129,10 +129,11 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
     void delete(@NotBlank String pKey);
 
     /**
+     * Update the password of the {@link User}.
      *
-     * @param pKey
-     * @param newPassword
-     * @return
+     * @param pKey The identifiable persistent key
+     * @param newPassword The new password
+     * @return The updated instance
      */
     @NotNull UserVO updatePassword(@NotBlank String pKey, @NotNull CharSequence newPassword) throws InvalidPasswordException;
 }
