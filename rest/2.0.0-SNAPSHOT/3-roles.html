@@ -448,7 +448,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 that are assigned to this <code>Role</code>. By doing so, a <code>Role</code> is also a group of <code>Grants</code> that can be assigned to multiple <code>Users</code>.</p>
 </div>
 <div class="sect2">
-<h3 id="_role_index">Role Index</h3>
+<h3 id="role-index">Role Index</h3>
 <div class="paragraph">
 <p>An overview of all possible operations on <code>Roles</code> can be found on the <code>Role</code> index page that is retrieved with a <code>GET</code> request:</p>
 </div>
@@ -502,7 +502,7 @@ Content-Length: 806
 </div>
 </div>
 <div class="sect2">
-<h3 id="_create_a_role">Create a Role</h3>
+<h3 id="role-create">Create a Role</h3>
 <div class="paragraph">
 <p>To create a new <code>Role</code> instance, a <code>POST</code> request must be send to the server with the mandatory fields of the <code>Role</code> resource in the
 request body.</p>
@@ -565,7 +565,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/roles/7572fb1b-2d11-43f2-8fd6-8d68fb049097/
+Location: http://localhost:8080/roles/615ba89f-26cc-4570-866a-d2876d02405e/
 Content-Type: application/vnd.openwms.uaa.role-v1+json
 Content-Length: 554
 
@@ -573,16 +573,16 @@ Content-Length: 554
   "@class" : "org.openwms.core.uaa.api.RoleVO",
   "links" : [ {
     "rel" : "users",
-    "href" : "http://localhost:8080/roles/7572fb1b-2d11-43f2-8fd6-8d68fb049097/users"
+    "href" : "http://localhost:8080/roles/615ba89f-26cc-4570-866a-d2876d02405e/users"
   }, {
     "rel" : "grants",
-    "href" : "http://localhost:8080/roles/7572fb1b-2d11-43f2-8fd6-8d68fb049097/grants"
+    "href" : "http://localhost:8080/roles/615ba89f-26cc-4570-866a-d2876d02405e/grants"
   }, {
     "rel" : "role-findbypkey",
-    "href" : "http://localhost:8080/roles/7572fb1b-2d11-43f2-8fd6-8d68fb049097"
+    "href" : "http://localhost:8080/roles/615ba89f-26cc-4570-866a-d2876d02405e"
   } ],
   "ol" : 0,
-  "pKey" : "7572fb1b-2d11-43f2-8fd6-8d68fb049097",
+  "pKey" : "615ba89f-26cc-4570-866a-d2876d02405e",
   "name" : "ROLE_DEV",
   "description" : "Developers",
   "immutable" : true
@@ -607,7 +607,7 @@ Content-Length: 121
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_all_roles">Find all Roles</h3>
+<h3 id="role-findall">Find all Roles</h3>
 <div class="paragraph">
 <p>To find and retrieve an array of all existing <code>Roles</code> a role may call a <code>GET</code> request:</p>
 </div>
@@ -704,7 +704,7 @@ Content-Length: 421
 </div>
 </div>
 <div class="sect2">
-<h3 id="_modify_an_existing_role">Modify an existing Role</h3>
+<h3 id="role-save">Modify an existing Role</h3>
 <div class="paragraph">
 <p>An existing <code>Role</code> instance can be modified by sending a <code>PUT</code> request with the <code>Role</code> representation as request body. At least the name of
 the <code>Role</code>, as an identifying attribute must be set.</p>
@@ -814,7 +814,7 @@ Content-Length: 143
 </div>
 </div>
 <div class="sect2">
-<h3 id="_assign_an_user_to_a_role">Assign an User to a Role</h3>
+<h3 id="role-assignuser">Assign an User to a Role</h3>
 <div class="paragraph">
 <p><code>Users</code> can be assigned to one or more <code>Roles</code>. To assign an existing <code>User</code> to an existing <code>Role</code> the client must send a <code>POST</code> request
 to the primary <code>Role</code> resource:</p>
@@ -874,7 +874,7 @@ Content-Length: 166
 </div>
 </div>
 <div class="sect2">
-<h3 id="_unassign_an_user_from_a_role">Unassign an User from a Role</h3>
+<h3 id="role-unassignuser">Unassign an User from a Role</h3>
 <div class="paragraph">
 <p>Already assigned <code>Users</code> can be unassigned from a <code>Role</code>. Therefore the client sends a <code>DELETE</code> request on the secondary <code>User</code> resource of
 the primary <code>Role</code> resource. Note: This will not delete the <code>User</code> but delete the assignment between the <code>Role</code> and the <code>User</code>.</p>
@@ -934,7 +934,7 @@ Content-Length: 166
 </div>
 </div>
 <div class="sect2">
-<h3 id="_delete_a_role">Delete a Role</h3>
+<h3 id="role-delete">Delete a Role</h3>
 <div class="paragraph">
 <p>To finally delete all <code>Role</code> data, a <code>DELETE</code> request with the persistent key of the <code>Role</code> is required:</p>
 </div>
@@ -958,7 +958,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-10-11 12:38:09 UTC
+Last updated 2022-10-15 20:23:26 UTC
 </div>
 </div>
 </body>

@@ -557,13 +557,13 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/api/clients/9811a7cb-9c13-4494-a9f0-e999b7d5675b/
+Location: http://localhost:8080/api/clients/4f21f6b8-93b8-4c9f-8a7b-21618e13eec3/
 Content-Type: application/vnd.openwms.uaa.client-v1+json
 Content-Length: 230
 
 {
   "ol" : 0,
-  "pKey" : "9811a7cb-9c13-4494-a9f0-e999b7d5675b",
+  "pKey" : "4f21f6b8-93b8-4c9f-8a7b-21618e13eec3",
   "clientId" : "cliendId",
   "clientSecret" : "secr3t",
   "scopes" : [ "client" ],
@@ -606,6 +606,46 @@ Content-Length: 407
   "authorizedGrantTypes" : [ "password", "authorization_code", "refresh_token", "implicit" ],
   "webServerRedirectUris" : [ "http://localhost:8086/login/oauth2/code/gateway" ]
 } ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_a_client_by_persistent_key">Find a Client by persistent key</h3>
+<div class="paragraph">
+<p>To find and retrieve a existing <code>Client</code> by its persistent key a <code>GET</code> request with the <code>pKey</code> as path variable must be sent to the server:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/clients/1000 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Client</code> instance with this <code>pKey</code> exists the server sends back the response.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.uaa.client-v1+json
+Content-Length: 334
+
+{"links":[{"rel":"client-findbypkey","href":"http://localhost:8080/api/clients/1000"}],"ol":1,"pKey":"1000","clientId":"gateway","clientSecret":"secret","scopes":["gateway"],"authorizedGrantTypes":["password","authorization_code","refresh_token","implicit"],"webServerRedirectUris":["http://localhost:8086/login/oauth2/code/gateway"]}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no <code>Client</code> instance exists the server responds with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 110
+
+{
+  "message" : "No Client with PKey [UNKNOWN] exists",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
 </div>
 </div>
 </div>
@@ -677,7 +717,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-10-11 12:38:09 UTC
+Last updated 2022-10-15 20:23:26 UTC
 </div>
 </div>
 </body>

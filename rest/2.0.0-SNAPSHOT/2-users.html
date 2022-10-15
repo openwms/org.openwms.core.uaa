@@ -448,7 +448,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 created, modified and retrieved. An <code>User</code> is also allowed to authenticate against an UAA endpoint.</p>
 </div>
 <div class="sect2">
-<h3 id="_user_index">User Index</h3>
+<h3 id="user-index">User Index</h3>
 <div class="paragraph">
 <p>An overview of all possible operations on <code>Users</code> can be found on the <code>User</code> index page that is retrieved with a <code>GET</code> request:</p>
 </div>
@@ -499,7 +499,7 @@ Content-Length: 725
 </div>
 </div>
 <div class="sect2">
-<h3 id="_create_an_user">Create an User</h3>
+<h3 id="user-create">Create an User</h3>
 <div class="paragraph">
 <p>To create a new <code>User</code> instance, a <code>POST</code> request must be send to the server with the mandatory fields of the <code>User</code> resource in the request
 body.</p>
@@ -564,14 +564,14 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/f662de1a-673c-4d9b-a7f3-e2319ebae10d/
+Location: http://localhost:8080/users/09d9185c-38be-4923-81cf-64a644ec876b/
 Content-Type: application/vnd.openwms.uaa.user-v1+json
 Content-Length: 290
 
 {
   "links" : [ ],
   "ol" : 0,
-  "pKey" : "f662de1a-673c-4d9b-a7f3-e2319ebae10d",
+  "pKey" : "09d9185c-38be-4923-81cf-64a644ec876b",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -604,7 +604,7 @@ Content-Length: 166
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_all_users">Find all Users</h3>
+<h3 id="user-findall">Find all Users</h3>
 <div class="paragraph">
 <p>To find and retrieve an array of all existing <code>Users</code> a client may call a <code>GET</code> request:</p>
 </div>
@@ -732,7 +732,7 @@ Content-Length: 1280
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_an_user_by_persistent_key">Find an User by persistent key</h3>
+<h3 id="user-findbypkey">Find an User by persistent key</h3>
 <div class="paragraph">
 <p>A newly created <code>User</code> can be retrieved by following the URI in the <code>Location</code> header of the response. This URI points to the created
 resource:</p>
@@ -757,7 +757,7 @@ Content-Length: 562
 </div>
 </div>
 <div class="sect2">
-<h3 id="_modify_an_existing_user">Modify an existing User</h3>
+<h3 id="user-save">Modify an existing User</h3>
 <div class="paragraph">
 <p>An existing <code>User</code> instance can be modified by sending a <code>PUT</code> request with the <code>User</code> representation as request body.</p>
 </div>
@@ -809,7 +809,7 @@ Content-Length: 292
 </div>
 </div>
 <div class="sect2">
-<h3 id="_change_the_users_password">Change the Users password</h3>
+<h3 id="user-changepassword">Change the Users password</h3>
 <div class="paragraph">
 <p>Send a <code>POST</code> request to the <code>Users</code> password attribute to set or change the password of an that <code>User</code>.</p>
 </div>
@@ -840,7 +840,7 @@ Content-Length: 360
   "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405e",
   "username" : "superuser",
   "externalUser" : false,
-  "lastPasswordChange" : "2022-10-11T12:42:37Z",
+  "lastPasswordChange" : "2022-10-15T20:48:36Z",
   "locked" : true,
   "enabled" : false,
   "details" : { },
@@ -854,7 +854,7 @@ Content-Length: 360
 </div>
 </div>
 <div class="sect2">
-<h3 id="_update_the_image_of_an_existing_user">Update the image of an existing User</h3>
+<h3 id="user-saveimage">Update the image of an existing User</h3>
 <div class="paragraph">
 <p>To set the image of an existing <code>User</code> a client needs to send a <code>PATCH</code> request along the image in the <code>UserDetails</code>.</p>
 </div>
@@ -878,7 +878,7 @@ iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAYAAAB5fY51AAAACXBIWXMAAC4jAAAuIwF4pT92AAAAG3RF
 </div>
 </div>
 <div class="sect2">
-<h3 id="_delete_an_user">Delete an User</h3>
+<h3 id="user-delete">Delete an User</h3>
 <div class="paragraph">
 <p>To finally delete all <code>User</code> data a <code>DELETE</code> request with the persistent key of the <code>User</code> is required:</p>
 </div>
@@ -902,7 +902,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-10-11 12:38:09 UTC
+Last updated 2022-10-15 20:23:26 UTC
 </div>
 </div>
 </body>

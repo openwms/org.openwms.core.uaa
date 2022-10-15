@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<meta name="author" content="(2.0.0-SNAPSHOT-60)">
+<meta name="author" content="(2.0.0-SNAPSHOT-61)">
 <title>OpenWMS.org WMS: RESTful API (UAA)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -443,7 +443,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org WMS: RESTful API (UAA)</h1>
 <div class="details">
-<span id="author" class="author">(2.0.0-SNAPSHOT-60)</span><br>
+<span id="author" class="author">(2.0.0-SNAPSHOT-61)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -464,26 +464,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#resources-index">Index</a></li>
 <li><a href="#resources-user">User</a>
 <ul class="sectlevel2">
-<li><a href="#_user_index">User Index</a></li>
-<li><a href="#_create_an_user">Create an User</a></li>
-<li><a href="#_find_all_users">Find all Users</a></li>
-<li><a href="#_find_an_user_by_persistent_key">Find an User by persistent key</a></li>
-<li><a href="#_modify_an_existing_user">Modify an existing User</a></li>
-<li><a href="#_change_the_users_password">Change the Users password</a></li>
-<li><a href="#_update_the_image_of_an_existing_user">Update the image of an existing User</a></li>
-<li><a href="#_delete_an_user">Delete an User</a></li>
+<li><a href="#user-index">User Index</a></li>
+<li><a href="#user-create">Create an User</a></li>
+<li><a href="#user-findall">Find all Users</a></li>
+<li><a href="#user-findbypkey">Find an User by persistent key</a></li>
+<li><a href="#user-save">Modify an existing User</a></li>
+<li><a href="#user-changepassword">Change the Users password</a></li>
+<li><a href="#user-saveimage">Update the image of an existing User</a></li>
+<li><a href="#user-delete">Delete an User</a></li>
 </ul>
 </li>
 <li><a href="#resources-role">Role</a>
 <ul class="sectlevel2">
-<li><a href="#_role_index">Role Index</a></li>
-<li><a href="#_create_a_role">Create a Role</a></li>
-<li><a href="#_find_all_roles">Find all Roles</a></li>
+<li><a href="#role-index">Role Index</a></li>
+<li><a href="#role-create">Create a Role</a></li>
+<li><a href="#role-findall">Find all Roles</a></li>
 <li><a href="#role-findbypkey">Find a Role by persistent key</a></li>
-<li><a href="#_modify_an_existing_role">Modify an existing Role</a></li>
-<li><a href="#_assign_an_user_to_a_role">Assign an User to a Role</a></li>
-<li><a href="#_unassign_an_user_from_a_role">Unassign an User from a Role</a></li>
-<li><a href="#_delete_a_role">Delete a Role</a></li>
+<li><a href="#role-save">Modify an existing Role</a></li>
+<li><a href="#role-assignuser">Assign an User to a Role</a></li>
+<li><a href="#role-unassignuser">Unassign an User from a Role</a></li>
+<li><a href="#role-delete">Delete a Role</a></li>
 </ul>
 </li>
 <li><a href="#resources-grant">Grant</a>
@@ -500,6 +500,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_client_index">Client Index</a></li>
 <li><a href="#_create_a_client">Create a Client</a></li>
 <li><a href="#_find_all_clients">Find all Clients</a></li>
+<li><a href="#_find_a_client_by_persistent_key">Find a Client by persistent key</a></li>
 <li><a href="#_modify_an_existing_client">Modify an existing Client</a></li>
 <li><a href="#_delete_a_client">Delete a Client</a></li>
 </ul>
@@ -773,7 +774,7 @@ resources.</p>
 created, modified and retrieved. An <code>User</code> is also allowed to authenticate against an UAA endpoint.</p>
 </div>
 <div class="sect2">
-<h3 id="_user_index"><a class="anchor" href="#_user_index"></a><a class="link" href="#_user_index">User Index</a></h3>
+<h3 id="user-index"><a class="anchor" href="#user-index"></a><a class="link" href="#user-index">User Index</a></h3>
 <div class="paragraph">
 <p>An overview of all possible operations on <code>Users</code> can be found on the <code>User</code> index page that is retrieved with a <code>GET</code> request:</p>
 </div>
@@ -824,7 +825,7 @@ Content-Length: 725
 </div>
 </div>
 <div class="sect2">
-<h3 id="_create_an_user"><a class="anchor" href="#_create_an_user"></a><a class="link" href="#_create_an_user">Create an User</a></h3>
+<h3 id="user-create"><a class="anchor" href="#user-create"></a><a class="link" href="#user-create">Create an User</a></h3>
 <div class="paragraph">
 <p>To create a new <code>User</code> instance, a <code>POST</code> request must be send to the server with the mandatory fields of the <code>User</code> resource in the request
 body.</p>
@@ -889,14 +890,14 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/f662de1a-673c-4d9b-a7f3-e2319ebae10d/
+Location: http://localhost:8080/users/09d9185c-38be-4923-81cf-64a644ec876b/
 Content-Type: application/vnd.openwms.uaa.user-v1+json
 Content-Length: 290
 
 {
   "links" : [ ],
   "ol" : 0,
-  "pKey" : "f662de1a-673c-4d9b-a7f3-e2319ebae10d",
+  "pKey" : "09d9185c-38be-4923-81cf-64a644ec876b",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -929,7 +930,7 @@ Content-Length: 166
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_all_users"><a class="anchor" href="#_find_all_users"></a><a class="link" href="#_find_all_users">Find all Users</a></h3>
+<h3 id="user-findall"><a class="anchor" href="#user-findall"></a><a class="link" href="#user-findall">Find all Users</a></h3>
 <div class="paragraph">
 <p>To find and retrieve an array of all existing <code>Users</code> a client may call a <code>GET</code> request:</p>
 </div>
@@ -1057,7 +1058,7 @@ Content-Length: 1280
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_an_user_by_persistent_key"><a class="anchor" href="#_find_an_user_by_persistent_key"></a><a class="link" href="#_find_an_user_by_persistent_key">Find an User by persistent key</a></h3>
+<h3 id="user-findbypkey"><a class="anchor" href="#user-findbypkey"></a><a class="link" href="#user-findbypkey">Find an User by persistent key</a></h3>
 <div class="paragraph">
 <p>A newly created <code>User</code> can be retrieved by following the URI in the <code>Location</code> header of the response. This URI points to the created
 resource:</p>
@@ -1082,7 +1083,7 @@ Content-Length: 562
 </div>
 </div>
 <div class="sect2">
-<h3 id="_modify_an_existing_user"><a class="anchor" href="#_modify_an_existing_user"></a><a class="link" href="#_modify_an_existing_user">Modify an existing User</a></h3>
+<h3 id="user-save"><a class="anchor" href="#user-save"></a><a class="link" href="#user-save">Modify an existing User</a></h3>
 <div class="paragraph">
 <p>An existing <code>User</code> instance can be modified by sending a <code>PUT</code> request with the <code>User</code> representation as request body.</p>
 </div>
@@ -1134,7 +1135,7 @@ Content-Length: 292
 </div>
 </div>
 <div class="sect2">
-<h3 id="_change_the_users_password"><a class="anchor" href="#_change_the_users_password"></a><a class="link" href="#_change_the_users_password">Change the Users password</a></h3>
+<h3 id="user-changepassword"><a class="anchor" href="#user-changepassword"></a><a class="link" href="#user-changepassword">Change the Users password</a></h3>
 <div class="paragraph">
 <p>Send a <code>POST</code> request to the <code>Users</code> password attribute to set or change the password of an that <code>User</code>.</p>
 </div>
@@ -1165,7 +1166,7 @@ Content-Length: 360
   "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405e",
   "username" : "superuser",
   "externalUser" : false,
-  "lastPasswordChange" : "2022-10-11T12:42:37Z",
+  "lastPasswordChange" : "2022-10-15T20:48:36Z",
   "locked" : true,
   "enabled" : false,
   "details" : { },
@@ -1179,7 +1180,7 @@ Content-Length: 360
 </div>
 </div>
 <div class="sect2">
-<h3 id="_update_the_image_of_an_existing_user"><a class="anchor" href="#_update_the_image_of_an_existing_user"></a><a class="link" href="#_update_the_image_of_an_existing_user">Update the image of an existing User</a></h3>
+<h3 id="user-saveimage"><a class="anchor" href="#user-saveimage"></a><a class="link" href="#user-saveimage">Update the image of an existing User</a></h3>
 <div class="paragraph">
 <p>To set the image of an existing <code>User</code> a client needs to send a <code>PATCH</code> request along the image in the <code>UserDetails</code>.</p>
 </div>
@@ -1203,7 +1204,7 @@ iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAYAAAB5fY51AAAACXBIWXMAAC4jAAAuIwF4pT92AAAAG3RF
 </div>
 </div>
 <div class="sect2">
-<h3 id="_delete_an_user"><a class="anchor" href="#_delete_an_user"></a><a class="link" href="#_delete_an_user">Delete an User</a></h3>
+<h3 id="user-delete"><a class="anchor" href="#user-delete"></a><a class="link" href="#user-delete">Delete an User</a></h3>
 <div class="paragraph">
 <p>To finally delete all <code>User</code> data a <code>DELETE</code> request with the persistent key of the <code>User</code> is required:</p>
 </div>
@@ -1232,7 +1233,7 @@ Host: localhost:8080</code></pre>
 that are assigned to this <code>Role</code>. By doing so, a <code>Role</code> is also a group of <code>Grants</code> that can be assigned to multiple <code>Users</code>.</p>
 </div>
 <div class="sect2">
-<h3 id="_role_index"><a class="anchor" href="#_role_index"></a><a class="link" href="#_role_index">Role Index</a></h3>
+<h3 id="role-index"><a class="anchor" href="#role-index"></a><a class="link" href="#role-index">Role Index</a></h3>
 <div class="paragraph">
 <p>An overview of all possible operations on <code>Roles</code> can be found on the <code>Role</code> index page that is retrieved with a <code>GET</code> request:</p>
 </div>
@@ -1286,7 +1287,7 @@ Content-Length: 806
 </div>
 </div>
 <div class="sect2">
-<h3 id="_create_a_role"><a class="anchor" href="#_create_a_role"></a><a class="link" href="#_create_a_role">Create a Role</a></h3>
+<h3 id="role-create"><a class="anchor" href="#role-create"></a><a class="link" href="#role-create">Create a Role</a></h3>
 <div class="paragraph">
 <p>To create a new <code>Role</code> instance, a <code>POST</code> request must be send to the server with the mandatory fields of the <code>Role</code> resource in the
 request body.</p>
@@ -1349,7 +1350,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/roles/7572fb1b-2d11-43f2-8fd6-8d68fb049097/
+Location: http://localhost:8080/roles/615ba89f-26cc-4570-866a-d2876d02405e/
 Content-Type: application/vnd.openwms.uaa.role-v1+json
 Content-Length: 554
 
@@ -1357,16 +1358,16 @@ Content-Length: 554
   "@class" : "org.openwms.core.uaa.api.RoleVO",
   "links" : [ {
     "rel" : "users",
-    "href" : "http://localhost:8080/roles/7572fb1b-2d11-43f2-8fd6-8d68fb049097/users"
+    "href" : "http://localhost:8080/roles/615ba89f-26cc-4570-866a-d2876d02405e/users"
   }, {
     "rel" : "grants",
-    "href" : "http://localhost:8080/roles/7572fb1b-2d11-43f2-8fd6-8d68fb049097/grants"
+    "href" : "http://localhost:8080/roles/615ba89f-26cc-4570-866a-d2876d02405e/grants"
   }, {
     "rel" : "role-findbypkey",
-    "href" : "http://localhost:8080/roles/7572fb1b-2d11-43f2-8fd6-8d68fb049097"
+    "href" : "http://localhost:8080/roles/615ba89f-26cc-4570-866a-d2876d02405e"
   } ],
   "ol" : 0,
-  "pKey" : "7572fb1b-2d11-43f2-8fd6-8d68fb049097",
+  "pKey" : "615ba89f-26cc-4570-866a-d2876d02405e",
   "name" : "ROLE_DEV",
   "description" : "Developers",
   "immutable" : true
@@ -1391,7 +1392,7 @@ Content-Length: 121
 </div>
 </div>
 <div class="sect2">
-<h3 id="_find_all_roles"><a class="anchor" href="#_find_all_roles"></a><a class="link" href="#_find_all_roles">Find all Roles</a></h3>
+<h3 id="role-findall"><a class="anchor" href="#role-findall"></a><a class="link" href="#role-findall">Find all Roles</a></h3>
 <div class="paragraph">
 <p>To find and retrieve an array of all existing <code>Roles</code> a role may call a <code>GET</code> request:</p>
 </div>
@@ -1488,7 +1489,7 @@ Content-Length: 421
 </div>
 </div>
 <div class="sect2">
-<h3 id="_modify_an_existing_role"><a class="anchor" href="#_modify_an_existing_role"></a><a class="link" href="#_modify_an_existing_role">Modify an existing Role</a></h3>
+<h3 id="role-save"><a class="anchor" href="#role-save"></a><a class="link" href="#role-save">Modify an existing Role</a></h3>
 <div class="paragraph">
 <p>An existing <code>Role</code> instance can be modified by sending a <code>PUT</code> request with the <code>Role</code> representation as request body. At least the name of
 the <code>Role</code>, as an identifying attribute must be set.</p>
@@ -1598,7 +1599,7 @@ Content-Length: 143
 </div>
 </div>
 <div class="sect2">
-<h3 id="_assign_an_user_to_a_role"><a class="anchor" href="#_assign_an_user_to_a_role"></a><a class="link" href="#_assign_an_user_to_a_role">Assign an User to a Role</a></h3>
+<h3 id="role-assignuser"><a class="anchor" href="#role-assignuser"></a><a class="link" href="#role-assignuser">Assign an User to a Role</a></h3>
 <div class="paragraph">
 <p><code>Users</code> can be assigned to one or more <code>Roles</code>. To assign an existing <code>User</code> to an existing <code>Role</code> the client must send a <code>POST</code> request
 to the primary <code>Role</code> resource:</p>
@@ -1658,7 +1659,7 @@ Content-Length: 166
 </div>
 </div>
 <div class="sect2">
-<h3 id="_unassign_an_user_from_a_role"><a class="anchor" href="#_unassign_an_user_from_a_role"></a><a class="link" href="#_unassign_an_user_from_a_role">Unassign an User from a Role</a></h3>
+<h3 id="role-unassignuser"><a class="anchor" href="#role-unassignuser"></a><a class="link" href="#role-unassignuser">Unassign an User from a Role</a></h3>
 <div class="paragraph">
 <p>Already assigned <code>Users</code> can be unassigned from a <code>Role</code>. Therefore the client sends a <code>DELETE</code> request on the secondary <code>User</code> resource of
 the primary <code>Role</code> resource. Note: This will not delete the <code>User</code> but delete the assignment between the <code>Role</code> and the <code>User</code>.</p>
@@ -1718,7 +1719,7 @@ Content-Length: 166
 </div>
 </div>
 <div class="sect2">
-<h3 id="_delete_a_role"><a class="anchor" href="#_delete_a_role"></a><a class="link" href="#_delete_a_role">Delete a Role</a></h3>
+<h3 id="role-delete"><a class="anchor" href="#role-delete"></a><a class="link" href="#role-delete">Delete a Role</a></h3>
 <div class="paragraph">
 <p>To finally delete all <code>Role</code> data, a <code>DELETE</code> request with the persistent key of the <code>Role</code> is required:</p>
 </div>
@@ -1840,7 +1841,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/grants/52438d39-85c6-4dda-a977-68a10da8d868/
+Location: http://localhost:8080/grants/ac54bbde-9414-4227-957f-9d29c8753eca/
 Content-Type: application/vnd.openwms.uaa.grant-v1+json
 Content-Length: 331
 
@@ -1848,10 +1849,10 @@ Content-Length: 331
   "@class" : "org.openwms.core.uaa.api.GrantVO",
   "links" : [ {
     "rel" : "grant-findbypkey",
-    "href" : "http://localhost:8080/grants/52438d39-85c6-4dda-a977-68a10da8d868"
+    "href" : "http://localhost:8080/grants/ac54bbde-9414-4227-957f-9d29c8753eca"
   } ],
   "ol" : 0,
-  "pKey" : "52438d39-85c6-4dda-a977-68a10da8d868",
+  "pKey" : "ac54bbde-9414-4227-957f-9d29c8753eca",
   "name" : "VIEW_USERS",
   "description" : "Permission to view all users in UI"
 }</code></pre>
@@ -2225,13 +2226,13 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/api/clients/9811a7cb-9c13-4494-a9f0-e999b7d5675b/
+Location: http://localhost:8080/api/clients/4f21f6b8-93b8-4c9f-8a7b-21618e13eec3/
 Content-Type: application/vnd.openwms.uaa.client-v1+json
 Content-Length: 230
 
 {
   "ol" : 0,
-  "pKey" : "9811a7cb-9c13-4494-a9f0-e999b7d5675b",
+  "pKey" : "4f21f6b8-93b8-4c9f-8a7b-21618e13eec3",
   "clientId" : "cliendId",
   "clientSecret" : "secr3t",
   "scopes" : [ "client" ],
@@ -2274,6 +2275,46 @@ Content-Length: 407
   "authorizedGrantTypes" : [ "password", "authorization_code", "refresh_token", "implicit" ],
   "webServerRedirectUris" : [ "http://localhost:8086/login/oauth2/code/gateway" ]
 } ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_find_a_client_by_persistent_key"><a class="anchor" href="#_find_a_client_by_persistent_key"></a><a class="link" href="#_find_a_client_by_persistent_key">Find a Client by persistent key</a></h3>
+<div class="paragraph">
+<p>To find and retrieve a existing <code>Client</code> by its persistent key a <code>GET</code> request with the <code>pKey</code> as path variable must be sent to the server:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">GET /api/clients/1000 HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the <code>Client</code> instance with this <code>pKey</code> exists the server sends back the response.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.uaa.client-v1+json
+Content-Length: 334
+
+{"links":[{"rel":"client-findbypkey","href":"http://localhost:8080/api/clients/1000"}],"ol":1,"pKey":"1000","clientId":"gateway","clientSecret":"secret","scopes":["gateway"],"authorizedGrantTypes":["password","authorization_code","refresh_token","implicit"],"webServerRedirectUris":["http://localhost:8086/login/oauth2/code/gateway"]}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no <code>Client</code> instance exists the server responds with:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
+Content-Type: application/hal+json
+Content-Length: 110
+
+{
+  "message" : "No Client with PKey [UNKNOWN] exists",
+  "messageKey" : "not.found",
+  "httpStatus" : "404"
+}</code></pre>
 </div>
 </div>
 </div>
@@ -2345,7 +2386,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-10-11 12:38:09 UTC
+Last updated 2022-10-15 20:23:26 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
