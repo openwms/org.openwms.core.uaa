@@ -29,8 +29,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.stream.Collectors;
-
 import static java.time.ZonedDateTime.now;
 import static java.util.Arrays.asList;
 
@@ -106,7 +104,7 @@ class SecurityContextUserServiceImpl implements UserDetailsService, ApplicationL
                         !user.isLocked(),
                         true,
                         user.isEnabled(),
-                        user.getGrants().stream().map(SecurityObjectAuthority::new).collect(Collectors.toList())
+                        user.getGrants().stream().map(SecurityObjectAuthority::new).toList()
                         );
             }
             if (userCache != null) {

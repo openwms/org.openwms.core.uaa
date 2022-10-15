@@ -67,7 +67,7 @@ public class GrantController extends AbstractWebController {
                         linkTo(methodOn(GrantController.class).findByPKey("pKey")).withRel("grant-findbypkey"),
                         linkTo(methodOn(GrantController.class).findAllGrants()).withRel("grant-findall"),
                         linkTo(methodOn(GrantController.class).findAllForUser("user")).withRel("grant-findallforuser"),
-                        linkTo(methodOn(GrantController.class).createGrant(null, null)).withRel("grant-create")
+                        linkTo(methodOn(GrantController.class).createGrant(new GrantVO(), null)).withRel("grant-create")
                 )
         );
     }

@@ -48,6 +48,7 @@ import org.springframework.validation.beanvalidation.MethodValidationPostProcess
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -133,5 +134,9 @@ public class RoleServiceIT extends TestBase {
 
     @Test void testFindAll() {
         assertThat(srv.findAll()).hasSize(2);
+    }
+
+    @Test void testFindByNames() {
+        assertThat(srv.findByNames(asList("ROLE_ADMIN", "ROLE_OPS", "SEC_UAA_USER_LOOKUP"))).hasSize(2);
     }
 }

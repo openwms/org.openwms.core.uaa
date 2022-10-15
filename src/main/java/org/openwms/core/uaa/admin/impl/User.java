@@ -191,8 +191,7 @@ public class User extends ApplicationEntity implements Serializable {
         Assert.notNull(email, "Email must not be null");
         var existingOnes = getEmailAddressesInternal();
         if (existingOnes.contains(email)) {
-            var existingOne = existingOnes.stream().filter(e -> e.equals(email)).findFirst().orElseThrow();
-            //existingOne.setUser(null);
+            existingOnes.stream().filter(e -> e.equals(email)).findFirst().orElseThrow();
             return existingOnes.remove(email);
         }
         return false;

@@ -70,8 +70,8 @@ public class RoleController extends AbstractWebController {
                         linkTo(methodOn(RoleController.class).findAllRoles()).withRel("roles-findall"),
                         linkTo(methodOn(RoleController.class).findUsersOfRole("pKey")).withRel("roles-findusersofrole"),
                         linkTo(methodOn(RoleController.class).findGrantsOfRole("pKey")).withRel("roles-findgrantsofrole"),
-                        linkTo(methodOn(RoleController.class).create(null, null)).withRel("roles-create"),
-                        linkTo(methodOn(RoleController.class).save("pKey", null)).withRel("roles-save"),
+                        linkTo(methodOn(RoleController.class).create(new RoleVO(), null)).withRel("roles-create"),
+                        linkTo(methodOn(RoleController.class).save("pKey", new RoleVO())).withRel("roles-save"),
                         linkTo(methodOn(RoleController.class).delete("pKey")).withRel("roles-delete"),
                         linkTo(methodOn(RoleController.class).assignUserToRole("pKey", "userPKey")).withRel("roles-assignuser"),
                         linkTo(methodOn(RoleController.class).unassignUser("pKey", "userPKey")).withRel("roles-unassignuser")

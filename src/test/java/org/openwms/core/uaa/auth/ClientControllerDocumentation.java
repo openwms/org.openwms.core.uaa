@@ -91,6 +91,22 @@ class ClientControllerDocumentation {
         ;
     }
 
+    @Sql("classpath:test.sql")
+    @Test void shall_find_by_pkey() throws Exception {
+        mockMvc.perform(get(API_CLIENTS + "/1000"))
+                .andDo(document("client-findByPKey"))
+                .andExpect(status().isOk())
+        ;
+    }
+
+    @Sql("classpath:test.sql")
+    @Test void shall_find_by_pkey_404() throws Exception {
+        mockMvc.perform(get(API_CLIENTS + "/UNKNOWN"))
+                .andDo(document("client-findByPKey-404"))
+                .andExpect(status().isNotFound())
+        ;
+    }
+
     @Test
     void shall_create_client() throws Exception {
         var vo = aClientVO()

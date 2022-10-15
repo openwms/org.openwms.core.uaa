@@ -30,8 +30,10 @@ public class GrantVO extends SecurityObjectVO<GrantVO> implements Serializable {
     /** HTTP media type representation. */
     public static final String MEDIA_TYPE = "application/vnd.openwms.uaa.grant-v1+json";
 
-    @JsonCreator // and mapper usage
-    public GrantVO() { }
+    @JsonCreator
+    public GrantVO() {
+        // For Jackson and MapStruct usage
+    }
 
     public static final class Builder {
         private String pKey;

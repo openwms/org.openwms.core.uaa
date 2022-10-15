@@ -6,11 +6,9 @@ can be taken. It has a unique business key, that is used in API or UI to protect
 [[grant-index]]
 === Grant Index
 An overview of all possible operations on `Grants` can be found on the `Grant` index page that is retrieved with a `GET` request:
-
 include::{generated}/grants-index/http-request.adoc[]
 
 And the server responds with a `HAL+JSON` representation to further operations:
-
 include::{generated}/grants-index/http-response.adoc[]
 
 [[grant-create]]
@@ -18,6 +16,7 @@ include::{generated}/grants-index/http-response.adoc[]
 To create a new `Grant` instance, a `POST` request must be send to the server with the mandatory fields of the `Grant` resource in the
 request body.
 include::{generated}/grant-create/http-request.adoc[]
+
 Not named properties are optional to pass.
 include::{generated}/grant-create/request-fields.adoc[]
 
@@ -39,9 +38,7 @@ include::{generated}/grant-findall/http-response.adoc[]
 === Find a Grant by persistent key
 Each `Grant` has an unique ID the _pKey_ or _persistent identifier_. To find and return a `Grant` by `pKey` a client must send a `GET`
 request to the `Grants` resource:
-
 include::{generated}/grant-findbypkey/http-request.adoc[]
-
 include::{generated}/grant-findbypkey/http-response.adoc[]
 include::{generated}/grant-findbypkey/response-fields.adoc[]
 
@@ -53,7 +50,9 @@ include::{generated}/grant-findallforuser/http-request.adoc[]
 
 The server responds with a list representation of all `Grants`:
 include::{generated}/grant-findallforuser/http-response.adoc[]
+
 or a HTTP `204-NO CONTENT` response if no `Grants` are assigned to the `User`:
 include::{generated}/grant-findallforuser-empty/http-response.adoc[]
+
 or a HTTP `404-NOT FOUND` response if the `User` does not exist:
 include::{generated}/grant-findallforuser-404/http-response.adoc[]

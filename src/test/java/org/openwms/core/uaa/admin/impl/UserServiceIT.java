@@ -172,7 +172,8 @@ public class UserServiceIT extends TestBase {
     }
 
     @Test void testChangePasswordUnknown() {
-        assertThatThrownBy(() -> srv.changeUserPassword(new UserPassword(new User(UNKNOWN_USER), "password")))
+        var up = new UserPassword(new User(UNKNOWN_USER), "password");
+        assertThatThrownBy(() -> srv.changeUserPassword(up))
                 .isInstanceOf(NotFoundException.class)
                 .extracting("messageKey")
                 .isEqualTo(MessageCodes.USER_WITH_NAME_NOT_EXIST);
@@ -186,7 +187,8 @@ public class UserServiceIT extends TestBase {
     @Test void testChangePasswordInvalidPassword() {
         srv.changeUserPassword(new UserPassword(new User(KNOWN_USER), "password"));
         srv.changeUserPassword(new UserPassword(new User(KNOWN_USER), "password1"));
-        assertThatThrownBy(() -> srv.changeUserPassword(new UserPassword(new User(KNOWN_USER), "password")))
+        var up = new UserPassword(new User(KNOWN_USER), "password");
+        assertThatThrownBy(() -> srv.changeUserPassword(up))
                 .isInstanceOf(ServiceLayerException.class)
                 .extracting("messageKey")
                 .isEqualTo(MessageCodes.USER_PW_INVALID);
@@ -206,7 +208,8 @@ public class UserServiceIT extends TestBase {
     @Test void testFindByIdNegative() {
         var users = srv.findAll();
         assertThat(users).hasSizeGreaterThan(0);
-        assertThatThrownBy(() -> srv.findById(users.iterator().next().getPk() + 1))
+        var id = users.iterator().next().getPk() + 1;
+        assertThatThrownBy(() -> srv.findById(id))
                 .isInstanceOf(RuntimeException.class);
     }
 
@@ -223,15 +226,15 @@ public class UserServiceIT extends TestBase {
     }
 
     @Test void testSaveUserProfileUserNull() {
-        assertThatThrownBy(
-                () -> srv.saveUserProfile(null, new UserPassword(new User(TEST_USER), TEST_USER))
-        ).isInstanceOf(ConstraintViolationException.class);
+        var up = new UserPassword(new User(TEST_USER), TEST_USER);
+        assertThatThrownBy(() -> srv.saveUserProfile(null, up))
+                .isInstanceOf(ConstraintViolationException.class);
     }
 
     @Test void testSaveUserProfileUserPreferencePasswordNull() {
-        assertThatThrownBy(
-                () -> srv.saveUserProfile(new User(TEST_USER), null)
-        ).isInstanceOf(ConstraintViolationException.class);
+        var user = new User(TEST_USER);
+        assertThatThrownBy(() -> srv.saveUserProfile(user, null))
+                .isInstanceOf(ConstraintViolationException.class);
     }
 
     @Test void testSaveUserProfileUserWithPassword() {
@@ -243,9 +246,10 @@ public class UserServiceIT extends TestBase {
     @Test void testSaveUserProfileUserWithInvalidPassword() {
         var user = new User(TEST_USER);
         var u = srv.saveUserProfile(user, new UserPassword(user, "password"));
-        u = srv.saveUserProfile(u, new UserPassword(u, "password1"));
+        srv.saveUserProfile(u, new UserPassword(u, "password1"));
         final var savedUser = srv.findByUsername(TEST_USER).orElseThrow();
-        assertThatThrownBy(() -> srv.saveUserProfile(savedUser, new UserPassword(user, "password")))
+        var up = new UserPassword(user, "password");
+        assertThatThrownBy(() -> srv.saveUserProfile(savedUser, up))
                 .isInstanceOf(ServiceLayerException.class)
                 .extracting("messageKey")
                 .isEqualTo(MessageCodes.USER_PW_INVALID);

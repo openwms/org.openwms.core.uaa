@@ -119,9 +119,6 @@ class UserServiceImpl implements UserService {
         for (var updater : userUpdater.getPlugins()) {
             existingUser = updater.update(existingUser, user);
         }
-        /*
-        userMapper.copy(user, existingUser);
-         */
         if (roleNames != null && !roleNames.isEmpty()) {
             existingUser.setRoles(roleService.findByNames(roleNames));
         }

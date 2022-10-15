@@ -34,7 +34,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static org.openwms.core.uaa.MessageCodes.MODULENAME_NOT_NULL;
@@ -109,7 +108,7 @@ class GrantServiceImpl implements GrantService {
     @Measured
     public List<@NotNull Grant> findAllFor(@NotBlank String user) {
         var userInstance = userRepository.findByUsername(user).orElseThrow(() -> new NotFoundException(format("User with name [%s] does not exist", user)));
-        return userInstance.getGrants().stream().filter(g -> g instanceof Grant).map(g -> (Grant) g).collect(Collectors.toList());
+        return userInstance.getGrants().stream().filter(Grant.class::isInstance).map(Grant.class::cast).toList();
     }
 
     /**
