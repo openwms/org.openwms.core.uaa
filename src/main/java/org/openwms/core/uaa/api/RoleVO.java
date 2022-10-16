@@ -34,7 +34,7 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
     /** HTTP media type representation. */
     public static final String MEDIA_TYPE = "application/vnd.openwms.uaa.role-v1+json";
 
-    /** Whether or not this Role is immutable. Immutable Roles can't be modified. */
+    /** Whether this Role is immutable or not. Immutable Roles can't be modified. */
     @JsonProperty("immutable")
     private Boolean immutable;
     /** All Users assigned to the Role. */

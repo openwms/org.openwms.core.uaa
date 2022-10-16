@@ -11,7 +11,7 @@ Heiko Scherrer;
 :operation-curl-request-title: Example request
 :operation-http-response-title: Example response
 
-Copyright © 2005-2021
+Copyright © 2005-2022
 
 Copies of this document may be made for your own use and for distribution to others, provided that you do not charge any fee for such copies
 and further provided that each copy contains this Copyright Notice, whether distributed in print or electronically.
