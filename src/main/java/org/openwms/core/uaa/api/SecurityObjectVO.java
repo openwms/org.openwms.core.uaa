@@ -27,7 +27,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A SecurityObjectVO.
+ * A SecurityObjectVO encapsulates common attributes of roles and grants.
  *
  * @author Heiko Scherrer
  */
@@ -50,10 +50,13 @@ public class SecurityObjectVO<T extends SecurityObjectVO<T>> extends AbstractBas
     @JsonProperty("description")
     private String description;
 
+    /*~-------------------- constructors --------------------*/
     @JsonCreator
     public SecurityObjectVO() {
+        // NOT for the mapper
     }
 
+    /*~-------------------- accessors --------------------*/
     public String getpKey() {
         return pKey;
     }
@@ -78,6 +81,7 @@ public class SecurityObjectVO<T extends SecurityObjectVO<T>> extends AbstractBas
         this.description = description;
     }
 
+    /*~-------------------- methods --------------------*/
     /**
      * {@inheritDoc}
      *
@@ -87,7 +91,7 @@ public class SecurityObjectVO<T extends SecurityObjectVO<T>> extends AbstractBas
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SecurityObjectVO that = (SecurityObjectVO) o;
+        var that = (SecurityObjectVO) o;
         return Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description);
     }
@@ -111,5 +115,4 @@ public class SecurityObjectVO<T extends SecurityObjectVO<T>> extends AbstractBas
     public String toString() {
         return name;
     }
-
 }

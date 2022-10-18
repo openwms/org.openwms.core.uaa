@@ -52,9 +52,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class GrantController extends AbstractWebController {
 
     private final GrantService grantService;
-    private final SecurityObjectMapper mapper;
+    private final GrantMapper mapper;
 
-    public GrantController(GrantService grantService, SecurityObjectMapper mapper) {
+    public GrantController(GrantService grantService, GrantMapper mapper) {
         this.grantService = grantService;
         this.mapper = mapper;
     }
@@ -88,7 +88,7 @@ public class GrantController extends AbstractWebController {
     public ResponseEntity<List<GrantVO>> findAllGrants() {
 
         var grants = grantService.findAllGrants();
-        var vos = mapper.convertToGrantVOs(grants);
+        var vos = mapper.convertToVOs(grants);
         vos.forEach(this::addSelfLink);
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -101,7 +101,7 @@ public class GrantController extends AbstractWebController {
     public ResponseEntity<List<GrantVO>> findAllForUser(@NotBlank @RequestHeader(HEADER_VALUE_X_IDENTITY) String user) {
 
         var grants = grantService.findAllFor(user);
-        var vos = mapper.convertToGrantVOs(grants);
+        var vos = mapper.convertToVOs(grants);
         if (vos.isEmpty()){
             return ResponseEntity.noContent().build();
         }

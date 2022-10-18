@@ -17,7 +17,6 @@ package org.openwms.core.uaa.api;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -30,14 +29,16 @@ public class GrantVO extends SecurityObjectVO<GrantVO> implements Serializable {
     /** HTTP media type representation. */
     public static final String MEDIA_TYPE = "application/vnd.openwms.uaa.grant-v1+json";
 
+    /*~-------------------- constructors --------------------*/
     @JsonCreator
     public GrantVO() {
         // For Jackson and MapStruct usage
     }
 
+    /*~-------------------- builder --------------------*/
     public static final class Builder {
         private String pKey;
-        private @NotBlank(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class}) String name;
+        private String name;
         private String description;
 
         private Builder() {
@@ -63,7 +64,7 @@ public class GrantVO extends SecurityObjectVO<GrantVO> implements Serializable {
         }
 
         public GrantVO build() {
-            GrantVO grantVO = new GrantVO();
+            var grantVO = new GrantVO();
             grantVO.setName(name);
             grantVO.setDescription(description);
             grantVO.setpKey(this.pKey);

@@ -22,11 +22,8 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.openwms.core.uaa.admin.impl.Role;
 import org.openwms.core.uaa.admin.impl.User;
-import org.openwms.core.uaa.admin.impl.UserDetails;
-import org.openwms.core.uaa.api.UserDetailsVO;
 import org.openwms.core.uaa.api.UserVO;
 
-import javax.validation.Valid;
 import java.util.Base64;
 import java.util.List;
 
@@ -35,9 +32,10 @@ import java.util.List;
  *
  * @author Heiko Scherrer
  */
-@Mapper(implementationPackage = "org.openwms.core.uaa.admin.impl", uses = {EmailMapper.class})
+@Mapper(implementationPackage = "org.openwms.core.uaa.admin.impl", uses = {EmailMapper.class, UserDetailsMapper.class})
 public interface UserMapper {
 
+    List<String> convertToStrings(List<Role> eo);
     default String convertToString(Role eo) {
         return eo.getName();
     }
@@ -51,6 +49,14 @@ public interface UserMapper {
 
     @Mapping(source = "pKey", target = "persistentKey")
     @Mapping(source = "extern", target = "externalUser")
+    @Mapping(target = "supplyLastPasswordChange", ignore = true)
+    @Mapping(target = "supplyRoles", ignore = true)
+    @Mapping(target = "supplyGrants", ignore = true)
+    @Mapping(target = "roles", ignore = true)
+    @Mapping(target = "supplyPrimaryEmailAddress", ignore = true)
+    @Mapping(target = "supplyUserDetails", ignore = true)
+    @Mapping(target = "grants", ignore = true)
+    @Mapping(target = "passwords", ignore = true)
     User convertFrom(UserVO vo);
 
     @AfterMapping
@@ -62,9 +68,14 @@ public interface UserMapper {
     }
 
     @Mapping(source = "persistentKey", target = "persistentKey", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "supplyLastPasswordChange", ignore = true)
+    @Mapping(target = "supplyRoles", ignore = true)
+    @Mapping(target = "supplyGrants", ignore = true)
+    @Mapping(target = "supplyPrimaryEmailAddress", ignore = true)
+    @Mapping(target = "supplyUserDetails", ignore = true)
     void copy(User source, @MappingTarget User target);
 
-    @Valid UserDetailsVO map(UserDetails eo);
+    //@Valid UserDetailsVO map(UserDetails eo);
 
     default byte[] map(String source) {
         if (source == null) {

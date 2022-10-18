@@ -17,16 +17,9 @@ package org.openwms.core.uaa.admin;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.SubclassMapping;
-import org.openwms.core.uaa.admin.impl.Grant;
 import org.openwms.core.uaa.admin.impl.SecurityObject;
-import org.openwms.core.uaa.admin.impl.UserDetails;
-import org.openwms.core.uaa.api.GrantVO;
 import org.openwms.core.uaa.api.SecurityObjectVO;
-import org.openwms.core.uaa.api.UserDetailsVO;
 
-import javax.validation.Valid;
-import java.util.Base64;
 import java.util.List;
 
 /**
@@ -42,30 +35,7 @@ public interface SecurityObjectMapper {
         return eo.getName();
     }
 
-    @Mapping(source = "pKey", target = "persistentKey")
-    Grant convertToEO(GrantVO vo);
-
-    @Mapping(source = "persistentKey", target = "pKey")
-    GrantVO convertToVO(Grant eo);
-
-    List<GrantVO> convertToGrantVOs(List<Grant> eo);
-
-    @SubclassMapping(source = GrantVO.class, target = Grant.class)
-    @Mapping(source = "pKey", target = "persistentKey")
-    @Mapping(source = "name", target = "name")
-    SecurityObject convertToEO(SecurityObjectVO vo);
-
     @Mapping(source = "persistentKey", target = "pKey")
     SecurityObjectVO convertToVO(SecurityObject eo);
-
-    List<SecurityObjectVO> convertToVO(List<SecurityObject> eo);
-
-    @Valid UserDetailsVO map(UserDetails eo);
-
-    default byte[] map(String source) {
-        if (source == null) {
-            return new byte[0];
-        }
-        return Base64.getDecoder().decode(source);
-    }
+    List<SecurityObjectVO> convertToVOs(List<SecurityObject> eo);
 }

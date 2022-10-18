@@ -16,6 +16,7 @@
 package org.openwms.core.uaa.admin;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.openwms.core.uaa.admin.impl.Email;
 import org.openwms.core.uaa.api.EmailVO;
@@ -33,6 +34,8 @@ public interface EmailMapper {
     EmailVO convertToVO(Email eo);
     List<EmailVO> convertToVO(List<Email> eo);
 
+    @Mapping(target = "ol", ignore = true)
+    @Mapping(target = "user", ignore = true)
     Email convertFrom(EmailVO vo);
 
     void copy(Email source, @MappingTarget Email target);

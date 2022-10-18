@@ -31,13 +31,8 @@ import java.util.List;
  *
  * @author Heiko Scherrer
  */
-@Mapper(implementationPackage = "org.openwms.core.uaa.admin.impl", uses = UserDetailsMapper.class)
+@Mapper(implementationPackage = "org.openwms.core.uaa.admin.impl", uses = {UserMapper.class, UserDetailsMapper.class, SecurityObjectMapper.class})
 public interface RoleMapper {
-
-    List<String> convertToStrings(List<Role> eo);
-    default String convertToString(Role eo) {
-        return eo.getName();
-    }
 
     @Mapping(source = "persistentKey", target = "pKey")
     @Mapping(source = "ol", target = "ol")
@@ -52,5 +47,5 @@ public interface RoleMapper {
     @SubclassMapping(source = RoleVO.class, target = Role.class)
     @Mapping(source = "pKey", target = "persistentKey")
     @Mapping(source = "name", target = "name")
-    SecurityObject convertToEO(SecurityObjectVO vo);
+    SecurityObject convertToRole(SecurityObjectVO vo);
 }

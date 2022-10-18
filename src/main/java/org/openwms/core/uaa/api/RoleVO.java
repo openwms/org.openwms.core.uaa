@@ -18,14 +18,13 @@ package org.openwms.core.uaa.api;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 /**
- * A RoleVO is the representation of the role an User is assigned to.
+ * A RoleVO is groups a collections of permissions (grants). Users might be assigned to roles.
  * 
  * @author Heiko Scherrer
  */
@@ -44,8 +43,11 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
     @JsonProperty("grants")
     private Set<SecurityObjectVO> grants = new HashSet<>();
 
-    @JsonCreator // NOT for the mapper
-    public RoleVO() { }
+    /*~-------------------- constructors --------------------*/
+    @JsonCreator
+    public RoleVO() {
+        // NOT for the mapper
+    }
 
     private RoleVO(Builder builder) {
         this.setName(builder.name);
@@ -62,6 +64,7 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
         return new RoleVO.Builder();
     }
 
+    /*~-------------------- accessors --------------------*/
     public Boolean getImmutable() {
         return immutable;
     }
@@ -74,6 +77,7 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
         return grants;
     }
 
+    /*~-------------------- methods --------------------*/
     /**
      * {@inheritDoc}
      *
@@ -114,12 +118,13 @@ public class RoleVO extends SecurityObjectVO<RoleVO> implements Serializable {
                 '}';
     }
 
+    /*~-------------------- builder --------------------*/
     public static final class Builder {
         private Boolean immutable;
         private Set<UserVO> users;
         private Set<SecurityObjectVO> grants;
         private String pKey;
-        private @NotBlank(groups = {ValidationGroups.Create.class, ValidationGroups.Modify.class}) String name;
+        private String name;
         private String description;
         private long ol;
 

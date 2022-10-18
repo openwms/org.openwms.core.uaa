@@ -26,6 +26,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 /**
  * A ClientVO.
@@ -67,9 +68,13 @@ public class ClientVO extends AbstractBase<ClientVO> implements Serializable {
     @JsonProperty("tokenSettings")
     private String tokenSettings;
 
+    /*~-------------------- constructors --------------------*/
     @JsonCreator
-    public ClientVO() {}
+    public ClientVO() {
+        // For Jackson and MapStruct usage
+    }
 
+    /*~-------------------- accessors --------------------*/
     public String getpKey() {
         return pKey;
     }
@@ -166,21 +171,56 @@ public class ClientVO extends AbstractBase<ClientVO> implements Serializable {
         this.tokenSettings = tokenSettings;
     }
 
+    /*~-------------------- methods --------------------*/
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ClientVO)) return false;
         if (!super.equals(o)) return false;
-        ClientVO clientVO = (ClientVO) o;
+        var clientVO = (ClientVO) o;
         return Objects.equals(pKey, clientVO.pKey) && Objects.equals(clientId, clientVO.clientId) && Objects.equals(clientIdIssuedAt, clientVO.clientIdIssuedAt) && Objects.equals(clientSecret, clientVO.clientSecret) && Objects.equals(clientSecretExpiresAt, clientVO.clientSecretExpiresAt) && Objects.equals(clientName, clientVO.clientName) && Objects.equals(scopes, clientVO.scopes) && Objects.equals(clientAuthenticationMethods, clientVO.clientAuthenticationMethods) && Objects.equals(authorizedGrantTypes, clientVO.authorizedGrantTypes) && Objects.equals(webServerRedirectUris, clientVO.webServerRedirectUris) && Objects.equals(clientSettings, clientVO.clientSettings) && Objects.equals(tokenSettings, clientVO.tokenSettings);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), pKey, clientId, clientIdIssuedAt, clientSecret, clientSecretExpiresAt, clientName, scopes, clientAuthenticationMethods, authorizedGrantTypes, webServerRedirectUris, clientSettings, tokenSettings);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * All fields.
+     */
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", ClientVO.class.getSimpleName() + "[", "]")
+                .add("pKey='" + pKey + "'")
+                .add("resourceIds='" + resourceIds + "'")
+                .add("clientId='" + clientId + "'")
+                .add("clientIdIssuedAt=" + clientIdIssuedAt)
+                .add("clientSecret='" + clientSecret + "'")
+                .add("clientSecretExpiresAt=" + clientSecretExpiresAt)
+                .add("clientName='" + clientName + "'")
+                .add("scopes=" + scopes)
+                .add("clientAuthenticationMethods=" + clientAuthenticationMethods)
+                .add("authorizedGrantTypes=" + authorizedGrantTypes)
+                .add("webServerRedirectUris=" + webServerRedirectUris)
+                .add("clientSettings='" + clientSettings + "'")
+                .add("tokenSettings='" + tokenSettings + "'")
+                .toString();
+    }
 
+    /*~-------------------- builder --------------------*/
     public static final class Builder {
         private String pKey;
         private String clientId;
@@ -263,7 +303,7 @@ public class ClientVO extends AbstractBase<ClientVO> implements Serializable {
         }
 
         public ClientVO build() {
-            ClientVO clientVO = new ClientVO();
+            var clientVO = new ClientVO();
             clientVO.setClientId(clientId);
             clientVO.setClientIdIssuedAt(clientIdIssuedAt);
             clientVO.setClientSecret(clientSecret);

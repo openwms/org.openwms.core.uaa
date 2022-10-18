@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.util.Objects;
@@ -33,9 +33,9 @@ import java.util.Objects;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EmailVO implements Serializable {
 
-    /** The email address as String (not nullable). */
+    /** The email address as String (not blank). */
     @JsonProperty("emailAddress")
-    @NotEmpty
+    @NotBlank
     private String emailAddress;
     /** Whether this email address is the primary email used in the system. */
     @JsonProperty("primary")
@@ -45,10 +45,8 @@ public class EmailVO implements Serializable {
     private String fullname;
 
     /*~-------------------- constructors --------------------*/
-    EmailVO() {}
-
     @ConstructorProperties({"emailAddress", "primary"})
-    public EmailVO(@NotEmpty String emailAddress, boolean primary) {
+    public EmailVO(@NotBlank String emailAddress, boolean primary) {
         this.emailAddress = emailAddress;
         this.primary = primary;
     }

@@ -90,8 +90,11 @@ public class UserVO extends AbstractBase<UserVO> implements Serializable {
     @JsonProperty("roleNames")
     private List<String> roleNames;
 
+    /*~-------------------- constructors --------------------*/
     @JsonCreator // NOT for the mapper
-    public UserVO() { }
+    public UserVO() {
+        // For Jackson and MapStruct usage
+    }
 
     private UserVO(Builder builder) {
         pKey = builder.pKey;
@@ -113,6 +116,7 @@ public class UserVO extends AbstractBase<UserVO> implements Serializable {
         return new Builder();
     }
 
+    /*~-------------------- accessors --------------------*/
     public String getpKey() {
         return pKey;
     }
@@ -165,6 +169,43 @@ public class UserVO extends AbstractBase<UserVO> implements Serializable {
         this.roleNames = roleNames;
     }
 
+    public void setpKey(java.lang.String pKey) {
+        this.pKey = pKey;
+    }
+
+    public void setUsername(java.lang.String username) {
+        this.username = username;
+    }
+
+    public void setExtern(java.lang.Boolean extern) {
+        this.extern = extern;
+    }
+
+    public void setLastPasswordChange(ZonedDateTime lastPasswordChange) {
+        this.lastPasswordChange = lastPasswordChange;
+    }
+
+    public void setLocked(java.lang.Boolean locked) {
+        this.locked = locked;
+    }
+
+    public void setEnabled(java.lang.Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setExpirationDate(ZonedDateTime expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public void setFullname(java.lang.String fullname) {
+        this.fullname = fullname;
+    }
+
+    public void setUserDetails(UserDetailsVO userDetails) {
+        this.userDetails = userDetails;
+    }
+
+    /*~-------------------- methods --------------------*/
     /**
      * {@inheritDoc}
      *
@@ -211,42 +252,7 @@ public class UserVO extends AbstractBase<UserVO> implements Serializable {
                 .toString();
     }
 
-    public void setpKey(java.lang.String pKey) {
-        this.pKey = pKey;
-    }
-
-    public void setUsername(java.lang.String username) {
-        this.username = username;
-    }
-
-    public void setExtern(java.lang.Boolean extern) {
-        this.extern = extern;
-    }
-
-    public void setLastPasswordChange(ZonedDateTime lastPasswordChange) {
-        this.lastPasswordChange = lastPasswordChange;
-    }
-
-    public void setLocked(java.lang.Boolean locked) {
-        this.locked = locked;
-    }
-
-    public void setEnabled(java.lang.Boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    public void setExpirationDate(ZonedDateTime expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-
-    public void setFullname(java.lang.String fullname) {
-        this.fullname = fullname;
-    }
-
-    public void setUserDetails(UserDetailsVO userDetails) {
-        this.userDetails = userDetails;
-    }
-
+    /*~-------------------- builder --------------------*/
     public static final class Builder {
         private String pKey;
         private @NotEmpty(groups = ValidationGroups.Create.class) String username;

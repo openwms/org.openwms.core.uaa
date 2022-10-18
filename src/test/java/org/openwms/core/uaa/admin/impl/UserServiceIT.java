@@ -92,12 +92,8 @@ public class UserServiceIT extends TestBase {
     @EnablePluginRegistries({UserUpdater.class})
     public static class TestConfig {
         @Bean
-        public UserMapper beanMapper(EmailMapper emailMapper) {
-            return new UserMapperImpl(emailMapper);
-        }
-        @Bean
-        public EmailMapper emailMapper() {
-            return new EmailMapperImpl();
+        public UserMapper beanMapper() {
+            return new UserMapperImpl(new EmailMapperImpl(), new UserDetailsMapperImpl());
         }
         @Bean
         MethodValidationPostProcessor methodValidationPostProcessor(Validator validator) {

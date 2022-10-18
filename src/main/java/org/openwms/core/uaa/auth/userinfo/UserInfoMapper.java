@@ -17,8 +17,8 @@ package org.openwms.core.uaa.auth.userinfo;
 
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
-import org.openwms.core.uaa.admin.RoleMapper;
 import org.openwms.core.uaa.admin.SecurityObjectMapper;
+import org.openwms.core.uaa.admin.UserMapper;
 import org.openwms.core.uaa.admin.UserService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
@@ -40,12 +40,12 @@ import static java.lang.String.format;
 public class UserInfoMapper implements Function<OidcUserInfoAuthenticationContext, OidcUserInfo> {
 
     private final UserService userService;
-    private final RoleMapper roleMapper;
+    private final UserMapper userMapper;
     private final SecurityObjectMapper securityObjectMapper;
 
-    public UserInfoMapper(UserService userService, RoleMapper roleMapper, SecurityObjectMapper securityObjectMapper) {
+    public UserInfoMapper(UserService userService, UserMapper userMapper, SecurityObjectMapper securityObjectMapper) {
         this.userService = userService;
-        this.roleMapper = roleMapper;
+        this.userMapper = userMapper;
         this.securityObjectMapper = securityObjectMapper;
     }
 
@@ -65,7 +65,7 @@ public class UserInfoMapper implements Function<OidcUserInfoAuthenticationContex
         user.setFullname(v -> c.put("name", v))
                 .supplyPrimaryEmailAddress(v -> c.put("email", v.getEmailAddress()))
                 .supplyLastPasswordChange(v -> c.put("last_password_change", v))
-                .supplyRoles(v -> c.put("roles", roleMapper.convertToStrings(v)))
+                .supplyRoles(v -> c.put("roles", userMapper.convertToStrings(v)))
                 .supplyGrants(v -> c.put("grants", securityObjectMapper.convertToStrings(v)))
         ;
         user.supplyUserDetails(ud -> {

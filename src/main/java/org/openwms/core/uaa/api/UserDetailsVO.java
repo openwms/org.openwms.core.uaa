@@ -34,7 +34,7 @@ import java.util.StringJoiner;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDetailsVO implements Serializable {
 
-    /** An base64 encoded image file. */
+    /** A base64 encoded image file. */
     @JsonProperty("image")
     private String image;
     /** Some descriptive text about the User. */
@@ -59,10 +59,13 @@ public class UserDetailsVO implements Serializable {
     @JsonProperty("gender")
     private String gender;
 
+    /*~-------------------- constructors --------------------*/
     @JsonCreator
     public UserDetailsVO() {
+        // For Jackson and MapStruct usage
     }
 
+    /*~-------------------- accessors --------------------*/
     public String getImage() {
         return image;
     }
@@ -95,6 +98,7 @@ public class UserDetailsVO implements Serializable {
         return gender;
     }
 
+    /*~-------------------- methods --------------------*/
     /**
      * {@inheritDoc}
      *
@@ -104,7 +108,7 @@ public class UserDetailsVO implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserDetailsVO that = (UserDetailsVO) o;
+        var that = (UserDetailsVO) o;
         return Objects.equals(image, that.image) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(comment, that.comment) &&

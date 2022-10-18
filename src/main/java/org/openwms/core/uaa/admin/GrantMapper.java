@@ -17,33 +17,31 @@ package org.openwms.core.uaa.admin;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.openwms.core.uaa.admin.impl.UserDetails;
-import org.openwms.core.uaa.api.UserDetailsVO;
+import org.mapstruct.SubclassMapping;
+import org.openwms.core.uaa.admin.impl.Grant;
+import org.openwms.core.uaa.admin.impl.SecurityObject;
+import org.openwms.core.uaa.api.GrantVO;
+import org.openwms.core.uaa.api.SecurityObjectVO;
 
-import java.util.Base64;
+import java.util.List;
 
 /**
- * A UserDetailsMapper.
+ * A GrantMapper.
  *
  * @author Heiko Scherrer
  */
 @Mapper(implementationPackage = "org.openwms.core.uaa.admin.impl")
-public interface UserDetailsMapper {
+public interface GrantMapper {
 
-    UserDetailsVO map(UserDetails eo);
+    @Mapping(source = "pKey", target = "persistentKey")
+    Grant convertToEO(GrantVO vo);
 
-    @Mapping(target = "supplyPhoneNo", ignore = true)
-    @Mapping(target = "supplyOffice", ignore = true)
-    @Mapping(target = "supplyIm", ignore = true)
-    @Mapping(target = "supplyDepartment", ignore = true)
-    @Mapping(target = "supplyImage", ignore = true)
-    @Mapping(target = "supplyGender", ignore = true)
-    UserDetails mapToEO(UserDetailsVO vo);
+    @Mapping(source = "persistentKey", target = "pKey")
+    GrantVO convertToVO(Grant eo);
+    List<GrantVO> convertToVOs(List<Grant> eo);
 
-    default byte[] map(String source) {
-        if (source == null) {
-            return null;
-        }
-        return Base64.getDecoder().decode(source);
-    }
+    @SubclassMapping(source = GrantVO.class, target = Grant.class)
+    @Mapping(source = "pKey", target = "persistentKey")
+    @Mapping(source = "name", target = "name")
+    SecurityObject convertToGrant(SecurityObjectVO vo);
 }

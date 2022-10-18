@@ -49,8 +49,7 @@ class UserMapperImplIT {
     @Test
     void testEOtoVO() {
         // arrange
-        var emailMapper = new EmailMapperImpl();
-        var testee = new UserMapperImpl(emailMapper);
+        var testee = new UserMapperImpl(new EmailMapperImpl(), new UserDetailsMapperImpl());
         var eo = em.find(User.class, 1000L);
         em.flush();
         
@@ -64,8 +63,7 @@ class UserMapperImplIT {
     @Test
     void testEOtoEO() {
         // arrange
-        var emailMapper = new EmailMapperImpl();
-        var testee = new UserMapperImpl(emailMapper);
+        var testee = new UserMapperImpl(new EmailMapperImpl(), new UserDetailsMapperImpl());
         var eo = em.find(User.class, 1000L);
         em.flush();
 
@@ -80,8 +78,7 @@ class UserMapperImplIT {
     @Test
     void testEOstoVOs() {
         // arrange
-        var emailMapper = new EmailMapperImpl();
-        var testee = new UserMapperImpl(emailMapper);
+        var testee = new UserMapperImpl(new EmailMapperImpl(), new UserDetailsMapperImpl());
         var eo = em.find(User.class, 1000L);
 
         // act
@@ -94,8 +91,7 @@ class UserMapperImplIT {
     @Test
     void testVOtoEO() {
         // arrange
-        var emailMapper = new EmailMapperImpl();
-        var testee = new UserMapperImpl(emailMapper);
+        var testee = new UserMapperImpl(new EmailMapperImpl(), new UserDetailsMapperImpl());
         var vo = UserVO.newBuilder()
                 .pKey("pKey")
                 .ol(1)

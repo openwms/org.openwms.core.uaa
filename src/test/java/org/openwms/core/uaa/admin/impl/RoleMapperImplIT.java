@@ -48,8 +48,7 @@ class RoleMapperImplIT {
     @Test
     void testEOtoVO() {
         // arrange
-        var userDetailsMapper = new UserDetailsMapperImpl();
-        var testee = new RoleMapperImpl(userDetailsMapper);
+        var testee = new RoleMapperImpl(new UserMapperImpl(new EmailMapperImpl(), new UserDetailsMapperImpl()), new SecurityObjectMapperImpl());
         var eo = em.find(Role.class, 1000L);
         
         // act
@@ -62,8 +61,7 @@ class RoleMapperImplIT {
     @Test
     void testEOstoVOs() {
         // arrange
-        var userDetailsMapper = new UserDetailsMapperImpl();
-        var testee = new RoleMapperImpl(userDetailsMapper);
+        var testee = new RoleMapperImpl(new UserMapperImpl(new EmailMapperImpl(), new UserDetailsMapperImpl()), new SecurityObjectMapperImpl());
         var eo = em.find(Role.class, 1000L);
 
         // act
@@ -76,8 +74,7 @@ class RoleMapperImplIT {
     @Test
     void testVOtoEO() {
         // arrange
-        var userDetailsMapper = new UserDetailsMapperImpl();
-        var testee = new RoleMapperImpl(userDetailsMapper);
+        var testee = new RoleMapperImpl(new UserMapperImpl(new EmailMapperImpl(), new UserDetailsMapperImpl()), new SecurityObjectMapperImpl());
         var vo = RoleVO.newBuilder()
                 .pKey("pKey")
                 .ol(1)

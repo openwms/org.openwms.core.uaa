@@ -83,7 +83,7 @@ public class RoleServiceIT extends TestBase {
     public static class TestConfig {
         @Bean
         public RoleMapper beanMapper() {
-            return new RoleMapperImpl(new UserDetailsMapperImpl());
+            return new RoleMapperImpl(new UserMapperImpl(new EmailMapperImpl(), new UserDetailsMapperImpl()), new SecurityObjectMapperImpl());
         }
         @Bean
         MethodValidationPostProcessor methodValidationPostProcessor(Validator validator) {

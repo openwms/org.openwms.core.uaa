@@ -117,7 +117,7 @@ public class UserController extends AbstractWebController {
     public ResponseEntity<List<SecurityObjectVO>> findGrantsForUser(@PathVariable("pKey") String pKey) {
 
         var user = userService.findByPKey(pKey);
-        var result = securityObjectMapper.convertToVO(user.getGrants());
+        var result = securityObjectMapper.convertToVOs(user.getGrants());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .header(HttpHeaders.CONTENT_TYPE, SecurityObjectVO.MEDIA_TYPE)
