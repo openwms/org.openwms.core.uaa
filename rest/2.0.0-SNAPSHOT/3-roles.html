@@ -565,7 +565,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/roles/d89789be-c68e-4e63-8551-3603dfbf3603/
+Location: http://localhost:8080/roles/f33f755f-dadc-453e-b486-8e1d4c31cf38/
 Content-Type: application/vnd.openwms.uaa.role-v1+json
 Content-Length: 554
 
@@ -573,16 +573,16 @@ Content-Length: 554
   "@class" : "org.openwms.core.uaa.api.RoleVO",
   "links" : [ {
     "rel" : "users",
-    "href" : "http://localhost:8080/roles/d89789be-c68e-4e63-8551-3603dfbf3603/users"
+    "href" : "http://localhost:8080/roles/f33f755f-dadc-453e-b486-8e1d4c31cf38/users"
   }, {
     "rel" : "grants",
-    "href" : "http://localhost:8080/roles/d89789be-c68e-4e63-8551-3603dfbf3603/grants"
+    "href" : "http://localhost:8080/roles/f33f755f-dadc-453e-b486-8e1d4c31cf38/grants"
   }, {
     "rel" : "role-findbypkey",
-    "href" : "http://localhost:8080/roles/d89789be-c68e-4e63-8551-3603dfbf3603"
+    "href" : "http://localhost:8080/roles/f33f755f-dadc-453e-b486-8e1d4c31cf38"
   } ],
   "ol" : 0,
-  "pKey" : "d89789be-c68e-4e63-8551-3603dfbf3603",
+  "pKey" : "f33f755f-dadc-453e-b486-8e1d4c31cf38",
   "name" : "ROLE_DEV",
   "description" : "Developers",
   "immutable" : true
@@ -700,6 +700,102 @@ Content-Length: 421
   "description" : "Super user role",
   "immutable" : true
 }</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="role-findusersofrole">Find all Users that are assigned to a Role</h3>
+<div class="paragraph">
+<p>A client might ask for all <code>Users</code> that are assigned to a <code>Role</code> resource. Therefore the client needs to query all <code>users</code> of the primary
+<code>Role</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /roles/1/users HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and get an array of <code>Users</code> back, that could also be empty:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.uaa.user-v1+json
+Content-Length: 588
+
+[ {
+  "links" : [ ],
+  "ol" : 1,
+  "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405d",
+  "username" : "jenkins",
+  "externalUser" : true,
+  "lastPasswordChange" : "2020-06-22T19:02:47Z",
+  "locked" : true,
+  "enabled" : true,
+  "expirationDate" : "2020-06-23T19:02:45Z",
+  "fullname" : "Mister Jenkins",
+  "details" : { },
+  "emailAddresses" : [ {
+    "emailAddress" : "admin.private@acme.com",
+    "primary" : true,
+    "fullname" : "Mr. Jenkins"
+  }, {
+    "emailAddress" : "admin@acme.com",
+    "primary" : false,
+    "fullname" : "Mr. Jenkins"
+  } ],
+  "roleNames" : [ "ROLE_ADMIN" ]
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="role-findgrantsofrole">Find all Grants that belong to a Role</h3>
+<div class="paragraph">
+<p>A client might ask for all <code>Grants</code> that are assigned to a <code>Role</code> resource. Therefore the client needs to query all <code>grants</code> of the primary
+<code>Role</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /roles/1/grants HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and get an array of <code>Grants</code> back, that could also be empty:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.uaa.security-object-v1+json
+Content-Length: 688
+
+[ {
+  "@class" : "org.openwms.core.uaa.api.SecurityObjectVO",
+  "ol" : 1,
+  "pKey" : "5",
+  "name" : "SEC_UAA_USER_MODIFY",
+  "description" : "Permission to modify Users"
+}, {
+  "@class" : "org.openwms.core.uaa.api.SecurityObjectVO",
+  "ol" : 1,
+  "pKey" : "4",
+  "name" : "SEC_UAA_USER_CREATE",
+  "description" : "Permission to create Users"
+}, {
+  "@class" : "org.openwms.core.uaa.api.SecurityObjectVO",
+  "ol" : 1,
+  "pKey" : "3",
+  "name" : "SEC_UAA_USER_LOOKUP",
+  "description" : "Permission to find Users"
+}, {
+  "@class" : "org.openwms.core.uaa.api.SecurityObjectVO",
+  "ol" : 1,
+  "pKey" : "6",
+  "name" : "SEC_UAA_USER_DELETE",
+  "description" : "Permission to delete Users"
+} ]</code></pre>
 </div>
 </div>
 </div>
@@ -958,7 +1054,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-10-16 19:54:27 UTC
+Last updated 2022-10-18 08:56:59 UTC
 </div>
 </div>
 </body>
