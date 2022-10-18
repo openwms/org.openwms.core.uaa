@@ -20,7 +20,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openwms.core.UAAApplicationTest;
 import org.openwms.core.uaa.api.RoleVO;
+import org.openwms.core.uaa.api.SecurityObjectVO;
 import org.openwms.core.uaa.api.UAAConstants;
+import org.openwms.core.uaa.api.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -129,6 +131,30 @@ class RoleControllerDocumentation {
                 .andExpect(jsonPath("$.length()", greaterThan(0)))
                 .andExpect(status().isOk())
         ;
+    }
+
+    @Sql("classpath:test.sql")
+    @Test void shall_find_users_of_role() throws Exception {
+        var mvcResult = mockMvc.perform(get(API_ROLES + "/1/users"))
+                .andDo(document("role-findUsersOfRole", preprocessResponse(prettyPrint())))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()", greaterThan(0)))
+                .andExpect(status().isOk())
+                .andReturn()
+        ;
+        assertThat(mvcResult.getResponse().getHeader(HttpHeaders.CONTENT_TYPE)).isEqualTo(UserVO.MEDIA_TYPE);
+    }
+
+    @Sql("classpath:test.sql")
+    @Test void shall_find_grants_of_role() throws Exception {
+        var mvcResult = mockMvc.perform(get(API_ROLES + "/1/grants"))
+                .andDo(document("role-findGrantsOfRole", preprocessResponse(prettyPrint())))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()", greaterThan(0)))
+                .andExpect(status().isOk())
+                .andReturn()
+        ;
+        assertThat(mvcResult.getResponse().getHeader(HttpHeaders.CONTENT_TYPE)).isEqualTo(SecurityObjectVO.MEDIA_TYPE);
     }
 
     @Sql("classpath:test.sql")
