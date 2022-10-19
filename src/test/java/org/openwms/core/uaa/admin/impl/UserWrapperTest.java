@@ -21,20 +21,13 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * A UserWrapperTest.
@@ -46,115 +39,107 @@ public class UserWrapperTest {
     private static final String TEST_USER = "TEST_USER";
 
     @Test void testUserWrapperForNull() {
-        assertThrows(IllegalArgumentException.class, () -> new UserWrapper(null));
+        assertThatThrownBy(() -> new UserWrapper(null)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test void testUserWrapper() {
-        UserWrapper uw = new UserWrapper(new User(TEST_USER));
-        assertEquals(new User(TEST_USER), uw.getUser());
+        var uw = new UserWrapper(new User(TEST_USER));
+        assertThat(uw.getUser()).isEqualTo(new User(TEST_USER));
     }
 
     @Test void testGetAuthoritiesWithNull() {
-        UserWrapper uw = new UserWrapper(new User(TEST_USER));
-        assertNotNull(uw.getAuthorities());
+        var uw = new UserWrapper(new User(TEST_USER));
+        assertThat(uw.getAuthorities()).isNotNull();
     }
 
     @Test void testGetAuthorities() {
-        Role r = new Role("TEST_ROLE");
+        var r = new Role("TEST_ROLE");
         r.addGrant(new Grant("TEST_GRANT"));
-        User u = new User(TEST_USER);
+        var u = new User(TEST_USER);
         u.addRole(r);
 
-        UserWrapper uw = new UserWrapper(u);
-        Collection<GrantedAuthority> auths = uw.getAuthorities();
-        assertFalse(auths.isEmpty());
-        assertEquals(auths.iterator().next().getAuthority(), "TEST_GRANT");
+        var uw = new UserWrapper(u);
+        var auths = uw.getAuthorities();
+        assertThat(auths).isNotEmpty();
+        assertThat(auths.iterator().next().getAuthority()).isEqualTo("TEST_GRANT");
     }
 
-    @Disabled
     @Test void testGetPassword() throws Exception {
-        User u = new User(TEST_USER);
-        BCryptPasswordEncoder enc = new BCryptPasswordEncoder(15);
+        var u = new User(TEST_USER);
+        var enc = new BCryptPasswordEncoder(15);
         u.changePassword(enc.encode("PASS"), "PASS", enc);
-        UserWrapper uw = new UserWrapper(u);
-        assertEquals("PASS", uw.getPassword());
+        var uw = new UserWrapper(u);
+        assertThat(uw.getPassword()).startsWith("$2a$15$");
     }
 
     @Test void testGetUsername() {
-        User u = new User(TEST_USER);
-        UserWrapper uw = new UserWrapper(u);
-        assertEquals(TEST_USER, uw.getUsername());
+        var uw = new UserWrapper(new User(TEST_USER));
+        assertThat(uw.getUsername()).isEqualTo(TEST_USER);
     }
 
     @Test void testIsAccountNonExpired() {
-        User u = new User(TEST_USER);
-        UserWrapper uw = new UserWrapper(u);
-        assertTrue(uw.isAccountNonExpired());
+        var uw = new UserWrapper(new User(TEST_USER));
+        assertThat(uw.isAccountNonExpired()).isTrue();
     }
 
     @Test void testIsAccountNonLocked() {
-        User u = new User(TEST_USER);
-        UserWrapper uw = new UserWrapper(u);
-        assertTrue(uw.isAccountNonLocked());
+        var uw = new UserWrapper(new User(TEST_USER));
+        assertThat(uw.isAccountNonLocked()).isTrue();
     }
 
     @Test void testIsCredentialsNonExpired() {
-        User u = new User(TEST_USER);
-        UserWrapper uw = new UserWrapper(u);
-        assertTrue(uw.isCredentialsNonExpired());
+        var uw = new UserWrapper(new User(TEST_USER));
+        assertThat(uw.isCredentialsNonExpired()).isTrue();
     }
 
     @Test void testIsEnabled() {
-        User u = new User(TEST_USER);
-        UserWrapper uw = new UserWrapper(u);
-        assertTrue(uw.isEnabled());
-    }
-
-    @Test void testEqualsObject() {
-        User u = new User(TEST_USER);
-        User usr = new User("TEST_USER2");
-        UserWrapper uw = new UserWrapper(u);
-        UserWrapper uw2 = new UserWrapper(u);
-        UserWrapper usrw = new UserWrapper(usr);
-
-        // Test to itself
-        assertTrue(uw.equals(uw));
-        // Test for null
-        assertFalse(uw.equals(null));
-        // Test for symmetric
-        assertTrue(uw.equals(uw2));
-        assertTrue(uw2.equals(uw));
-        // Test incompatible types
-        assertFalse(uw.equals(TEST_USER));
-        assertFalse(uw.equals(usrw));
-        assertFalse(usrw.equals(uw));
+        var uw = new UserWrapper(new User(TEST_USER));
+        assertThat(uw.isEnabled()).isTrue();
     }
 
     @Test void testHashCode() {
-        User u = new User(TEST_USER);
-        User u2 = new User("TEST_USER2");
-        User u3 = new User(TEST_USER);
-        UserWrapper uw = new UserWrapper(u);
-        UserWrapper uw2 = new UserWrapper(u2);
-        UserWrapper uw3 = new UserWrapper(u3);
+        var u = new User(TEST_USER);
+        var u2 = new User("TEST_USER2");
+        var u3 = new User(TEST_USER);
+        var uw = new UserWrapper(u);
+        var uw2 = new UserWrapper(u2);
+        var uw3 = new UserWrapper(u3);
 
-        Set<UserWrapper> wrappers = new HashSet<UserWrapper>();
+        var wrappers = new HashSet<UserWrapper>();
         wrappers.add(uw);
         wrappers.add(uw2);
 
         // Test for same return value
-        assertTrue(uw.hashCode() == uw.hashCode());
+        assertThat(uw.hashCode() == uw.hashCode()).isTrue();
         // Test for same value for two refs
-        assertTrue(uw.hashCode() == uw3.hashCode());
+        assertThat(uw.hashCode() == uw3.hashCode()).isTrue();
 
-        assertTrue(wrappers.contains(uw));
-        assertTrue(wrappers.contains(uw2));
+        assertThat(wrappers.contains(uw)).isTrue();
+        assertThat(wrappers.contains(uw2)).isTrue();
+    }
+
+    @Test void testEqualsObject() {
+        var u = new User(TEST_USER);
+        var usr = new User("TEST_USER2");
+        var uw = new UserWrapper(u);
+        var uw2 = new UserWrapper(u);
+        var usrw = new UserWrapper(usr);
+
+        // Test to itself
+        assertThat(uw).isEqualTo(uw);
+        // Test for null
+        assertThat(uw).isNotEqualTo(null);
+        // Test for symmetric
+        assertThat(uw).isEqualTo(uw2);
+        assertThat(uw2).isEqualTo(uw);
+        // Test incompatible types
+        assertThat(uw).isNotEqualTo(TEST_USER);
+        assertThat(uw.equals(usrw)).isFalse();
+        assertThat(usrw.equals(uw)).isFalse();
     }
 
     @Test void testToString() {
-        User u = new User(TEST_USER);
-        UserWrapper uw = new UserWrapper(u);
-        assertEquals(TEST_USER, uw.toString());
+        var uw = new UserWrapper(new User(TEST_USER));
+        assertThat(uw.toString()).isEqualTo(TEST_USER);
     }
-
 }

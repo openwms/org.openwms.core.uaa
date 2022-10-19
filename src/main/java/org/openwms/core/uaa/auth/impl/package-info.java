@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2020 the original author or authors.
+ * Copyright 2005-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,21 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.core.uaa.configuration;
-
 /**
- * A ConfigurationService is a port to an external service that provides the ability to load and store context based preferences and
- * configuration parameters.
- *
- * @author Heiko Scherrer
+ * This package contains the internal implementation of the client authorization.
  */
-public interface ConfigurationService {
-
-    /**
-     * Save preferences of an {@code User}.
-     *
-     * @param preference The encapsulated preferences instance to save
-     * @return The stored instance
-     */
-    UserPreference save(UserPreference preference);
-}
+package org.openwms.core.uaa.auth.impl;

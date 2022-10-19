@@ -21,8 +21,11 @@ import org.junit.jupiter.api.Test;
 import org.openwms.core.UAAApplicationTest;
 import org.openwms.core.uaa.api.EmailVO;
 import org.openwms.core.uaa.api.PasswordString;
+import org.openwms.core.uaa.api.RoleVO;
+import org.openwms.core.uaa.api.SecurityObjectVO;
 import org.openwms.core.uaa.api.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
@@ -42,6 +45,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.openwms.core.uaa.api.UAAConstants.API_USERS;
 import static org.springframework.http.HttpHeaders.LOCATION;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -109,6 +113,30 @@ class UserControllerDocumentation {
                 .andDo(document("user-findNone"))
                 .andExpect(status().isOk())
         ;
+    }
+
+    @Sql("classpath:test.sql")
+    @Test void shall_find_roles_of_user() throws Exception {
+        var mvcResult = mockMvc.perform(get(API_USERS + "/96baa849-dd19-4b19-8c5e-895d3b7f405d/roles"))
+                .andDo(document("user-findRolesOfUser", preprocessResponse(prettyPrint())))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()", greaterThan(0)))
+                .andExpect(status().isOk())
+                .andReturn()
+                ;
+        assertThat(mvcResult.getResponse().getHeader(HttpHeaders.CONTENT_TYPE)).isEqualTo(RoleVO.MEDIA_TYPE);
+    }
+
+    @Sql("classpath:test.sql")
+    @Test void shall_find_grants_of_user() throws Exception {
+        var mvcResult = mockMvc.perform(get(API_USERS + "/96baa849-dd19-4b19-8c5e-895d3b7f405d/grants"))
+                .andDo(document("user-findGrantsOfRUser", preprocessResponse(prettyPrint())))
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()", greaterThan(0)))
+                .andExpect(status().isOk())
+                .andReturn()
+                ;
+        assertThat(mvcResult.getResponse().getHeader(HttpHeaders.CONTENT_TYPE)).isEqualTo(SecurityObjectVO.MEDIA_TYPE);
     }
 
     @Sql("classpath:test.sql")

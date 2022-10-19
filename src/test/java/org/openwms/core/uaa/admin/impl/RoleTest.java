@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * A RoleTest.
@@ -40,50 +40,57 @@ public class RoleTest {
     private static final String TEST_DESCR = "ROLE Description";
 
     @Test void testCreation() {
-        Role role = new Role(TEST_ROLE, TEST_DESCR);
+        var role = new Role(TEST_ROLE, TEST_DESCR);
         assertThat(role.getName()).isEqualTo(TEST_ROLE);
-        assertEquals(TEST_DESCR, role.getDescription());
-        Role role2 = new Role(TEST_ROLE2);
-        assertEquals(TEST_ROLE2, role2.getName());
+        assertThat(role.getDescription()).isEqualTo(TEST_DESCR);
+
+        var role2 = new Role(TEST_ROLE);
+        assertThat(role2.getName()).isEqualTo(TEST_ROLE);
+        assertThat(role2.getDescription()).isNull();
+
+        var role3 = new Role(TEST_ROLE, null);
+        assertThat(role3.getName()).isEqualTo(TEST_ROLE);
+        assertThat(role3.getDescription()).isNull();
+
+        var role4 = new Role(TEST_ROLE, "");
+        assertThat(role4.getName()).isEqualTo(TEST_ROLE);
+        assertThat(role4.getDescription()).isBlank();
     }
 
     @Test void testCreationNegative1() {
-        assertThrows(IllegalArgumentException.class, () -> new Role(""));
+        assertThatThrownBy(() -> new Role("")).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new Role("", "TEST")).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new Role(null)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new Role(null, "TEST")).isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Test void testCreationNegative2() {
-        assertThrows(IllegalArgumentException.class, () -> new Role("", "TEST"));
-    }
-
-    @Test void testCreationNegative3() {
-        assertThrows(IllegalArgumentException.class, () -> new Role(null));
-    }
-
-    @Test void testCreationNegative4() {
-        assertThrows(IllegalArgumentException.class, () -> new Role(null, "TEST"));
-    }
-
-    @Test void testCreationNegative5() {
-        new Role("TEST", null);
-        new Role("TEST", "");
-    }
-
-    @Test void testAddUsers() {
-        Role role = new Role(TEST_ROLE);
-        User user = new User(TEST_ROLE);
+    @Test void testAddUser() {
+        var role = new Role(TEST_ROLE);
+        var user = new User(TEST_ROLE);
         role.addUser(user);
         assertThat(role.getUsers()).hasSize(1);
         assertThat(role.getUsers()).contains(user);
     }
 
+    @Test void testAddUserNegative() {
+        var role = new Role(TEST_ROLE);
+        assertThatThrownBy(() -> role.addUser(null)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test void testAddUsers() {
+        var testee = new Role();
+        testee.addUsers(Set.of(new User()));
+        assertThat(testee.getUsers()).hasSize(1);
+    }
+
     @Test void testAddUsersNegative() {
-        Role role = new Role(TEST_ROLE);
-        assertThrows(IllegalArgumentException.class, () -> role.addUser(null));
+        var testee = new Role();
+        assertThatThrownBy(() -> testee.addUsers(null)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test void testRemoveUser() {
-        Role role = new Role(TEST_ROLE);
-        User user = new User(TEST_ROLE);
+        var role = new Role(TEST_ROLE);
+        var user = new User(TEST_ROLE);
         role.addUser(user);
         assertThat(role.getUsers()).hasSize(1);
         role.removeUser(user);
@@ -91,39 +98,39 @@ public class RoleTest {
     }
 
     @Test void testRemoveUserNegative() {
-        Role role = new Role(TEST_ROLE);
-        assertThrows(IllegalArgumentException.class, () -> role.removeUser(null));
+        var role = new Role(TEST_ROLE);
+        assertThatThrownBy(() -> role.removeUser(null)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test void testSetUsers() {
-        Role role = new Role(TEST_ROLE);
-        User user = new User(TEST_ROLE);
+        var role = new Role(TEST_ROLE);
+        var user = new User(TEST_ROLE);
         assertThat(role.getUsers()).hasSize(0);
         role.setUsers(new HashSet<>(Collections.singletonList(user)));
         assertThat(role.getUsers()).hasSize(1);
     }
 
     @Test void testSetUsersNegative() {
-        Role role = new Role(TEST_ROLE);
-        assertThrows(IllegalArgumentException.class, () -> role.setUsers(null));
+        var role = new Role(TEST_ROLE);
+        assertThatThrownBy(() -> role.setUsers(null)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test void testAddGrant() {
-        Role role = new Role(TEST_ROLE);
-        SecurityObject grant = new Grant(TEST_DESCR);
+        var role = new Role(TEST_ROLE);
+        var grant = new Grant(TEST_DESCR);
         assertThat(role.getGrants()).hasSize(0);
         role.addGrant(grant);
         assertThat(role.getGrants()).hasSize(1);
     }
 
     @Test void testAddGrantNegative() {
-        Role role = new Role(TEST_ROLE);
-        assertThrows(IllegalArgumentException.class, () -> role.addGrant(null));
+        var role = new Role(TEST_ROLE);
+        assertThatThrownBy(() -> role.addGrant(null)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test void testRemoveGrant() {
-        Role role = new Role(TEST_ROLE);
-        SecurityObject grant = new Grant(TEST_ROLE);
+        var role = new Role(TEST_ROLE);
+        var grant = new Grant(TEST_ROLE);
         role.addGrant(grant);
         assertThat(role.getGrants()).hasSize(1);
         role.removeGrant(grant);
@@ -131,13 +138,13 @@ public class RoleTest {
     }
 
     @Test void testRemoveGrantNegative() {
-        Role role = new Role(TEST_ROLE);
-        assertThrows(IllegalArgumentException.class, () -> role.removeGrant(null));
+        var role = new Role(TEST_ROLE);
+        assertThatThrownBy(() -> role.removeGrant(null)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test void testRemoveGrants() {
-        Role role = new Role(TEST_ROLE);
-        SecurityObject grant = new Grant(TEST_ROLE);
+        var role = new Role(TEST_ROLE);
+        var grant = new Grant(TEST_ROLE);
         role.addGrant(grant);
         assertThat(role.getGrants()).hasSize(1);
         role.removeGrants(Collections.singletonList(grant));
@@ -145,20 +152,20 @@ public class RoleTest {
     }
 
     @Test void testRemoveGrantsNegative() {
-        Role role = new Role(TEST_ROLE);
-        assertThrows(IllegalArgumentException.class, () -> role.removeGrants(null));
+        var role = new Role(TEST_ROLE);
+        assertThatThrownBy(() -> role.removeGrants(null)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test void testSetGrants() {
-        Role role = new Role(TEST_ROLE);
-        SecurityObject grant = new Grant(TEST_ROLE);
+        var role = new Role(TEST_ROLE);
+        var grant = new Grant(TEST_ROLE);
         assertThat(role.getGrants()).hasSize(0);
         role.setGrants(new HashSet<>(Collections.singletonList(grant)));
         assertThat(role.getGrants()).hasSize(1);
     }
 
     @Test void testSetGrantsNegative() {
-        Role role = new Role(TEST_ROLE);
-        assertThrows(IllegalArgumentException.class, () -> role.setGrants(null));
+        var role = new Role(TEST_ROLE);
+        assertThatThrownBy(() -> role.setGrants(null)).isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -15,6 +15,7 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
+import org.ameba.annotation.Measured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +29,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 class UserBasicFieldUpdater implements UserUpdater {
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
+    @Measured
     public User update(User existingInstance, User newInstance) {
         if ( newInstance == null ) {
             return existingInstance;

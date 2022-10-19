@@ -13,27 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.core.uaa.configuration;
+package org.openwms.core.uaa.admin.impl;
 
-import org.springframework.stereotype.Service;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
 
 /**
- * A ConfigurationServiceImpl.
+ * A GrantRepository offers functionality to find and modify {@link Grant} entity classes.
  *
  * @author Heiko Scherrer
  */
-@Service
-class ConfigurationServiceImpl implements ConfigurationService {
+interface GrantRepository extends JpaRepository<Grant, Long> {
 
-    /**
-     * Save preferences of an {@code User}.
-     *
-     * @param preference The encapsulated preferences instance to save
-     * @return The stored instance
-     */
-    @Override
-    public UserPreference save(UserPreference preference) {
-        // TODO [openwms]: 29.09.22 implement
-        return null;
-    }
+    Optional<Grant> findBypKey(String pKey);
+
+    Optional<Grant> findByName(String name);
 }

@@ -20,23 +20,18 @@ import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ResourceExistsException;
 import org.ameba.i18n.Translator;
-import org.openwms.core.annotation.FireAfterTransaction;
-import org.openwms.core.event.UserChangedEvent;
 import org.openwms.core.uaa.admin.GrantService;
 import org.openwms.core.uaa.api.ValidationGroups;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.String.format;
-import static org.openwms.core.uaa.MessageCodes.MODULENAME_NOT_NULL;
 import static org.openwms.core.uaa.MessageCodes.SO_WITH_PKEY_NOT_EXIST;
 
 /**
@@ -48,38 +43,16 @@ import static org.openwms.core.uaa.MessageCodes.SO_WITH_PKEY_NOT_EXIST;
 class GrantServiceImpl implements GrantService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GrantServiceImpl.class);
-    private final SecurityObjectRepository securityObjectRepository;
+    private final GrantRepository grantRepository;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final Translator translator;
 
-    GrantServiceImpl(SecurityObjectRepository securityObjectRepository, UserRepository userRepository, Translator translator) {
-        this.securityObjectRepository = securityObjectRepository;
+    GrantServiceImpl(GrantRepository grantRepository, UserRepository userRepository, RoleRepository roleRepository, Translator translator) {
+        this.grantRepository = grantRepository;
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
         this.translator = translator;
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Fires {@code UserChangedEvent} after completion.
-     */
-    @Override
-    @FireAfterTransaction(events = {UserChangedEvent.class})
-    @Measured
-    public @NotNull List<Grant> mergeGrants(@NotBlank String moduleName, @NotNull List<Grant> grants) {
-        Assert.notNull(moduleName, translator.translate(MODULENAME_NOT_NULL));
-        LOGGER.debug("Merging grants of module: [{}]", moduleName);
-        var persisted = securityObjectRepository.findAllOfModule(moduleName + "%");
-        var result = new ArrayList<>(persisted);
-        grants.forEach(g -> {
-            if (persisted.contains(g)) persisted.remove(g);
-            else result.add(securityObjectRepository.save(g));
-        });
-        result.removeAll(persisted);
-        if (!persisted.isEmpty()) {
-            securityObjectRepository.deleteAll(persisted);
-        }
-        return result;
     }
 
     /**
@@ -88,7 +61,7 @@ class GrantServiceImpl implements GrantService {
     @Override
     @Measured
     public @NotNull Grant findByPKey(@NotBlank String pKey) {
-        return securityObjectRepository.findBypKey(pKey)
+        return grantRepository.findBypKey(pKey)
                 .orElseThrow(() -> new NotFoundException(translator, SO_WITH_PKEY_NOT_EXIST, pKey));
     }
 
@@ -98,7 +71,7 @@ class GrantServiceImpl implements GrantService {
     @Override
     @Measured
     public @NotNull List<Grant> findAllGrants() {
-        return securityObjectRepository.findAllGrants();
+        return grantRepository.findAll();
     }
 
     /**
@@ -118,9 +91,9 @@ class GrantServiceImpl implements GrantService {
     @Measured
     @Validated(ValidationGroups.Create.class)
     public @NotNull Grant create(@NotNull(groups = ValidationGroups.Create.class) @Valid Grant grant) {
-        if (securityObjectRepository.findByName(grant.getName()).isPresent()) {
+        if (grantRepository.findByName(grant.getName()).isPresent()) {
             throw new ResourceExistsException(format("Grant with name [%s] already exists", grant.getName()));
         }
-        return securityObjectRepository.save(grant);
+        return grantRepository.save(grant);
     }
 }

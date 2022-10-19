@@ -1,5 +1,5 @@
 /*
- * Copyright 2005-2020 the original author or authors.
+ * Copyright 2005-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,20 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.openwms.core.uaa.admin.impl;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.Optional;
-
 /**
- * An UserRepository offers functionality regarding {@link User} entity classes.
- *
- * @author Heiko Scherrer
+ * This package contains configuration classes for the Spring context and lifecycle management.
  */
-interface UserRepository extends JpaRepository<User, Long> {
-
-    Optional<User> findBypKey(String pKey);
-
-    Optional<User> findByUsername(String username);
-}
+package org.openwms.core.uaa.app;

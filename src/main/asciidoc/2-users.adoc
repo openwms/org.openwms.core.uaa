@@ -44,6 +44,24 @@ include::{generated}/user-findByPkey/http-request.adoc[]
 If the resource exists the server responds with a `200-OK` and the `User` representation in the response body.
 include::{generated}/user-findByPkey/http-response.adoc[]
 
+[[user-findrolesofuser]]
+=== Find all Roles that are assigned to a User
+A client might ask for all `Roles` that are assigned to a `User` resource. Therefore the client needs to query all `roles` of the primary
+`User`:
+include::{generated}/user-findRolesOfUser/http-request.adoc[]
+
+and get an array of `Roles` back, that could also be empty:
+include::{generated}/user-findRolesOfUser/http-response.adoc[]
+
+[[user-findgrantsofuser]]
+=== Find all Grants that belong to a User
+A client might ask for all `Grants` that are assigned to a `User` resource. Therefore the client needs to query all `grants` of the primary
+`User`:
+include::{generated}/user-findGrantsOfUser/http-request.adoc[]
+
+and get an array of `Grants` back, that could also be empty:
+include::{generated}/user-findGrantsOfUser/http-response.adoc[]
+
 [[user-save]]
 === Modify an existing User
 An existing `User` instance can be modified by sending a `PUT` request with the `User` representation as request body.

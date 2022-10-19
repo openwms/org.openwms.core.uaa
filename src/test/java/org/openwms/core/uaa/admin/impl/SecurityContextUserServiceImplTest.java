@@ -21,10 +21,11 @@
 package org.openwms.core.uaa.admin.impl;
 
 import net.sf.ehcache.Ehcache;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.openwms.core.AbstractMockitoTests;
+import org.mockito.MockitoAnnotations;
 import org.openwms.core.uaa.admin.UserService;
 import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,7 +47,7 @@ import static org.mockito.Mockito.when;
  *
  * @author Heiko Scherrer
  */
-class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
+class SecurityContextUserServiceImplTest {
 
     private static final String TEST_USER = "TEST_USER";
     @Mock
@@ -60,6 +61,11 @@ class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
     @InjectMocks
     private SecurityContextUserServiceImpl srv;
 
+    @BeforeEach
+    public void onSuperBefore() {
+        MockitoAnnotations.openMocks(this);
+    }
+
     @Test final void testOnApplicationEventWithCache() {
         srv.onApplicationEvent(new UserEvent(new User("test"), UserEvent.EventType.CREATED));
         verify(cache).removeAll();
@@ -72,7 +78,7 @@ class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
      */
     @Test final void testLoadUserByUsernameFromCache() {
         when(userCache.getUserFromCache(TEST_USER)).thenReturn(new UserWrapper(new User(TEST_USER)));
-        UserDetails cachedUser = srv.loadUserByUsername(TEST_USER);
+        var cachedUser = srv.loadUserByUsername(TEST_USER);
 
         assertTrue(cachedUser instanceof UserWrapper);
         assertEquals(((UserWrapper) cachedUser).getUser(), new User(TEST_USER));
@@ -87,7 +93,7 @@ class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
      * expect that the cache is empty.
      */
     @Test final void testLoadUserByUsernameSystemUser() {
-        SystemUser su = new SystemUser(SystemUser.SYSTEM_USERNAME, SystemUser.SYSTEM_USERNAME);
+        var su = new SystemUser(SystemUser.SYSTEM_USERNAME, SystemUser.SYSTEM_USERNAME);
 
         when(userCache.getUserFromCache(SystemUser.SYSTEM_USERNAME)).thenReturn(null);
         when(userService.createSystemUser()).thenReturn(su);
@@ -135,7 +141,6 @@ class SecurityContextUserServiceImplTest extends AbstractMockitoTests {
             cachedUser = srv.loadUserByUsername("UNKNOWN_USER");
             fail("Must throw an UserNotFoundException when the user does not exist");
         } catch (UsernameNotFoundException unfe) {
-            logger.debug("OK: Exception when no user found is ok.");
         }
 
         verify(userService, never()).createSystemUser();

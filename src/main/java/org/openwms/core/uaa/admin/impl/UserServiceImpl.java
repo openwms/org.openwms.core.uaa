@@ -29,8 +29,6 @@ import org.openwms.core.uaa.admin.UserMapper;
 import org.openwms.core.uaa.admin.UserService;
 import org.openwms.core.uaa.api.UserVO;
 import org.openwms.core.uaa.api.ValidationGroups;
-import org.openwms.core.uaa.configuration.ConfigurationService;
-import org.openwms.core.uaa.configuration.UserPreference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,7 +45,6 @@ import javax.validation.Valid;
 import javax.validation.Validator;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -55,9 +52,7 @@ import java.util.Optional;
 
 import static org.ameba.system.ValidationUtil.validate;
 import static org.openwms.core.uaa.MessageCodes.USER_ALREADY_EXISTS;
-import static org.openwms.core.uaa.MessageCodes.USER_PW_INVALID;
 import static org.openwms.core.uaa.MessageCodes.USER_SAVE_NOT_BE_NULL;
-import static org.openwms.core.uaa.MessageCodes.USER_WITH_NAME_NOT_EXIST;
 import static org.openwms.core.uaa.MessageCodes.USER_WITH_PKEY_NOT_EXIST;
 import static org.openwms.core.uaa.MessageCodes.USER_WITH_PK_NOT_EXIST;
 
@@ -75,8 +70,7 @@ class UserServiceImpl implements UserService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserRepository repository;
-    private final SecurityObjectRepository securityObjectDao;
-    private final ConfigurationService confSrv;
+    private final GrantRepository securityObjectDao;
     private final RoleService roleService;
     private final PasswordEncoder enc;
     private final Translator translator;
@@ -87,13 +81,12 @@ class UserServiceImpl implements UserService {
     private final String systemUsername;
     private final String systemPassword;
 
-    UserServiceImpl(UserRepository repository, SecurityObjectRepository securityObjectDao, ConfigurationService confSrv,
-            @Lazy RoleService roleService, PasswordEncoder enc, Translator translator, Validator validator, UserMapper userMapper,
+    UserServiceImpl(UserRepository repository, GrantRepository securityObjectDao, @Lazy RoleService roleService,
+            PasswordEncoder enc, Translator translator, Validator validator, UserMapper userMapper,
             PluginRegistry<UserUpdater, String> userUpdater, ApplicationEventPublisher eventPublisher, @Value("${owms.security.system.username}") String systemUsername,
             @Value("${owms.security.system.password}") String systemPassword) {
         this.repository = repository;
         this.securityObjectDao = securityObjectDao;
-        this.confSrv = confSrv;
         this.roleService = roleService;
         this.enc = enc;
         this.translator = translator;
@@ -153,23 +146,15 @@ class UserServiceImpl implements UserService {
     @Override
     @Measured
     public @NotNull User save(@NotNull User entity) {
+        return saveInternal(entity);
+    }
+
+    private User saveInternal(User entity) {
         Assert.notNull(entity, translator.translate(USER_SAVE_NOT_BE_NULL));
         validate(validator, entity, ValidationGroups.Modify.class);
         var saved = repository.save(entity);
         eventPublisher.publishEvent(new UserEvent(saved, UserEvent.EventType.MODIFIED));
         return saved;
-    }
-
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Marked as read-only transactional method.
-     */
-    @Override
-    @Transactional(readOnly = true)
-    @Measured
-    public @NotNull User getTemplate(@NotBlank String username) {
-        return new User(username);
     }
 
     /**
@@ -244,17 +229,6 @@ class UserServiceImpl implements UserService {
      */
     @Override
     @Measured
-    public void remove(@NotBlank String username) {
-        var user = findInternal(username);
-        repository.delete(user);
-        eventPublisher.publishEvent(new UserEvent(user, UserEvent.EventType.DELETED));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Measured
     public void delete(@NotBlank String pKey) {
         var user = findByPKeyInternal(pKey);
         repository.delete(user);
@@ -271,56 +245,6 @@ class UserServiceImpl implements UserService {
         saved.changePassword(enc.encode(newPassword), newPassword.toString(), enc);
         eventPublisher.publishEvent(new UserEvent(saved, UserEvent.EventType.MODIFIED));
         return userMapper.convertToVO(saved);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @FireAfterTransaction(events = {UserChangedEvent.class})
-    @Measured
-    public void changeUserPassword(@NotNull UserPassword userPassword) {
-        var entity = findInternal(userPassword.getUser().getUsername());
-        try {
-            entity.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);
-            repository.save(entity);
-            eventPublisher.publishEvent(new UserEvent(entity, UserEvent.EventType.MODIFIED));
-        } catch (InvalidPasswordException ipe) {
-            LOGGER.error(ipe.getMessage());
-            throw new ServiceLayerException(translator.translate(USER_PW_INVALID, userPassword.getUser().getUsername()),
-                    USER_PW_INVALID);
-        }
-    }
-
-    private User findInternal(String username) {
-        return repository.findByUsername(username).orElseThrow(
-                () -> new NotFoundException(
-                        translator.translate(USER_WITH_NAME_NOT_EXIST, username),
-                        USER_WITH_NAME_NOT_EXIST,
-                        username
-                )
-        );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @FireAfterTransaction(events = {UserChangedEvent.class})
-    @Measured
-    public @NotNull User saveUserProfile(
-            @NotNull @Valid User user,
-            @NotNull UserPassword userPassword,
-            UserPreference... prefs) {
-        try {
-            user.changePassword(enc.encode(userPassword.getPassword()), userPassword.getPassword(), enc);
-        } catch (InvalidPasswordException ipe) {
-            LOGGER.error(ipe.getMessage());
-            throw new ServiceLayerException(translator.translate(USER_PW_INVALID, userPassword.getPassword()),
-                    USER_PW_INVALID);
-        }
-        Arrays.stream(prefs).forEach(confSrv::save);
-        return save(user);
     }
 
     /**

@@ -19,10 +19,8 @@ import org.ameba.integration.FindOperations;
 import org.ameba.integration.SaveOperations;
 import org.openwms.core.uaa.admin.impl.SystemUser;
 import org.openwms.core.uaa.admin.impl.User;
-import org.openwms.core.uaa.admin.impl.UserPassword;
 import org.openwms.core.uaa.api.UserVO;
 import org.openwms.core.uaa.api.ValidationGroups;
-import org.openwms.core.uaa.configuration.UserPreference;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -36,13 +34,6 @@ import java.util.Optional;
  * @author Heiko Scherrer
  */
 public interface UserService extends FindOperations<User, Long>, SaveOperations<User, Long> {
-
-    /**
-     * Change the current {@link User}s password.
-     *
-     * @param userPassword The UserPassword to change
-     */
-    void changeUserPassword(@NotNull UserPassword userPassword);
 
     /**
      * Save or update an already existing {@link User}.
@@ -60,27 +51,6 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
      * @param image Image to be stored
      */
     void uploadImageFile(@NotBlank String pKey, @NotNull byte[] image);
-
-    /**
-     * Return a transient {@link User} entity object, serving as a template.
-     *
-     * @param username Username of the User
-     * @return An empty User template
-     */
-    @NotNull User getTemplate(@NotBlank String username);
-
-    /**
-     * Save changes on an {@link User} and additionally save the User's password and preferences.
-     *
-     * @param user The User to change
-     * @param userPassword The Users password
-     * @param prefs An array of UserPreference objects
-     * @return The saved User instance
-     */
-    @NotNull User saveUserProfile(
-            @NotNull @Valid User user,
-            @NotNull UserPassword userPassword,
-            UserPreference... prefs);
 
     /**
      * Create and return the {@link SystemUser} without persisting this user.
@@ -113,13 +83,6 @@ public interface UserService extends FindOperations<User, Long>, SaveOperations<
      * @return The instance
      */
     @NotNull User findByPKey(@NotBlank String pKey);
-
-    /**
-     * Delete an {@link User}.
-     *
-     * @param username The User's unique name
-     */
-    void remove(@NotBlank String username);
 
     /**
      * Delete an {@link User}.

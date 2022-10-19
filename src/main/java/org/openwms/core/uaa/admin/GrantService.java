@@ -31,15 +31,6 @@ import java.util.List;
 public interface GrantService {
 
     /**
-     * Merge a list of persisted, detached or transient {@link Grant}s of a particular {@code Module}.
-     *
-     * @param moduleName The moduleName
-     * @param grants The list of {@link Grant}s to merge
-     * @return All existing {@link Grant}s
-     */
-    @NotNull List<Grant> mergeGrants(@NotBlank String moduleName, @NotNull List<Grant> grants);
-
-    /**
      * Find and return a {@code Grant}.
      *
      * @param pKey The persistent key of the existing Grant

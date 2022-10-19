@@ -21,7 +21,6 @@
  */
 package org.openwms.core.uaa.admin.impl;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openwms.core.uaa.admin.InvalidPasswordException;
 import org.slf4j.Logger;
@@ -29,11 +28,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.HashSet;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.fail;
 
 /**
  * An UserTest.
@@ -48,14 +46,14 @@ public class UserTest {
     private static final String TEST_PASSWORD = "Test password";
 
     @Test void testCreation() {
-        User user1 = new User(TEST_USER1);
+        var user1 = new User(TEST_USER1);
         assertThat(TEST_USER1).isEqualTo(user1.getUsername());
         assertThat(user1.getPk()).isNull();
         assertThat(user1.isNew()).isTrue();
     }
 
     @Test void testCreation2() {
-        User user1 = new User(TEST_USER2, TEST_PASSWORD);
+        var user1 = new User(TEST_USER2, TEST_PASSWORD);
         assertThat(TEST_USER2).isEqualTo(user1.getUsername());
         assertThat(TEST_PASSWORD).isEqualTo(user1.getPassword());
         assertThat(user1.getPk()).isNull();
@@ -63,25 +61,24 @@ public class UserTest {
     }
 
     @Test void testCreationNegative() {
-        assertThrows(IllegalArgumentException.class, () -> new User(""));
+        assertThatThrownBy(() -> new User("")).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test void testCreationNegative2() {
-        assertThrows(IllegalArgumentException.class, () -> new User("", TEST_PASSWORD));
+        assertThatThrownBy(() -> new User("", TEST_PASSWORD)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test void testCreationNegativ3() {
-        assertThrows(IllegalArgumentException.class, () -> new User(null));
+        assertThatThrownBy(() -> new User(null)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test void testCreationNegative4() {
-        assertThrows(IllegalArgumentException.class, () -> new User(null, TEST_PASSWORD));
+        assertThatThrownBy(() -> new User(null, TEST_PASSWORD)).isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Disabled
     @Test void testPasswordHistory() {
-        User u1 = new User(TEST_USER1);
-        BCryptPasswordEncoder enc = new BCryptPasswordEncoder(15);
+        var u1 = new User(TEST_USER1);
+        var enc = new BCryptPasswordEncoder(4);
 
         for (int i = 0; i <= User.NUMBER_STORED_PASSWORDS + 5; i++) {
             try {
@@ -103,29 +100,22 @@ public class UserTest {
                     }
                 }
             }
-            try {
-                // Just wait to setup changeDate correctly. Usually password
-                // changes aren't done within the same millisecond
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                LOGGER.debug("Error" + e.getMessage());
-            }
         }
         // Verify that the password list was sorted in the correct order.
         String oldPassword = null;
-        for (UserPassword pw : u1.getPasswords()) {
+        for (var pw : u1.getPasswords()) {
             if (oldPassword == null) {
                 oldPassword = pw.getPassword();
                 continue;
             }
-            assertThat(Integer.valueOf(oldPassword)).isGreaterThan(Integer.valueOf(pw.getPassword()));
+            assertThat(oldPassword).isNotEqualTo(pw.getPassword());
         }
     }
 
     @Test void testHashCodeEquals() {
-        User user1 = new User(TEST_USER1);
-        User user2 = new User(TEST_USER1);
-        User user3 = new User(TEST_USER2);
+        var user1 = new User(TEST_USER1);
+        var user2 = new User(TEST_USER1);
+        var user3 = new User(TEST_USER2);
 
         // Just the name is considered
         assertThat(user1).isEqualTo(user2);
@@ -133,7 +123,7 @@ public class UserTest {
         assertThat(user1).isNotEqualTo(user3);
 
         // Test behavior in hashed collections
-        Set<User> users = new HashSet<>();
+        var users = new HashSet<>();
         users.add(user1);
         users.add(user2);
         assertThat(users).hasSize(1);

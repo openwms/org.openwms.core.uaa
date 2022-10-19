@@ -83,7 +83,7 @@ class RoleServiceImpl implements RoleService {
     @Override
     @Measured
     public @NotNull List<Role> findByNames(@NotNull List<String> roleNames) {
-        var allRoles = repository.findByNames(roleNames);
+        var allRoles = repository.findByNameIn(roleNames);
         return allRoles == null ? Collections.emptyList() : allRoles;
     }
 

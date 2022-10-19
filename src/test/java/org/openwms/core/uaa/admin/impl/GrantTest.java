@@ -24,12 +24,9 @@ package org.openwms.core.uaa.admin.impl;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
-import java.util.Set;
 
-import static org.assertj.core.api.Assertions.fail;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * A GrantTest.
@@ -43,85 +40,51 @@ class GrantTest {
     private static final String GRANT_NAME3 = "GRANT_NAME3";
     private static final String GRANT_DESC1 = "GRANT_DESC1";
 
-    /**
-     * Test method for {@link org.openwms.core.system.usermanagement.Grant#equals(java.lang.Object)} .
-     */
-    @Test final void testEqualsObject() {
-        Grant grant1 = new Grant(GRANT_NAME1, "abc");
-        Grant grant2 = new Grant(GRANT_NAME2, "defg");
-        Grant grant3 = new Grant(GRANT_NAME3, "hijkl");
+    @Test void testEqualsObject() {
+        var grant1 = new Grant(GRANT_NAME1, "abc");
+        var grant2 = new Grant(GRANT_NAME2, "defg");
+        var grant3 = new Grant(GRANT_NAME3, "hijkl");
 
         // Just the name is considered
-        assertEquals(grant1, grant2);
-        assertNotEquals(grant1, new Object());
-        assertEquals(grant1, grant1);
-        assertNotEquals(grant1, grant3);
+        assertThat(grant1).isEqualTo(grant2);
+        assertThat(grant1).isNotEqualTo(new Object());
+        assertThat(grant1).isEqualTo(grant1);
+        assertThat(grant1).isNotEqualTo(grant3);
 
         // Test behavior in hashed collections
-        Set<Grant> grants = new HashSet<>();
+        var grants = new HashSet<>();
         grants.add(grant1);
         grants.add(grant2);
-        assertEquals(1, grants.size());
+        assertThat(grants).hasSize(1);
         grants.add(grant3);
-        assertEquals(2, grants.size());
+        assertThat(grants).hasSize(2);
     }
 
-    /**
-     * Test method for {@link org.openwms.core.system.usermanagement.Grant#Grant()}.
-     */
-    @Test final void testGrant() {
-        Grant grant = new Grant();
-        assertNull(grant.getName());
-        assertNull(grant.getDescription());
+    @Test void testGrant() {
+        var grant = new Grant();
+        assertThat(grant.getName()).isNull();
+        assertThat(grant.getDescription()).isNull();
     }
 
-    /**
-     * Test method for {@link org.openwms.core.system.usermanagement.Grant#Grant(java.lang.String, java.lang.String)} .
-     */
-    @Test final void testGrantStringString() {
-        Grant grant = new Grant(GRANT_NAME1, GRANT_DESC1);
-        assertEquals(GRANT_NAME1, grant.getName());
-        assertEquals(GRANT_DESC1, grant.getDescription());
+    @Test void testGrantStringString() {
+        var grant = new Grant(GRANT_NAME1, GRANT_DESC1);
+        assertThat(grant.getName()).isEqualTo(GRANT_NAME1);
+        assertThat(grant.getDescription()).isEqualTo(GRANT_DESC1);
     }
 
-    /**
-     * Test method for {@link org.openwms.core.system.usermanagement.Grant#Grant(java.lang.String, java.lang.String)} .
-     */
-    @Test final void testGrantStringStringEmpty() {
-        try {
-            new Grant(null, GRANT_DESC1);
-            fail("IAE expected when creating Grant(String, String) with name equals to null");
-        } catch (IllegalArgumentException iae) {
-        }
-        try {
-            new Grant("", GRANT_DESC1);
-            fail("IAE expected when creating Grant(String, String) with empty name");
-        } catch (IllegalArgumentException iae) {
-        }
+    @Test void testGrantStringStringEmpty() {
+        assertThatThrownBy(() -> new Grant(null, GRANT_DESC1)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new Grant("", GRANT_DESC1)).isInstanceOf(IllegalArgumentException.class);
     }
 
-    /**
-     * Test method for {@link org.openwms.core.system.usermanagement.Grant#Grant(java.lang.String)} .
-     */
-    @Test final void testGrantString() {
-        Grant grant = new Grant(GRANT_NAME1);
-        assertEquals(GRANT_NAME1, grant.getName());
-        assertNull(grant.getDescription());
+    @Test void testGrantString() {
+        var grant = new Grant(GRANT_NAME1);
+        assertThat(grant.getName()).isEqualTo(GRANT_NAME1);
+        assertThat(grant.getDescription()).isNull();
     }
 
-    /**
-     * Test method for {@link org.openwms.core.system.usermanagement.Grant#Grant(java.lang.String)} .
-     */
-    @Test final void testGrantStringEmpty() {
-        try {
-            new Grant(null);
-            fail("IAE expected when creating Grant(String) with name equals to null");
-        } catch (IllegalArgumentException iae) {
-        }
-        try {
-            new Grant("");
-            fail("IAE expected when creating Grant(String) with empty name");
-        } catch (IllegalArgumentException iae) {
-        }
+    @Test void testGrantStringEmpty() {
+        assertThatThrownBy(() -> new Grant(null)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new Grant("")).isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -56,7 +56,6 @@ import java.util.Locale;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableTransactionManagement
 @EnablePluginRegistries({UserUpdater.class})
-//@Import(BaseConfiguration.class)
 public class UAAModuleConfiguration implements WebMvcConfigurer {
 
     @Override

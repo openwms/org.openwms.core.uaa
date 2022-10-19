@@ -71,13 +71,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class RoleServiceIT extends TestBase {
 
     @Autowired
-    private RoleService srv;
-    @Autowired
     private TestEntityManager entityManager;
     @MockBean
     private UserService userService;
     @MockBean
     private Translator translator;
+    @Autowired
+    private RoleService testee;
 
     @TestConfiguration
     public static class TestConfig {
@@ -94,49 +94,49 @@ public class RoleServiceIT extends TestBase {
     }
 
     @Test void testCreateWithNull() {
-        assertThrows(ConstraintViolationException.class, () -> srv.create(null));
+        assertThrows(ConstraintViolationException.class, () -> testee.create(null));
     }
 
     @Test void testCreateWithoutNameMustFail() {
-        assertThrows(ConstraintViolationException.class, () -> srv.create(new RoleVO()));
+        assertThrows(ConstraintViolationException.class, () -> testee.create(new RoleVO()));
     }
 
     @Test void testCreateExistingRoleMustFail() {
-        assertThrows(ResourceExistsException.class, () -> srv.create(RoleVO.newBuilder().name("ROLE_ADMIN").build()));
+        assertThrows(ResourceExistsException.class, () -> testee.create(RoleVO.newBuilder().name("ROLE_ADMIN").build()));
     }
 
     @Test void testCreateNewRole() {
-        var role = srv.create(RoleVO.newBuilder().name("ANONYMOUS").build());
+        var role = testee.create(RoleVO.newBuilder().name("ANONYMOUS").build());
         assertThat(role).isNotNull();
         assertThat(role.getName()).isEqualTo("ROLE_ANONYMOUS");
     }
 
     @Test void testCreateNewRoleWithoutPrefix() {
-        var role = srv.create(RoleVO.newBuilder().name("ANONYMOUS").build());
+        var role = testee.create(RoleVO.newBuilder().name("ANONYMOUS").build());
         assertThat(role.getName()).isEqualTo("ROLE_ANONYMOUS");
     }
 
     @Test void testSaveWithNulls() {
-        assertThrows(ConstraintViolationException.class, () -> srv.save(null, null));
-        assertThrows(ConstraintViolationException.class, () -> srv.save("", null));
+        assertThrows(ConstraintViolationException.class, () -> testee.save(null, null));
+        assertThrows(ConstraintViolationException.class, () -> testee.save("", null));
     }
 
     @Test void testSaveNotExistingRole() {
-        assertThrows(ConstraintViolationException.class, () -> srv.save("UNKNOWN", null));
+        assertThrows(ConstraintViolationException.class, () -> testee.save("UNKNOWN", null));
     }
 
     @Test void testSaveExisingRole() {
-        var roleSaved = srv.save("1", RoleVO.newBuilder().name("test").description("Test description").build());
+        var roleSaved = testee.save("1", RoleVO.newBuilder().name("test").description("Test description").build());
         assertThat(roleSaved).isNotNull();
         assertThat(roleSaved.getDescription()).isEqualTo("Test description");
         assertThat(roleSaved.getName()).isEqualTo("ROLE_test");
     }
 
     @Test void testFindAll() {
-        assertThat(srv.findAll()).hasSize(2);
+        assertThat(testee.findAll()).hasSize(2);
     }
 
     @Test void testFindByNames() {
-        assertThat(srv.findByNames(asList("ROLE_ADMIN", "ROLE_OPS", "SEC_UAA_USER_LOOKUP"))).hasSize(2);
+        assertThat(testee.findByNames(asList("ROLE_ADMIN", "ROLE_OPS", "SEC_UAA_USER_LOOKUP"))).hasSize(2);
     }
 }

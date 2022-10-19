@@ -24,17 +24,17 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 /**
- * A ClientRepository.
+ * A ClientRepository offers functionality to find and modify {@link Client} entity classes.
  *
  * @author Heiko Scherrer
  */
 interface ClientRepository extends JpaRepository<Client, Long> {
 
-    @Modifying
-    @Query("delete from Client c where c.pKey = :pKey")
-    void deleteByPKey(@Param("pKey") String pKey);
-
     Optional<Client> findBypKey(String persistentKey);
 
     Optional<Client> findByClientId(String clientId);
+
+    @Modifying
+    @Query("delete from Client c where c.pKey = :pKey")
+    void deleteByPKey(@Param("pKey") String pKey);
 }
