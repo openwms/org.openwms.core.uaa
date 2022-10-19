@@ -6,4 +6,3 @@ org.openwms.core.uaa.app
 org.openwms.core.uaa.auth
 org.openwms.core.uaa.auth.impl
 org.openwms.core.uaa.auth.userinfo
-org.openwms.core.uaa.configuration

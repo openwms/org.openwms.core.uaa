@@ -564,14 +564,14 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/d112dda2-eb78-46a1-8eeb-09714f23fda3/
+Location: http://localhost:8080/users/492b37d2-b603-49ba-b9c5-3324d14a39d1/
 Content-Type: application/vnd.openwms.uaa.user-v1+json
 Content-Length: 290
 
 {
   "links" : [ ],
   "ol" : 0,
-  "pKey" : "d112dda2-eb78-46a1-8eeb-09714f23fda3",
+  "pKey" : "492b37d2-b603-49ba-b9c5-3324d14a39d1",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -757,6 +757,98 @@ Content-Length: 562
 </div>
 </div>
 <div class="sect2">
+<h3 id="user-findrolesofuser">Find all Roles that are assigned to a User</h3>
+<div class="paragraph">
+<p>A client might ask for all <code>Roles</code> that are assigned to a <code>User</code> resource. Therefore the client needs to query all <code>roles</code> of the primary
+<code>User</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /users/96baa849-dd19-4b19-8c5e-895d3b7f405d/roles HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and get an array of <code>Roles</code> back, that could also be empty:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/vnd.openwms.uaa.role-v1+json
+Content-Length: 1563
+
+[ {
+  "@class" : "org.openwms.core.uaa.api.RoleVO",
+  "ol" : 1,
+  "pKey" : "1",
+  "name" : "ROLE_ADMIN",
+  "description" : "Super user role",
+  "immutable" : true,
+  "users" : [ {
+    "links" : [ ],
+    "ol" : 1,
+    "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405d",
+    "username" : "jenkins",
+    "externalUser" : true,
+    "lastPasswordChange" : "2020-06-22T19:02:47Z",
+    "locked" : true,
+    "enabled" : true,
+    "expirationDate" : "2020-06-23T19:02:45Z",
+    "fullname" : "Mister Jenkins",
+    "details" : { },
+    "emailAddresses" : [ {
+      "emailAddress" : "admin.private@acme.com",
+      "primary" : true,
+      "fullname" : "Mr. Jenkins"
+    }, {
+      "emailAddress" : "admin@acme.com",
+      "primary" : false,
+      "fullname" : "Mr. Jenkins"
+    } ],
+    "roleNames" : [ "ROLE_ADMIN" ]
+  } ],
+  "grants" : [ {
+    "@class" : "org.openwms.core.uaa.api.SecurityObjectVO",
+    "ol" : 1,
+    "pKey" : "5",
+    "name" : "SEC_UAA_USER_MODIFY",
+    "description" : "Permission to modify Users"
+  }, {
+    "@class" : "org.openwms.core.uaa.api.SecurityObjectVO",
+    "ol" : 1,
+    "pKey" : "4",
+    "name" : "SEC_UAA_USER_CREATE",
+    "description" : "Permission to create Users"
+  }, {
+    "@class" : "org.openwms.core.uaa.api.SecurityObjectVO",
+    "ol" : 1,
+    "pKey" : "3",
+    "name" : "SEC_UAA_USER_LOOKUP",
+    "description" : "Permission to find Users"
+  }, {
+    "@class" : "org.openwms.core.uaa.api.SecurityObjectVO",
+    "ol" : 1,
+    "pKey" : "6",
+    "name" : "SEC_UAA_USER_DELETE",
+    "description" : "Permission to delete Users"
+  } ]
+} ]</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="user-findgrantsofuser">Find all Grants that belong to a User</h3>
+<div class="paragraph">
+<p>A client might ask for all <code>Grants</code> that are assigned to a <code>User</code> resource. Therefore the client needs to query all <code>grants</code> of the primary
+<code>User</code>:
+Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-findGrantsOfUser/http-request.adoc[]</p>
+</div>
+<div class="paragraph">
+<p>and get an array of <code>Grants</code> back, that could also be empty:
+Unresolved directive in 2-users.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/user-findGrantsOfUser/http-response.adoc[]</p>
+</div>
+</div>
+<div class="sect2">
 <h3 id="user-save">Modify an existing User</h3>
 <div class="paragraph">
 <p>An existing <code>User</code> instance can be modified by sending a <code>PUT</code> request with the <code>User</code> representation as request body.</p>
@@ -840,7 +932,7 @@ Content-Length: 360
   "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405e",
   "username" : "superuser",
   "externalUser" : false,
-  "lastPasswordChange" : "2022-10-18T09:11:42Z",
+  "lastPasswordChange" : "2022-10-19T20:10:48Z",
   "locked" : true,
   "enabled" : false,
   "details" : { },
@@ -902,7 +994,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-10-18 08:56:59 UTC
+Last updated 2022-10-19 19:46:00 UTC
 </div>
 </div>
 </body>
