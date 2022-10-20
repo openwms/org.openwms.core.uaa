@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<meta name="author" content="(2.0.0-SNAPSHOT-64)">
+<meta name="author" content="(2.0.0-SNAPSHOT-65)">
 <title>OpenWMS.org WMS: RESTful API (UAA)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -443,7 +443,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org WMS: RESTful API (UAA)</h1>
 <div class="details">
-<span id="author" class="author">(2.0.0-SNAPSHOT-64)</span><br>
+<span id="author" class="author">(2.0.0-SNAPSHOT-65)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -894,14 +894,14 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/492b37d2-b603-49ba-b9c5-3324d14a39d1/
+Location: http://localhost:8080/users/5c402add-0972-445a-91ad-fd7d2210de71/
 Content-Type: application/vnd.openwms.uaa.user-v1+json
 Content-Length: 290
 
 {
   "links" : [ ],
   "ol" : 0,
-  "pKey" : "492b37d2-b603-49ba-b9c5-3324d14a39d1",
+  "pKey" : "5c402add-0972-445a-91ad-fd7d2210de71",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -1009,55 +1009,9 @@ Content-Length: 1280
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/vnd.openwms.uaa.user-v1+json
-Content-Length: 1280
+Content-Length: 3
 
-[ {
-  "links" : [ {
-    "rel" : "user-findbypkey",
-    "href" : "http://localhost:8080/users/96baa849-dd19-4b19-8c5e-895d3b7f405d"
-  } ],
-  "ol" : 1,
-  "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405d",
-  "username" : "jenkins",
-  "externalUser" : true,
-  "lastPasswordChange" : "2020-06-22T19:02:47Z",
-  "locked" : true,
-  "enabled" : true,
-  "expirationDate" : "2020-06-23T19:02:45Z",
-  "fullname" : "Mister Jenkins",
-  "details" : { },
-  "emailAddresses" : [ {
-    "emailAddress" : "admin.private@acme.com",
-    "primary" : true,
-    "fullname" : "Mr. Jenkins"
-  }, {
-    "emailAddress" : "admin@acme.com",
-    "primary" : false,
-    "fullname" : "Mr. Jenkins"
-  } ],
-  "roleNames" : [ "ROLE_ADMIN" ]
-}, {
-  "links" : [ {
-    "rel" : "user-findbypkey",
-    "href" : "http://localhost:8080/users/96baa849-dd19-4b19-8c5e-895d3b7f405e"
-  } ],
-  "ol" : 1,
-  "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405e",
-  "username" : "tester",
-  "externalUser" : false,
-  "lastPasswordChange" : "2020-06-22T19:02:47Z",
-  "locked" : false,
-  "enabled" : true,
-  "expirationDate" : "2020-06-23T19:02:45Z",
-  "fullname" : "Tester",
-  "details" : { },
-  "emailAddresses" : [ {
-    "emailAddress" : "tester@acme.com",
-    "primary" : true,
-    "fullname" : "Mr. Tester"
-  } ],
-  "roleNames" : [ ]
-} ]</code></pre>
+[ ]</code></pre>
 </div>
 </div>
 </div>
@@ -1262,7 +1216,7 @@ Content-Length: 360
   "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405e",
   "username" : "superuser",
   "externalUser" : false,
-  "lastPasswordChange" : "2022-10-19T20:10:48Z",
+  "lastPasswordChange" : "2022-10-20T12:13:23Z",
   "locked" : true,
   "enabled" : false,
   "details" : { },
@@ -1446,7 +1400,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/roles/a2ae88fd-fbbf-4561-9e75-df6dfc5b1072/
+Location: http://localhost:8080/roles/57703f09-f3ed-4190-8247-026c92177b31/
 Content-Type: application/vnd.openwms.uaa.role-v1+json
 Content-Length: 554
 
@@ -1454,16 +1408,16 @@ Content-Length: 554
   "@class" : "org.openwms.core.uaa.api.RoleVO",
   "links" : [ {
     "rel" : "users",
-    "href" : "http://localhost:8080/roles/a2ae88fd-fbbf-4561-9e75-df6dfc5b1072/users"
+    "href" : "http://localhost:8080/roles/57703f09-f3ed-4190-8247-026c92177b31/users"
   }, {
     "rel" : "grants",
-    "href" : "http://localhost:8080/roles/a2ae88fd-fbbf-4561-9e75-df6dfc5b1072/grants"
+    "href" : "http://localhost:8080/roles/57703f09-f3ed-4190-8247-026c92177b31/grants"
   }, {
     "rel" : "role-findbypkey",
-    "href" : "http://localhost:8080/roles/a2ae88fd-fbbf-4561-9e75-df6dfc5b1072"
+    "href" : "http://localhost:8080/roles/57703f09-f3ed-4190-8247-026c92177b31"
   } ],
   "ol" : 0,
-  "pKey" : "a2ae88fd-fbbf-4561-9e75-df6dfc5b1072",
+  "pKey" : "57703f09-f3ed-4190-8247-026c92177b31",
   "name" : "ROLE_DEV",
   "description" : "Developers",
   "immutable" : true
@@ -2033,7 +1987,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/grants/5b53f683-c8e9-4371-8e66-30b5bf8c7f37/
+Location: http://localhost:8080/grants/67d62059-a72d-489b-9e9d-dcebfc0239f8/
 Content-Type: application/vnd.openwms.uaa.grant-v1+json
 Content-Length: 331
 
@@ -2041,10 +1995,10 @@ Content-Length: 331
   "@class" : "org.openwms.core.uaa.api.GrantVO",
   "links" : [ {
     "rel" : "grant-findbypkey",
-    "href" : "http://localhost:8080/grants/5b53f683-c8e9-4371-8e66-30b5bf8c7f37"
+    "href" : "http://localhost:8080/grants/67d62059-a72d-489b-9e9d-dcebfc0239f8"
   } ],
   "ol" : 0,
-  "pKey" : "5b53f683-c8e9-4371-8e66-30b5bf8c7f37",
+  "pKey" : "67d62059-a72d-489b-9e9d-dcebfc0239f8",
   "name" : "VIEW_USERS",
   "description" : "Permission to view all users in UI"
 }</code></pre>
@@ -2418,13 +2372,13 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/api/clients/7e8db655-d69e-497e-9af0-fa399e8e69a6/
+Location: http://localhost:8080/api/clients/b652895e-baac-4fe0-a79b-f9dab4c74b4f/
 Content-Type: application/vnd.openwms.uaa.client-v1+json
 Content-Length: 230
 
 {
   "ol" : 0,
-  "pKey" : "7e8db655-d69e-497e-9af0-fa399e8e69a6",
+  "pKey" : "b652895e-baac-4fe0-a79b-f9dab4c74b4f",
   "clientId" : "cliendId",
   "clientSecret" : "secr3t",
   "scopes" : [ "client" ],
@@ -2578,7 +2532,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-10-19 19:46:00 UTC
+Last updated 2022-10-20 12:08:37 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
