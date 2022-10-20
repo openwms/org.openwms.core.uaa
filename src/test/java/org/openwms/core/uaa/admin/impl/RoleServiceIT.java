@@ -68,7 +68,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Sql("classpath:test.sql")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import(ValidationConfiguration.class)
-public class RoleServiceIT extends TestBase {
+class RoleServiceIT extends TestBase {
 
     @Autowired
     private TestEntityManager entityManager;
@@ -98,11 +98,13 @@ public class RoleServiceIT extends TestBase {
     }
 
     @Test void testCreateWithoutNameMustFail() {
-        assertThrows(ConstraintViolationException.class, () -> testee.create(new RoleVO()));
+        var role = new RoleVO();
+        assertThrows(ConstraintViolationException.class, () -> testee.create(role));
     }
 
     @Test void testCreateExistingRoleMustFail() {
-        assertThrows(ResourceExistsException.class, () -> testee.create(RoleVO.newBuilder().name("ROLE_ADMIN").build()));
+        var role = RoleVO.newBuilder().name("ROLE_ADMIN").build();
+        assertThrows(ResourceExistsException.class, () -> testee.create(role));
     }
 
     @Test void testCreateNewRole() {

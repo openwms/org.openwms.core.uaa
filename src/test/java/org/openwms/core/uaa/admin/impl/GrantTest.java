@@ -46,10 +46,10 @@ class GrantTest {
         var grant3 = new Grant(GRANT_NAME3, "hijkl");
 
         // Just the name is considered
-        assertThat(grant1).isEqualTo(grant2);
-        assertThat(grant1).isNotEqualTo(new Object());
-        assertThat(grant1).isEqualTo(grant1);
-        assertThat(grant1).isNotEqualTo(grant3);
+        assertThat(grant1).isEqualTo(grant2)
+                .isNotEqualTo(new Object())
+                .isEqualTo(grant1)
+                .isNotEqualTo(grant3);
 
         // Test behavior in hashed collections
         var grants = new HashSet<>();

@@ -34,7 +34,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * 
  * @author Heiko Scherrer
  */
-public class UserWrapperTest {
+class UserWrapperTest {
 
     private static final String TEST_USER = "TEST_USER";
 
@@ -110,12 +110,11 @@ public class UserWrapperTest {
         wrappers.add(uw2);
 
         // Test for same return value
-        assertThat(uw.hashCode() == uw.hashCode()).isTrue();
-        // Test for same value for two refs
-        assertThat(uw.hashCode() == uw3.hashCode()).isTrue();
+        assertThat(uw).doesNotHaveSameHashCodeAs(uw2)
+                .hasSameHashCodeAs(uw3);
 
-        assertThat(wrappers.contains(uw)).isTrue();
-        assertThat(wrappers.contains(uw2)).isTrue();
+        assertThat(wrappers).contains(uw)
+                .contains(uw2);
     }
 
     @Test void testEqualsObject() {
@@ -126,20 +125,17 @@ public class UserWrapperTest {
         var usrw = new UserWrapper(usr);
 
         // Test to itself
-        assertThat(uw).isEqualTo(uw);
-        // Test for null
-        assertThat(uw).isNotEqualTo(null);
-        // Test for symmetric
-        assertThat(uw).isEqualTo(uw2);
+        assertThat(uw).isEqualTo(uw)
+                .isNotEqualTo(null)
+                .isEqualTo(uw2)
+                .isNotEqualTo(TEST_USER)
+                .isNotEqualTo(usrw);
         assertThat(uw2).isEqualTo(uw);
-        // Test incompatible types
-        assertThat(uw).isNotEqualTo(TEST_USER);
-        assertThat(uw.equals(usrw)).isFalse();
         assertThat(usrw.equals(uw)).isFalse();
     }
 
     @Test void testToString() {
         var uw = new UserWrapper(new User(TEST_USER));
-        assertThat(uw.toString()).isEqualTo(TEST_USER);
+        assertThat(uw).hasToString(TEST_USER);
     }
 }

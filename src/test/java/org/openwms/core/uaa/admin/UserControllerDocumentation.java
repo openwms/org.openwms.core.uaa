@@ -39,6 +39,7 @@ import java.nio.file.Paths;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Base64;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -191,7 +192,7 @@ class UserControllerDocumentation {
     @Test void shall_create_user_exists() throws Exception {
         var vo = UserVO.newBuilder()
                 .username("tester")
-                .emailAddresses(asList(new EmailVO("tester@example.com", true)))
+                .emailAddresses(List.of(new EmailVO("tester@example.com", true)))
                 .build();
 
         // Try again and validate the User already exists now
@@ -212,7 +213,7 @@ class UserControllerDocumentation {
         var vo = UserVO.newBuilder()
                 .pKey(pKey)
                 .username("superuser")
-                .emailAddresses(asList(new EmailVO("admin@example.com", true)))
+                .emailAddresses(List.of(new EmailVO("admin@example.com", true)))
                 .build();
         // MODIFY and SAVE the User
         vo.setLocked(true);

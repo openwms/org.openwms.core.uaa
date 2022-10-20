@@ -34,12 +34,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
  * 
  * @author Heiko Scherrer
  */
-public class SystemUserWrapperTest {
+class SystemUserWrapperTest {
 
     private static final String TEST_USER = "TEST_USER";
 
-    @Test
-    public final void testAddDefaultGrants() {
+    @Test void testAddDefaultGrants() {
         var suw = new SystemUserWrapper(new User(TEST_USER));
         assertThat(suw.getAuthorities()).hasSize(1);
         assertThat(suw.getAuthorities().iterator().next().getAuthority()).isEqualTo(SystemUser.SYSTEM_ROLE_NAME);
@@ -70,9 +69,8 @@ public class SystemUserWrapperTest {
         wrappers.add(uw2);
 
         // Test for same return value
-        assertThat(uw.hashCode()).isEqualTo(uw.hashCode());
-        // Test for same value for two refs
-        assertThat(uw.hashCode()).isEqualTo(uw3.hashCode());
+        assertThat(uw).doesNotHaveSameHashCodeAs(uw2)
+                .hasSameHashCodeAs(uw3);
 
         assertThat(wrappers).contains(uw, uw2);
     }
@@ -85,15 +83,12 @@ public class SystemUserWrapperTest {
         var susrw = new SystemUserWrapper(usr);
 
         // Test to itself
-        assertThat(suw).isEqualTo(suw);
-        // Test for null
-        assertThat(suw).isNotEqualTo(null);
-        // Test for symmetric
-        assertThat(suw).isEqualTo(suw2);
+        assertThat(suw).isEqualTo(suw)
+                .isNotEqualTo(null)
+                .isEqualTo(suw2)
+                .isNotEqualTo(TEST_USER)
+                .isNotEqualTo(susrw);
         assertThat(suw2).isEqualTo(suw);
-        // Test incompatible types
-        assertThat(suw).isNotEqualTo(TEST_USER);
-        assertThat(suw).isNotEqualTo(susrw);
         assertThat(susrw).isNotEqualTo(suw);
 
         // This password is null, the other is set

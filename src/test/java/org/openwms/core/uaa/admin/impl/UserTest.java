@@ -38,7 +38,7 @@ import static org.assertj.core.api.Assertions.fail;
  *
  * @author Heiko Scherrer
  */
-public class UserTest {
+class UserTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserTest.class);
     private static final String TEST_USER1 = "Test username1";
@@ -47,15 +47,15 @@ public class UserTest {
 
     @Test void testCreation() {
         var user1 = new User(TEST_USER1);
-        assertThat(TEST_USER1).isEqualTo(user1.getUsername());
+        assertThat(user1.getUsername()).isEqualTo(TEST_USER1);
         assertThat(user1.getPk()).isNull();
         assertThat(user1.isNew()).isTrue();
     }
 
     @Test void testCreation2() {
         var user1 = new User(TEST_USER2, TEST_PASSWORD);
-        assertThat(TEST_USER2).isEqualTo(user1.getUsername());
-        assertThat(TEST_PASSWORD).isEqualTo(user1.getPassword());
+        assertThat(user1.getUsername()).isEqualTo(TEST_USER2);
+        assertThat(user1.getPassword()).isEqualTo(TEST_PASSWORD);
         assertThat(user1.getPk()).isNull();
         assertThat(user1.isNew()).isTrue();
     }
@@ -118,9 +118,9 @@ public class UserTest {
         var user3 = new User(TEST_USER2);
 
         // Just the name is considered
-        assertThat(user1).isEqualTo(user2);
-        assertThat(user1).isEqualTo(user2);
-        assertThat(user1).isNotEqualTo(user3);
+        assertThat(user1).isEqualTo(user2)
+                .isEqualTo(user2)
+                .isNotEqualTo(user3);
 
         // Test behavior in hashed collections
         var users = new HashSet<>();

@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 /**
  * A RoleTest.
  */
-public class RoleTest {
+class RoleTest {
 
     private static final String TEST_ROLE = "ROLE_TEST";
     private static final String TEST_ROLE2 = "ROLE_TEST2";
@@ -94,7 +94,7 @@ public class RoleTest {
         role.addUser(user);
         assertThat(role.getUsers()).hasSize(1);
         role.removeUser(user);
-        assertThat(role.getUsers()).hasSize(0);
+        assertThat(role.getUsers()).isEmpty();
     }
 
     @Test void testRemoveUserNegative() {
@@ -105,7 +105,7 @@ public class RoleTest {
     @Test void testSetUsers() {
         var role = new Role(TEST_ROLE);
         var user = new User(TEST_ROLE);
-        assertThat(role.getUsers()).hasSize(0);
+        assertThat(role.getUsers()).isEmpty();
         role.setUsers(new HashSet<>(Collections.singletonList(user)));
         assertThat(role.getUsers()).hasSize(1);
     }
@@ -118,7 +118,7 @@ public class RoleTest {
     @Test void testAddGrant() {
         var role = new Role(TEST_ROLE);
         var grant = new Grant(TEST_DESCR);
-        assertThat(role.getGrants()).hasSize(0);
+        assertThat(role.getGrants()).isEmpty();
         role.addGrant(grant);
         assertThat(role.getGrants()).hasSize(1);
     }
@@ -134,7 +134,7 @@ public class RoleTest {
         role.addGrant(grant);
         assertThat(role.getGrants()).hasSize(1);
         role.removeGrant(grant);
-        assertThat(role.getGrants()).hasSize(0);
+        assertThat(role.getGrants()).isEmpty();
     }
 
     @Test void testRemoveGrantNegative() {
@@ -148,7 +148,7 @@ public class RoleTest {
         role.addGrant(grant);
         assertThat(role.getGrants()).hasSize(1);
         role.removeGrants(Collections.singletonList(grant));
-        assertThat(role.getGrants()).hasSize(0);
+        assertThat(role.getGrants()).isEmpty();
     }
 
     @Test void testRemoveGrantsNegative() {
@@ -159,7 +159,7 @@ public class RoleTest {
     @Test void testSetGrants() {
         var role = new Role(TEST_ROLE);
         var grant = new Grant(TEST_ROLE);
-        assertThat(role.getGrants()).hasSize(0);
+        assertThat(role.getGrants()).isEmpty();
         role.setGrants(new HashSet<>(Collections.singletonList(grant)));
         assertThat(role.getGrants()).hasSize(1);
     }

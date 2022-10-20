@@ -22,8 +22,6 @@ import org.ameba.exception.ResourceExistsException;
 import org.ameba.i18n.Translator;
 import org.openwms.core.uaa.admin.GrantService;
 import org.openwms.core.uaa.api.ValidationGroups;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
@@ -42,16 +40,13 @@ import static org.openwms.core.uaa.MessageCodes.SO_WITH_PKEY_NOT_EXIST;
 @TxService
 class GrantServiceImpl implements GrantService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GrantServiceImpl.class);
     private final GrantRepository grantRepository;
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
     private final Translator translator;
 
-    GrantServiceImpl(GrantRepository grantRepository, UserRepository userRepository, RoleRepository roleRepository, Translator translator) {
+    GrantServiceImpl(GrantRepository grantRepository, UserRepository userRepository, Translator translator) {
         this.grantRepository = grantRepository;
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
         this.translator = translator;
     }
 

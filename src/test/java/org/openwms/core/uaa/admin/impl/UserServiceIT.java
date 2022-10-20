@@ -69,7 +69,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 @Rollback
 @Import(ValidationConfiguration.class)
-public class UserServiceIT extends TestBase {
+class UserServiceIT extends TestBase {
 
     private static final String TEST_USER = "TEST";
     private static final String UNKNOWN_USER = "UNKNOWN";

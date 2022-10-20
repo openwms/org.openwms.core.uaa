@@ -220,13 +220,10 @@ class RoleControllerDocumentation {
     @Transactional
     @Test
     void shall_assign_user() throws Exception {
-        var mvcResult = mockMvc.perform(
+         mockMvc.perform(
                 post(API_ROLES + "/1/users/96baa849-dd19-4b19-8c5e-895d3b7f405e"))
                 .andDo(document("role-assign-user", preprocessResponse(prettyPrint())))
-                .andExpect(status().isOk())
-                .andReturn();
-        var resp = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), RoleVO.class);
-        //assertThat(resp.getLinks().stream().filter(l -> l.getRel().value().equals("user"))).hasSize(2);
+                .andExpect(status().isOk());
     }
 
     @Sql("classpath:test.sql")
@@ -235,8 +232,7 @@ class RoleControllerDocumentation {
         mockMvc.perform(
                 post(API_ROLES + "/1/users/UNKNOWN"))
                 .andDo(document("role-assign-unknown-user", preprocessResponse(prettyPrint())))
-                .andExpect(status().isNotFound())
-                .andReturn();
+                .andExpect(status().isNotFound());
     }
 
     @Sql("classpath:test.sql")
@@ -245,8 +241,7 @@ class RoleControllerDocumentation {
         mockMvc.perform(
                 post(API_ROLES + "/UNKOWN/users/96baa849-dd19-4b19-8c5e-895d3b7f405d"))
                 .andDo(document("role-assign-unknown-role", preprocessResponse(prettyPrint())))
-                .andExpect(status().isNotFound())
-                .andReturn();
+                .andExpect(status().isNotFound());
     }
 
     @Sql("classpath:test.sql")
