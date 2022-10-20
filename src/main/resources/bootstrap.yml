@@ -2,10 +2,6 @@ spring:
   application:
     name: core-uaa
   security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8110
     user:
       name: user
       password: sa

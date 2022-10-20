@@ -35,5 +35,3 @@ include::2-users.adoc[]
 include::3-roles.adoc[]
 
 include::4-grants.adoc[]
-
-include::5-clients.adoc[]

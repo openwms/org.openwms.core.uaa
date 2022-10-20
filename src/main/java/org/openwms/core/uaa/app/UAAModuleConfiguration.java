@@ -22,7 +22,7 @@ import org.ameba.http.PermitAllCorsConfigurationSource;
 import org.ameba.i18n.AbstractSpringTranslator;
 import org.ameba.i18n.Translator;
 import org.ameba.system.NestedReloadableResourceBundleMessageSource;
-import org.openwms.core.uaa.admin.impl.UserUpdater;
+import org.openwms.core.uaa.impl.UserUpdater;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer;
 import org.springframework.context.MessageSource;

@@ -16,10 +16,6 @@
 package org.openwms.core.uaa;
 
 import org.openwms.core.http.Index;
-import org.openwms.core.uaa.admin.GrantController;
-import org.openwms.core.uaa.admin.RoleController;
-import org.openwms.core.uaa.admin.UserController;
-import org.openwms.core.uaa.auth.ClientController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,8 +38,7 @@ class IndexController {
                 new Index(
                         linkTo(methodOn(UserController.class).index()).withRel("user-index"),
                         linkTo(methodOn(RoleController.class).index()).withRel("role-index"),
-                        linkTo(methodOn(GrantController.class).index()).withRel("grant-index"),
-                        linkTo(methodOn(ClientController.class).index()).withRel("client-index")
+                        linkTo(methodOn(GrantController.class).index()).withRel("grant-index")
                 )
         );
     }

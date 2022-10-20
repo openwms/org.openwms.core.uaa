@@ -1,14 +1,8 @@
 # Purpose
-The OpenWMS.org UAA (User Authentication & Administration) Service is built to fulfill two different requirements regarding the handling of
-`Users` of the system.
-
-First the service is capable to act as [OpenID Connect](http://openid.net/connect) authentication endpoint and can authenticate users
-against a persistent database.
-
-The second part deals with administration of `Users` like creating new `Users`, updating properties of existing ones or deleting them. Most
-application permissions were not directly assigned to `Users` explicitly, but to `Roles` instead. `Users` are assigned to `Roles` and
-application permissions were granted to particular `Roles`. Administration of `Roles` and permissions is especially required for a UI
-application.
+The OpenWMS.org UAA (User Authentication & Administration) Service is built to deals with administration of `Users` like creating new
+`Users`, updating properties of existing ones or deleting them. Most application permissions were not directly assigned to `Users`
+explicitly, but to `Roles` instead. `Users` are assigned to `Roles` and application permissions were granted to particular `Roles`.
+Administration of `Roles` and permissions is especially required for a UI application.
 
 ![classes][1]
 

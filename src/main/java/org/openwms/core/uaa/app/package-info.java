@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 /**
- * This package contains configuration classes for the Spring context and lifecycle management.
+ * Contains configuration classes for the Spring context and lifecycle management.
  */
 package org.openwms.core.uaa.app;

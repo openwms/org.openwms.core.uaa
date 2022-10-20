@@ -20,7 +20,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
@@ -31,21 +30,25 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import java.util.HashMap;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 /**
  * A UAASecurityConfiguration.
  *
  * @author Heiko Scherrer
  */
 @Configuration
-@EnableWebSecurity
-//@EnableGlobalMethodSecurity(
-//        securedEnabled = true,
-//        prePostEnabled = true,
-//        jsr250Enabled = true
-//)
-class UAASecurityConfiguration /*extends WebSecurityConfigurerAdapter*/ {
+class UAASecurityConfiguration {
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * API is for non browser clients!
+     */
+    @Bean
+    @Order(2)
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        return http.authorizeRequests().anyRequest().permitAll()
+                                .and().csrf().disable().build();
+    }
 
     @Value("${owms.security.successUrl}")
     private String successUrl;
@@ -59,58 +62,4 @@ class UAASecurityConfiguration /*extends WebSecurityConfigurerAdapter*/ {
         encoders.put("scrypt", new SCryptPasswordEncoder());
         return new DelegatingPasswordEncoder("bcrypt", encoders);
     }
-
-    @Bean
-    @Order(2)
-    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests(authorizeRequests ->
-                        authorizeRequests.anyRequest().authenticated()
-                )
-//                .oauth2ResourceServer().jwt()
-                .formLogin(withDefaults())
-//                .formLogin().failureForwardUrl("/uaa/error").loginPage("/login")
-                ;
-        return http.build();
-    }
-
-/*
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        var config = new CorsConfiguration().applyPermitDefaultValues();
-        source.registerCorsConfiguration("/**", config);
-
-        http
-                .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                .and()
-                .requestMatchers()
-                    .antMatchers("/login", "/oauth/authorize", "/oauth/check_token", "/token_keys")
-                .and()
-                .authorizeRequests()
-                    .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                    .permitAll()
-                .and()
-                    .cors().configurationSource(source)
-                .and()
-                    .csrf().disable()
-                .formLogin().defaultSuccessUrl(successUrl)
-                .and()
-                    .logout().logoutSuccessUrl(successUrl).permitAll()
-                .and()
-                    .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-        ;
-    }
-
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-
- */
 }

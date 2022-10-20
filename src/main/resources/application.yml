@@ -8,8 +8,6 @@ owms:
     encoder:
       bcrypt:
         strength: 4
-    provider:
-      issuerUrl: http://localhost:8110
     successUrl: "/"
     system:
       username: openwms

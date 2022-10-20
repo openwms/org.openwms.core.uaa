@@ -61,8 +61,7 @@ class IndexControllerDocumentation {
                 .andExpect(jsonPath("$._links.user-index").exists())
                 .andExpect(jsonPath("$._links.role-index").exists())
                 .andExpect(jsonPath("$._links.grant-index").exists())
-                .andExpect(jsonPath("$._links.client-index").exists())
-                .andExpect(jsonPath("$._links.length()", is(4)))
+                .andExpect(jsonPath("$._links.length()", is(3)))
                 .andDo(document("get-index", preprocessResponse(prettyPrint())))
         ;
     }
