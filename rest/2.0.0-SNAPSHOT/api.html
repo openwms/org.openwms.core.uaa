@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<meta name="author" content="(2.0.0-SNAPSHOT-65)">
+<meta name="author" content="(2.0.0-SNAPSHOT-66)">
 <title>OpenWMS.org WMS: RESTful API (UAA)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -443,7 +443,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org WMS: RESTful API (UAA)</h1>
 <div class="details">
-<span id="author" class="author">(2.0.0-SNAPSHOT-65)</span><br>
+<span id="author" class="author">(2.0.0-SNAPSHOT-66)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -894,14 +894,14 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/5c402add-0972-445a-91ad-fd7d2210de71/
+Location: http://localhost:8080/users/ce1e083e-9a13-4be0-8802-1aa392933dae/
 Content-Type: application/vnd.openwms.uaa.user-v1+json
 Content-Length: 290
 
 {
   "links" : [ ],
   "ol" : 0,
-  "pKey" : "5c402add-0972-445a-91ad-fd7d2210de71",
+  "pKey" : "ce1e083e-9a13-4be0-8802-1aa392933dae",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -1216,7 +1216,7 @@ Content-Length: 360
   "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405e",
   "username" : "superuser",
   "externalUser" : false,
-  "lastPasswordChange" : "2022-10-20T12:13:23Z",
+  "lastPasswordChange" : "2022-10-20T15:53:44Z",
   "locked" : true,
   "enabled" : false,
   "details" : { },
@@ -1400,7 +1400,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/roles/57703f09-f3ed-4190-8247-026c92177b31/
+Location: http://localhost:8080/roles/3c0c9a97-e944-455a-9c10-515514877611/
 Content-Type: application/vnd.openwms.uaa.role-v1+json
 Content-Length: 554
 
@@ -1408,16 +1408,16 @@ Content-Length: 554
   "@class" : "org.openwms.core.uaa.api.RoleVO",
   "links" : [ {
     "rel" : "users",
-    "href" : "http://localhost:8080/roles/57703f09-f3ed-4190-8247-026c92177b31/users"
+    "href" : "http://localhost:8080/roles/3c0c9a97-e944-455a-9c10-515514877611/users"
   }, {
     "rel" : "grants",
-    "href" : "http://localhost:8080/roles/57703f09-f3ed-4190-8247-026c92177b31/grants"
+    "href" : "http://localhost:8080/roles/3c0c9a97-e944-455a-9c10-515514877611/grants"
   }, {
     "rel" : "role-findbypkey",
-    "href" : "http://localhost:8080/roles/57703f09-f3ed-4190-8247-026c92177b31"
+    "href" : "http://localhost:8080/roles/3c0c9a97-e944-455a-9c10-515514877611"
   } ],
   "ol" : 0,
-  "pKey" : "57703f09-f3ed-4190-8247-026c92177b31",
+  "pKey" : "3c0c9a97-e944-455a-9c10-515514877611",
   "name" : "ROLE_DEV",
   "description" : "Developers",
   "immutable" : true
@@ -1987,7 +1987,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/grants/67d62059-a72d-489b-9e9d-dcebfc0239f8/
+Location: http://localhost:8080/grants/90e6575f-0d92-4db8-89ed-27c750337dea/
 Content-Type: application/vnd.openwms.uaa.grant-v1+json
 Content-Length: 331
 
@@ -1995,10 +1995,10 @@ Content-Length: 331
   "@class" : "org.openwms.core.uaa.api.GrantVO",
   "links" : [ {
     "rel" : "grant-findbypkey",
-    "href" : "http://localhost:8080/grants/67d62059-a72d-489b-9e9d-dcebfc0239f8"
+    "href" : "http://localhost:8080/grants/90e6575f-0d92-4db8-89ed-27c750337dea"
   } ],
   "ol" : 0,
-  "pKey" : "67d62059-a72d-489b-9e9d-dcebfc0239f8",
+  "pKey" : "90e6575f-0d92-4db8-89ed-27c750337dea",
   "name" : "VIEW_USERS",
   "description" : "Permission to view all users in UI"
 }</code></pre>
@@ -2011,11 +2011,11 @@ Content-Length: 331
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 409 Conflict
 Content-Type: application/hal+json
-Content-Length: 131
+Content-Length: 140
 
 {
-  "message" : "Grant with name [SEC_UAA_USER_LOOKUP] already exists",
-  "messageKey" : "already.exists",
+  "message" : "Grant with name SEC_UAA_USER_LOOKUP already exists",
+  "messageKey" : "grant.name.already.exists",
   "httpStatus" : "409"
 }</code></pre>
 </div>
@@ -2243,11 +2243,11 @@ Content-Length: 1056
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 113
+Content-Length: 121
 
 {
-  "message" : "User with name [UNKNOWN] does not exist",
-  "messageKey" : "not.found",
+  "message" : "User with name UNKNOWN does not exist",
+  "messageKey" : "user.name.not.exist",
   "httpStatus" : "404"
 }</code></pre>
 </div>
@@ -2372,13 +2372,13 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/api/clients/b652895e-baac-4fe0-a79b-f9dab4c74b4f/
+Location: http://localhost:8080/api/clients/4fb99967-142d-44ad-a617-be92660aae69/
 Content-Type: application/vnd.openwms.uaa.client-v1+json
 Content-Length: 230
 
 {
   "ol" : 0,
-  "pKey" : "b652895e-baac-4fe0-a79b-f9dab4c74b4f",
+  "pKey" : "4fb99967-142d-44ad-a617-be92660aae69",
   "clientId" : "cliendId",
   "clientSecret" : "secr3t",
   "scopes" : [ "client" ],
@@ -2454,11 +2454,11 @@ Content-Length: 334
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 110
+Content-Length: 123
 
 {
-  "message" : "No Client with PKey [UNKNOWN] exists",
-  "messageKey" : "not.found",
+  "message" : "Client with ID UNKNOWN does not exist",
+  "messageKey" : "client.pkey.not.exist",
   "httpStatus" : "404"
 }</code></pre>
 </div>
@@ -2532,7 +2532,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-10-20 12:08:37 UTC
+Last updated 2022-10-20 15:47:12 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>

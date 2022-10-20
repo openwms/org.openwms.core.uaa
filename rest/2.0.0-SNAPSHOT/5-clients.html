@@ -557,13 +557,13 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/api/clients/b652895e-baac-4fe0-a79b-f9dab4c74b4f/
+Location: http://localhost:8080/api/clients/4fb99967-142d-44ad-a617-be92660aae69/
 Content-Type: application/vnd.openwms.uaa.client-v1+json
 Content-Length: 230
 
 {
   "ol" : 0,
-  "pKey" : "b652895e-baac-4fe0-a79b-f9dab4c74b4f",
+  "pKey" : "4fb99967-142d-44ad-a617-be92660aae69",
   "clientId" : "cliendId",
   "clientSecret" : "secr3t",
   "scopes" : [ "client" ],
@@ -639,11 +639,11 @@ Content-Length: 334
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
 Content-Type: application/hal+json
-Content-Length: 110
+Content-Length: 123
 
 {
-  "message" : "No Client with PKey [UNKNOWN] exists",
-  "messageKey" : "not.found",
+  "message" : "Client with ID UNKNOWN does not exist",
+  "messageKey" : "client.pkey.not.exist",
   "httpStatus" : "404"
 }</code></pre>
 </div>
@@ -717,7 +717,7 @@ Host: localhost:8080</code></pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-10-20 12:08:37 UTC
+Last updated 2022-10-20 15:47:12 UTC
 </div>
 </div>
 </body>
