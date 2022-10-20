@@ -22,6 +22,7 @@ import org.ameba.exception.ResourceExistsException;
 import org.ameba.i18n.Translator;
 import org.openwms.core.uaa.admin.GrantService;
 import org.openwms.core.uaa.api.ValidationGroups;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
@@ -29,8 +30,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-import static java.lang.String.format;
+import static org.openwms.core.uaa.MessageCodes.GRANT_WITH_NAME_ALREADY_EXISTS;
 import static org.openwms.core.uaa.MessageCodes.SO_WITH_PKEY_NOT_EXIST;
+import static org.openwms.core.uaa.MessageCodes.USER_WITH_NAME_NOT_EXIST;
 
 /**
  * A GrantServiceImpl is a transactional Spring Service implementation.
@@ -43,11 +45,14 @@ class GrantServiceImpl implements GrantService {
     private final GrantRepository grantRepository;
     private final UserRepository userRepository;
     private final Translator translator;
+    private final ApplicationEventPublisher eventPublisher;
 
-    GrantServiceImpl(GrantRepository grantRepository, UserRepository userRepository, Translator translator) {
+    GrantServiceImpl(GrantRepository grantRepository, UserRepository userRepository, Translator translator,
+            ApplicationEventPublisher eventPublisher) {
         this.grantRepository = grantRepository;
         this.userRepository = userRepository;
         this.translator = translator;
+        this.eventPublisher = eventPublisher;
     }
 
     /**
@@ -74,8 +79,9 @@ class GrantServiceImpl implements GrantService {
      */
     @Override
     @Measured
-    public List<@NotNull Grant> findAllFor(@NotBlank String user) {
-        var userInstance = userRepository.findByUsername(user).orElseThrow(() -> new NotFoundException(format("User with name [%s] does not exist", user)));
+    public List<@NotNull Grant> findAllFor(@NotBlank String username) {
+        var userInstance = userRepository.findByUsername(username).orElseThrow(
+                () -> new NotFoundException(translator, USER_WITH_NAME_NOT_EXIST, username));
         return userInstance.getGrants().stream().filter(Grant.class::isInstance).map(Grant.class::cast).toList();
     }
 
@@ -87,8 +93,10 @@ class GrantServiceImpl implements GrantService {
     @Validated(ValidationGroups.Create.class)
     public @NotNull Grant create(@NotNull(groups = ValidationGroups.Create.class) @Valid Grant grant) {
         if (grantRepository.findByName(grant.getName()).isPresent()) {
-            throw new ResourceExistsException(format("Grant with name [%s] already exists", grant.getName()));
+            throw new ResourceExistsException(translator, GRANT_WITH_NAME_ALREADY_EXISTS, grant.getName());
         }
-        return grantRepository.save(grant);
+        grant = grantRepository.save(grant);
+        eventPublisher.publishEvent(new GrantEvent(grant, GrantEvent.EventType.CREATED));
+        return grant;
     }
 }

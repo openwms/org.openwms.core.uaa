@@ -19,10 +19,7 @@ import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
 import org.ameba.exception.ResourceExistsException;
-import org.ameba.exception.ServiceLayerException;
 import org.ameba.i18n.Translator;
-import org.openwms.core.annotation.FireAfterTransaction;
-import org.openwms.core.event.UserChangedEvent;
 import org.openwms.core.uaa.admin.InvalidPasswordException;
 import org.openwms.core.uaa.admin.RoleService;
 import org.openwms.core.uaa.admin.UserMapper;
@@ -40,7 +37,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import javax.validation.Validator;
 import javax.validation.constraints.NotBlank;
@@ -100,11 +96,8 @@ class UserServiceImpl implements UserService {
 
     /**
      * {@inheritDoc}
-     *
-     * @throws EntityNotFoundException when no User with {@code id} found
      */
     @Override
-    @FireAfterTransaction(events = {UserChangedEvent.class})
     @Validated(ValidationGroups.Modify.class)
     @Measured
     public @NotNull User save(@NotNull(groups = ValidationGroups.Modify.class) @Valid User user, List<String> roleNames) {
@@ -115,7 +108,6 @@ class UserServiceImpl implements UserService {
         if (roleNames != null && !roleNames.isEmpty()) {
             existingUser.setRoles(roleService.findByNames(roleNames));
         }
-
         var saved = repository.save(existingUser);
         eventPublisher.publishEvent(new UserEvent(saved, UserEvent.EventType.MODIFIED));
         return saved;
@@ -123,25 +115,17 @@ class UserServiceImpl implements UserService {
 
     /**
      * {@inheritDoc}
-     *
-     * @throws EntityNotFoundException when no User with {@code id} found
      */
     @Override
-    @FireAfterTransaction(events = {UserChangedEvent.class})
     @Measured
     public void uploadImageFile(@NotBlank String pKey, @NotNull byte[] image) {
         var user = findByPKeyInternal(pKey);
         user.getUserDetails().setImage(image);
-        repository.save(user);
-        eventPublisher.publishEvent(new UserEvent(user, UserEvent.EventType.MODIFIED));
+        saveInternal(user);
     }
 
     /**
      * {@inheritDoc}
-     * <p>
-     * Triggers {@code UserChangedEvent} after completion.
-     *
-     * @throws ServiceLayerException if the {@code entity} argument is {@literal null}
      */
     @Override
     @Measured
@@ -167,7 +151,7 @@ class UserServiceImpl implements UserService {
     @Measured
     public @NotNull SystemUser createSystemUser() {
         var sys = new SystemUser(systemUsername, systemPassword);
-        var role = new Role.Builder(SystemUser.SYSTEM_ROLE_NAME).withDescription("SuperUsers Role").asImmutable().build();
+        var role = new Role.Builder(SystemUser.SYSTEM_ROLE_NAME).withDescription("Superusers Role").asImmutable().build();
         role.setGrants(new HashSet<>(securityObjectDao.findAll()));
         sys.addRole(role);
         return sys;
@@ -230,9 +214,11 @@ class UserServiceImpl implements UserService {
     @Override
     @Measured
     public void delete(@NotBlank String pKey) {
-        var user = findByPKeyInternal(pKey);
-        repository.delete(user);
-        eventPublisher.publishEvent(new UserEvent(user, UserEvent.EventType.DELETED));
+        var existing = repository.findBypKey(pKey);
+        if (existing.isPresent()) {
+            repository.delete(existing.get());
+            eventPublisher.publishEvent(new UserEvent(existing.get(), UserEvent.EventType.DELETED));
+        }
     }
 
     /**
@@ -243,7 +229,7 @@ class UserServiceImpl implements UserService {
     public @NotNull UserVO updatePassword(@NotBlank String pKey, @NotNull CharSequence newPassword) throws InvalidPasswordException {
         var saved = findByPKey(pKey);
         saved.changePassword(enc.encode(newPassword), newPassword.toString(), enc);
-        eventPublisher.publishEvent(new UserEvent(saved, UserEvent.EventType.MODIFIED));
+        saveInternal(saved);
         return userMapper.convertToVO(saved);
     }
 

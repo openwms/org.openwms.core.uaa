@@ -18,10 +18,13 @@ package org.openwms.core.uaa.auth.impl;
 import org.ameba.annotation.Measured;
 import org.ameba.annotation.TxService;
 import org.ameba.exception.NotFoundException;
+import org.ameba.i18n.Translator;
 import org.openwms.core.uaa.api.ValidationGroups;
 import org.openwms.core.uaa.auth.Client;
+import org.openwms.core.uaa.auth.ClientEvent;
 import org.openwms.core.uaa.auth.ClientMapper;
 import org.openwms.core.uaa.auth.ClientService;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
@@ -29,7 +32,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-import static java.lang.String.format;
+import static org.openwms.core.uaa.MessageCodes.CLIENT_WITH_PKEY_NOT_EXIST;
 
 /**
  * A ClientServiceImpl is a Spring managed transactional Service.
@@ -42,10 +45,14 @@ class ClientServiceImpl implements ClientService {
 
     private final ClientRepository clientRepository;
     private final ClientMapper mapper;
+    private final Translator translator;
+    private final ApplicationEventPublisher eventPublisher;
 
-    ClientServiceImpl(ClientRepository clientRepository, ClientMapper mapper) {
+    ClientServiceImpl(ClientRepository clientRepository, ClientMapper mapper, Translator translator, ApplicationEventPublisher eventPublisher) {
         this.clientRepository = clientRepository;
         this.mapper = mapper;
+        this.translator = translator;
+        this.eventPublisher = eventPublisher;
     }
 
     /**
@@ -55,7 +62,9 @@ class ClientServiceImpl implements ClientService {
     @Measured
     @Validated(ValidationGroups.Create.class)
     public @NotNull Client create(@NotNull(groups = ValidationGroups.Create.class) @Valid Client client) {
-        return clientRepository.save(client);
+        var created = clientRepository.save(client);
+        eventPublisher.publishEvent(new ClientEvent(created, ClientEvent.EventType.CREATED));
+        return created;
     }
 
     /**
@@ -67,11 +76,13 @@ class ClientServiceImpl implements ClientService {
     public @NotNull Client save(@NotNull(groups = ValidationGroups.Modify.class) @Valid Client client) {
         var saved = findInternal(client.getPersistentKey());
         mapper.copy(client, saved);
-        return clientRepository.save(saved);
+        saved = clientRepository.save(saved);
+        eventPublisher.publishEvent(new ClientEvent(saved, ClientEvent.EventType.MODIFIED));
+        return saved;
     }
 
     private Client findInternal(String pKey) {
-        return clientRepository.findBypKey(pKey).orElseThrow(() -> new NotFoundException(format("No Client with PKey [%s] exists", pKey)));
+        return clientRepository.findBypKey(pKey).orElseThrow(() -> new NotFoundException(translator, CLIENT_WITH_PKEY_NOT_EXIST, pKey));
     }
 
     /**
@@ -80,7 +91,11 @@ class ClientServiceImpl implements ClientService {
     @Override
     @Measured
     public void delete(@NotBlank String pKey) {
-        clientRepository.deleteByPKey(pKey);
+        var existing = clientRepository.findBypKey(pKey);
+        if (existing.isPresent()) {
+            clientRepository.deleteByPKey(pKey);
+            eventPublisher.publishEvent(new ClientEvent(existing.get(), ClientEvent.EventType.DELETED));
+        }
     }
 
     /**

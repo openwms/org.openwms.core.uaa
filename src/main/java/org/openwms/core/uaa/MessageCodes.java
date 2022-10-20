@@ -24,6 +24,9 @@ public final class MessageCodes {
 
     private MessageCodes() { }
 
+    /** Thrown if a Client doesn't exist. */
+    public static final String CLIENT_WITH_PKEY_NOT_EXIST = "client.pkey.not.exist";
+
     /** Thrown if an User to persist already exists. */
     public static final String USER_ALREADY_EXISTS = "user.already.exists";
     /** Thrown if an User to persist already exists. */
@@ -41,6 +44,9 @@ public final class MessageCodes {
 
     /** Thrown if a Role has been looked up by persistent key but hasn't been found. */
     public static final String ROLE_WITH_PKEY_NOT_EXIST = "role.pkey.not.exist";
+
+    /** Thrown if a Grant already exists. */
+    public static final String GRANT_WITH_NAME_ALREADY_EXISTS = "grant.name.already.exists";
 
     /** Thrown if a SecurityObject has been looked up by persistent key but hasn't been found. */
     public static final String SO_WITH_PKEY_NOT_EXIST = "so.pkey.not.exist";
