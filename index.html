@@ -96,14 +96,10 @@
       </header>
         <main id="bodyColumn" >
 <h1>Purpose</h1>
-<p>The OpenWMS.org UAA (User Authentication &amp; Administration) Service is built to fulfill two different requirements regarding the handling of
-<code>Users</code> of the system.</p>
-<p>First the service is capable to act as <a class="externalLink" href="http://openid.net/connect">OpenID Connect</a> authentication endpoint and can authenticate users
-against a persistent database.</p>
-<p>The second part deals with administration of <code>Users</code> like creating new <code>Users</code>, updating properties of existing ones or deleting them. Most
-application permissions were not directly assigned to <code>Users</code> explicitly, but to <code>Roles</code> instead. <code>Users</code> are assigned to <code>Roles</code> and
-application permissions were granted to particular <code>Roles</code>. Administration of <code>Roles</code> and permissions is especially required for a UI
-application.</p>
+<p>The OpenWMS.org UAA (User Authentication &amp; Administration) Service is built to deals with administration of <code>Users</code> like creating new
+<code>Users</code>, updating properties of existing ones or deleting them. Most application permissions were not directly assigned to <code>Users</code>
+explicitly, but to <code>Roles</code> instead. <code>Users</code> are assigned to <code>Roles</code> and application permissions were granted to particular <code>Roles</code>.
+Administration of <code>Roles</code> and permissions is especially required for a UI application.</p>
 <p><img src="images/ClassDiagram.svg" alt="classes" /></p>
 <p>An <code>User</code> has embedded <code>UserDetails</code>, and <code>Emails</code> assigned. However, the password history of the <code>User</code> is managed and compared against new
 passwords. An <code>User</code> can be assigned to multiple <code>Roles</code> and a <code>Role</code> can consist of several <code>Users</code>. A <code>Role</code> is a <code>SecurityObject</code> in

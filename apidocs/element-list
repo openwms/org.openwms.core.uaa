@@ -1,8 +1,4 @@
 org.openwms.core.uaa
-org.openwms.core.uaa.admin
-org.openwms.core.uaa.admin.impl
 org.openwms.core.uaa.api
 org.openwms.core.uaa.app
-org.openwms.core.uaa.auth
-org.openwms.core.uaa.auth.impl
-org.openwms.core.uaa.auth.userinfo
+org.openwms.core.uaa.impl
