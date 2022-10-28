@@ -25,7 +25,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * A SecureUser.
@@ -59,7 +58,7 @@ public final class SecureUser implements UserDetails, Serializable {
         if (securityObjectAuthorities != null) {
             authorities = securityObjectAuthorities.stream()
                     .map(soa -> new SimpleGrantedAuthority(soa.getAuthority()))
-                    .collect(Collectors.toList());
+                    .toList();
         } else {
             authorities = new ArrayList<>();
         }
