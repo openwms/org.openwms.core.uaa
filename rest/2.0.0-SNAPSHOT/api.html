@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.17">
-<meta name="author" content="(2.0.0-SNAPSHOT-67)">
+<meta name="author" content="(2.0.0-SNAPSHOT-68)">
 <title>OpenWMS.org WMS: RESTful API (UAA)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -443,7 +443,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>OpenWMS.org WMS: RESTful API (UAA)</h1>
 <div class="details">
-<span id="author" class="author">(2.0.0-SNAPSHOT-67)</span><br>
+<span id="author" class="author">(2.0.0-SNAPSHOT-68)</span><br>
 <span id="revdate">Heiko Scherrer;</span>
 </div>
 <div id="toc" class="toc">
@@ -881,14 +881,14 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/users/c698402e-662e-435e-84d6-12d2e1b1c87e/
+Location: http://localhost:8080/users/a3c1f081-f453-490a-b91b-b82e352fa295/
 Content-Type: application/vnd.openwms.uaa.user-v1+json
 Content-Length: 290
 
 {
   "links" : [ ],
   "ol" : 0,
-  "pKey" : "c698402e-662e-435e-84d6-12d2e1b1c87e",
+  "pKey" : "a3c1f081-f453-490a-b91b-b82e352fa295",
   "username" : "admin2",
   "externalUser" : false,
   "locked" : false,
@@ -1203,7 +1203,7 @@ Content-Length: 360
   "pKey" : "96baa849-dd19-4b19-8c5e-895d3b7f405e",
   "username" : "superuser",
   "externalUser" : false,
-  "lastPasswordChange" : "2022-10-20T22:13:53Z",
+  "lastPasswordChange" : "2022-10-29T22:10:23Z",
   "locked" : true,
   "enabled" : false,
   "details" : { },
@@ -1387,7 +1387,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/roles/c3eb7f93-4ceb-403a-b390-9ba580106b38/
+Location: http://localhost:8080/roles/a92fb5ea-247b-4aba-83cb-c43f811a53db/
 Content-Type: application/vnd.openwms.uaa.role-v1+json
 Content-Length: 554
 
@@ -1395,16 +1395,16 @@ Content-Length: 554
   "@class" : "org.openwms.core.uaa.api.RoleVO",
   "links" : [ {
     "rel" : "users",
-    "href" : "http://localhost:8080/roles/c3eb7f93-4ceb-403a-b390-9ba580106b38/users"
+    "href" : "http://localhost:8080/roles/a92fb5ea-247b-4aba-83cb-c43f811a53db/users"
   }, {
     "rel" : "grants",
-    "href" : "http://localhost:8080/roles/c3eb7f93-4ceb-403a-b390-9ba580106b38/grants"
+    "href" : "http://localhost:8080/roles/a92fb5ea-247b-4aba-83cb-c43f811a53db/grants"
   }, {
     "rel" : "role-findbypkey",
-    "href" : "http://localhost:8080/roles/c3eb7f93-4ceb-403a-b390-9ba580106b38"
+    "href" : "http://localhost:8080/roles/a92fb5ea-247b-4aba-83cb-c43f811a53db"
   } ],
   "ol" : 0,
-  "pKey" : "c3eb7f93-4ceb-403a-b390-9ba580106b38",
+  "pKey" : "a92fb5ea-247b-4aba-83cb-c43f811a53db",
   "name" : "ROLE_DEV",
   "description" : "Developers",
   "immutable" : true
@@ -1974,7 +1974,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight nowrap"><code class="language-http hljs" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/grants/6cb94d45-8775-4dde-8789-b2316301d4ef/
+Location: http://localhost:8080/grants/3e7cc678-924d-48e7-98ab-e637bec7aa26/
 Content-Type: application/vnd.openwms.uaa.grant-v1+json
 Content-Length: 331
 
@@ -1982,10 +1982,10 @@ Content-Length: 331
   "@class" : "org.openwms.core.uaa.api.GrantVO",
   "links" : [ {
     "rel" : "grant-findbypkey",
-    "href" : "http://localhost:8080/grants/6cb94d45-8775-4dde-8789-b2316301d4ef"
+    "href" : "http://localhost:8080/grants/3e7cc678-924d-48e7-98ab-e637bec7aa26"
   } ],
   "ol" : 0,
-  "pKey" : "6cb94d45-8775-4dde-8789-b2316301d4ef",
+  "pKey" : "3e7cc678-924d-48e7-98ab-e637bec7aa26",
   "name" : "VIEW_USERS",
   "description" : "Permission to view all users in UI"
 }</code></pre>
@@ -2245,7 +2245,7 @@ Content-Length: 121
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-10-20 22:08:02 UTC
+Last updated 2022-10-29 22:04:42 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
