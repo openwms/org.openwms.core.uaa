@@ -26,7 +26,6 @@ spring:
   zipkin:
     sender:
       type: web
-
 feign:
   httpclient:
     connection-timeout: 30000
@@ -45,6 +44,8 @@ owms:
 
 server:
   port: ${PORT:8110}
+  servlet:
+    context-path: /uaa
 
 eureka:
   client:

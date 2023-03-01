@@ -17,7 +17,7 @@ spring:
 
 eureka:
   instance:
-    statusPageUrl: ${owms.srv.protocol}://${owms.srv.hostname}/info
-    healthCheckUrl: ${owms.srv.protocol}://${owms.srv.hostname}/health
-    homePageUrl: ${owms.srv.protocol}://${owms.srv.hostname}/
+    statusPageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}${server.servlet.context-path}/actuator/info
+    healthCheckUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}${server.servlet.context-path}/actuator/health
+    homePageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}${server.servlet.context-path}/
 
