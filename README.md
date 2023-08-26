@@ -1,7 +1,7 @@
 # Purpose
 The OpenWMS.org UAA (User Account & Authentication) Service deals with the administration of `Users` like creating new `Users`, updating
 properties of existing ones or deleting them. Application permissions are not directly granted to `Users` explicitly, but to `Roles`
-instead. `Users` are assigned to `Roles` and application permissions were granted to particular `Roles`. An administration API forof `Roles`
+instead. `Users` are assigned to `Roles` and application permissions were granted to particular `Roles`. An administration API for `Roles`
 and permissions is especially required for an UI application.
 
 ![classes][1]

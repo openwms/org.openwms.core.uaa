@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>23</version>
+        <version>24</version>
         <relativePath />
     </parent>
     <artifactId>org.openwms.core.uaa</artifactId>
@@ -65,8 +65,7 @@
     </ciManagement>
 
     <properties>
-        <commons-configuration.version>1.10</commons-configuration.version>
-        <core.version>2.0.0-SNAPSHOT</core.version>
+        <core.version>2.0.0</core.version>
         <guava.version>30.0-jre</guava.version>
         <servo-core.version>0.12.21</servo-core.version>
         <spring-cloud-dependencies.version>2021.0.7</spring-cloud-dependencies.version>
@@ -118,11 +117,8 @@
                             <version>${org.mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
-                    <showWarnings>true</showWarnings>
+                    <enablePreview>true</enablePreview>
                     <compilerArgs>
-                        <arg>
-                            --enable-preview
-                        </arg>
                         <arg>
                             -Amapstruct.defaultComponentModel=spring
                         </arg>
@@ -139,6 +135,7 @@
                             -Amapstruct.verbose=true
                         </arg>
                     </compilerArgs>
+                    <showWarnings>true</showWarnings>
                 </configuration>
             </plugin>
             <plugin>
@@ -219,12 +216,6 @@
                 <version>${servo-core.version}</version>
             </dependency>
             <dependency>
-                <!-- com.netflix.eureka:eureka has an internal clash -->
-                <groupId>commons-configuration</groupId>
-                <artifactId>commons-configuration</artifactId>
-                <version>${commons-configuration.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.openwms</groupId>
                 <artifactId>org.openwms.core.util</artifactId>
                 <version>${core.version}</version>
@@ -295,12 +286,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-io</groupId>
-                    <artifactId>commons-io</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
