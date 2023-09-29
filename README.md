@@ -24,10 +24,10 @@ Find more information about the service on the microservice [website...](https:/
 The UAA is an essential component for all kind of applications and requires a high degree of availability. However, it is deployed in a
 redundant setup in different locations, on different cloud platforms with different ISP.
 
-| endpoints | billed | SLA |
-| --------- | ------ | --- |
+| endpoints                              | billed | SLA |
+|----------------------------------------| ------ | --- |
 | https://openwms-core-uaa.herokuapp.com | no | Heroku SLA for Europe region depends on AWS Europe region | 
-| https://uaa.butan092.startdedicated.de | no | no SLA |
+| https://uaa.demo.openwms.cloud         | no | no SLA |
 
 # Build
 Build a runnable fat jar with execution of all unit and in-memory database integrations:
