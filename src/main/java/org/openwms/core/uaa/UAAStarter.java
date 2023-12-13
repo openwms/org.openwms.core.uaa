@@ -33,6 +33,7 @@ public class UAAStarter {
      * @param args Some args
      */
     public static void main(String[] args) {
-        SpringApplication.run(UAAStarter.class, args);
+        var ctx = SpringApplication.run(UAAStarter.class, args);
+        ctx.start();
     }
 }

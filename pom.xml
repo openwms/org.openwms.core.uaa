@@ -66,6 +66,7 @@
     </ciManagement>
 
     <properties>
+        <core.uaa.lib.version>2.0.0-SNAPSHOT</core.uaa.lib.version>
         <core.version>2.1.0-SNAPSHOT</core.version>
         <guava.version>30.0-jre</guava.version>
         <servo-core.version>0.12.21</servo-core.version>
@@ -94,18 +95,6 @@
 
     <build>
         <finalName>openwms-core-uaa</finalName>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>com.github.eirslett</groupId>
-                    <artifactId>frontend-maven-plugin</artifactId>
-                    <version>1.2</version>
-                    <configuration>
-                        <workingDirectory>src/main/ui/public</workingDirectory>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -169,37 +158,6 @@
                     </layers>
                 </configuration>
             </plugin>
-            <!--plugin>
-                <groupId>com.github.eirslett</groupId>
-                <artifactId>frontend-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>install-node-npm</id>
-                        <goals>
-                            <goal>install-node-and-npm</goal>
-                        </goals>
-                        <configuration>
-                            <nodeVersion>v0.10.32</nodeVersion>
-                            <npmVersion>2.1.8</npmVersion>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>npm-install-modules</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>tsc</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>run tsc</arguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin-->
         </plugins>
     </build>
 
@@ -223,6 +181,12 @@
                 <version>${core.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.openwms</groupId>
+                <artifactId>org.openwms.core.uaa.lib</artifactId>
+                <version>${core.uaa.lib.version}</version>
+                <classifier>all</classifier>
+            </dependency>
+            <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud-dependencies.version}</version>
@@ -237,6 +201,12 @@
         <dependency>
             <groupId>org.openwms</groupId>
             <artifactId>org.openwms.core.util</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openwms</groupId>
+            <artifactId>org.openwms.core.uaa.lib</artifactId>
+            <version>${core.uaa.lib.version}</version>
+            <classifier>all</classifier>
         </dependency>
 
         <!-- Spring Dependencies -->
@@ -451,4 +421,60 @@
             </releases>
         </pluginRepository>
     </pluginRepositories>
+
+    <profiles>
+        <profile>
+            <id>enterprise</id>
+            <properties>
+                <core.uaa.ui.lib.version>1.0.0-SNAPSHOT</core.uaa.ui.lib.version>
+            </properties>
+            <distributionManagement>
+                <repository>
+                    <id>interface21-releases</id>
+                    <name>OpenWMS.org Release Repository</name>
+                    <url>https://repo.openwms.cloud/repository/maven-releases</url>
+                </repository>
+                <snapshotRepository>
+                    <id>interface21-snapshots</id>
+                    <name>OpenWMS.org Snapshot Repository</name>
+                    <url>https://repo.openwms.cloud/repository/maven-snapshots</url>
+                </snapshotRepository>
+                <site>
+                    <id>site</id>
+                    <url>scm:git:git@github.com:interface21-io/${project.artifactId}.git</url>
+                </site>
+            </distributionManagement>
+            <dependencies>
+                <dependency>
+                    <groupId>org.openwms</groupId>
+                    <artifactId>org.openwms.core.uaa.ui</artifactId>
+                    <version>${core.uaa.ui.lib.version}</version>
+                </dependency>
+            </dependencies>
+            <repositories>
+                <repository>
+                    <id>interface21-snapshots</id>
+                    <name>Interface21.io Snapshot Repository</name>
+                    <url>https://repo.openwms.cloud/repository/maven-snapshots</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>false</enabled>
+                    </releases>
+                </repository>
+                <repository>
+                    <id>interface21-releases</id>
+                    <name>Interface21.io Release Repository</name>
+                    <url>https://repo.openwms.cloud/repository/maven-releases</url>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
 </project>

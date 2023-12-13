@@ -1,5 +1,6 @@
 name: 'master_build'
 on:
+  repository_dispatch:
   push:
     branches: [ master ]
 
@@ -23,9 +24,22 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
+      - uses: s4u/maven-settings-action@v2.8.0
+        with:
+          servers: |
+            [{
+              "id": "interface21-snapshots",
+              "username": "${{ secrets.REPO_USERNAME }}",
+              "password": "${{ secrets.REPO_PASSWORD }}"
+            },
+            {
+              "id": "interface21-releases",
+              "username": "${{ secrets.REPO_USERNAME }}",
+              "password": "${{ secrets.REPO_PASSWORD }}"
+            }]
       - name: Build
         run: >
-          ./mvnw clean verify
+          ./mvnw verify
           -DsurefireArgs=-Dspring.profiles.active=TEST
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
           -U -B $MAVEN_OPTS
@@ -36,3 +50,16 @@ jobs:
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build-Enterprise
+        run: >
+          ./mvnw clean verify
+          -DsurefireArgs=-Dspring.profiles.active=TEST
+          -Dci.buildNumber=$GITHUB_RUN_NUMBER
+          -Penterprise -B $MAVEN_OPTS
+      - name: Build Enterprise Image
+        run: ./scripts/enterprise/docker_build
+      - name: Upload Enterprise Image
+        run: ./scripts/enterprise/docker_push
+        env:
+          DOCKER_USER: ${{ secrets.REPO_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.REPO_PASSWORD }}
