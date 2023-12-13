@@ -450,361 +450,73 @@ can be taken. It has a unique business key, that is used in API or UI to protect
 <div class="sect2">
 <h3 id="grant-index">Grant Index</h3>
 <div class="paragraph">
-<p>An overview of all possible operations on <code>Grants</code> can be found on the <code>Grant</code> index page that is retrieved with a <code>GET</code> request:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /grants/index HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<p>An overview of all possible operations on <code>Grants</code> can be found on the <code>Grant</code> index page that is retrieved with a <code>GET</code> request:
+Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grants-index/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
-<p>And the server responds with a <code>HAL+JSON</code> representation to further operations:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/hal+json
-Content-Length: 343
-
-{
-  "_links" : {
-    "grant-findbypkey" : {
-      "href" : "http://localhost:8080/grants/pKey"
-    },
-    "grant-findall" : {
-      "href" : "http://localhost:8080/grants"
-    },
-    "grant-findallforuser" : {
-      "href" : "http://localhost:8080/grants"
-    },
-    "grant-create" : {
-      "href" : "http://localhost:8080/grants"
-    }
-  }
-}</code></pre>
-</div>
+<p>And the server responds with a <code>HAL+JSON</code> representation to further operations:
+Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grants-index/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="grant-create">Create a Grant</h3>
 <div class="paragraph">
 <p>To create a new <code>Grant</code> instance, a <code>POST</code> request must be send to the server with the mandatory fields of the <code>Grant</code> resource in the
-request body.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /grants HTTP/1.1
-Content-Type: application/json
-Content-Length: 132
-Host: localhost:8080
-
-{
-  "@class" : "org.openwms.core.uaa.api.GrantVO",
-  "name" : "VIEW_USERS",
-  "description" : "Permission to view all users in UI"
-}</code></pre>
-</div>
+request body.
+Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grant-create/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
-<p>Not named properties are optional to pass.</p>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Unique name of the Grant</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>description</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">(Optional) A descriptive text for the Grant</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>If the <code>Grant</code> has been created successfully, the server returns the URI to the created resource in the <code>Location</code> header:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/grants/aed8c86c-7778-4389-ab7e-28a0b2a60130/
-Content-Type: application/vnd.openwms.uaa.grant-v1+json
-Content-Length: 331
-
-{
-  "@class" : "org.openwms.core.uaa.api.GrantVO",
-  "links" : [ {
-    "rel" : "grant-findbypkey",
-    "href" : "http://localhost:8080/grants/aed8c86c-7778-4389-ab7e-28a0b2a60130"
-  } ],
-  "ol" : 0,
-  "pKey" : "aed8c86c-7778-4389-ab7e-28a0b2a60130",
-  "name" : "VIEW_USERS",
-  "description" : "Permission to view all users in UI"
-}</code></pre>
-</div>
+<p>Not named properties are optional to pass.
+Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grant-create/request-fields.adoc[]</p>
 </div>
 <div class="paragraph">
-<p>If a <code>Grant</code> with the same name already exists the server returns an error:</p>
+<p>If the <code>Grant</code> has been created successfully, the server returns the URI to the created resource in the <code>Location</code> header:
+Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grant-create/http-response.adoc[]</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 409 Conflict
-Content-Type: application/hal+json
-Content-Length: 140
-
-{
-  "message" : "Grant with name SEC_UAA_USER_LOOKUP already exists",
-  "messageKey" : "grant.name.already.exists",
-  "httpStatus" : "409"
-}</code></pre>
-</div>
+<div class="paragraph">
+<p>If a <code>Grant</code> with the same name already exists the server returns an error:
+Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grant-create-exists/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="grant-findall">Find all Grants</h3>
 <div class="paragraph">
-<p>To retrieve all existing <code>Grants</code> from the server, a client simply needs to do a <code>GET</code> request to the <code>Grants</code> resource.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /grants HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
+<p>To retrieve all existing <code>Grants</code> from the server, a client simply needs to do a <code>GET</code> request to the <code>Grants</code> resource.
+Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grant-findall/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
-<p>The server responds with a list representation of all <code>Grants</code> or an empty list:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/vnd.openwms.uaa.grant-v1+json
-Content-Length: 1056
-
-[ {
-  "@class" : "org.openwms.core.uaa.api.GrantVO",
-  "links" : [ {
-    "rel" : "grant-findbypkey",
-    "href" : "http://localhost:8080/grants/3"
-  } ],
-  "ol" : 1,
-  "pKey" : "3",
-  "name" : "SEC_UAA_USER_LOOKUP",
-  "description" : "Permission to find Users"
-}, {
-  "@class" : "org.openwms.core.uaa.api.GrantVO",
-  "links" : [ {
-    "rel" : "grant-findbypkey",
-    "href" : "http://localhost:8080/grants/4"
-  } ],
-  "ol" : 1,
-  "pKey" : "4",
-  "name" : "SEC_UAA_USER_CREATE",
-  "description" : "Permission to create Users"
-}, {
-  "@class" : "org.openwms.core.uaa.api.GrantVO",
-  "links" : [ {
-    "rel" : "grant-findbypkey",
-    "href" : "http://localhost:8080/grants/5"
-  } ],
-  "ol" : 1,
-  "pKey" : "5",
-  "name" : "SEC_UAA_USER_MODIFY",
-  "description" : "Permission to modify Users"
-}, {
-  "@class" : "org.openwms.core.uaa.api.GrantVO",
-  "links" : [ {
-    "rel" : "grant-findbypkey",
-    "href" : "http://localhost:8080/grants/6"
-  } ],
-  "ol" : 1,
-  "pKey" : "6",
-  "name" : "SEC_UAA_USER_DELETE",
-  "description" : "Permission to delete Users"
-} ]</code></pre>
-</div>
+<p>The server responds with a list representation of all <code>Grants</code> or an empty list:
+Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grant-findall/http-response.adoc[]</p>
 </div>
 </div>
 <div class="sect2">
 <h3 id="grant-findbypkey">Find a Grant by persistent key</h3>
 <div class="paragraph">
 <p>Each <code>Grant</code> has an unique ID the <em>pKey</em> or <em>persistent identifier</em>. To find and return a <code>Grant</code> by <code>pKey</code> a client must send a <code>GET</code>
-request to the <code>Grants</code> resource:</p>
+request to the <code>Grants</code> resource:
+Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grant-findbypkey/http-request.adoc[]
+Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grant-findbypkey/http-response.adoc[]
+Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grant-findbypkey/response-fields.adoc[]</p>
 </div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /grants/3 HTTP/1.1
-Host: localhost:8080</code></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/vnd.openwms.uaa.grant-v1+json
-Content-Length: 260
-
-{
-  "@class" : "org.openwms.core.uaa.api.GrantVO",
-  "links" : [ {
-    "rel" : "grant-findbypkey",
-    "href" : "http://localhost:8080/grants/3"
-  } ],
-  "ol" : 1,
-  "pKey" : "3",
-  "name" : "SEC_UAA_USER_LOOKUP",
-  "description" : "Permission to find Users"
-}</code></pre>
-</div>
-</div>
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Path</th>
-<th class="tableblock halign-left valign-top">Type</th>
-<th class="tableblock halign-left valign-top">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>@class</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Type identifier of the Grant type</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>links[]</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Array</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Contains an array of hypermedia resource links</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ol</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Versioning field to check the instance version</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pKey</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The technical persistent identifier of the Grant</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Unique name of the Grant</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>description</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A descriptive text for the Grant</p></td>
-</tr>
-</tbody>
-</table>
 </div>
 <div class="sect2">
 <h3 id="grant-findallforuser">Find all Grants of a User</h3>
 <div class="paragraph">
 <p>To retrieve all existing <code>Grants</code> from assigned to a <code>User</code>, a client simply needs to do a <code>GET</code> request to the <code>Grants</code> resource and pass
-the users identity within the <code>X-Identity</code> http header.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /grants HTTP/1.1
-X-Identity: jenkins
-Host: localhost:8080</code></pre>
-</div>
+the users identity within the <code>X-Identity</code> http header.
+Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grant-findallforuser/http-request.adoc[]</p>
 </div>
 <div class="paragraph">
-<p>The server responds with a list representation of all <code>Grants</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
-Content-Type: application/vnd.openwms.uaa.grant-v1+json
-Content-Length: 1056
-
-[ {
-  "@class" : "org.openwms.core.uaa.api.GrantVO",
-  "links" : [ {
-    "rel" : "grant-findbypkey",
-    "href" : "http://localhost:8080/grants/5"
-  } ],
-  "ol" : 1,
-  "pKey" : "5",
-  "name" : "SEC_UAA_USER_MODIFY",
-  "description" : "Permission to modify Users"
-}, {
-  "@class" : "org.openwms.core.uaa.api.GrantVO",
-  "links" : [ {
-    "rel" : "grant-findbypkey",
-    "href" : "http://localhost:8080/grants/4"
-  } ],
-  "ol" : 1,
-  "pKey" : "4",
-  "name" : "SEC_UAA_USER_CREATE",
-  "description" : "Permission to create Users"
-}, {
-  "@class" : "org.openwms.core.uaa.api.GrantVO",
-  "links" : [ {
-    "rel" : "grant-findbypkey",
-    "href" : "http://localhost:8080/grants/3"
-  } ],
-  "ol" : 1,
-  "pKey" : "3",
-  "name" : "SEC_UAA_USER_LOOKUP",
-  "description" : "Permission to find Users"
-}, {
-  "@class" : "org.openwms.core.uaa.api.GrantVO",
-  "links" : [ {
-    "rel" : "grant-findbypkey",
-    "href" : "http://localhost:8080/grants/6"
-  } ],
-  "ol" : 1,
-  "pKey" : "6",
-  "name" : "SEC_UAA_USER_DELETE",
-  "description" : "Permission to delete Users"
-} ]</code></pre>
-</div>
+<p>The server responds with a list representation of all <code>Grants</code>:
+Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grant-findallforuser/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
-<p>or a HTTP <code>204-NO CONTENT</code> response if no <code>Grants</code> are assigned to the <code>User</code>:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 204 No Content</code></pre>
-</div>
+<p>or a HTTP <code>204-NO CONTENT</code> response if no <code>Grants</code> are assigned to the <code>User</code>:
+Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grant-findallforuser-empty/http-response.adoc[]</p>
 </div>
 <div class="paragraph">
-<p>or a HTTP <code>404-NOT FOUND</code> response if the <code>User</code> does not exist:</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 404 Not Found
-Content-Type: application/hal+json
-Content-Length: 121
-
-{
-  "message" : "User with name UNKNOWN does not exist",
-  "messageKey" : "user.name.not.exist",
-  "httpStatus" : "404"
-}</code></pre>
-</div>
+<p>or a HTTP <code>404-NOT FOUND</code> response if the <code>User</code> does not exist:
+Unresolved directive in 4-grants.adoc - include::/home/runner/work/org.openwms.core.uaa/org.openwms.core.uaa/target/generated-snippets/grant-findallforuser-404/http-response.adoc[]</p>
 </div>
 </div>
 </div>
@@ -812,7 +524,7 @@ Content-Length: 121
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-09-29 16:13:38 UTC
+Last updated 2023-12-13 13:12:56 UTC
 </div>
 </div>
 </body>
