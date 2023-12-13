@@ -177,11 +177,6 @@
             </dependency>
             <dependency>
                 <groupId>org.openwms</groupId>
-                <artifactId>org.openwms.core.util</artifactId>
-                <version>${core.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.openwms</groupId>
                 <artifactId>org.openwms.core.uaa.lib</artifactId>
                 <version>${core.uaa.lib.version}</version>
                 <classifier>all</classifier>
@@ -200,12 +195,7 @@
         <!-- Project Dependencies -->
         <dependency>
             <groupId>org.openwms</groupId>
-            <artifactId>org.openwms.core.util</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.openwms</groupId>
             <artifactId>org.openwms.core.uaa.lib</artifactId>
-            <version>${core.uaa.lib.version}</version>
             <classifier>all</classifier>
         </dependency>
 

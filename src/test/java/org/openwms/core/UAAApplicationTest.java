@@ -16,7 +16,7 @@
 package org.openwms.core;
 
 import org.ameba.test.categories.SpringTestSupport;
-import org.openwms.core.uaa.UAAStarter;
+import org.openwms.core.uaa.UAATestStarter;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.lang.annotation.Documented;
@@ -36,7 +36,7 @@ import java.lang.annotation.Target;
 @Documented
 @Inherited
 @SpringTestSupport
-@SpringBootTest(classes = {UAAStarter.class}, properties = {
+@SpringBootTest(classes = {UAATestStarter.class}, properties = {
         "spring.jpa.show-sql=false",
         "spring.main.banner-mode=OFF",
         "spring.jackson.serialization.INDENT_OUTPUT=true",
