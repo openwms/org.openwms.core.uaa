@@ -66,6 +66,7 @@
     </ciManagement>
 
     <properties>
+        <ameba-lib.version>3.1-SNAPSHOT</ameba-lib.version>
         <core.uaa.lib.version>2.0.0-SNAPSHOT</core.uaa.lib.version>
         <core.version>2.1.0-SNAPSHOT</core.version>
         <guava.version>30.0-jre</guava.version>
@@ -163,6 +164,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>io.interface21</groupId>
+                <artifactId>ameba-lib</artifactId>
+                <version>${ameba-lib.version}</version>
+            </dependency>
             <dependency>
                 <!-- Clash in org.springframework.cloud:spring-cloud-starter-netflix-eureka-client -->
                 <groupId>com.google.guava</groupId>
