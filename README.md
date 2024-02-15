@@ -11,23 +11,18 @@ passwords. An `User` can be assigned to multiple `Roles`. A `Role` is a `Securit
 `Grant` is a permission that can be used in a client application.
 
 # Resources
-[![Build status](https://github.com/openwms/org.openwms.core.uaa/actions/workflows/master-build.yml/badge.svg)](https://github.com/openwms/org.openwms.core.uaa/actions/workflows/master-build.yml)
-[![Quality](https://sonarcloud.io/api/project_badges/measure?project=org.openwms:org.openwms.core.uaa&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.openwms:org.openwms.core.uaa)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
-[![Maven central](https://img.shields.io/maven-central/v/org.openwms/org.openwms.core.uaa)](https://search.maven.org/search?q=a:org.openwms.core.uaa)
-[![Docker pulls](https://img.shields.io/docker/pulls/openwms/org.openwms.core.uaa)](https://hub.docker.com/r/openwms/org.openwms.core.uaa)
-[![Join the chat at https://gitter.im/openwms/org.openwms](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/openwms/org.openwms?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+| Module     | Build Status                                                                                                                                                                                           | Quality                                                                                                                                                                                                    | License                                                                            | Maven Central                                                                                                                                           | Docker Hub                                                                                                                                  | Chat                                                                                                                                                                                                                   |
+|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Image      | [![Build status](https://github.com/openwms/org.openwms.core.uaa/actions/workflows/master-build.yml/badge.svg)](https://github.com/openwms/org.openwms.core.uaa/actions/workflows/master-build.yml)    |                                                                                                                                                                                                            | [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)  | [![Maven central](https://img.shields.io/maven-central/v/org.openwms/org.openwms.core.uaa)](https://search.maven.org/search?q=a:org.openwms.core.uaa)   |  [![Docker pulls](https://img.shields.io/docker/pulls/openwms/org.openwms.core.uaa)](https://hub.docker.com/r/openwms/org.openwms.core.uaa) | [![Join the chat at https://gitter.im/openwms/org.openwms](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/openwms/org.openwms?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) |
+| Library    | [![Build status](https://github.com/openwms/org.openwms.core.uaa/actions/workflows/master-build.yml/badge.svg)](https://github.com/openwms/org.openwms.core.uaa/actions/workflows/master-build.yml)    | [![Quality](https://sonarcloud.io/api/project_badges/measure?project=org.openwms:org.openwms.core.uaa.lib&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.openwms:org.openwms.core.uaa.lib)   |  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE) | [![Maven central](https://img.shields.io/maven-central/v/org.openwms/org.openwms.core.uaa)](https://search.maven.org/search?q=a:org.openwms.core.uaa)   | [![Docker pulls](https://img.shields.io/docker/pulls/openwms/org.openwms.core.uaa)](https://hub.docker.com/r/openwms/org.openwms.core.uaa)  | [![Join the chat at https://gitter.im/openwms/org.openwms](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/openwms/org.openwms?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) |
 
-Find more information about the service on the microservice [website...](https://openwms.github.io/org.openwms.core.uaa/)
+Find more information about the service on the microservice [website](https://openwms.github.io/org.openwms.core.uaa).
 
-# Deployment
-The UAA is an essential component for all kind of applications and requires a high degree of availability. However, it is deployed in a
-redundant setup in different locations, on different cloud platforms with different ISP.
+# Dependencies 
+The service is basically a composition of custom libraries. Compared to the opensource version, the ENTERPRISE version contains additional
+endpoints for the user interface.
 
-| endpoints                              | billed | SLA |
-|----------------------------------------| ------ | --- |
-| https://openwms-core-uaa.herokuapp.com | no | Heroku SLA for Europe region depends on AWS Europe region | 
-| https://uaa.demo.openwms.cloud         | no | no SLA |
+![mavendeps](./src/site/resources/images/maven-deps.drawio.png)
 
 # Build
 Build a runnable fat jar with execution of all unit and in-memory database integrations:
@@ -36,13 +31,7 @@ Build a runnable fat jar with execution of all unit and in-memory database integ
 $ mvnw package
 ```
 
-Run the Sonar analysis:
-
-```
-$ mvnw package -Psonar
-```
-
-## Run
+# Run
 After the binary has been built it can be started from command line. No other infrastructure services are required to run this service.
 
 ```
@@ -65,7 +54,7 @@ $ mvn deploy -Prelease,gpg
 
 ### Release Documentation
 ```
-$ mvn package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST -Psonar
+$ mvn package -DsurefireArgs=-Dspring.profiles.active=ASYNCHRONOUS,TEST
 $ mvn site scm-publish:publish-scm
 ```
 
