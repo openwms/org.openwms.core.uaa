@@ -1,8 +1,8 @@
 # Purpose
-The OpenWMS.org UAA (User Account & Authentication) Service deals with the administration of `Users` like creating new `Users`, updating
+The OpenWMS.org UAA (User Account & Administration) Service deals with the administration of `Users` like creating new `Users`, updating
 properties of existing ones or deleting them. Application permissions are not directly granted to `Users` explicitly, but to `Roles`
 instead. `Users` are assigned to `Roles` and application permissions were granted to particular `Roles`. An administration API for `Roles`
-and permissions is especially required for an UI application.
+and permissions is especially required for a UI application.
 
 ![classes][1]
 
@@ -22,10 +22,10 @@ passwords. An `User` can be assigned to multiple `Roles`. A `Role` is a `Securit
 The UAA is an essential component for all kind of applications and requires a high degree of availability. However, it is deployed in a
 redundant setup in different locations, on different cloud platforms with different ISP.
 
-| endpoints                              | billed | SLA |
-|----------------------------------------| ------ | --- |
-| https://openwms-core-uaa.herokuapp.com | no | Heroku SLA for Europe region depends on AWS Europe region | 
-| https://uaa.demo.openwms.cloud         | no | no SLA |
+| endpoints                              | billed | SLA                                                       |
+|----------------------------------------|--------|-----------------------------------------------------------|
+| https://openwms-core-uaa.herokuapp.com | no     | Heroku SLA for Europe region depends on AWS Europe region | 
+| https://uaa.demo.openwms.cloud         | no     | no SLA                                                    |
 
 # Build
 Build a runnable fat jar with execution of all unit and in-memory database integrations:
