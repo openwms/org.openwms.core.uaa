@@ -39,8 +39,8 @@ owms:
     url: http://user:sa@localhost:8761
     zone: ${owms.eureka.url}/eureka/
   srv:
-    protocol: http
     hostname: localhost
+    protocol: http
 
 server:
   port: ${PORT:8110}
@@ -54,15 +54,6 @@ eureka:
       defaultZone: ${owms.eureka.zone} # Must be camelCase
   instance:
     hostname: ${owms.srv.hostname}
-    secure-port-enabled: false
-    non-secure-port-enabled: true
-    metadata-map:
-      config-protocol: http # The protocol used to access the config server
-      username: ${spring.security.user.name}
-      password: ${spring.security.user.password}
-      protocol: ${owms.srv.protocol}
-      zone: ${owms.eureka.zone}
-    prefer-ip-address: true
     # Request a lease with a validity of 5 seconds. If until then the
     # lease has not been renewed, it expires and the Eureka server can evict it.
     # Default: 90s
@@ -71,7 +62,16 @@ eureka:
     # The cadence of lease renewal, i.e. how often a heartbeat is sent to Eureka server.
     # In this case every 2 seconds. Use this only for development / debugging. In production use the ...
     # Default: 30s
-    lease-renewal-interval-in-seconds:    2
+    lease-renewal-interval-in-seconds: 2
+    metadata-map:
+      config-protocol: http # The protocol used to access the config server
+      username: ${spring.security.user.name}
+      password: ${spring.security.user.password}
+      protocol: ${owms.srv.protocol}
+      zone: ${owms.eureka.zone}
+    non-secure-port-enabled: true
+    prefer-ip-address: true
+    secure-port-enabled: false
 
 info:
   scm-url: "@scm.url@"
