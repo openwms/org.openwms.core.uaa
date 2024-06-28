@@ -1,4 +1,4 @@
-// dot 2.43.0 on Linux 6.5.0-1021-azure
+// dot 2.43.0 on Linux 6.5.0-1022-azure
 // SchemaSpy rev Unknown
 digraph "oneDegreeRelationshipsDiagram" {
   graph [
@@ -65,10 +65,10 @@ digraph "oneDegreeRelationshipsDiagram" {
       <TR><TD PORT="c_ol" COLSPAN="2" ALIGN="LEFT">c_ol</TD><TD PORT="c_ol.type" ALIGN="LEFT">int8[19]</TD></TR>
       <TR><TD PORT="c_pid" COLSPAN="2" BGCOLOR="#f4f7da" ALIGN="LEFT">c_pid</TD><TD PORT="c_pid.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_enabled" COLSPAN="2" ALIGN="LEFT">c_enabled</TD><TD PORT="c_enabled.type" ALIGN="LEFT">bool[1]</TD></TR>
-      <TR><TD PORT="c_expiration_date" COLSPAN="2" ALIGN="LEFT">c_expiration_date</TD><TD PORT="c_expiration_date.type" ALIGN="LEFT">timestamp[29,6]</TD></TR>
+      <TR><TD PORT="c_expiration_date" COLSPAN="2" ALIGN="LEFT">c_expiration_date</TD><TD PORT="c_expiration_date.type" ALIGN="LEFT">timestamptz[35,6]</TD></TR>
       <TR><TD PORT="c_extern" COLSPAN="2" ALIGN="LEFT">c_extern</TD><TD PORT="c_extern.type" ALIGN="LEFT">bool[1]</TD></TR>
       <TR><TD PORT="c_fullname" COLSPAN="2" ALIGN="LEFT">c_fullname</TD><TD PORT="c_fullname.type" ALIGN="LEFT">varchar[255]</TD></TR>
-      <TR><TD PORT="c_last_password_change" COLSPAN="2" ALIGN="LEFT">c_last_password_change</TD><TD PORT="c_last_password_change.type" ALIGN="LEFT">timestamp[29,6]</TD></TR>
+      <TR><TD PORT="c_last_password_change" COLSPAN="2" ALIGN="LEFT">c_last_password_change</TD><TD PORT="c_last_password_change.type" ALIGN="LEFT">timestamptz[35,6]</TD></TR>
       <TR><TD PORT="c_locked" COLSPAN="2" ALIGN="LEFT">c_locked</TD><TD PORT="c_locked.type" ALIGN="LEFT">bool[1]</TD></TR>
       <TR><TD PORT="c_password" COLSPAN="2" ALIGN="LEFT">c_password</TD><TD PORT="c_password.type" ALIGN="LEFT">varchar[255]</TD></TR>
       <TR><TD PORT="c_comment" COLSPAN="2" ALIGN="LEFT">c_comment</TD><TD PORT="c_comment.type" ALIGN="LEFT">varchar[255]</TD></TR>
