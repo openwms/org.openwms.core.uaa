@@ -29,8 +29,8 @@
 
     <scm>
         <url>https://github.com/openwms/${project.artifactId}</url>
-        <connection>scm:git:https://${scmuser}github.com/openwms/${project.artifactId}.git</connection>
-        <developerConnection>scm:git:https://${scmuser}github.com/openwms/${project.artifactId}.git</developerConnection>
+        <connection>scm:git:https://github.com/openwms/${project.artifactId}.git</connection>
+        <developerConnection>scm:git:https://github.com/openwms/${project.artifactId}.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
@@ -66,6 +66,7 @@
     </ciManagement>
 
     <properties>
+        <ameba-lib.version>4.1-SNAPSHOT</ameba-lib.version>
         <checker-qual.version>3.33.0</checker-qual.version>
         <core.uaa.lib.version>2.0.0-SNAPSHOT</core.uaa.lib.version>
         <core.version>3.0.0-SNAPSHOT</core.version>
