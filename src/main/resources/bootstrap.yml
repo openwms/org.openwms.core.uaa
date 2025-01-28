@@ -5,6 +5,10 @@ spring:
     user:
       name: user
       password: sa
+  jackson:
+    date-format: "yyyy-MM-dd'T'HH:mm:ssXXX" # Only matches Dates no Instants!
+    deserialization:
+      read-date-timestamps-as-nanoseconds: false
   jpa:
     mapping-resources:
       - META-INF/uaa-orm.xml
@@ -14,8 +18,6 @@ spring:
         jdbc:
           time_zone: UTC
     show-sql: false
-  jackson:
-    date-format: "yyyy-MM-dd'T'HH:mm:ssXXX" # Only matches Dates no Instants!
   main:
     allow-bean-definition-overriding: true
   mvc:
@@ -23,24 +25,19 @@ spring:
       date-time: "yyyy-MM-dd'T'HH:mm:ssXXX" # Must match the pattern how of @JsonFormat field annotation patterns
       date: yyyy-MM-dd
       time: HH:mm:ss
-  zipkin:
-    sender:
-      type: web
-feign:
-  httpclient:
-    connection-timeout: 30000
-    connection-timer-repeat: 30000
-ribbon:
-  connectTimeout: 30000
-  ReadTimeout: 30000
+  output:
+    ansi:
+      enabled: always
 
 owms:
   eureka:
     url: http://user:sa@localhost:8761
     zone: ${owms.eureka.url}/eureka/
   srv:
-    hostname: localhost
     protocol: http
+    hostname: localhost
+  tracing:
+    url: http://localhost:4317
 
 server:
   port: ${PORT:8110}
@@ -50,6 +47,7 @@ server:
 eureka:
   client:
     instance-info-replication-interval-seconds: 10 # default is 30
+    registryFetchIntervalSeconds: 5 # SBA
     service-url:
       defaultZone: ${owms.eureka.zone} # Must be camelCase
   instance:
@@ -64,11 +62,16 @@ eureka:
     # Default: 30s
     lease-renewal-interval-in-seconds: 2
     metadata-map:
+      group: CORE
       config-protocol: http # The protocol used to access the config server
       username: ${spring.security.user.name}
       password: ${spring.security.user.password}
       protocol: ${owms.srv.protocol}
+      startup: ${random.int} # SBA
       zone: ${owms.eureka.zone}
+      prometheus.scrape: "true"
+      prometheus.path: "/actuator/prometheus"
+      prometheus.port: ${server.port}
     non-secure-port-enabled: true
     prefer-ip-address: true
     secure-port-enabled: false
@@ -90,20 +93,87 @@ management:
   health:
     rabbit:
       enabled: false
-  metrics:
-    web:
-      server:
-        request:
-          autotime:
-            enabled: true
-    export:
-      prometheus:
-        enabled: true
   info:
     git:
       mode: simple
+  metrics:
+    distribution:
+      percentiles-histogram:
+        greeting: true
+        http:
+          server:
+            requests: true
+    tags:
+      application: ${spring.application.name}
+  otlp:
+    tracing:
+      endpoint: ${owms.tracing.url}
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  tracing:
+    sampling:
+      probability: 1.0
 
 ---
+spring:
+  config:
+    activate:
+      on-profile: ASYNCHRONOUS
+  rabbitmq:
+    listener:
+      simple:
+        retry:
+          max-attempts: 3
+          enabled: true
+          initial-interval: 1s
+          max-interval: 1s
+
+management:
+  health:
+    rabbit:
+      enabled: true
+
+owms:
+  common:
+    serialization: json
+  commands:
+    common:
+      loc:
+        exchange-name: common.loc.commands
+        routing-key: common.loc.command.in.*
+        queue-name: common-loc-commands-queue
+      registration:
+        exchange-name: common.registration.commands
+        routing-key: common.registration.command.in.#.#
+        queue-name: common-registration-commands-queue
+      tu:
+        exchange-name: common.tu.commands
+        routing-key: common.tu.command.in.*
+        queue-name: common-tu-commands-queue
+    transactions:
+      tx:
+        exchange-name: common.tx.commands
+  dead-letter:
+    exchange-name: dle.common
+    queue-name: common-dl-queue
+  events:
+    common:
+      lg:
+        exchange-name: common.lg
+      tu:
+        exchange-name: common.tu
+      tut:
+        exchange-name: common.tu
+    shipping:
+      exchange-name: shipping
+      split:
+        queue-name: common-split-queue
+        routing-key: split.event.created
+
+---
+# Might run in standalone or distributed environment
 spring:
   config:
     activate:
@@ -146,27 +216,6 @@ spring:
 spring:
   config:
     activate:
-      on-profile: HEROKU
-  main:
-    banner-mode: "OFF"
-
-owms:
-  srv:
-    protocol: https
-    hostname: openwms-core-uaa.herokuapp.com
-
-eureka:
-  instance:
-    secure-port-enabled: true
-    non-secure-port-enabled: false
-    statusPageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/info
-    healthCheckUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/health
-    homePageUrl: ${owms.srv.protocol}://${owms.srv.hostname}:${server.port}/actuator/
-
----
-spring:
-  config:
-    activate:
       on-profile: TEST
   cloud:
     bootstrap:
@@ -190,11 +239,6 @@ spring:
     show-sql: false
   main:
     banner-mode: "off"
-  zipkin:
-    enabled: false
-    discovery-client-enabled: false
-    sender:
-      type: rabbit
 
 ---
 spring:
@@ -231,10 +275,3 @@ spring:
         default_schema: public
     hibernate:
       ddl-auto: update
-  main:
-    banner-mode: "off"
-  zipkin:
-    enabled: false
-    discovery-client-enabled: false
-    sender:
-      type: rabbit

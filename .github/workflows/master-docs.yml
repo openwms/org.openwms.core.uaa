@@ -57,17 +57,12 @@ jobs:
       - name: Site
         run: >
           ./mvnw post-integration-test site scm-publish:publish-scm
-          -DM2_REPO_DIR=/home/runner/.m2/repository
           -DsurefireArgs=-Dspring.profiles.active=TEST,TESTPG
           -Dargs=-Dspring.profiles.active=TEST,TESTPG
           -Dspring.datasource.url=jdbc:postgresql://localhost:5432/testdb
-          -DDB_HOST=localhost
-          -DDB_USERNAME=KARL
-          -DDB_PASSWORD=KARL
-          -Dscmuser=$PUSHKEY
           -Dscmpublish.pubScmUrl=scm:git:https://openwms:$PUSHKEY@github.com/openwms/org.openwms.core.uaa.git
           -DdeveloperConnectionUrl=scm:git:https://openwms:$PUSHKEY@github.com/openwms/org.openwms.core.uaa.git
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
-          -Pschemagen,release -B $MAVEN_OPTS
+          -Prelease,coverage -B $MAVEN_OPTS
         env:
           PUSHKEY: ${{ secrets.GITHUB_TOKEN }}
