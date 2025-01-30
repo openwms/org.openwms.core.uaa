@@ -31,12 +31,14 @@
     <body>
         <menu name="Documentation">
             <item name="Home" href="index.html" />
-            <item name="REST API Documentation" href="rest/${project.version}/api.html" />
             <item name="Configuration" href="configuration.html" />
-            <item name="Wiki" href="https://wiki.openwms.cloud/projects/core-uaa-service" />
-            <item name="Javadoc" href="apidocs/index.html" />
-            <item name="Database Schema" href="${project.version}/schemaspy/relationships.html" />
-            <item name="Sonarcloud" href="https://sonarcloud.io/dashboard?id=org.openwms:${project.artifactId}" />
+            <item name="Wiki" href="https://wiki.openwms.cloud/projects/core-uaa-service/wiki" />
+            <menu name="UAA Library">
+                <item name="REST API Documentation" href="https://openwms.github.io/org.openwms.core.uaa.lib/rest/${core.uaa.lib.version}/api.html" />
+                <item name="Javadoc" href="https://openwms.github.io/org.openwms.core.uaa.lib/apidocs/index.html" />
+                <item name="Database Schema" href="https://openwms.github.io/org.openwms.core.uaa.lib/${core.uaa.lib.version}/schemaspy/relationships.html" />
+                <item name="Sonarcloud" href="https://sonarcloud.io/dashboard?id=org.openwms:org.openwms.core.uaa.lib" />
+            </menu>
         </menu>
         <menu name="Project" ref="reports" />
     </body>
