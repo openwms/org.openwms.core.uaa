@@ -35,7 +35,8 @@
 
     <properties>
         <checker-qual.version>3.43.0</checker-qual.version>
-        <core.uaa.lib.version>2.0.0-SNAPSHOT</core.uaa.lib.version>
+        <core.uaa.lib.version>2.0.0</core.uaa.lib.version>
+        <core.uaa.ui.lib.version>1.0.0</core.uaa.ui.lib.version>
         <core.version>3.0.0</core.version>
         <ehcache.version>3.10.8</ehcache.version>
         <error_prone_annotations.version>2.28.0</error_prone_annotations.version>
@@ -376,9 +377,6 @@
     <profiles>
         <profile>
             <id>enterprise</id>
-            <properties>
-                <core.uaa.ui.lib.version>1.0.0-SNAPSHOT</core.uaa.ui.lib.version>
-            </properties>
             <distributionManagement>
                 <repository>
                     <id>interface21-releases</id>
