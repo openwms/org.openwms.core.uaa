@@ -67,12 +67,20 @@ jobs:
               "password": "${{ secrets.REPO_PASSWORD }}"
             }]
 
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+
       - name: Build & Deploy
         run: >
           ./mvnw deploy
           -DsurefireArgs=-Dspring.profiles.active=TEST
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
-          -U -B -Prelease,release-central,gpg$MAVEN_OPTS
+          -U -B -Prelease,release-central,gpg $MAVEN_OPTS
 
       - name: Build Image
         run: ./scripts/docker_build ${{ steps.version-check.outputs.version }}
