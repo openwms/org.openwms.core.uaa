@@ -4,36 +4,25 @@
     <property name="LOG_TEMP" value="/tmp/owms"/>
     <property name="MODULE_NAME" value="TEST"/>
 
-    <include resource="logback-appenders.xml" />
-    <include resource="logback-loggers.xml" />
+    <include resource="logback-appenders.xml"/>
+    <include resource="logback-loggers.xml"/>
 
-    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
 
-    <logger name="com.github.dozermapper" level="ERROR" additivity="false"/>
-    <logger name="org.ameba" level="OFF" additivity="false"/>
-    <logger name="org.hibernate" level="OFF" additivity="true"/>
-    <logger name="org.hibernate.SQL" level="OFF" additivity="true"/>
-    <logger name="org.hibernate.type" level="OFF" additivity="true"/>
-    <logger name="org.junit" level="OFF" additivity="false"/>
-    <logger name="org.openwms" level="DEBUG" additivity="false" />
-    <logger name="org.springframework" level="ERROR" additivity="false"/>
+    <logger name="org.ameba" level="OFF"/>
+    <logger name="org.hibernate" level="ERROR"/>
+    <logger name="org.hibernate.SQL" level="OFF"/>
+    <logger name="org.hibernate.type" level="OFF"/>
+    <logger name="org.junit" level="OFF"/>
+    <logger name="org.springframework" level="ERROR"/>
+    <logger name="org.openwms" level="DEBUG"/> <!-- Coverage reasons -->
 
-    <logger name="PRESENTATION_LAYER_EXCEPTION" level="OFF" additivity="false">
-        <appender-ref ref="STDOUT"/>
-    </logger>
-    <logger name="SERVICE_LAYER_EXCEPTION" level="OFF" additivity="false">
-        <appender-ref ref="STDOUT"/>
-    </logger>
-    <logger name="INTEGRATION_LAYER_EXCEPTION" level="OFF" additivity="false">
-        <appender-ref ref="STDOUT"/>
-    </logger>
-    <logger name="CORE_INTEGRATION_MESSAGING" level="OFF" additivity="false">
-        <appender-ref ref="STDOUT"/>
-    </logger>
-    <logger name="MEASURED" level="INFO" additivity="false" />
+    <logger name="PRESENTATION_LAYER_EXCEPTION" level="ERROR"/>
+    <logger name="SERVICE_LAYER_EXCEPTION" level="ERROR"/>
+    <logger name="INTEGRATION_LAYER_EXCEPTION" level="ERROR"/>
+    <logger name="MEASURED" level="OFF"/>
 
-    <root level="ERROR">
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
     </root>
-
 </configuration>

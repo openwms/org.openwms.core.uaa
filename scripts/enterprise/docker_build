@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t registry.openwms.cloud/interface21.io/org.openwms.core.uaa:latest .
+docker build --platform linux/amd64 -t registry.openwms.cloud/interface21.io/org.openwms.core.uaa:$1 .

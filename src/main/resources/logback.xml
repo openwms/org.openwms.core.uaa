@@ -18,8 +18,6 @@
     <logger name="org.springframework" level="WARN"/>
     <logger name="org.openwms" level="DEBUG"/>
 
-    <logger name="CORE_INTEGRATION_MESSAGING" level="INFO"/>
-
     <springProfile name="ELK">
         <appender name="ELK" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
             <destination>elk:5000</destination>

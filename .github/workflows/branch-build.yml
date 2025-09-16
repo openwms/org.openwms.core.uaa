@@ -4,7 +4,6 @@ on:
     branches-ignore:
       - master
       - gh-pages
-      - 'release/**'
 
 env:
   MAVEN_OPTS: -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
@@ -28,7 +27,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Build
         run: >
-          ./mvnw clean verify
+          ./mvnw verify
           -DsurefireArgs=-Dspring.profiles.active=TEST
           -Dci.buildNumber=$GITHUB_RUN_NUMBER
           -U -B $MAVEN_OPTS

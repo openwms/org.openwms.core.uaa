@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t openwms/org.openwms.core.uaa:latest .
+docker build --platform linux/amd64 -t openwms/org.openwms.core.uaa:$1 .
