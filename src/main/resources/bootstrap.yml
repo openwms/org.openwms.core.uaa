@@ -25,19 +25,25 @@ spring:
       date-time: "yyyy-MM-dd'T'HH:mm:ssXXX" # Must match the pattern how of @JsonFormat field annotation patterns
       date: yyyy-MM-dd
       time: HH:mm:ss
-  output:
-    ansi:
-      enabled: always
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
 
 owms:
   eureka:
-    url: http://user:sa@localhost:8761
+    hostname: localhost
+    port: 8761
+    url: http://${owms.eureka.user.name}:${owms.eureka.user.password}@${owms.eureka.hostname}:${owms.eureka.port}
+    user:
+      name: user
+      password: sa
     zone: ${owms.eureka.url}/eureka/
   srv:
-    protocol: http
     hostname: localhost
-  tracing:
-    url: http://localhost:4317
+    protocol: http
 
 server:
   port: ${PORT:8110}
@@ -80,11 +86,6 @@ info:
   scm-url: "@scm.url@"
   build-url: "@ciManagement.url@"
 
-logging:
-  file:
-    name: BOOT-CORE-UAA.log
-    path: "/tmp/owms"
-
 management:
   endpoints:
     web:
@@ -96,6 +97,22 @@ management:
   info:
     git:
       mode: simple
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: OLTP
+
+owms:
+  tracing:
+    url: http://localhost:4317
+
+management:
   metrics:
     distribution:
       percentiles-histogram:
@@ -108,10 +125,6 @@ management:
   otlp:
     tracing:
       endpoint: ${owms.tracing.url}
-  prometheus:
-    metrics:
-      export:
-        enabled: true
   tracing:
     sampling:
       probability: 1.0
@@ -232,7 +245,7 @@ spring:
     discovery:
       enabled: false
   jpa:
-    database: H2
+    database: h2
     generate-ddl: true
     hibernate:
       ddl-auto: create
@@ -269,7 +282,6 @@ spring:
     generate-ddl: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
         temp:
           use_jdbc_metadata_defaults: false
         default_schema: public

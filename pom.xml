@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.openwms</groupId>
         <artifactId>org.openwms.parent</artifactId>
-        <version>27.6</version>
+        <version>27.7.1</version>
         <relativePath/>
     </parent>
     <artifactId>org.openwms.core.uaa</artifactId>
@@ -23,7 +23,7 @@
             <url>https://openwms.github.io/</url>
             <organization>Interface21.io</organization>
             <organizationUrl>https://www.interface21.io</organizationUrl>
-            <timezone>+2</timezone>
+            <timezone>+1</timezone>
             <roles>
                 <role>Project Lead</role>
                 <role>Architect</role>
@@ -221,6 +221,11 @@
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.loki4j</groupId>
+            <artifactId>loki-logback-appender</artifactId>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>

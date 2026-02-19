@@ -4,6 +4,7 @@
     <property name="LOG_TEMP" value="/tmp/owms"/>
     <property name="MODULE_NAME" value="CORE-UAA"/>
 
+    <include resource="logback-loki.xml"/>
     <include resource="logback-appenders.xml"/>
     <include resource="logback-loggers.xml"/>
 
@@ -18,69 +19,74 @@
     <logger name="org.springframework" level="WARN"/>
     <logger name="org.openwms" level="DEBUG"/>
 
+    <logger name="CALLCONTEXT" level="ERROR"/>
+
     <springProfile name="ELK">
         <appender name="ELK" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
             <destination>elk:5000</destination>
             <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
         </appender>
-        <logger name="PRESENTATION_LAYER_EXCEPTION" level="ERROR">
-            <appender-ref ref="STDOUT"/>
-            <appender-ref ref="ELK"/>
-            <appender-ref ref="EXCFILE"/>
-        </logger>
-        <logger name="SERVICE_LAYER_EXCEPTION" level="ERROR">
-            <appender-ref ref="STDOUT"/>
-            <appender-ref ref="ELK"/>
-            <appender-ref ref="EXCFILE"/>
-        </logger>
-        <logger name="INTEGRATION_LAYER_EXCEPTION" level="ERROR">
-            <appender-ref ref="STDOUT"/>
-            <appender-ref ref="ELK"/>
-            <appender-ref ref="EXCFILE"/>
-        </logger>
-        <logger name="CALLCONTEXT" level="DEBUG" additivity="true">
-        </logger>
-        <logger name="PRESENTATION_LAYER_ACCESS" level="INFO" additivity="true">
-        </logger>
-        <logger name="SERVICE_LAYER_ACCESS" level="INFO" additivity="true">
-        </logger>
-        <logger name="INTEGRATION_LAYER_ACCESS" level="INFO" additivity="true">
-        </logger>
-        <logger name="MEASURED" level="INFO">
-            <appender-ref ref="STDOUT"/>
-            <appender-ref ref="ELK"/>
+        <logger name="PRESENTATION_LAYER_EXCEPTION" level="ERROR" additivity="true"/>
+        <logger name="SERVICE_LAYER_EXCEPTION" level="ERROR" additivity="true"/>
+        <logger name="INTEGRATION_LAYER_EXCEPTION" level="ERROR" additivity="true"/>
+        <logger name="PRESENTATION_LAYER_ACCESS" level="INFO" additivity="false">
+            <!-- Not additive, because only send to TSL and ELK -->
             <appender-ref ref="TSL"/>
-        </logger>
-        <root level="INFO">
-            <appender-ref ref="STDOUT"/>
-            <appender-ref ref="LOGFILE"/> <!-- Required for export -->
             <appender-ref ref="ELK"/>
-        </root>
-    </springProfile>
-    <springProfile name="!ELK">
-        <logger name="PRESENTATION_LAYER_EXCEPTION" level="ERROR" additivity="false">
-            <appender-ref ref="STDOUT"/>
-            <appender-ref ref="EXCFILE"/>
-            <appender-ref ref="LOGFILE"/>
         </logger>
-        <logger name="SERVICE_LAYER_EXCEPTION" level="ERROR" additivity="false">
-            <appender-ref ref="STDOUT"/>
-            <appender-ref ref="EXCFILE"/>
-            <appender-ref ref="LOGFILE"/>
-        </logger>
-        <logger name="INTEGRATION_LAYER_EXCEPTION" level="ERROR" additivity="false">
-            <appender-ref ref="STDOUT"/>
-            <appender-ref ref="EXCFILE"/>
-            <appender-ref ref="LOGFILE"/>
-        </logger>
-        <logger name="CALLCONTEXT" level="DEBUG"/>
-        <logger name="MEASURED" level="INFO">
-            <appender-ref ref="STDOUT"/>
+        <logger name="SERVICE_LAYER_ACCESS" level="INFO" additivity="false">
+            <!-- Not additive, because only send to TSL and ELK -->
             <appender-ref ref="TSL"/>
+            <appender-ref ref="ELK"/>
+        </logger>
+        <logger name="INTEGRATION_LAYER_ACCESS" level="INFO" additivity="false">
+            <!-- Not additive, because only send to TSL and ELK -->
+            <appender-ref ref="TSL"/>
+            <appender-ref ref="ELK"/>
+        </logger>
+        <logger name="MEASURED" level="INFO" additivity="false">
+            <!-- Not additive, because only send to TSL and ELK -->
+            <appender-ref ref="TSL"/>
+            <appender-ref ref="ELK"/>
         </logger>
         <root level="INFO">
             <appender-ref ref="STDOUT"/>
             <appender-ref ref="LOGFILE"/>
+            <appender-ref ref="ELK"/>
         </root>
     </springProfile>
+    <springProfile name="LOKI">
+        <logger name="PRESENTATION_LAYER_EXCEPTION" level="ERROR" additivity="true"/>
+        <logger name="SERVICE_LAYER_EXCEPTION" level="ERROR" additivity="true"/>
+        <logger name="INTEGRATION_LAYER_EXCEPTION" level="ERROR" additivity="true"/>
+        <logger name="PRESENTATION_LAYER_ACCESS" level="INFO" additivity="false">
+            <!-- Not additive, because only send to TSL and LOKI -->
+            <appender-ref ref="TSL"/>
+            <appender-ref ref="LOKI"/>
+        </logger>
+        <logger name="SERVICE_LAYER_ACCESS" level="INFO" additivity="false">
+            <!-- Not additive, because only send to TSL and LOKI -->
+            <appender-ref ref="TSL"/>
+            <appender-ref ref="LOKI"/>
+        </logger>
+        <logger name="INTEGRATION_LAYER_ACCESS" level="INFO" additivity="false">
+            <!-- Not additive, because only send to TSL and LOKI -->
+            <appender-ref ref="TSL"/>
+            <appender-ref ref="LOKI"/>
+        </logger>
+        <logger name="MEASURED" level="INFO" additivity="false">
+            <!-- Not additive, because only send to TSL and LOKI -->
+            <appender-ref ref="TSL"/>
+            <appender-ref ref="LOKI"/>
+        </logger>
+        <root level="INFO">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="LOGFILE"/>
+            <appender-ref ref="LOKI"/>
+        </root>
+    </springProfile>
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="LOGFILE"/>
+    </root>
 </configuration>

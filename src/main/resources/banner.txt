@@ -1,4 +1,9 @@
-,-.  .       ,.       ,.   
-  |  |      / |      / |   
-  |  | .   /~~|-.   /~~|-. 
-  `--^-' ,'   `-' ,'   `-' 
+
+,--. ,--.  ,---.    ,---.
+|  | |  | /  O  \  /  O  \
+|  | |  ||  .-.  ||  .-.  |
+'  '-'  '|  | |  ||  | |  |
+ `-----' `--' `--'`--' `--'
+
+ Java Runtime Version: ${java.runtime.version}
+ Spring Boot Version: ${spring-boot.version}
