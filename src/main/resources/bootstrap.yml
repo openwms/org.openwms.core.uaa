@@ -106,7 +106,7 @@ management:
 spring:
   config:
     activate:
-      on-profile: OLTP
+      on-profile: OTLP
 
 owms:
   tracing:
